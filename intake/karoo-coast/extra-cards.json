@@ -1,0 +1,83 @@
+{
+  "first_term": [
+    {
+      "id": "KC-01",
+      "type": "situational",
+      "pool": "ft_sit",
+      "weight": 3,
+      "title": {
+        "en": "The last shuttle to town",
+        "zu": "I-shuttle yokugcina eya edolobheni"
+      },
+      "text": {
+        "en": "The campus shuttle to town stops at 6pm, and your tutorial ends at 6:30. Town is a forty-minute walk along the coast road.",
+        "zu": "I-shuttle yasekhampasi eya edolobheni iyama ngo-6 kusihlwa, futhi ithuthorial yakho iphela ngo-6:30. Idolobha likude ngemizuzu engamashumi amane ngezinyawo emgwaqweni wasogwini."
+      },
+      "forecast_tags": [
+        "housing",
+        "wellbeing"
+      ],
+      "choices": [
+        {
+          "id": "walk",
+          "tags": [
+            "avoider"
+          ],
+          "label": {
+            "en": "Walk it alone",
+            "zu": "Hamba wedwa ngezinyawo"
+          },
+          "effects": {
+            "wellbeing": -6
+          },
+          "outcome": {
+            "en": "Forty minutes in the dark, in the wind. You don't want to do that every week.",
+            "zu": "Imizuzu engamashumi amane ebumnyameni, emoyeni. Awufuni ukwenza lokho masonto onke."
+          }
+        },
+        {
+          "id": "lift",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Arrange a lift in the group",
+            "zu": "Hlela ukugibela eqenjini"
+          },
+          "effects": {
+            "wellbeing": 3
+          },
+          "outcome": {
+            "en": "Two classmates drive in from town. You share petrol money and never miss the tutorial again.",
+            "zu": "Abafunda nawe ababili bashayela besuka edolobheni. Nabelana ngemali kaphethiloli futhi awuphinde uphuthelwe yithuthorial."
+          }
+        },
+        {
+          "id": "ask",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Ask about the late shuttle",
+            "zu": "Buza nge-shuttle yasebusuku"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "support": [
+            "commuters",
+            "campus_safety"
+          ],
+          "outcome": {
+            "en": "The Day Students' Room has a list for the 7pm shuttle, which only runs when students book it. You book every Tuesday.",
+            "zu": "Igumbi Labafundi Abagibelayo linohlu lwe-shuttle yango-7, ehamba kuphela uma abafundi beyibhukha. Ubhukha njalo ngoLwesibili."
+          },
+          "tip": {
+            "en": "Ask what runs on request. Late shuttles and security escorts often only run when someone books them.",
+            "zu": "Buza ukuthi yini ehamba ngokucela. Ama-shuttle asebusuku nokuphelezelwa kuvame ukuhamba kuphela uma othile ebhukha."
+          }
+        }
+      ]
+    }
+  ]
+}

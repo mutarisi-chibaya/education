@@ -1,0 +1,19 @@
+{
+  "name": "university-simulator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Rehearse university life before it's real. Offline-first PWA.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node tools/serve.mjs",
+    "start:py": "python serve.py",
+    "icons": "node tools/make-icons.mjs",
+    "test": "node --test test/*.test.mjs",
+    "pack:build": "node tools/build-pack.mjs",
+    "pack:check": "node tools/pack-check.mjs",
+    "test:portal": "python -m unittest discover -s test -p \"test_*.py\""
+  }
+}

@@ -1,0 +1,1036 @@
+{
+  "version": 3,
+  "reviewed": false,
+  "contacts": [
+    {
+      "label": "GBV Command Centre 0800 428 428",
+      "tel": "0800428428",
+      "last_checked": "2026-10-03"
+    },
+    {
+      "label": "Higher Health 0800 36 36 36",
+      "tel": "0800363636",
+      "last_checked": "2026-10-03"
+    },
+    {
+      "label": "SADAG 0800 567 567",
+      "tel": "0800567567",
+      "last_checked": "2026-10-03"
+    },
+    {
+      "label": "Police 10111",
+      "tel": "10111",
+      "last_checked": "2026-10-03"
+    }
+  ],
+  "topics": [
+    {
+      "id": "xenophobia",
+      "title": {
+        "en": "Xenophobia",
+        "zu": "Ukucwasa abokufika"
+      },
+      "summary": {
+        "en": "Being targeted because of where you, or people think you, come from."
+      },
+      "recognise": [
+        {
+          "en": "\"Jokes\", nicknames or comments about someone's country, language or accent."
+        },
+        {
+          "en": "Being told to \"go home\", or that you are taking someone's place."
+        },
+        {
+          "en": "Being left out of study groups, housing or teams because of your nationality."
+        },
+        {
+          "en": "Students or staff demanding to see your papers when that is not their job."
+        },
+        {
+          "en": "Threats, damage to your things, or violence."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "In your res kitchen, someone tells a student from Zimbabwe that \"foreigners take our places\". A few people laugh."
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Laugh along"
+            },
+            "feedback": {
+              "en": "Staying in with the group can feel safer, and many people do it. But laughter tells the person targeted that they are alone, and tells the speaker it was fine."
+            }
+          },
+          {
+            "label": {
+              "en": "Check on the student afterwards"
+            },
+            "feedback": {
+              "en": "This is safe, and it matters. Being asked \"are you okay?\" is often what people remember most."
+            }
+          },
+          {
+            "label": {
+              "en": "Say \"that's not okay\""
+            },
+            "feedback": {
+              "en": "Short and calm works best. You don't have to win the argument, and you should only do this if you feel safe."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "It is not your fault, and you do not have to prove you belong."
+        },
+        {
+          "en": "Write down what happened, when, and who saw it, in case you want it later."
+        },
+        {
+          "en": "Talk to someone you trust: a friend, a mentor, a counsellor."
+        },
+        {
+          "en": "You can report it to your residence head, the equity or transformation office, or the international students office. Whether and when is your choice."
+        },
+        {
+          "en": "If you are threatened or in danger, go to campus security or the police straight away."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Listen and believe them. Ask what they would like to happen next."
+        },
+        {
+          "en": "Include them: sit with them, invite them, walk with them."
+        },
+        {
+          "en": "Offer to go with them if they decide to report."
+        },
+        {
+          "en": "Don't confront an aggressive group on your own. Get help instead."
+        }
+      ],
+      "rights": [
+        {
+          "en": "The Constitution's equality clause protects everyone in South Africa from unfair discrimination, not only citizens."
+        },
+        {
+          "en": "On campus, look for: the equity or transformation office, the international students office, your residence head, the SRC and campus security."
+        },
+        {
+          "en": "Off campus, you can lay a complaint with the South African Human Rights Commission, or with the police if there are threats or violence."
+        }
+      ],
+      "contacts": [
+        "Higher Health 0800 36 36 36",
+        "Police 10111"
+      ]
+    },
+    {
+      "id": "sexual_assault",
+      "title": {
+        "en": "Sexual assault and rape",
+        "zu": "Ukuhlukunyezwa ngokocansi nokudlwengulwa"
+      },
+      "summary": {
+        "en": "Any sexual act without consent. It is never the fault of the person it happened to."
+      },
+      "recognise": [
+        {
+          "en": "Consent has to be freely given, and it can be withdrawn at any point."
+        },
+        {
+          "en": "Someone who is very drunk, drugged, asleep, frightened or pressured cannot consent."
+        },
+        {
+          "en": "It is most often done by someone the person knows: a friend, a partner, a classmate."
+        },
+        {
+          "en": "Freezing or not fighting back is a common reaction. It is not consent."
+        },
+        {
+          "en": "Being in a relationship, or having said yes before, is not consent."
+        },
+        {
+          "en": "Anyone can do it, and it can happen to anyone: women, men and non-binary people."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "A friend tells you that someone she knows had sex with her when she was too drunk to say no. She says, \"Maybe it was my fault.\""
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Ask how much she drank"
+            },
+            "feedback": {
+              "en": "Questions about drinking or clothes sound like blame, even when you mean well. Nothing she did makes it her fault."
+            }
+          },
+          {
+            "label": {
+              "en": "Say \"I believe you. It wasn't your fault.\""
+            },
+            "feedback": {
+              "en": "These are the words survivors say helped most. You don't need to fix anything; being believed is the help."
+            }
+          },
+          {
+            "label": {
+              "en": "Tell her she must report it"
+            },
+            "feedback": {
+              "en": "Reporting is her choice. Pressure takes control away again; offering options, and to go with her, gives it back."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "It was not your fault, whatever you were wearing, drinking or doing."
+        },
+        {
+          "en": "Get to a place where you feel safe, and tell someone you trust if you can."
+        },
+        {
+          "en": "Medical care matters and some of it is time-sensitive: medicine to prevent HIV works best when started as soon as possible, within 72 hours, and emergency contraception is also available."
+        },
+        {
+          "en": "You can get medical care and counselling without opening a police case."
+        },
+        {
+          "en": "If you think you may want to report, try not to wash, and keep your clothes in a paper bag. You can still report later if you did wash."
+        },
+        {
+          "en": "Reporting is your choice, at your pace: to the university, to the police, to both, or to neither."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Believe them, and say so. Listen without pressing for details."
+        },
+        {
+          "en": "Ask what they need, and offer to go with them to the clinic, counselling or the police."
+        },
+        {
+          "en": "Keep it confidential. It is their story to tell."
+        },
+        {
+          "en": "Supporting someone is heavy. Counselling is there for you too."
+        }
+      ],
+      "rights": [
+        {
+          "en": "You have the right to medical care, to be treated with dignity, and to report at any police station at any time."
+        },
+        {
+          "en": "On campus, look for: the campus clinic, student counselling, the gender-based violence or equity office, and campus security."
+        },
+        {
+          "en": "Thuthuzela Care Centres, at some public hospitals, offer medical care, counselling and legal support in one place."
+        }
+      ],
+      "contacts": [
+        "GBV Command Centre 0800 428 428",
+        "Higher Health 0800 36 36 36",
+        "Police 10111"
+      ]
+    },
+    {
+      "id": "drink_spiking",
+      "title": {
+        "en": "Drink spiking and party safety",
+        "zu": "Ukufakelwa izidakamizwa esiphuzweni nokuphepha emaphathini"
+      },
+      "summary": {
+        "en": "Drugs or extra alcohol added to a drink without the person knowing."
+      },
+      "recognise": [
+        {
+          "en": "Feeling far more drunk than what you drank can explain."
+        },
+        {
+          "en": "Sudden dizziness, confusion, nausea, sleepiness or gaps in your memory."
+        },
+        {
+          "en": "A drink that tastes, smells or looks different."
+        },
+        {
+          "en": "It includes someone pouring you much stronger drinks than you agreed to."
+        },
+        {
+          "en": "It can happen to anyone, of any gender, at any kind of event."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "At a party, your friend has had two drinks and suddenly can barely stand. Someone she met tonight offers to \"take her home\"."
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Let him, he seems nice"
+            },
+            "feedback": {
+              "en": "Someone who is suddenly very unwell should only leave with people she already trusts. This is exactly the moment spiking is meant to create."
+            }
+          },
+          {
+            "label": {
+              "en": "Stay with her and leave together"
+            },
+            "feedback": {
+              "en": "Yes. Don't leave her alone, find the friends you came with, and get her somewhere safe."
+            }
+          },
+          {
+            "label": {
+              "en": "Get security or medical help"
+            },
+            "feedback": {
+              "en": "The right call if she is getting worse, can't stay awake or is struggling to breathe. Tell them you think her drink was spiked."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "Tell someone you trust straight away, and stay with them."
+        },
+        {
+          "en": "Don't leave alone, or with someone you have just met."
+        },
+        {
+          "en": "Get medical help if you feel very unwell. You can say you think you were spiked."
+        },
+        {
+          "en": "If there are gaps in your memory afterwards, medical care and counselling are available, and it was not your fault."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Stay with them. Don't let them leave with someone they don't know well."
+        },
+        {
+          "en": "Get them somewhere safe and tell the venue or security."
+        },
+        {
+          "en": "If they pass out or struggle to breathe, call for medical help."
+        },
+        {
+          "en": "Go together, leave together, and plan the ride home before you go out."
+        },
+        {
+          "en": "Watch your drink being poured, and keep it with you."
+        }
+      ],
+      "rights": [
+        {
+          "en": "Spiking someone's drink is a crime, even if nothing else happens."
+        },
+        {
+          "en": "On campus, look for: campus security, the campus clinic, student counselling and your residence head."
+        },
+        {
+          "en": "You can report it to the venue, the university or the police. Getting medical help comes first."
+        }
+      ],
+      "contacts": [
+        "GBV Command Centre 0800 428 428",
+        "Higher Health 0800 36 36 36",
+        "Police 10111"
+      ]
+    },
+    {
+      "id": "racism",
+      "title": {
+        "en": "Racism and discrimination",
+        "zu": "Ubuhlanga nokucwasa"
+      },
+      "summary": {
+        "en": "Being treated worse, or shut out, because of your race, language, religion or background."
+      },
+      "recognise": [
+        {
+          "en": "\"Jokes\", stereotypes or comments about your race, hair, accent or language."
+        },
+        {
+          "en": "Being ignored, marked down or doubted when others are not."
+        },
+        {
+          "en": "Being left out of groups, residences or opportunities because of who you are."
+        },
+        {
+          "en": "Being told you only got in because of your race or your funding."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "In a group project, two members keep giving your friend the \"easy\" tasks and talk over her. One says, \"We just want it done properly.\""
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Stay out of it"
+            },
+            "feedback": {
+              "en": "It can feel like it isn't your place. But silence from the rest of the group is usually read as agreement."
+            }
+          },
+          {
+            "label": {
+              "en": "Back her in the meeting"
+            },
+            "feedback": {
+              "en": "\"I'd like to hear her idea\" is small, safe and effective. It changes the room without starting a fight."
+            }
+          },
+          {
+            "label": {
+              "en": "Ask her what she wants to do"
+            },
+            "feedback": {
+              "en": "This keeps the choice with her. She may want support in the group, a word with the lecturer, or just to be heard."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "What happened is about them, not about your worth or your place here."
+        },
+        {
+          "en": "Keep a record: dates, words used, who was there, and any messages or marks."
+        },
+        {
+          "en": "Talk it through with someone you trust before deciding what to do."
+        },
+        {
+          "en": "You can raise it informally with a lecturer or residence head, or formally with the equity or transformation office. It is your choice."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Believe them. Don't explain it away or ask whether they are \"sure\"."
+        },
+        {
+          "en": "Say something in the moment if it is safe, or check in with them afterwards."
+        },
+        {
+          "en": "Offer to be a witness, or to go with them if they report."
+        }
+      ],
+      "rights": [
+        {
+          "en": "The Constitution prohibits unfair discrimination on grounds including race, ethnic origin, language, religion and culture."
+        },
+        {
+          "en": "On campus, look for: the equity or transformation office, the dean of students, your residence head and the SRC."
+        },
+        {
+          "en": "Off campus, you can complain to the South African Human Rights Commission or use an Equality Court, which sits at magistrates' courts."
+        }
+      ],
+      "contacts": [
+        "Higher Health 0800 36 36 36",
+        "SADAG 0800 567 567"
+      ]
+    },
+    {
+      "id": "sexual_harassment",
+      "title": {
+        "en": "Sexual harassment, including by people in power",
+        "zu": "Ukuhlukunyezwa ngokocansi, kuhlanganise nabanamandla"
+      },
+      "summary": {
+        "en": "Unwanted sexual attention, including from a lecturer, tutor, supervisor or residence leader."
+      },
+      "recognise": [
+        {
+          "en": "Sexual comments, messages, \"jokes\" or staring that you did not ask for."
+        },
+        {
+          "en": "Unwanted touching, or someone who keeps asking after you have said no."
+        },
+        {
+          "en": "Hints that marks, a reference, a room or a job depend on going along with it."
+        },
+        {
+          "en": "It is still harassment if you laughed, froze or did not say no clearly."
+        },
+        {
+          "en": "The person doing it can be a man or a woman, and so can the person it is done to."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "A tutor who marks your friend's work messages him late at night, comments on his body, and suggests he \"discuss his marks\" at her flat."
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Tell him he's lucky"
+            },
+            "feedback": {
+              "en": "Jokes like this are why many men never report. She has power over his marks, he didn't ask for it, and it is harassment."
+            }
+          },
+          {
+            "label": {
+              "en": "Help him save the messages"
+            },
+            "feedback": {
+              "en": "Screenshots and a trusted friend give him options later, whatever he decides. He doesn't have to act today."
+            }
+          },
+          {
+            "label": {
+              "en": "Ask how reporting works"
+            },
+            "feedback": {
+              "en": "He can ask the harassment or equity office how the process works, and what protection he would have, before deciding anything."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "It is not your fault, and you are not overreacting."
+        },
+        {
+          "en": "Keep the evidence: messages, emails, dates, and anyone who saw or heard."
+        },
+        {
+          "en": "You can ask for a different tutor or supervisor while it is being dealt with."
+        },
+        {
+          "en": "You can get confidential advice first, and decide about a formal report later."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Take it seriously. Don't joke about it or tell them to \"just block the person\"."
+        },
+        {
+          "en": "Offer to go with them to the office or to counselling."
+        },
+        {
+          "en": "Don't confront the person or spread it. That can make things harder for your friend."
+        }
+      ],
+      "rights": [
+        {
+          "en": "You have the right to study without sexual harassment, and staff who abuse their position can be disciplined or dismissed."
+        },
+        {
+          "en": "On campus, look for: the sexual harassment or gender-based violence office, the equity office, student counselling and the SRC."
+        },
+        {
+          "en": "The Protection from Harassment Act lets you apply for a protection order at a magistrate's court."
+        }
+      ],
+      "contacts": [
+        "GBV Command Centre 0800 428 428",
+        "Higher Health 0800 36 36 36",
+        "Police 10111"
+      ]
+    },
+    {
+      "id": "relationship_abuse",
+      "title": {
+        "en": "Abuse in relationships",
+        "zu": "Ukuhlukunyezwa ebudlelwaneni"
+      },
+      "summary": {
+        "en": "Control, threats or violence from a partner or ex-partner. It is not only physical."
+      },
+      "recognise": [
+        {
+          "en": "Checking your phone, deciding who you see, or cutting you off from friends and family."
+        },
+        {
+          "en": "Insults, humiliation, threats, or blaming you for their anger."
+        },
+        {
+          "en": "Taking or controlling your money, allowance or bank card."
+        },
+        {
+          "en": "Pushing, hitting, or pressuring you into sex."
+        },
+        {
+          "en": "Apologies and promises that are followed by the same thing again."
+        },
+        {
+          "en": "It happens in all kinds of relationships, and the person doing it can be of any gender."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "Your friend's girlfriend goes through his phone, decides who he can see, and slaps him when she is angry. He laughs it off: \"It's nothing.\""
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Laugh it off with him"
+            },
+            "feedback": {
+              "en": "Men are often expected to shrug this off, which keeps it hidden. Being hit and controlled by a partner is abuse, whoever does it."
+            }
+          },
+          {
+            "label": {
+              "en": "Tell him you're worried"
+            },
+            "feedback": {
+              "en": "Naming what you see, without judging him, is one of the most useful things a friend can do. Then keep the door open."
+            }
+          },
+          {
+            "label": {
+              "en": "Stay close, share a helpline"
+            },
+            "feedback": {
+              "en": "Isolation is how control works. Staying in his life, and making sure he has a number to call, keeps his options open."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "You don't deserve it, and you did not cause it."
+        },
+        {
+          "en": "Tell one person you trust what is really happening."
+        },
+        {
+          "en": "Think about safety first: somewhere you could go, a bag ready, a number saved under another name."
+        },
+        {
+          "en": "Counsellors and the helplines will talk through options without pushing you to leave or to report."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Listen without judging, and don't give ultimatums."
+        },
+        {
+          "en": "Keep inviting them, even when they keep saying no."
+        },
+        {
+          "en": "If you think they are in immediate danger, call campus security or the police."
+        }
+      ],
+      "rights": [
+        {
+          "en": "The Domestic Violence Act covers dating relationships too, and lets you apply for a protection order at a magistrate's court."
+        },
+        {
+          "en": "Controlling someone's money, and emotional abuse, count as abuse under the law, not only violence."
+        },
+        {
+          "en": "On campus, look for: student counselling, the gender-based violence office, campus security and your residence head."
+        }
+      ],
+      "contacts": [
+        "GBV Command Centre 0800 428 428",
+        "Higher Health 0800 36 36 36",
+        "Police 10111"
+      ]
+    },
+    {
+      "id": "homophobia_transphobia",
+      "title": {
+        "en": "Homophobia and transphobia",
+        "zu": "Ukucwasa abathandana nobulili obufanayo nabashintshe ubulili"
+      },
+      "summary": {
+        "en": "Being targeted or shut out because of who you love or your gender identity."
+      },
+      "recognise": [
+        {
+          "en": "Slurs, \"jokes\" or mocking the way someone speaks, dresses or moves."
+        },
+        {
+          "en": "Outing someone, or threatening to."
+        },
+        {
+          "en": "Refusing to use someone's name, or shutting them out of rooms, teams or events."
+        },
+        {
+          "en": "Being told it is \"un-African\" or a phase, or being preached at."
+        },
+        {
+          "en": "Threats and violence, including sexual violence."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "Someone in your corridor finds out a first-year is gay and starts telling others. People go quiet when he walks into the kitchen."
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Stay neutral"
+            },
+            "feedback": {
+              "en": "Neutral feels safe, but to the person being frozen out it looks the same as joining in."
+            }
+          },
+          {
+            "label": {
+              "en": "Treat him as you always have"
+            },
+            "feedback": {
+              "en": "Greeting him, sitting with him and using his name is quiet, and it is powerful. It shows others what normal looks like."
+            }
+          },
+          {
+            "label": {
+              "en": "Tell the gossip to stop"
+            },
+            "feedback": {
+              "en": "\"That's his business, leave it\" is enough. Outing someone can put them in real danger at home and on campus."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "There is nothing wrong with you."
+        },
+        {
+          "en": "You decide who knows, and when. Nobody has the right to out you."
+        },
+        {
+          "en": "Look for your people: most campuses have a society for LGBTQI+ students and allies."
+        },
+        {
+          "en": "If you are threatened or unsafe where you live, ask the residence office about moving, and tell campus security."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Thank them for trusting you, and keep it to yourself."
+        },
+        {
+          "en": "Use the name and pronouns they ask for."
+        },
+        {
+          "en": "Speak up when they are not in the room, too."
+        }
+      ],
+      "rights": [
+        {
+          "en": "The Constitution prohibits unfair discrimination on the grounds of sexual orientation, gender and sex."
+        },
+        {
+          "en": "On campus, look for: the equity or transformation office, student counselling, the residence office and LGBTQI+ student societies."
+        },
+        {
+          "en": "Threats and assault are crimes, and can be reported to the police."
+        }
+      ],
+      "contacts": [
+        "Higher Health 0800 36 36 36",
+        "SADAG 0800 567 567",
+        "Police 10111"
+      ]
+    },
+    {
+      "id": "disability_exclusion",
+      "title": {
+        "en": "Exclusion of students with disabilities",
+        "zu": "Ukukhishwa inyumbazane kwabafundi abakhubazekile"
+      },
+      "summary": {
+        "en": "Being left out because campus, teaching or people don't make room for your disability or health condition."
+      },
+      "recognise": [
+        {
+          "en": "Venues, residences or transport you can't get into or use."
+        },
+        {
+          "en": "Notes, slides, tests or online systems in a format you can't access."
+        },
+        {
+          "en": "Being refused extra time, a scribe, captions or other support you need."
+        },
+        {
+          "en": "Being treated as a burden, or doubted because the condition is not visible."
+        },
+        {
+          "en": "It includes mental health conditions, chronic illness and learning differences."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "A classmate with a hearing impairment misses half of every lecture because the lecturer faces the board and posts no notes. She is thinking of dropping the module."
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Share your notes with her"
+            },
+            "feedback": {
+              "en": "Kind, and it helps today. It also leaves the real problem in place for her and for the next student."
+            }
+          },
+          {
+            "label": {
+              "en": "Go with her to the disability unit"
+            },
+            "feedback": {
+              "en": "The unit can arrange notes, captions or seating and speak to the lecturer for her. That is what it is there for."
+            }
+          },
+          {
+            "label": {
+              "en": "Ask her what would help"
+            },
+            "feedback": {
+              "en": "She knows her needs best. Asking, instead of assuming, is the respectful place to start."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "Needing an adjustment is not asking for a favour."
+        },
+        {
+          "en": "Register with the disability unit early, even if you are not sure you will need it. It is confidential."
+        },
+        {
+          "en": "Ask for what you need in writing, and keep the replies."
+        },
+        {
+          "en": "If a lecturer refuses an agreed adjustment, the disability unit or faculty can step in."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Ask before helping, and listen to the answer."
+        },
+        {
+          "en": "Choose venues and plans everyone can get to."
+        },
+        {
+          "en": "Back them up when they ask for an adjustment."
+        }
+      ],
+      "rights": [
+        {
+          "en": "The Constitution prohibits unfair discrimination on the ground of disability, and universities are expected to provide reasonable accommodation."
+        },
+        {
+          "en": "On campus, look for: the disability unit, your faculty office, student counselling and the exams office for test arrangements."
+        },
+        {
+          "en": "If the university does not respond, you can complain to the South African Human Rights Commission."
+        }
+      ],
+      "contacts": [
+        "Higher Health 0800 36 36 36",
+        "SADAG 0800 567 567"
+      ]
+    },
+    {
+      "id": "hazing",
+      "title": {
+        "en": "Residence initiations and hazing",
+        "zu": "Ukungeniswa nokuhlukunyezwa ezindaweni zokuhlala"
+      },
+      "summary": {
+        "en": "\"Traditions\" that humiliate, hurt or endanger new students, and pressure to go along with them."
+      },
+      "recognise": [
+        {
+          "en": "Being forced to drink, stay awake, do exercises or run errands for seniors."
+        },
+        {
+          "en": "Humiliating tasks, nicknames, uniforms or rules that only first-years must follow."
+        },
+        {
+          "en": "Being told it is \"voluntary\" when refusing has consequences."
+        },
+        {
+          "en": "Secrecy: being told not to tell anyone, or not to film."
+        },
+        {
+          "en": "Threats of being left out of the house or its events if you don't take part."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "At 2am, the senior women in your res wake your corridor for a \"welcome tradition\": first-years must drink and do push-ups in the quad. Your roommate looks terrified."
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Go along so you fit in"
+            },
+            "feedback": {
+              "en": "The pressure to belong is real, and many people go along. Belonging that depends on being humiliated is not a fair price."
+            }
+          },
+          {
+            "label": {
+              "en": "Stay in with your roommate"
+            },
+            "feedback": {
+              "en": "Saying no is easier with one other person. You are allowed to refuse, and you don't owe anyone a reason."
+            }
+          },
+          {
+            "label": {
+              "en": "Report it to the residence head"
+            },
+            "feedback": {
+              "en": "Most universities ban these practices, and reports can usually be made without your name. It protects next year's first-years too."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "You are allowed to say no, and to leave."
+        },
+        {
+          "en": "If you are hurt or made to drink too much, get medical help first."
+        },
+        {
+          "en": "Write down what happened, who led it and who was there."
+        },
+        {
+          "en": "You can report to the residence head, the residence office or Student Affairs, usually without giving your name."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Stick together, and leave together."
+        },
+        {
+          "en": "Don't film or share someone being humiliated."
+        },
+        {
+          "en": "When you are a senior, be the one who stops it."
+        }
+      ],
+      "rights": [
+        {
+          "en": "Most universities ban initiation practices, and \"tradition\" is not a defence."
+        },
+        {
+          "en": "Forcing someone to drink, or hurting them, can be assault, which is a crime."
+        },
+        {
+          "en": "On campus, look for: your residence head, the residence office, Student Affairs and campus security."
+        }
+      ],
+      "contacts": [
+        "Higher Health 0800 36 36 36",
+        "SADAG 0800 567 567",
+        "Police 10111"
+      ]
+    },
+    {
+      "id": "online_abuse",
+      "title": {
+        "en": "Online abuse, including sharing intimate images",
+        "zu": "Ukuhlukunyezwa ku-inthanethi, kuhlanganise nokwabelana ngezithombe eziyimfihlo"
+      },
+      "summary": {
+        "en": "Harassment, threats or humiliation through phones and social media."
+      },
+      "recognise": [
+        {
+          "en": "Sharing, or threatening to share, private photos or videos of you."
+        },
+        {
+          "en": "Being pressured to send nudes, or blackmailed with ones you sent."
+        },
+        {
+          "en": "Fake accounts, edited images, rumours or group chats made to shame you."
+        },
+        {
+          "en": "Constant messages, tracking your location, or logging into your accounts."
+        }
+      ],
+      "scenario": {
+        "text": {
+          "en": "After a break-up, your friend's ex-girlfriend threatens to post private photos of him in the res WhatsApp group unless he takes her back."
+        },
+        "choices": [
+          {
+            "label": {
+              "en": "Tell him not to have sent them"
+            },
+            "feedback": {
+              "en": "Trusting a partner is not the offence. Threatening to share the photos is, and blame makes it harder for him to ask for help."
+            }
+          },
+          {
+            "label": {
+              "en": "Help him save the evidence"
+            },
+            "feedback": {
+              "en": "Screenshots of the threats, with dates and her number, matter if he decides to report. Then block and report the account."
+            }
+          },
+          {
+            "label": {
+              "en": "Go with him to get help"
+            },
+            "feedback": {
+              "en": "Threatening to share intimate images is a crime, whoever does it. Campus offices and the police can act, and he should not have to face it alone."
+            }
+          }
+        ]
+      },
+      "you": [
+        {
+          "en": "It is not your fault, even if you sent the image yourself."
+        },
+        {
+          "en": "Don't pay or give in to blackmail. It usually does not stop there."
+        },
+        {
+          "en": "Save the evidence before you block: screenshots, usernames, dates."
+        },
+        {
+          "en": "Report the content to the platform so it can be taken down, and tell someone you trust."
+        }
+      ],
+      "friend": [
+        {
+          "en": "Don't open, forward or save the images. Sharing them again adds to the harm."
+        },
+        {
+          "en": "Report the post or group, and say something if it is safe."
+        },
+        {
+          "en": "Stay with your friend. Shame grows when people go quiet."
+        }
+      ],
+      "rights": [
+        {
+          "en": "Sharing someone's intimate images without consent, or threatening to, is a crime in South Africa."
+        },
+        {
+          "en": "The Protection from Harassment Act covers online harassment, and lets you apply for a protection order."
+        },
+        {
+          "en": "On campus, look for: the gender-based violence office, student counselling, campus security and the IT help desk for account security."
+        }
+      ],
+      "contacts": [
+        "GBV Command Centre 0800 428 428",
+        "Higher Health 0800 36 36 36",
+        "Police 10111"
+      ]
+    }
+  ]
+}

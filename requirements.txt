@@ -1,0 +1,10 @@
+# First Year Sim: Python requirements
+#
+# The game itself is static HTML/CSS/JS and needs no Python at all.
+# Python runs the optional local server (serve.py), which uses only the
+# standard library to serve the app and collect anonymous pilot feedback.
+#
+# Optional: the AI-written Semester Forecast (POST /api/plan) uses the
+# Anthropic SDK. Without it, or without an API key, the app shows its
+# built-in template plan, which works offline.
+anthropic>=1.0

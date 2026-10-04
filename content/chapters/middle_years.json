@@ -1,0 +1,1100 @@
+{
+  "id": "middle_years",
+  "title": {
+    "en": "Middle Years",
+    "zu": "Iminyaka Ephakathi"
+  },
+  "subtitle": {
+    "en": "Second and third year: leases, majors and side hustles",
+    "zu": "Unyaka wesibili nowesithathu: izivumelwano zokuqasha, izifundo eziyinhloko nemisebenzi eceleni"
+  },
+  "blurb": {
+    "en": "Old fees, moving off campus, choosing a major, part-time work, family expectations and burnout. About 6 minutes.",
+    "zu": "Izimali ezindala, ukuthuthela ngaphandle kwekhampasi, ukukhetha isifundo esiyinhloko, umsebenzi wesikhashana, okulindelwe umndeni nokukhathala. Cishe imizuzu emi-6."
+  },
+  "unit": {
+    "en": "Week",
+    "zu": "Isonto"
+  },
+  "weeks": 6,
+  "economy": true,
+  "friday": true,
+  "fridayWeeks": [
+    2,
+    4
+  ],
+  "slots": [
+    {
+      "pool": "surprise",
+      "weeks": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "pool": "repayment",
+      "weeks": [
+        1,
+        2
+      ]
+    },
+    {
+      "pool": "subscriptions",
+      "weeks": [
+        3,
+        4
+      ]
+    },
+    {
+      "pool": "life",
+      "weeks": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "weight": 2
+    }
+  ],
+  "events": [
+    {
+      "id": "MY-00",
+      "type": "situational",
+      "week": 1,
+      "slot": "spine",
+      "conditions": {
+        "trackers": {
+          "debt": {
+            "gte": 1
+          }
+        }
+      },
+      "title": {
+        "en": "You can't register: outstanding fees",
+        "zu": "Awukwazi ukubhalisa: izimali ezingakakhokhwa"
+      },
+      "text": {
+        "en": "The registration system blocks you: there's an outstanding balance from last year. Classes start on Monday.",
+        "zu": "Uhlelo lokubhalisa luyakuvimba: kunebhalansi engakakhokhwa yonyaka odlule. Izifundo ziqala ngoMsombuluko."
+      },
+      "forecast_tags": [
+        "debt",
+        "money_shortfall"
+      ],
+      "research": "RU Game: outstanding student debt",
+      "choices": [
+        {
+          "id": "panic",
+          "tags": [
+            "avoider"
+          ],
+          "label": {
+            "en": "Panic and wait",
+            "zu": "Thuka bese ulinda"
+          },
+          "effects": {
+            "wellbeing": -10
+          },
+          "outcome": {
+            "en": "A week passes. You miss the first lectures and the block is still there.",
+            "zu": "Kudlula isonto. Uphuthelwa yizifundo zokuqala futhi ukuvinjwa kusekhona."
+          }
+        },
+        {
+          "id": "plan",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Set up a payment plan",
+            "zu": "Yenza uhlelo lokukhokha"
+          },
+          "effects": {
+            "wellbeing": 5,
+            "debt": -1
+          },
+          "support": [
+            "fees"
+          ],
+          "outcome": {
+            "en": "A monthly arrangement you can afford, and the block is lifted the same day.",
+            "zu": "Isivumelwano sanyanga zonke ongasikhokha, futhi ukuvinjwa kuyasuswa ngalolo suku."
+          },
+          "tip": {
+            "en": "Fees offices would rather arrange a plan than lose a student. Ask early.",
+            "zu": "Amahhovisi ezimali angcono ukuhlela uhlelo kunokulahlekelwa ngumfundi. Buza kusenesikhathi."
+          }
+        },
+        {
+          "id": "relief",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Ask about debt relief",
+            "zu": "Buza ngosizo lwezikweletu"
+          },
+          "effects": {
+            "wellbeing": 10,
+            "debt": -1
+          },
+          "support": [
+            "fees",
+            "financial_aid_office"
+          ],
+          "outcome": {
+            "en": "The SRC helps you apply to a programme that clears part of historic student debt, and you're registered while it's processed.",
+            "zu": "I-SRC ikusiza ufake isicelo ohlelweni olususa ingxenye yezikweletu ezindala zabafundi, futhi uyabhaliswa ngenkathi kusacutshungulwa."
+          }
+        }
+      ]
+    },
+    {
+      "id": "MY-02",
+      "type": "core",
+      "week": 1,
+      "slot": "spine",
+      "title": {
+        "en": "Choosing your electives",
+        "zu": "Ukukhetha izifundo ozikhethelayo"
+      },
+      "text": {
+        "en": "You have to pick your electives for {course} by Friday. Your friends are all choosing the same two.",
+        "zu": "Kufanele ukhethe izifundo ozikhethelayo ze-{course} ngoLwesihlanu. Abangane bakho bonke bakhetha ezimbili ezifanayo."
+      },
+      "forecast_tags": [
+        "career"
+      ],
+      "choices": [
+        {
+          "id": "friends",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Follow your friends",
+            "zu": "Landela abangane bakho"
+          },
+          "effects": {
+            "wellbeing": 3
+          },
+          "outcome": {
+            "en": "Same classes, same study group. You're not sure you love the work.",
+            "zu": "Amakilasi afanayo, iqembu lokufunda elifanayo. Awuqiniseki ukuthi uwuthanda umsebenzi."
+          }
+        },
+        {
+          "id": "interest",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Follow what interests you",
+            "zu": "Landela okukuthakaselayo"
+          },
+          "effects": {
+            "marks": 4
+          },
+          "outcome": {
+            "en": "New classmates, but the work actually holds your attention.",
+            "zu": "Abafunda nabo abasha, kodwa umsebenzi uyakuthakasela ngempela."
+          }
+        },
+        {
+          "id": "careers",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Ask a careers advisor",
+            "zu": "Buza umeluleki wemisebenzi"
+          },
+          "effects": {
+            "marks": 3,
+            "wellbeing": 5
+          },
+          "support": [
+            "careers"
+          ],
+          "outcome": {
+            "en": "You see which electives lead to which jobs, and pick with your eyes open.",
+            "zu": "Ubona ukuthi yiziphi izifundo ozikhethelayo eziholela kuyiphi imisebenzi, bese ukhetha ubona kahle."
+          }
+        }
+      ]
+    },
+    {
+      "id": "MY-01",
+      "type": "core",
+      "week": 2,
+      "title": {
+        "en": "Moving off campus: lease, deposit, housemates",
+        "zu": "Ukuthuthela ngaphandle kwekhampasi: isivumelwano, idiphozithi, abahlala nawe"
+      },
+      "text": {
+        "en": "Three friends want to share a house near campus. The agent wants a signed lease and a R2 000 deposit by tomorrow. You have {money}.",
+        "zu": "Abangane abathathu bafuna ukwabelana ngendlu eduze nekhampasi. I-ejenti ifuna isivumelwano esisayiniwe nedipozithi engu-R2 000 kusasa. Uno-{money}."
+      },
+      "forecast_tags": [
+        "housing",
+        "money_shortfall"
+      ],
+      "choices": [
+        {
+          "id": "sign",
+          "label": {
+            "en": "Sign quickly",
+            "zu": "Sayina ngokushesha"
+          },
+          "effects": {
+            "money": -1000,
+            "wellbeing": -5
+          },
+          "flags": [
+            "bad_lease"
+          ],
+          "outcome": {
+            "en": "You find out later that the lease makes you liable for the whole house's water bill.",
+            "zu": "Uthola kamuva ukuthi isivumelwano sikwenza ubhekane nesikweletu samanzi sendlu yonke."
+          }
+        },
+        {
+          "id": "read",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Read the lease first",
+            "zu": "Funda isivumelwano kuqala"
+          },
+          "effects": {
+            "money": -500
+          },
+          "outcome": {
+            "en": "You spot the water-bill clause and get it changed before signing.",
+            "zu": "Ubona isigaba sesikweletu samanzi bese usishintsha ngaphambi kokusayina."
+          }
+        },
+        {
+          "id": "senior",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "View it with a senior",
+            "zu": "Yibone nomfundi omdala"
+          },
+          "effects": {
+            "money": -500,
+            "wellbeing": 3
+          },
+          "support": [
+            "verify_accom"
+          ],
+          "outcome": {
+            "en": "A fourth-year spots the damp and the dodgy clause. You negotiate both.",
+            "zu": "Umfundi wonyaka wesine ubona umswakama nesigaba esingathembekile. Nixoxisana ngakho kokubili."
+          },
+          "tip": {
+            "en": "No senior to ask? A res mentor, the SRC or the accommodation office can look at a lease with you before you sign.",
+            "zu": "Akekho umfundi omdala ongambuza? Umeluleki we-res, i-SRC noma ihhovisi lezindawo zokuhlala bangabheka isivumelwano nawe ngaphambi kokusayina."
+          }
+        },
+        {
+          "id": "stay",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Stay where you live now",
+            "zu": "Hlala lapho uhlala khona manje"
+          },
+          "effects": {
+            "wellbeing": 2
+          },
+          "outcome": {
+            "en": "You tell your friends you're staying put this year. No deposit, no move, and you visit their house on weekends.",
+            "zu": "Utshela abangane bakho ukuthi uzohlala lapho ukhona kulo nyaka. Ayikho idiphozithi, akukho ukuthutha, futhi ubavakashela ngezimpelasonto."
+          }
+        }
+      ]
+    },
+    {
+      "id": "MY-09",
+      "type": "core",
+      "week": 2,
+      "title": {
+        "en": "The work changes gear",
+        "zu": "Umsebenzi uyaqina"
+      },
+      "text": {
+        "en": "Second year is a step up: longer reports, more reading and less guidance. The study habits that got you through first year aren't keeping up.",
+        "zu": "Unyaka wesibili uphakeme: imibiko emide, ukufunda okuningi nokuqondiswa okuncane. Imikhuba yokufunda ekudlulise onyakeni wokuqala ayisakwazi."
+      },
+      "forecast_tags": [
+        "test_stress"
+      ],
+      "choices": [
+        {
+          "id": "alone",
+          "tags": [
+            "avoider"
+          ],
+          "label": {
+            "en": "Work longer hours alone",
+            "zu": "Sebenza amahora amade wedwa"
+          },
+          "effects": {
+            "marks": 1,
+            "wellbeing": -8
+          },
+          "outcome": {
+            "en": "More hours, same methods. You're tired, and the marks barely move.",
+            "zu": "Amahora amaningi, izindlela ezifanayo. Ukhathele, futhi amamaki awashintshi kangako."
+          }
+        },
+        {
+          "id": "group",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Start a study group",
+            "zu": "Qala iqembu lokufunda"
+          },
+          "effects": {
+            "marks": 3,
+            "wellbeing": 2
+          },
+          "outcome": {
+            "en": "Four of you meet twice a week and take turns explaining a topic. Teaching it is how you finally learn it.",
+            "zu": "Nina abane nihlangana kabili ngesonto futhi nishintshana ngokuchaza isihloko. Ukusifundisa yikho okwenza ugcine usifundile."
+          },
+          "tip": {
+            "en": "Post in the class group or ask your tutor to connect you. Most libraries have group study rooms you can book.",
+            "zu": "Bhala eqenjini lekilasi noma ucele umfundisi wakho akuxhumanise. Imitapo eminingi inamagumbi okufunda ngamaqembu ongawabhukha."
+          }
+        },
+        {
+          "id": "workshops",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Join academic skills workshops",
+            "zu": "Joyina amasifundisane amakhono ezemfundo"
+          },
+          "effects": {
+            "marks": 5,
+            "wellbeing": 3
+          },
+          "support": [
+            "workshops"
+          ],
+          "outcome": {
+            "en": "Three free workshops: time management, academic writing and study methods. Your next report takes half the time.",
+            "zu": "Amasifundisane amathathu amahhala: ukuphatha isikhathi, ukubhala kwezemfundo nezindlela zokufunda. Umbiko wakho olandelayo uthatha ingxenye yesikhathi."
+          }
+        }
+      ]
+    },
+    {
+      "id": "MY-04",
+      "type": "recurring",
+      "week": 3,
+      "conditions": {
+        "flags": [
+          "repeating_module"
+        ]
+      },
+      "title": {
+        "en": "Your friends move ahead without you",
+        "zu": "Abangane bakho bayaqhubeka ngaphandle kwakho"
+      },
+      "text": {
+        "en": "Because of one repeated module, your friends are in third-year classes while you're still finishing second-year ones. {memory}",
+        "zu": "Ngenxa yesifundo esisodwa esiphindiwe, abangane bakho basemakilasini onyaka wesithathu ngenkathi wena usaqeda awonyaka wesibili. {memory}"
+      },
+      "forecast_tags": [
+        "loneliness"
+      ],
+      "choices": [
+        {
+          "id": "hide",
+          "tags": [
+            "avoider"
+          ],
+          "label": {
+            "en": "Hide it",
+            "zu": "Kufihle"
+          },
+          "effects": {
+            "wellbeing": -10,
+            "connection": -1
+          },
+          "outcome": {
+            "en": "You stop going to the group's study sessions so nobody asks.",
+            "zu": "Uyayeka ukuya emaseshini okufunda eqembu ukuze kungabikho obuzayo."
+          }
+        },
+        {
+          "id": "tell",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Tell them",
+            "zu": "Batshele"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "outcome": {
+            "en": "One of them repeated a module too. Nobody thinks less of you.",
+            "zu": "Omunye wabo naye waphinda isifundo. Akekho okubukela phansi."
+          }
+        },
+        {
+          "id": "new",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Make new study friends",
+            "zu": "Thola abangane abasha bokufunda"
+          },
+          "effects": {
+            "wellbeing": 5,
+            "marks": 3
+          },
+          "outcome": {
+            "en": "Your new classmates are keen and organised. You catch up together.",
+            "zu": "Abafunda nawe abasha bayashisekela futhi bahlelekile. Nibamba ndawonye."
+          }
+        }
+      ],
+      "slot": "spine"
+    },
+    {
+      "id": "MY-03",
+      "type": "core",
+      "week": 3,
+      "title": {
+        "en": "A side hustle",
+        "zu": "Umsebenzi oseceleni"
+      },
+      "text": {
+        "en": "Your braiding, tutoring or design work is getting noticed, and people want to pay you for it.",
+        "zu": "Umsebenzi wakho wokuluka izinwele, ukufundisa noma ukuklama uyaqashelwa, futhi abantu bafuna ukukukhokhela."
+      },
+      "forecast_tags": [
+        "money_shortfall",
+        "test_stress"
+      ],
+      "choices": [
+        {
+          "id": "big",
+          "label": {
+            "en": "Go big",
+            "zu": "Kwenze kakhulu"
+          },
+          "effects": {
+            "marks": -5,
+            "wellbeing": -5
+          },
+          "flags": [
+            "side_hustle"
+          ],
+          "recurring": {
+            "effects": {
+              "money": 400
+            },
+            "label": {
+              "en": "Side-hustle income",
+              "zu": "Imali yomsebenzi oseceleni"
+            }
+          },
+          "outcome": {
+            "en": "The money is good. Your evenings disappear.",
+            "zu": "Imali inhle. Izikhathi zakho zakusihlwa ziyanyamalala."
+          }
+        },
+        {
+          "id": "steady",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Small and steady",
+            "zu": "Kancane futhi kuzinzile"
+          },
+          "effects": {
+            "wellbeing": 3
+          },
+          "flags": [
+            "side_hustle"
+          ],
+          "recurring": {
+            "effects": {
+              "money": 200
+            },
+            "label": {
+              "en": "Side-hustle income",
+              "zu": "Imali yomsebenzi oseceleni"
+            }
+          },
+          "outcome": {
+            "en": "Weekends only. A little extra money and your studies stay on track.",
+            "zu": "Izimpelasonto kuphela. Imali encane eyengeziwe futhi izifundo zakho zihlala zisendleleni."
+          }
+        },
+        {
+          "id": "later",
+          "label": {
+            "en": "Not now",
+            "zu": "Hhayi manje"
+          },
+          "effects": {},
+          "outcome": {
+            "en": "You keep a list of interested clients for the holidays.",
+            "zu": "Ugcina uhlu lwamakhasimende anentshisekelo lwamaholide."
+          }
+        }
+      ],
+      "slot": "spine"
+    },
+    {
+      "id": "MY-05",
+      "type": "recurring",
+      "week": 4,
+      "slot": "spine",
+      "conditions": {
+        "family_needs": [
+          "yes"
+        ]
+      },
+      "amount": {
+        "share": 0.3,
+        "min": 300,
+        "round": 50
+      },
+      "title": {
+        "en": "Home expects more as you get closer to earning",
+        "zu": "Ekhaya balindele okwengeziwe njengoba usuzoqala ukuhola"
+      },
+      "text": {
+        "en": "Now that you're halfway through, home asks for {amount} a month. \"You'll be earning soon anyway.\" You have {money}.",
+        "zu": "Manje njengoba usuphakathi, ekhaya bacela u-{amount} ngenyanga. \"Uzobe usuhola maduze noma kunjalo.\" Uno-{money}."
+      },
+      "forecast_tags": [
+        "family_pressure"
+      ],
+      "tradeoff": true,
+      "support": [
+        "family_budget"
+      ],
+      "choices": [
+        {
+          "id": "send",
+          "label": {
+            "en": "Send more",
+            "zu": "Thumela okwengeziwe"
+          },
+          "effects": {
+            "money": "-amount",
+            "wellbeing": 3,
+            "family_obligation": 1
+          },
+          "outcome": {
+            "en": "Home is proud and grateful. Your month gets very tight.",
+            "zu": "Ekhaya baziqhenya futhi bayabonga. Inyanga yakho iba nzima kakhulu."
+          }
+        },
+        {
+          "id": "limit",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Set a monthly limit",
+            "zu": "Beka umkhawulo wanyanga zonke"
+          },
+          "effects": {
+            "money": "-half",
+            "family_obligation": 1
+          },
+          "outcome": {
+            "en": "You agree on half, every month, on payday. Everyone knows what to expect.",
+            "zu": "Nivumelana ngesigamu, nyanga zonke, ngosuku lokuholela. Wonke umuntu uyazi ukuthi angalindelani."
+          }
+        },
+        {
+          "id": "explain",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Explain your plan",
+            "zu": "Chaza uhlelo lwakho"
+          },
+          "effects": {
+            "wellbeing": -3
+          },
+          "outcome": {
+            "en": "You show them your budget and when you'll graduate. It's a hard talk, and it helps.",
+            "zu": "Ubakhombisa ibhajethi yakho nokuthi uzothweswa nini iziqu. Kuyingxoxo enzima, futhi iyasiza."
+          }
+        }
+      ]
+    },
+    {
+      "id": "MY-07",
+      "type": "core",
+      "week": 4,
+      "slot": "spine",
+      "title": {
+        "en": "A chance to tutor or lead a society",
+        "zu": "Ithuba lokufundisa noma ukuhola inhlangano"
+      },
+      "text": {
+        "en": "Your lecturer asks if you'd tutor first-years, and your society needs a new treasurer.",
+        "zu": "Umfundisi wakho ubuza ukuthi ungafundisa abafundi bonyaka wokuqala, futhi inhlangano yakho idinga umgcinimafa omusha."
+      },
+      "forecast_tags": [
+        "career"
+      ],
+      "research": "High-impact practices: peer teaching and leadership",
+      "choices": [
+        {
+          "id": "decline",
+          "label": {
+            "en": "Decline",
+            "zu": "Yenqaba"
+          },
+          "effects": {},
+          "outcome": {
+            "en": "You keep your time for your own work.",
+            "zu": "Ugcina isikhathi sakho somsebenzi wakho."
+          }
+        },
+        {
+          "id": "accept",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Accept both",
+            "zu": "Yamukela kokubili"
+          },
+          "effects": {
+            "marks": 3,
+            "wellbeing": -3,
+            "money": 300
+          },
+          "outcome": {
+            "en": "Teaching makes you understand your own subject better. You're busy.",
+            "zu": "Ukufundisa kukwenza uqonde isifundo sakho kangcono. Umatasa."
+          }
+        },
+        {
+          "id": "small",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Try a small role",
+            "zu": "Zama indima encane"
+          },
+          "effects": {
+            "marks": 2,
+            "wellbeing": 2
+          },
+          "outcome": {
+            "en": "One tutorial a week. It looks great on your CV.",
+            "zu": "Ithuthorial eyodwa ngesonto. Kubukeka kahle ku-CV yakho."
+          }
+        }
+      ]
+    },
+    {
+      "id": "MY-06",
+      "type": "core",
+      "week": 5,
+      "title": {
+        "en": "Vacation work and internships",
+        "zu": "Umsebenzi wamaholide nokuqeqeshwa emsebenzini"
+      },
+      "text": {
+        "en": "Applications for vacation work open this week. You've never written a CV or spoken to a lecturer about careers.",
+        "zu": "Izicelo zomsebenzi wamaholide zivulwa kuleli sonto. Awukaze ubhale i-CV noma ukhulume nomfundisi ngemisebenzi."
+      },
+      "forecast_tags": [
+        "career"
+      ],
+      "choices": [
+        {
+          "id": "skip",
+          "tags": [
+            "avoider"
+          ],
+          "label": {
+            "en": "Skip it this year",
+            "zu": "Kweqe kulo nyaka"
+          },
+          "effects": {},
+          "outcome": {
+            "en": "You'll try next year. Classmates come back with experience on their CVs.",
+            "zu": "Uzozama ngonyaka ozayo. Abafunda nawe babuya nesipiliyoni kuma-CV abo."
+          }
+        },
+        {
+          "id": "widely",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Apply widely",
+            "zu": "Faka izicelo eziningi"
+          },
+          "effects": {
+            "wellbeing": -2
+          },
+          "flags": [
+            "applied_vacation"
+          ],
+          "outcome": {
+            "en": "Twelve applications on your own. A couple of replies come back.",
+            "zu": "Izicelo eziyishumi nambili wedwa. Kubuya izimpendulo ezimbalwa."
+          },
+          "tip": {
+            "en": "Vacancies are posted on the career services portal, at career fairs and on department notice boards.",
+            "zu": "Izikhala zomsebenzi zifakwa kuphothali yezinsizakalo zemisebenzi, emibukisweni yemisebenzi nasemabhodini ezaziso omnyango."
+          }
+        },
+        {
+          "id": "cv",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Get CV help first",
+            "zu": "Thola usizo nge-CV kuqala"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "flags": [
+            "applied_vacation",
+            "cv_help"
+          ],
+          "support": [
+            "careers",
+            "lecturer"
+          ],
+          "outcome": {
+            "en": "Career services fix your CV, and your lecturer writes a reference.",
+            "zu": "Izinsizakalo zemisebenzi zilungisa i-CV yakho, futhi umfundisi wakho ubhala incwadi yokukweseka."
+          }
+        }
+      ]
+    },
+    {
+      "id": "MY-08",
+      "type": "core",
+      "week": 6,
+      "sensitive": true,
+      "title": {
+        "en": "Burnout",
+        "zu": "Ukukhathala ngokweqile"
+      },
+      "text": {
+        "en": "Classes, work, family and everything else. You're tired in a way sleep doesn't fix, and nothing feels interesting any more.",
+        "zu": "Izifundo, umsebenzi, umndeni nakho konke okunye. Ukhathele ngendlela ukulala okungakulungisi, futhi akukho okusathakazelisa."
+      },
+      "forecast_tags": [
+        "wellbeing"
+      ],
+      "choices": [
+        {
+          "id": "push",
+          "tags": [
+            "avoider"
+          ],
+          "label": {
+            "en": "Push through",
+            "zu": "Qhubeka nje"
+          },
+          "effects": {
+            "wellbeing": -10,
+            "marks": -3
+          },
+          "outcome": {
+            "en": "You get through the week, running on empty.",
+            "zu": "Udlula isonto, amandla aphelile."
+          }
+        },
+        {
+          "id": "rest",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Rest, and cut something",
+            "zu": "Phumula, bese unciphisa okuthile"
+          },
+          "effects": {
+            "wellbeing": 10
+          },
+          "outcome": {
+            "en": "You drop one commitment and take a real weekend off. It helps more than you expected.",
+            "zu": "Ushiya isibophezelo esisodwa futhi uthathe impelasonto yangempela yokuphumula. Kusiza kakhulu kunalokho obukulindele."
+          }
+        },
+        {
+          "id": "help",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Get help",
+            "zu": "Thola usizo"
+          },
+          "effects": {
+            "wellbeing": 15,
+            "marks": 2
+          },
+          "support": [
+            "counselling"
+          ],
+          "outcome": {
+            "en": "A counsellor helps you see the pattern and plan your load for next semester.",
+            "zu": "Umeluleki ukusiza ubone iphethini futhi uhlele umthwalo wakho wesemesta elandelayo."
+          }
+        }
+      ]
+    },
+    {
+      "id": "MY-W1",
+      "type": "win",
+      "week": 6,
+      "conditions": {
+        "flags": [
+          "applied_vacation"
+        ]
+      },
+      "title": {
+        "en": "You land vacation work",
+        "zu": "Uthola umsebenzi wamaholide"
+      },
+      "text": {
+        "en": "An email: you start in December. Real work experience, and money for next year.",
+        "zu": "I-imeyili: uqala ngoDisemba. Isipiliyoni sangempela somsebenzi, nemali yonyaka ozayo."
+      },
+      "effects": {
+        "wellbeing": 10,
+        "money": 1000
+      }
+    },
+    {
+      "id": "MY-W2",
+      "type": "win",
+      "week": 6,
+      "conditions": {
+        "marksGte": 70
+      },
+      "title": {
+        "en": "Dean's List",
+        "zu": "Uhlu lukaDini"
+      },
+      "text": {
+        "en": "Your name is on the Dean's List again. Your family shares it with everyone they know.",
+        "zu": "Igama lakho lisohlwini lukaDini futhi. Umndeni wakho ukwabelana nawo wonke umuntu abamaziyo."
+      },
+      "research": "RU Game: Dean's List",
+      "effects": {
+        "wellbeing": 10
+      }
+    },
+    {
+      "id": "MY-10",
+      "type": "situational",
+      "week": 5,
+      "conditions": {
+        "funding": [
+          "nsfas",
+          "bursary"
+        ]
+      },
+      "title": {
+        "en": "Your funding will not continue",
+        "zu": "Uxhaso lwakho ngeke luqhubeke"
+      },
+      "text": {
+        "en": "An email from your funder: your funding stops at the end of this year. You missed a pass requirement, or you've used the years it covers.",
+        "zu": "I-imeyili evela kumxhasi wakho: uxhaso lwakho luphela ekupheleni kwalo nyaka. Awufinyelelanga isidingo sokuphasa, noma usebenzise iminyaka eluyikhavayo."
+      },
+      "forecast_tags": [
+        "funding_risk",
+        "money_shortfall"
+      ],
+      "choices": [
+        {
+          "id": "panic",
+          "tags": [
+            "avoider"
+          ],
+          "label": {
+            "en": "Tell no one",
+            "zu": "Ungatsheli muntu"
+          },
+          "effects": {
+            "wellbeing": -10
+          },
+          "flags": [
+            "funding_lost"
+          ],
+          "outcome": {
+            "en": "You carry it alone for weeks. Next year's registration is still coming.",
+            "zu": "Ukuthwala wedwa amasonto. Ukubhalisa konyaka ozayo kusazofika."
+          }
+        },
+        {
+          "id": "appeal",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Appeal the decision",
+            "zu": "Faka isikhalazo ngesinqumo"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "flags": [
+            "appealed"
+          ],
+          "outcome": {
+            "en": "You send your results, a motivation and proof of what happened. The funder agrees to review it.",
+            "zu": "Uthumela imiphumela yakho, incwadi yokuzichaza nobufakazi balokho okwenzekile. Umxhasi uyavuma ukukubuyekeza."
+          },
+          "tip": {
+            "en": "Appeal forms and deadlines are on your funder's portal. Attach your results, a short explanation and any proof.",
+            "zu": "Amafomu ezikhalazo nemingcele yesikhathi akuphothali yomxhasi wakho. Namathisela imiphumela yakho, incazelo emfushane nanoma yibuphi ubufakazi."
+          }
+        },
+        {
+          "id": "help",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Ask financial aid what else exists",
+            "zu": "Buza kwabosizo lwezimali ngokunye okukhona"
+          },
+          "effects": {
+            "wellbeing": 10
+          },
+          "flags": [
+            "appealed"
+          ],
+          "support": [
+            "financial_aid_office",
+            "fees"
+          ],
+          "outcome": {
+            "en": "Financial aid helps you appeal, and lists what the university itself offers: its own bursaries, hardship funds and payment plans.",
+            "zu": "Abosizo lwezimali bakusiza ufake isikhalazo, futhi babala lokho okunikezwa yinyuvesi uqobo: imifundaze yayo, izimali zosizo nezinhlelo zokukhokha."
+          },
+          "tip": {
+            "en": "Funding problems are not only a first-year thing. The financial aid office helps senior students too, and faculties often have bursaries for second and third years.",
+            "zu": "Izinkinga zoxhaso akuzona ezonyaka wokuqala kuphela. Ihhovisi losizo lwezimali lisiza nabafundi abadala, futhi amafakhalthi avame ukuba nemifundaze yonyaka wesibili nowesithathu."
+          }
+        }
+      ]
+    }
+  ],
+  "budget": {
+    "cards": 9,
+    "minis": 3
+  },
+  "recap": [
+    "financial_aid_office",
+    "food_programme",
+    "counselling",
+    "workshops",
+    "advisor",
+    "fees"
+  ],
+  "minis": [
+    {
+      "id": "MM-VAC",
+      "type": "mini",
+      "text": {
+        "en": "Some degrees require vacation work as part of a module. Do you know if yours does?",
+        "zu": "Ezinye iziqu zidinga umsebenzi wamaholide njengengxenye yesifundo. Uyazi ukuthi ezakho ziyawudinga?"
+      },
+      "choices": [
+        {
+          "label": {
+            "en": "Check your module guide",
+            "zu": "Hlola umhlahlandlela wesifundo"
+          },
+          "effects": {
+            "confidence": 1
+          },
+          "outcome": {
+            "en": "Yours needs it before final year. Career services, and your faculty's placement office if it has one, help students find a place.",
+            "zu": "Ezakho ziyawudinga ngaphambi konyaka wokugcina. Izinsizakalo zemisebenzi, nehhovisi lefakhalthi yakho lokubeka abafundi uma likhona, zisiza abafundi bathole indawo."
+          }
+        },
+        {
+          "label": {
+            "en": "Deal with it later",
+            "zu": "Bhekana nakho kamuva"
+          },
+          "effects": {},
+          "outcome": {
+            "en": "Placements fill early. When you are ready, start with career services or your faculty office.",
+            "zu": "Izindawo zigcwala kusenesikhathi. Uma usulungile, qala ngezinsizakalo zemisebenzi noma ihhovisi lefakhalthi yakho."
+          }
+        }
+      ]
+    },
+    {
+      "id": "MM-EXCL-MY",
+      "type": "mini",
+      "text": {
+        "en": "Do you know how many modules you must pass this year to be allowed to continue?",
+        "zu": "Uyazi ukuthi zingaki izifundo okufanele uziphase kulo nyaka ukuze uvunyelwe ukuqhubeka?"
+      },
+      "choices": [
+        {
+          "label": {
+            "en": "Check the rules now",
+            "zu": "Hlola imithetho manje"
+          },
+          "effects": {
+            "confidence": 1
+          },
+          "outcome": {
+            "en": "The faculty handbook gives the credits you must pass each year to avoid academic exclusion. Now you know where your line is.",
+            "zu": "Incwadi yefakhalthi inikeza amakhredithi okufanele uwaphase unyaka ngamunye ukuze ugweme ukukhishwa. Manje uyazi ukuthi umugqa wakho ukuphi."
+          }
+        },
+        {
+          "label": {
+            "en": "Check only if I fail",
+            "zu": "Hlola kuphela uma ngihluleka"
+          },
+          "effects": {},
+          "outcome": {
+            "en": "Fair enough. It is under \"progression\" or \"exclusion rules\" on the university website, or ask your faculty office.",
+            "zu": "Kulungile. Kungaphansi kwe-\"progression\" noma \"exclusion rules\" kuwebhusayithi yenyuvesi, noma ubuze ehhovisi lefakhalthi yakho."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "prequel",
+    "status": "built"
+  },
+  {
+    "id": "arrival",
+    "status": "built"
+  },
+  {
+    "id": "first_term",
+    "status": "built"
+  },
+  {
+    "id": "first_exams",
+    "status": "built"
+  },
+  {
+    "id": "bounce_back",
+    "status": "built"
+  },
+  {
+    "id": "middle_years",
+    "status": "built"
+  },
+  {
+    "id": "finish_line",
+    "status": "built"
+  }
+]

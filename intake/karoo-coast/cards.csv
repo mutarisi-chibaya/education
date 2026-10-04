@@ -1,0 +1,9 @@
+campus_id,action,card_id,field,text_en,text_zu
+"# Karoo Coast has no university residences, so the residence cards are switched off."
+,off,ARR-03,,,
+,off,FT-S5,,,
+# Its own names for things.
+,edit,ARR-02,title,Welcome Week,Isonto Lokwamukela
+,edit,FT-02,title,Clubs Fair,Umbukiso Wamaqembu
+,edit,PRE-09,choice:res:label,Look for accredited private rooms,Funa amakamelo azimele agunyaziwe
+,edit,PRE-09,choice:res:outcome,"Karoo Coast has no residences of its own, so you start with the Housing Desk's accredited list. Good rooms go early.","I-Karoo Coast ayinazo izindawo zayo zokuhlala, ngakho uqala ngohlu olugunyaziwe lweDeski Lezindawo Zokuhlala. Amakamelo amahle aphela kusenesikhathi."

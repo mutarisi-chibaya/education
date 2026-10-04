@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>University Simulator</title>
+  <meta name="description" content="Rehearse university life before it's real: money, marks and wellbeing from arrival to graduation, with a personal survival plan.">
+  <meta name="theme-color" content="#12355b">
+  <meta property="og:title" content="University Simulator">
+  <meta property="og:description" content="Every first-year crisis is predictable, so rehearse it. A game for South African students, from first year to graduation.">
+  <meta property="og:image" content="icons/icon-512.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="topbar-brand" data-action="home" aria-label="University Simulator: home">
+      <span class="logo small" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="topbar-title">University Simulator</span>
+    </button>
+    <div class="topbar-right" id="topbar-right"></div>
+  </header>
+
+  <div class="shell">
+    <aside id="hud" hidden aria-live="polite">
+      <div class="hud-head">
+        <span class="hud-title"><strong class="week"></strong><span class="inst"></span></span>
+        <span class="dots" aria-hidden="true"></span>
+      </div>
+      <div class="meters">
+        <div class="meter" data-meter="money"><span class="name"></span><span class="val"></span><span class="track"><span class="fill"></span></span><span class="pop" aria-hidden="true"></span></div>
+        <div class="meter" data-meter="marks"><span class="name"></span><span class="val"></span><span class="track"><span class="fill"></span></span><span class="pop" aria-hidden="true"></span></div>
+        <div class="meter" data-meter="wellbeing"><span class="name"></span><span class="val"></span><span class="track"><span class="fill"></span></span><span class="pop" aria-hidden="true"></span></div>
+      </div>
+    </aside>
+
+    <main id="app">
+      <p class="loading">Loading…</p>
+    </main>
+  </div>
+
+  <noscript><p class="loading">University Simulator needs JavaScript to run.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

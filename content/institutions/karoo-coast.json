@@ -1,0 +1,614 @@
+{
+  "id": "karoo-coast",
+  "version": 4,
+  "name": {
+    "en": "Karoo Coast University (fictional)",
+    "zu": "iNyuvesi yaseKaroo Coast (eqanjiwe)"
+  },
+  "short": "Karoo Coast",
+  "campus": {
+    "en": "Fictional demo university: one campus, no residences, its own colours",
+    "zu": "Inyuvesi yokubonisa eqanjiwe: ikhampasi eyodwa, azikho izindawo zokuhlala, imibala yayo"
+  },
+  "city": {
+    "en": "the town",
+    "zu": "edolobheni"
+  },
+  "area": "Karoo Coast",
+  "status": "demo",
+  "type": "university",
+  "costIndex": 1,
+  "costs": {
+    "rent_private": 2800,
+    "taxi_week": 220
+  },
+  "courses": [
+    "bsc",
+    "bcom",
+    "ba"
+  ],
+  "housing": [
+    "private_rental",
+    "commuting"
+  ],
+  "brand": {
+    "name": "Karoo Coast",
+    "logo": "KC",
+    "colors": {
+      "brand": "#0b5d5e",
+      "brandInk": "#ffffff",
+      "accent": "#f4b942",
+      "accentInk": "#6b4a00"
+    },
+    "colorsDark": {
+      "brand": "#7fd6d2",
+      "brandInk": "#06282a",
+      "accent": "#f4b942",
+      "accentInk": "#f6c666"
+    }
+  },
+  "signedOff": {
+    "by": "Demo pack: no sign-off needed",
+    "date": "2026-10-03"
+  },
+  "map": {
+    "buildings": [
+      {
+        "id": "main_building",
+        "name": {
+          "en": "Main Building",
+          "zu": "Isakhiwo Esikhulu"
+        },
+        "x": 115,
+        "y": 25,
+        "w": 90,
+        "h": 60,
+        "directions": {
+          "en": "From the gate, walk straight up and cross the main road. It is directly ahead.",
+          "zu": "Usuka esangweni, hamba uqonde bese uwela umgwaqo omkhulu. Siphambi kwakho ngqo."
+        }
+      },
+      {
+        "id": "clinic",
+        "name": {
+          "en": "Wellness Clinic",
+          "zu": "Umtholampilo Wenhlalakahle"
+        },
+        "x": 215,
+        "y": 25,
+        "w": 90,
+        "h": 60,
+        "directions": {
+          "en": "From the gate, walk straight up to the main road and turn right. It is the last building on your left.",
+          "zu": "Usuka esangweni, hamba uqonde uye emgwaqweni omkhulu bese ujikela kwesokudla. Yisakhiwo sokugcina ngakwesobunxele sakho."
+        }
+      },
+      {
+        "id": "student_services",
+        "name": {
+          "en": "Student Services",
+          "zu": "Izinsizakalo Zabafundi"
+        },
+        "x": 15,
+        "y": 125,
+        "w": 65,
+        "h": 60,
+        "directions": {
+          "en": "From the gate, take the first path on your left and walk to the end.",
+          "zu": "Usuka esangweni, thatha indlela yokuqala ngakwesobunxele uhambe uze ufike ekugcineni."
+        }
+      },
+      {
+        "id": "library",
+        "name": {
+          "en": "Library",
+          "zu": "Umtapo Wolwazi"
+        },
+        "x": 85,
+        "y": 125,
+        "w": 65,
+        "h": 60,
+        "directions": {
+          "en": "From the gate, walk straight up. It is the first building on your left.",
+          "zu": "Usuka esangweni, hamba uqonde. Yisakhiwo sokuqala ngakwesobunxele sakho."
+        }
+      },
+      {
+        "id": "lecture_block",
+        "name": {
+          "en": "Lecture Block",
+          "zu": "Ibhulokhi Yezifundo"
+        },
+        "x": 170,
+        "y": 125,
+        "w": 65,
+        "h": 60,
+        "directions": {
+          "en": "From the gate, walk straight up. It is the first building on your right.",
+          "zu": "Usuka esangweni, hamba uqonde. Yisakhiwo sokuqala ngakwesokudla sakho."
+        }
+      },
+      {
+        "id": "security",
+        "name": {
+          "en": "Campus Security",
+          "zu": "Ezokuphepha"
+        },
+        "x": 175,
+        "y": 195,
+        "w": 70,
+        "h": 26,
+        "directions": {
+          "en": "The small building at the gate, on your right. Open 24 hours.",
+          "zu": "Isakhiwo esincane esangweni, ngakwesokudla sakho. Kuvulwe amahora angu-24."
+        }
+      }
+    ]
+  },
+  "support": {
+    "food_programme": {
+      "name": {
+        "en": "Karoo Coast Pantry",
+        "zu": "Iphentri yaseKaroo Coast"
+      },
+      "reach": {
+        "en": "Walk in on any weekday. Bring your student card; nobody asks why you need it.",
+        "zu": "Ngena nganoma yiluphi usuku lwesonto. Letha ikhadi lakho lomfundi; akekho obuza ukuthi kungani uludinga."
+      },
+      "building": "student_services",
+      "room": {
+        "en": "Room 4",
+        "zu": "Igumbi 4"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "pantry@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "financial_aid_office": {
+      "name": {
+        "en": "Karoo Coast Funding Office",
+        "zu": "Ihhovisi Loxhaso laseKaroo Coast"
+      },
+      "building": "main_building",
+      "room": {
+        "en": "Room 12",
+        "zu": "Igumbi 12"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "funding@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "fees": {
+      "name": {
+        "en": "Student Accounts",
+        "zu": "Ama-akhawunti Abafundi"
+      },
+      "building": "main_building",
+      "room": {
+        "en": "Counter 2",
+        "zu": "Ikhawunta 2"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "accounts@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "advisor": {
+      "name": {
+        "en": "Faculty Desk",
+        "zu": "Ideski LeFakhalthi"
+      },
+      "building": "main_building",
+      "room": {
+        "en": "Ground floor",
+        "zu": "Isitezi esiphansi"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "faculty@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "counselling": {
+      "name": {
+        "en": "Karoo Coast Student Counselling",
+        "zu": "Ukwelulekwa Kwabafundi baseKaroo Coast"
+      },
+      "building": "clinic",
+      "room": {
+        "en": "Upstairs",
+        "zu": "Phezulu"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "counselling@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "health": {
+      "name": {
+        "en": "Wellness Clinic",
+        "zu": "Umtholampilo Wenhlalakahle"
+      },
+      "building": "clinic",
+      "room": {
+        "en": "Ground floor",
+        "zu": "Isitezi esiphansi"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "clinic@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "library": {
+      "name": {
+        "en": "Karoo Coast Library short-loans",
+        "zu": "Ukuboleka okwesikhashana emtapweni waseKaroo Coast"
+      },
+      "building": "library",
+      "room": {
+        "en": "Help desk",
+        "zu": "Ideski losizo"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–21:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–21:00"
+      },
+      "email": "library@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "devices": {
+      "name": {
+        "en": "Computer room and Wi-Fi",
+        "zu": "Igumbi lamakhompyutha ne-Wi-Fi"
+      },
+      "building": "library",
+      "room": {
+        "en": "Computer room, first floor",
+        "zu": "Igumbi lamakhompyutha, isitezi sokuqala"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–21:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–21:00"
+      },
+      "email": "ithelp@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "coach": {
+      "name": {
+        "en": "Learning Centre",
+        "zu": "Isikhungo Sokufunda"
+      },
+      "building": "library",
+      "room": {
+        "en": "Learning Centre, first floor",
+        "zu": "Isikhungo Sokufunda, isitezi sokuqala"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "learning@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "workshops": {
+      "name": {
+        "en": "Learning Centre workshops",
+        "zu": "Amasifundisane eSikhungo Sokufunda"
+      },
+      "building": "library",
+      "room": {
+        "en": "Learning Centre, first floor",
+        "zu": "Isikhungo Sokufunda, isitezi sokuqala"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "learning@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "student_card": {
+      "name": {
+        "en": "Student card desk",
+        "zu": "Ideski lamakhadi abafundi"
+      },
+      "building": "student_services",
+      "room": {
+        "en": "Front desk",
+        "zu": "Ideski eliphambili"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "studentcard@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "orientation": {
+      "name": {
+        "en": "Karoo Coast Welcome Week",
+        "zu": "Isonto Lokwamukela laseKaroo Coast"
+      },
+      "building": "student_services",
+      "room": {
+        "en": "Front desk",
+        "zu": "Ideski eliphambili"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "welcome@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "careers": {
+      "name": {
+        "en": "Careers Desk",
+        "zu": "Ideski Lemisebenzi"
+      },
+      "building": "student_services",
+      "room": {
+        "en": "Room 7",
+        "zu": "Igumbi 7"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "careers@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "commuters": {
+      "name": {
+        "en": "Day Students' Room",
+        "zu": "Igumbi Labafundi Abagibelayo"
+      },
+      "building": "student_services",
+      "room": {
+        "en": "Room 9",
+        "zu": "Igumbi 9"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "daystudents@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "residence_office": {
+      "name": {
+        "en": "Off-campus Housing Desk",
+        "zu": "Ideski Lezindawo Zokuhlala Ezingaphandle"
+      },
+      "reach": {
+        "en": "Karoo Coast has no residences of its own. The Housing Desk keeps the list of accredited private rooms and checks leases with you.",
+        "zu": "I-Karoo Coast ayinazo izindawo zayo zokuhlala. Ideski Lezindawo Zokuhlala ligcina uhlu lwamakamelo azimele agunyaziwe futhi lihlola izivumelwano nawe."
+      },
+      "building": "student_services",
+      "room": {
+        "en": "Room 2",
+        "zu": "Igumbi 2"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "housing@karoocoast.example",
+      "page": "accredited",
+      "verified": false,
+      "last_checked": null
+    },
+    "verify_accom": {
+      "building": "student_services",
+      "room": {
+        "en": "Room 2",
+        "zu": "Igumbi 2"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "housing@karoocoast.example",
+      "page": "accredited",
+      "verified": false,
+      "last_checked": null
+    },
+    "campus_safety": {
+      "building": "security",
+      "room": {
+        "en": "Control room",
+        "zu": "Igumbi lokulawula"
+      },
+      "hours": {
+        "en": "Open 24 hours",
+        "zu": "Kuvulwe amahora angu-24"
+      },
+      "email": "security@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    }
+  },
+  "pages": {
+    "accredited": {
+      "title": {
+        "en": "Accredited private accommodation",
+        "zu": "Izindawo zokuhlala ezizimele ezigunyaziwe"
+      },
+      "intro": {
+        "en": "Karoo Coast has no residences of its own, so this list matters. These places are fictional, like the university.",
+        "zu": "I-Karoo Coast ayinazo izindawo zayo zokuhlala, ngakho lolu hlu lubalulekile. Lezi zindawo ziqanjiwe, njengenyuvesi."
+      },
+      "note": {
+        "en": "Not on the list? Don't pay anything. Ask the Housing Desk first.",
+        "zu": "Ayikho ohlwini? Ungakhokhi lutho. Buza eDeskini Lezindawo Zokuhlala kuqala."
+      },
+      "items": [
+        {
+          "name": "Seagull House",
+          "detail": {
+            "en": "Accredited private residence · 8 minutes' walk · NSFAS-accredited",
+            "zu": "Indawo ezimele egunyaziwe · imizuzu eyi-8 ngezinyawo · igunyazwe yi-NSFAS"
+          }
+        },
+        {
+          "name": "Dune Court",
+          "detail": {
+            "en": "Accredited private residence · on the town shuttle route · NSFAS-accredited",
+            "zu": "Indawo ezimele egunyaziwe · isendleleni ye-shuttle yedolobha · igunyazwe yi-NSFAS"
+          }
+        },
+        {
+          "name": "Lighthouse Lodge",
+          "detail": {
+            "en": "Accredited private residence · 15 minutes' walk · self-catering",
+            "zu": "Indawo ezimele egunyaziwe · imizuzu eyi-15 ngezinyawo · uziphekela"
+          }
+        }
+      ]
+    }
+  },
+  "cards": {
+    "off": [
+      "ARR-03",
+      "FT-S5"
+    ],
+    "edit": {
+      "ARR-02": {
+        "title": {
+          "en": "Welcome Week",
+          "zu": "Isonto Lokwamukela"
+        }
+      },
+      "FT-02": {
+        "title": {
+          "en": "Clubs Fair",
+          "zu": "Umbukiso Wamaqembu"
+        }
+      },
+      "PRE-09": {
+        "choices": {
+          "res": {
+            "label": {
+              "en": "Look for accredited private rooms",
+              "zu": "Funa amakamelo azimele agunyaziwe"
+            },
+            "outcome": {
+              "en": "Karoo Coast has no residences of its own, so you start with the Housing Desk's accredited list. Good rooms go early.",
+              "zu": "I-Karoo Coast ayinazo izindawo zayo zokuhlala, ngakho uqala ngohlu olugunyaziwe lweDeski Lezindawo Zokuhlala. Amakamelo amahle aphela kusenesikhathi."
+            }
+          }
+        }
+      }
+    },
+    "add": {
+      "first_term": [
+        {
+          "id": "KC-01",
+          "type": "situational",
+          "pool": "ft_sit",
+          "weight": 3,
+          "title": {
+            "en": "The last shuttle to town",
+            "zu": "I-shuttle yokugcina eya edolobheni"
+          },
+          "text": {
+            "en": "The campus shuttle to town stops at 6pm, and your tutorial ends at 6:30. Town is a forty-minute walk along the coast road.",
+            "zu": "I-shuttle yasekhampasi eya edolobheni iyama ngo-6 kusihlwa, futhi ithuthorial yakho iphela ngo-6:30. Idolobha likude ngemizuzu engamashumi amane ngezinyawo emgwaqweni wasogwini."
+          },
+          "forecast_tags": [
+            "housing",
+            "wellbeing"
+          ],
+          "choices": [
+            {
+              "id": "walk",
+              "tags": [
+                "avoider"
+              ],
+              "label": {
+                "en": "Walk it alone",
+                "zu": "Hamba wedwa ngezinyawo"
+              },
+              "effects": {
+                "wellbeing": -6
+              },
+              "outcome": {
+                "en": "Forty minutes in the dark, in the wind. You don't want to do that every week.",
+                "zu": "Imizuzu engamashumi amane ebumnyameni, emoyeni. Awufuni ukwenza lokho masonto onke."
+              }
+            },
+            {
+              "id": "lift",
+              "tags": [
+                "connector"
+              ],
+              "label": {
+                "en": "Arrange a lift in the group",
+                "zu": "Hlela ukugibela eqenjini"
+              },
+              "effects": {
+                "wellbeing": 3
+              },
+              "outcome": {
+                "en": "Two classmates drive in from town. You share petrol money and never miss the tutorial again.",
+                "zu": "Abafunda nawe ababili bashayela besuka edolobheni. Nabelana ngemali kaphethiloli futhi awuphinde uphuthelwe yithuthorial."
+              }
+            },
+            {
+              "id": "ask",
+              "tags": [
+                "help_seeker"
+              ],
+              "label": {
+                "en": "Ask about the late shuttle",
+                "zu": "Buza nge-shuttle yasebusuku"
+              },
+              "effects": {
+                "wellbeing": 5
+              },
+              "support": [
+                "commuters",
+                "campus_safety"
+              ],
+              "outcome": {
+                "en": "The Day Students' Room has a list for the 7pm shuttle, which only runs when students book it. You book every Tuesday.",
+                "zu": "Igumbi Labafundi Abagibelayo linohlu lwe-shuttle yango-7, ehamba kuphela uma abafundi beyibhukha. Ubhukha njalo ngoLwesibili."
+              },
+              "tip": {
+                "en": "Ask what runs on request. Late shuttles and security escorts often only run when someone books them.",
+                "zu": "Buza ukuthi yini ehamba ngokucela. Ama-shuttle asebusuku nokuphelezelwa kuvame ukuhamba kuphela uma othile ebhukha."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

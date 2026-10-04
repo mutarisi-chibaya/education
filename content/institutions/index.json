@@ -1,0 +1,34 @@
+[
+  {
+    "id": "sizwe",
+    "name": {
+      "en": "Sizwe University (fictional)",
+      "zu": "iNyuvesi yaseSizwe (eqanjiwe)"
+    },
+    "short": "Sizwe",
+    "tagline": {
+      "en": "Fictional demo university, three campuses",
+      "zu": "Inyuvesi yokubonisa eqanjiwe, amakhampasi amathathu"
+    },
+    "type": "university",
+    "province": null,
+    "status": "demo",
+    "version": 13
+  },
+  {
+    "id": "karoo-coast",
+    "name": {
+      "en": "Karoo Coast University (fictional)",
+      "zu": "iNyuvesi yaseKaroo Coast (eqanjiwe)"
+    },
+    "short": "Karoo Coast",
+    "tagline": {
+      "en": "Fictional demo university: one campus, no residences, its own colours",
+      "zu": "Inyuvesi yokubonisa eqanjiwe: ikhampasi eyodwa, azikho izindawo zokuhlala, imibala yayo"
+    },
+    "type": "university",
+    "province": null,
+    "status": "demo",
+    "version": 4
+  }
+]

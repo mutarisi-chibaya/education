@@ -1,0 +1,31 @@
+key,value
+id,karoo-coast
+name_en,Karoo Coast University (fictional)
+name_zu,iNyuvesi yaseKaroo Coast (eqanjiwe)
+short,Karoo Coast
+tagline_en,"Fictional demo university: one campus, no residences, its own colours"
+tagline_zu,"Inyuvesi yokubonisa eqanjiwe: ikhampasi eyodwa, azikho izindawo zokuhlala, imibala yayo"
+city_en,the town
+city_zu,edolobheni
+area,Karoo Coast
+status,demo
+courses,bsc;bcom;ba
+housing,private_rental;commuting
+rent_private,2800
+taxi_week,220
+brand_name,Karoo Coast
+logo_text,KC
+colour_brand,#0b5d5e
+colour_brand_text,#ffffff
+colour_accent,#f4b942
+colour_accent_text,#6b4a00
+dark_colour_brand,#7fd6d2
+dark_colour_brand_text,#06282a
+dark_colour_accent,#f4b942
+dark_colour_accent_text,#f6c666
+signed_off_by,Demo pack: no sign-off needed
+signed_off_date,2026-10-03
+type,university
+province,
+licence_tier,
+licence_expires,

@@ -1,0 +1,1435 @@
+{
+  "id": "sizwe",
+  "version": 13,
+  "name": {
+    "en": "Sizwe University (fictional)",
+    "zu": "iNyuvesi yaseSizwe (eqanjiwe)"
+  },
+  "short": "Sizwe",
+  "campus": {
+    "en": "Fictional demo university, three campuses",
+    "zu": "Inyuvesi yokubonisa eqanjiwe, amakhampasi amathathu"
+  },
+  "city": {
+    "en": "the city",
+    "zu": "edolobheni"
+  },
+  "area": "Sizwe",
+  "status": "demo",
+  "costIndex": 1,
+  "costs": {
+    "rent_private": 3500,
+    "taxi_week": 250
+  },
+  "support": {
+    "advisor": {
+      "name": {
+        "en": "Sizwe Faculty Advisors",
+        "zu": "Abeluleki BeFakhalthi baseSizwe"
+      },
+      "reach": {
+        "en": "Ask at your faculty's student office in the first two weeks.",
+        "zu": "Buza ehhovisi labafundi lefakhalthi yakho emasontweni amabili okuqala."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "admin",
+      "room": {
+        "en": "Faculty Office, first floor",
+        "zu": "Ihhovisi LeFakhalthi, isitezi sokuqala"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "advisors@sizwe.example"
+    },
+    "mentor": {
+      "name": {
+        "en": "Sizwe First-Year Buddies",
+        "zu": "Abangane Bonyaka Wokuqala baseSizwe"
+      },
+      "reach": {
+        "en": "Sign up during O-Week or through Student Affairs.",
+        "zu": "Bhalisa nge-O-Week noma ngoMnyango Wezindaba Zabafundi."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "student_centre",
+      "room": {
+        "en": "Room G05",
+        "zu": "Igumbi G05"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "buddies@sizwe.example"
+    },
+    "food_programme": {
+      "name": {
+        "en": "Sizwe Food Programme",
+        "zu": "Uhlelo Lokudla lwaseSizwe"
+      },
+      "reach": {
+        "en": "Ask Student Affairs or the SRC. Go early: you don't need to wait until you have nothing left.",
+        "zu": "Buza kuMnyango Wezindaba Zabafundi noma i-SRC. Hamba kusenesikhathi: akudingeki ulinde kuze kungabi nalutho."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "student_centre",
+      "room": {
+        "en": "Room G12, ground floor",
+        "zu": "Igumbi G12, isitezi esiphansi"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "foodprogramme@sizwe.example"
+    },
+    "financial_aid_office": {
+      "name": {
+        "en": "Sizwe Financial Aid Office",
+        "zu": "Ihhovisi Losizo Lwezimali laseSizwe"
+      },
+      "building": "admin",
+      "room": {
+        "en": "Room 104, first floor",
+        "zu": "Igumbi 104, isitezi sokuqala"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "financialaid@sizwe.example"
+    },
+    "coach": {
+      "name": {
+        "en": "Sizwe Academic Success Centre",
+        "zu": "Isikhungo Sempumelelo Yezemfundo saseSizwe"
+      },
+      "reach": {
+        "en": "Book through your faculty or the Academic Success Centre.",
+        "zu": "Bhukha ngefakhalthi yakho noma ngeSikhungo Sempumelelo Yezemfundo."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "library",
+      "room": {
+        "en": "Academic Success Centre, second floor",
+        "zu": "Isikhungo Sempumelelo Yezemfundo, isitezi sesibili"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "success@sizwe.example"
+    },
+    "counselling": {
+      "name": {
+        "en": "Sizwe Student Counselling",
+        "zu": "Ukwelulekwa Kwabafundi baseSizwe"
+      },
+      "building": "wellness",
+      "room": {
+        "en": "First floor",
+        "zu": "Isitezi sokuqala"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "counselling@sizwe.example"
+    },
+    "societies": {
+      "name": {
+        "en": "Sizwe Sport and Societies",
+        "zu": "Ezemidlalo Nezinhlangano zaseSizwe"
+      },
+      "reach": {
+        "en": "Look out for Societies Day, or ask the SRC.",
+        "zu": "Bheka uSuku Lwezinhlangano, noma ubuze i-SRC."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "sports",
+      "room": {
+        "en": "Sport and Societies desk",
+        "zu": "Ideski Lezemidlalo Nezinhlangano"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "societies@sizwe.example"
+    },
+    "library": {
+      "name": {
+        "en": "Sizwe Library short-loans",
+        "zu": "Ukuboleka okwesikhashana emtapweni waseSizwe"
+      },
+      "reach": {
+        "en": "Ask at the library help desk, or search the catalogue.",
+        "zu": "Buza edeskini losizo lomtapo, noma useshe ikhathalogi."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "library",
+      "room": {
+        "en": "Help desk at the entrance",
+        "zu": "Ideski losizo emnyango"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–22:00, Sat 09:00–17:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–22:00, Mgqibelo 09:00–17:00"
+      },
+      "email": "library@sizwe.example"
+    },
+    "health": {
+      "name": {
+        "en": "Sizwe Campus Clinic",
+        "zu": "Umtholampilo wasekhampasi yaseSizwe"
+      },
+      "reach": {
+        "en": "Walk in or book at the campus clinic.",
+        "zu": "Ngena noma ubhukhe emtholampilo wasekhampasi."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "wellness",
+      "room": {
+        "en": "Campus Clinic, ground floor",
+        "zu": "Umtholampilo, isitezi esiphansi"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "clinic@sizwe.example"
+    },
+    "careers": {
+      "name": {
+        "en": "Sizwe Career Centre",
+        "zu": "Isikhungo Semisebenzi saseSizwe"
+      },
+      "reach": {
+        "en": "Book through Student Affairs, from first year onwards.",
+        "zu": "Bhukha ngoMnyango Wezindaba Zabafundi, kusukela onyakeni wokuqala."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "student_centre",
+      "room": {
+        "en": "Career Centre, first floor",
+        "zu": "Isikhungo Semisebenzi, isitezi sokuqala"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "careers@sizwe.example"
+    },
+    "residence_office": {
+      "name": {
+        "en": "Sizwe Residence and Housing Office",
+        "zu": "Ihhovisi Lezindawo Zokuhlala laseSizwe"
+      },
+      "reach": {
+        "en": "Visit the housing office before paying anyone for a room.",
+        "zu": "Vakashela ihhovisi lezindawo zokuhlala ngaphambi kokukhokhela umuntu ikamelo."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "res_office",
+      "room": {
+        "en": "Front desk",
+        "zu": "Ideski eliphambili"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "housing@sizwe.example",
+      "page": "accredited"
+    },
+    "orientation": {
+      "name": {
+        "en": "Sizwe O-Week",
+        "zu": "I-O-Week yaseSizwe"
+      },
+      "reach": {
+        "en": "Follow the O-Week programme in your welcome pack.",
+        "zu": "Landela uhlelo lwe-O-Week ephaketheni lakho lokwamukela."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "student_centre",
+      "room": {
+        "en": "Information desk",
+        "zu": "Ideski lolwazi"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "welcome@sizwe.example"
+    },
+    "fees": {
+      "name": {
+        "en": "Sizwe Student Fees Office",
+        "zu": "Ihhovisi Lezimali Zabafundi laseSizwe"
+      },
+      "reach": {
+        "en": "Ask about payment arrangements before debt blocks registration or your certificate.",
+        "zu": "Buza ngezivumelwano zokukhokha ngaphambi kokuthi isikweletu sivimbe ukubhalisa noma isitifiketi sakho."
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "admin",
+      "room": {
+        "en": "Counter 3, ground floor",
+        "zu": "Ikhawunta 3, isitezi esiphansi"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "fees@sizwe.example"
+    },
+    "workshops": {
+      "name": {
+        "en": "Sizwe Academic Skills Workshops",
+        "zu": "Amasifundisane Amakhono Ezemfundo aseSizwe"
+      },
+      "verified": false,
+      "last_checked": null,
+      "building": "library",
+      "room": {
+        "en": "Seminar Room 2, second floor",
+        "zu": "Igumbi Lezingqungquthela 2, isitezi sesibili"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "workshops@sizwe.example",
+      "page": "workshops"
+    },
+    "devices": {
+      "building": "library",
+      "room": {
+        "en": "IT help desk and open labs, first floor",
+        "zu": "Ideski le-IT namagumbi avulekile, isitezi sokuqala"
+      },
+      "hours": {
+        "en": "Labs open until 22:00",
+        "zu": "Amagumbi avulwa kuze kube ngu-22:00"
+      },
+      "email": "ithelp@sizwe.example"
+    },
+    "verify_accom": {
+      "building": "res_office",
+      "room": {
+        "en": "Front desk",
+        "zu": "Ideski eliphambili"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "housing@sizwe.example",
+      "page": "accredited"
+    },
+    "packing": {
+      "building": "res_office",
+      "room": {
+        "en": "Front desk",
+        "zu": "Ideski eliphambili"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "housing@sizwe.example"
+    },
+    "student_card": {
+      "building": "student_centre",
+      "room": {
+        "en": "Card Office, Room G02",
+        "zu": "Ihhovisi Lamakhadi, Igumbi G02"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "studentcard@sizwe.example"
+    },
+    "commuters": {
+      "building": "student_centre",
+      "room": {
+        "en": "Day Students' Lounge, Room G20",
+        "zu": "Igumbi Labafundi Abagibelayo, G20"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "daystudents@sizwe.example"
+    },
+    "campus_safety": {
+      "building": "security",
+      "room": {
+        "en": "Control room",
+        "zu": "Igumbi lokulawula"
+      },
+      "hours": {
+        "en": "Open 24 hours",
+        "zu": "Kuvulwe amahora angu-24"
+      },
+      "email": "security@sizwe.example"
+    },
+    "equity": {
+      "building": "admin",
+      "room": {
+        "en": "Room 210, second floor",
+        "zu": "Igumbi 210, isitezi sesibili"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "equity@sizwe.example"
+    },
+    "international": {
+      "building": "student_centre",
+      "room": {
+        "en": "Room 115, first floor",
+        "zu": "Igumbi 115, isitezi sokuqala"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:30",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+      },
+      "email": "international@sizwe.example"
+    }
+  },
+  "map": {
+    "buildings": [
+      {
+        "id": "res_office",
+        "name": {
+          "en": "Residence Office",
+          "zu": "Ihhovisi Lezindawo Zokuhlala"
+        },
+        "x": 15,
+        "y": 25,
+        "w": 90,
+        "h": 60,
+        "directions": {
+          "en": "From the Main Gate, walk straight up to the main road and turn left. It is the last building on your right.",
+          "zu": "Usuka eSangweni Elikhulu, hamba uqonde uye emgwaqweni omkhulu bese ujikela kwesobunxele. Yisakhiwo sokugcina ngakwesokudla sakho."
+        }
+      },
+      {
+        "id": "lecture",
+        "name": {
+          "en": "Lecture Halls",
+          "zu": "Amahholo Ezifundo"
+        },
+        "x": 115,
+        "y": 25,
+        "w": 90,
+        "h": 60,
+        "directions": {
+          "en": "From the Main Gate, walk straight up and cross the main road. The Lecture Halls are directly ahead.",
+          "zu": "Usuka eSangweni Elikhulu, hamba uqonde bese uwela umgwaqo omkhulu. Amahholo Ezifundo aphambi kwakho ngqo."
+        }
+      },
+      {
+        "id": "wellness",
+        "name": {
+          "en": "Health and Wellness Centre",
+          "zu": "Isikhungo Sezempilo Nenhlalakahle"
+        },
+        "x": 215,
+        "y": 25,
+        "w": 90,
+        "h": 60,
+        "directions": {
+          "en": "From the Main Gate, walk straight up to the main road and turn right. It is the last building on your left.",
+          "zu": "Usuka eSangweni Elikhulu, hamba uqonde uye emgwaqweni omkhulu bese ujikela kwesokudla. Yisakhiwo sokugcina ngakwesobunxele sakho."
+        }
+      },
+      {
+        "id": "student_centre",
+        "name": {
+          "en": "Student Centre",
+          "zu": "Isikhungo Sabafundi"
+        },
+        "x": 15,
+        "y": 125,
+        "w": 65,
+        "h": 60,
+        "directions": {
+          "en": "From the Main Gate, take the first path on your left. Walk past the Library to the end.",
+          "zu": "Usuka eSangweni Elikhulu, thatha indlela yokuqala ngakwesobunxele. Dlula uMtapo uze ufike ekugcineni."
+        }
+      },
+      {
+        "id": "library",
+        "name": {
+          "en": "Library",
+          "zu": "Umtapo Wolwazi"
+        },
+        "x": 85,
+        "y": 125,
+        "w": 65,
+        "h": 60,
+        "directions": {
+          "en": "From the Main Gate, walk straight up. The Library is the first building on your left.",
+          "zu": "Usuka eSangweni Elikhulu, hamba uqonde. Umtapo yisakhiwo sokuqala ngakwesobunxele sakho."
+        }
+      },
+      {
+        "id": "admin",
+        "name": {
+          "en": "Admin Building",
+          "zu": "Isakhiwo Sokuphatha"
+        },
+        "x": 170,
+        "y": 125,
+        "w": 65,
+        "h": 60,
+        "directions": {
+          "en": "From the Main Gate, walk straight up. The Admin Building is the first building on your right.",
+          "zu": "Usuka eSangweni Elikhulu, hamba uqonde. Isakhiwo Sokuphatha yisakhiwo sokuqala ngakwesokudla sakho."
+        }
+      },
+      {
+        "id": "sports",
+        "name": {
+          "en": "Sports Centre",
+          "zu": "Isikhungo Sezemidlalo"
+        },
+        "x": 240,
+        "y": 125,
+        "w": 65,
+        "h": 60,
+        "directions": {
+          "en": "From the Main Gate, take the first path on your right. Walk past the Admin Building to the end.",
+          "zu": "Usuka eSangweni Elikhulu, thatha indlela yokuqala ngakwesokudla. Dlula iSakhiwo Sokuphatha uze ufike ekugcineni."
+        }
+      },
+      {
+        "id": "security",
+        "name": {
+          "en": "Campus Security",
+          "zu": "Ezokuphepha"
+        },
+        "x": 175,
+        "y": 195,
+        "w": 70,
+        "h": 26,
+        "directions": {
+          "en": "Right next to the Main Gate, on your right as you come in. It is open 24 hours.",
+          "zu": "Eduze kweSango Elikhulu, ngakwesokudla uma ungena. Kuvulwe amahora angu-24."
+        }
+      }
+    ]
+  },
+  "pages": {
+    "accredited": {
+      "title": {
+        "en": "Accredited accommodation list",
+        "zu": "Uhlu lwezindawo zokuhlala ezigunyaziwe"
+      },
+      "intro": {
+        "en": "On a real campus this is the housing office's official list. These residences are fictional, like Sizwe itself.",
+        "zu": "Ekhampasi yangempela lolu uhlu olusemthethweni lwehhovisi lezindawo zokuhlala. Lezi zindawo ziqanjiwe, njengeSizwe uqobo."
+      },
+      "items": [
+        {
+          "name": "Sizwe Student Village",
+          "detail": {
+            "en": "University residence · on campus · catered",
+            "zu": "Indawo yokuhlala yenyuvesi · ekhampasi · inokudla"
+          }
+        },
+        {
+          "name": "Sizwe North Residence",
+          "detail": {
+            "en": "University residence · 5 minutes' walk · self-catering",
+            "zu": "Indawo yokuhlala yenyuvesi · imizuzu emi-5 ngezinyawo · uziphekela"
+          }
+        },
+        {
+          "name": "Umoya House",
+          "detail": {
+            "en": "Accredited private residence · 10 minutes' walk · NSFAS-accredited",
+            "zu": "Indawo ezimele egunyaziwe · imizuzu eyi-10 ngezinyawo · igunyazwe yi-NSFAS"
+          }
+        },
+        {
+          "name": "Ilanga Court",
+          "detail": {
+            "en": "Accredited private residence · on the campus shuttle route · NSFAS-accredited",
+            "zu": "Indawo ezimele egunyaziwe · isendleleni ye-shuttle yekhampasi · igunyazwe yi-NSFAS"
+          }
+        }
+      ],
+      "note": {
+        "en": "Not on the list? Don't pay anything. Ask the Residence Office first.",
+        "zu": "Ayikho ohlwini? Ungakhokhi lutho. Buza eHhovisi Lezindawo Zokuhlala kuqala."
+      }
+    },
+    "workshops": {
+      "title": {
+        "en": "Academic skills workshop calendar",
+        "zu": "Ikhalenda lamasifundisane amakhono ezemfundo"
+      },
+      "intro": {
+        "en": "Free, every week of term, no booking needed. A real campus publishes a calendar like this on its website.",
+        "zu": "Mahhala, isonto ngalinye lethemu, akudingeki ukubhukha. Ikhampasi yangempela ishicilela ikhalenda elinjena kuwebhusayithi yayo."
+      },
+      "items": [
+        {
+          "name": "Time management",
+          "detail": {
+            "en": "Tuesdays 13:00 · Library, Seminar Room 2",
+            "zu": "NgoLwesibili 13:00 · Umtapo, Igumbi Lezingqungquthela 2"
+          }
+        },
+        {
+          "name": "Academic writing",
+          "detail": {
+            "en": "Wednesdays 13:00 · Library, Seminar Room 2",
+            "zu": "NgoLwesithathu 13:00 · Umtapo, Igumbi Lezingqungquthela 2"
+          }
+        },
+        {
+          "name": "Study methods and exam preparation",
+          "detail": {
+            "en": "Thursdays 13:00 · Library, Seminar Room 2",
+            "zu": "NgoLwesine 13:00 · Umtapo, Igumbi Lezingqungquthela 2"
+          }
+        },
+        {
+          "name": "Referencing and research",
+          "detail": {
+            "en": "Fridays 12:00 · Library, Seminar Room 2",
+            "zu": "NgoLwesihlanu 12:00 · Umtapo, Igumbi Lezingqungquthela 2"
+          }
+        }
+      ],
+      "note": {
+        "en": "Missed one? The Academic Success Centre also books one-on-one sessions.",
+        "zu": "Uphuthelwe elilodwa? Isikhungo Sempumelelo Yezemfundo sibhukha namaseshini omuntu ngamunye."
+      }
+    }
+  },
+  "campuses": [
+    {
+      "id": "main",
+      "name": {
+        "en": "Main Campus",
+        "zu": "Ikhampasi Enkulu"
+      },
+      "desc": {
+        "en": "Science, Commerce, Humanities and Engineering. Most university offices are here.",
+        "zu": "Isayensi, Ezohwebo, Ubuntu nezeNhlalo noBunjiniyela. Amahhovisi amaningi enyuvesi alapha."
+      },
+      "courses": [
+        "bsc",
+        "bcom",
+        "ba",
+        "beng"
+      ]
+    },
+    {
+      "id": "education",
+      "name": {
+        "en": "Education Campus",
+        "zu": "Ikhampasi Yezemfundo"
+      },
+      "desc": {
+        "en": "The Faculty of Education, across town from Main Campus. A free shuttle links the two.",
+        "zu": "IFakhalthi Yezemfundo, ngale kwedolobha kusuka eKhampasi Enkulu. I-shuttle yamahhala ixhuma zombili."
+      },
+      "courses": [
+        "bed"
+      ],
+      "costs": {
+        "rent_private": 3200,
+        "taxi_week": 280
+      },
+      "map": {
+        "buildings": [
+          {
+            "id": "edu_res",
+            "name": {
+              "en": "Residence Office",
+              "zu": "Ihhovisi Lezindawo Zokuhlala"
+            },
+            "x": 15,
+            "y": 25,
+            "w": 90,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, walk straight up to the main road and turn left. It is the last building on your right.",
+              "zu": "Usuka esangweni, hamba uqonde uye emgwaqweni omkhulu bese ujikela kwesobunxele. Yisakhiwo sokugcina ngakwesokudla sakho."
+            }
+          },
+          {
+            "id": "edu_building",
+            "name": {
+              "en": "Education Building",
+              "zu": "Isakhiwo Sezemfundo"
+            },
+            "x": 115,
+            "y": 25,
+            "w": 90,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, walk straight up and cross the main road. It is directly ahead.",
+              "zu": "Usuka esangweni, hamba uqonde bese uwela umgwaqo omkhulu. Siphambi kwakho ngqo."
+            }
+          },
+          {
+            "id": "edu_hub",
+            "name": {
+              "en": "Student Hub",
+              "zu": "Isikhungo Sabafundi"
+            },
+            "x": 15,
+            "y": 125,
+            "w": 65,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, take the first path on your left and walk to the end.",
+              "zu": "Usuka esangweni, thatha indlela yokuqala ngakwesobunxele uhambe uze ufike ekugcineni."
+            }
+          },
+          {
+            "id": "edu_library",
+            "name": {
+              "en": "Education Library",
+              "zu": "Umtapo Wezemfundo"
+            },
+            "x": 85,
+            "y": 125,
+            "w": 65,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, walk straight up. It is the first building on your left.",
+              "zu": "Usuka esangweni, hamba uqonde. Yisakhiwo sokuqala ngakwesobunxele sakho."
+            }
+          },
+          {
+            "id": "edu_shuttle",
+            "name": {
+              "en": "Shuttle Stop",
+              "zu": "Isitobhi Se-shuttle"
+            },
+            "x": 240,
+            "y": 125,
+            "w": 65,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, take the first path on your right and walk to the end.",
+              "zu": "Usuka esangweni, thatha indlela yokuqala ngakwesokudla uhambe uze ufike ekugcineni."
+            }
+          },
+          {
+            "id": "edu_security",
+            "name": {
+              "en": "Campus Security",
+              "zu": "Ezokuphepha"
+            },
+            "x": 175,
+            "y": 195,
+            "w": 70,
+            "h": 26,
+            "directions": {
+              "en": "Right next to the gate, on your right as you come in.",
+              "zu": "Eduze kwesango, ngakwesokudla uma ungena."
+            }
+          }
+        ]
+      },
+      "support": {
+        "financial_aid_office": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Admin Building, Room 104. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isakhiwo Sokuphatha, Igumbi 104. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "fees": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Admin Building, Counter 3. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isakhiwo Sokuphatha, Ikhawunta 3. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "careers": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Student Centre, Career Centre. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isikhungo Sabafundi, Isikhungo Semisebenzi. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "societies": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Sports Centre. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isikhungo Sezemidlalo. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "equity": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Admin Building, Room 210. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isakhiwo Sokuphatha, Igumbi 210. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "international": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Student Centre, Room 115. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isikhungo Sabafundi, Igumbi 115. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "health": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Health and Wellness Centre, Campus Clinic. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isikhungo Sezempilo Nenhlalakahle, Umtholampilo. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "advisor": {
+          "building": "edu_building",
+          "room": {
+            "en": "Faculty Office, ground floor",
+            "zu": "Ihhovisi LeFakhalthi, isitezi esiphansi"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "mentor": {
+          "building": "edu_hub",
+          "room": {
+            "en": "Room 3",
+            "zu": "Igumbi 3"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "food_programme": {
+          "building": "edu_hub",
+          "room": {
+            "en": "Room 1",
+            "zu": "Igumbi 1"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "counselling": {
+          "building": "edu_hub",
+          "room": {
+            "en": "Room 6",
+            "zu": "Igumbi 6"
+          },
+          "hours": {
+            "en": "Tuesdays and Thursdays 09:00–15:00",
+            "zu": "NgoLwesibili nangoLwesine 09:00–15:00"
+          },
+          "away": null
+        },
+        "student_card": {
+          "building": "edu_hub",
+          "room": {
+            "en": "Front desk",
+            "zu": "Ideski eliphambili"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "orientation": {
+          "building": "edu_hub",
+          "room": {
+            "en": "Front desk",
+            "zu": "Ideski eliphambili"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "commuters": {
+          "building": "edu_hub",
+          "room": {
+            "en": "Day Students' Lounge",
+            "zu": "Igumbi Labafundi Abagibelayo"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "library": {
+          "building": "edu_library",
+          "room": {
+            "en": "Help desk at the entrance",
+            "zu": "Ideski losizo emnyango"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–20:00",
+            "zu": "Msombuluko–Lwesihlanu 08:00–20:00"
+          },
+          "away": null
+        },
+        "devices": {
+          "building": "edu_library",
+          "room": {
+            "en": "Computer lab, first floor",
+            "zu": "Igumbi lamakhompyutha, isitezi sokuqala"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–20:00",
+            "zu": "Msombuluko–Lwesihlanu 08:00–20:00"
+          },
+          "away": null
+        },
+        "coach": {
+          "building": "edu_library",
+          "room": {
+            "en": "Study Support Room",
+            "zu": "Igumbi Losizo Lokufunda"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "workshops": {
+          "building": "edu_library",
+          "room": {
+            "en": "Seminar Room",
+            "zu": "Igumbi Lezingqungquthela"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "residence_office": {
+          "building": "edu_res",
+          "room": {
+            "en": "Front desk",
+            "zu": "Ideski eliphambili"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "verify_accom": {
+          "building": "edu_res",
+          "room": {
+            "en": "Front desk",
+            "zu": "Ideski eliphambili"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "packing": {
+          "building": "edu_res",
+          "room": {
+            "en": "Front desk",
+            "zu": "Ideski eliphambili"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "campus_safety": {
+          "building": "edu_security",
+          "room": {
+            "en": "Control room",
+            "zu": "Igumbi lokulawula"
+          },
+          "hours": {
+            "en": "Open 24 hours",
+            "zu": "Kuvulwe amahora angu-24"
+          },
+          "away": null
+        }
+      },
+      "pages": {
+        "accredited": {
+          "title": {
+            "en": "Accredited accommodation list",
+            "zu": "Uhlu lwezindawo zokuhlala ezigunyaziwe"
+          },
+          "intro": {
+            "en": "On a real campus this is the housing office's official list. These residences are fictional, like Sizwe itself.",
+            "zu": "Ekhampasi yangempela lolu uhlu olusemthethweni lwehhovisi lezindawo zokuhlala. Lezi zindawo ziqanjiwe, njengeSizwe uqobo."
+          },
+          "items": [
+            {
+              "name": "Sizwe Education Residence",
+              "detail": {
+                "en": "University residence · on Education Campus · self-catering",
+                "zu": "Indawo yokuhlala yenyuvesi · eKhampasi Yezemfundo · uziphekela"
+              }
+            },
+            {
+              "name": "Umoya House",
+              "detail": {
+                "en": "Accredited private residence · on the shuttle route · NSFAS-accredited",
+                "zu": "Indawo ezimele egunyaziwe · isendleleni ye-shuttle · igunyazwe yi-NSFAS"
+              }
+            }
+          ],
+          "note": {
+            "en": "Not on the list? Don't pay anything. Ask the Residence Office first.",
+            "zu": "Ayikho ohlwini? Ungakhokhi lutho. Buza eHhovisi Lezindawo Zokuhlala kuqala."
+          }
+        }
+      }
+    },
+    {
+      "id": "health",
+      "name": {
+        "en": "Health Sciences Campus",
+        "zu": "Ikhampasi Yesayensi Yezempilo"
+      },
+      "desc": {
+        "en": "The Faculty of Health Sciences, next to the teaching hospital. A free shuttle runs to Main Campus.",
+        "zu": "IFakhalthi Yesayensi Yezempilo, eduze kwesibhedlela sokufundisa. I-shuttle yamahhala iya eKhampasi Enkulu."
+      },
+      "courses": [
+        "bhsc"
+      ],
+      "costs": {
+        "rent_private": 3800,
+        "taxi_week": 250
+      },
+      "map": {
+        "buildings": [
+          {
+            "id": "hs_school",
+            "name": {
+              "en": "Medical School",
+              "zu": "Isikole Sezokwelapha"
+            },
+            "x": 115,
+            "y": 25,
+            "w": 90,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, walk straight up and cross the main road. It is directly ahead.",
+              "zu": "Usuka esangweni, hamba uqonde bese uwela umgwaqo omkhulu. Siphambi kwakho ngqo."
+            }
+          },
+          {
+            "id": "hs_clinic",
+            "name": {
+              "en": "Campus Clinic",
+              "zu": "Umtholampilo"
+            },
+            "x": 215,
+            "y": 25,
+            "w": 90,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, walk straight up to the main road and turn right. It is the last building on your left.",
+              "zu": "Usuka esangweni, hamba uqonde uye emgwaqweni omkhulu bese ujikela kwesokudla. Yisakhiwo sokugcina ngakwesobunxele sakho."
+            }
+          },
+          {
+            "id": "hs_hub",
+            "name": {
+              "en": "Student Hub",
+              "zu": "Isikhungo Sabafundi"
+            },
+            "x": 15,
+            "y": 125,
+            "w": 65,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, take the first path on your left and walk to the end.",
+              "zu": "Usuka esangweni, thatha indlela yokuqala ngakwesobunxele uhambe uze ufike ekugcineni."
+            }
+          },
+          {
+            "id": "hs_library",
+            "name": {
+              "en": "Health Sciences Library",
+              "zu": "Umtapo Wesayensi Yezempilo"
+            },
+            "x": 85,
+            "y": 125,
+            "w": 65,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, walk straight up. It is the first building on your left.",
+              "zu": "Usuka esangweni, hamba uqonde. Yisakhiwo sokuqala ngakwesobunxele sakho."
+            }
+          },
+          {
+            "id": "hs_skills",
+            "name": {
+              "en": "Skills Lab",
+              "zu": "Ilebhu Yamakhono"
+            },
+            "x": 170,
+            "y": 125,
+            "w": 65,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, walk straight up. It is the first building on your right.",
+              "zu": "Usuka esangweni, hamba uqonde. Yisakhiwo sokuqala ngakwesokudla sakho."
+            }
+          },
+          {
+            "id": "hs_shuttle",
+            "name": {
+              "en": "Shuttle Stop",
+              "zu": "Isitobhi Se-shuttle"
+            },
+            "x": 240,
+            "y": 125,
+            "w": 65,
+            "h": 60,
+            "directions": {
+              "en": "From the gate, take the first path on your right and walk to the end.",
+              "zu": "Usuka esangweni, thatha indlela yokuqala ngakwesokudla uhambe uze ufike ekugcineni."
+            }
+          },
+          {
+            "id": "hs_security",
+            "name": {
+              "en": "Campus Security",
+              "zu": "Ezokuphepha"
+            },
+            "x": 175,
+            "y": 195,
+            "w": 70,
+            "h": 26,
+            "directions": {
+              "en": "Right next to the gate, on your right as you come in.",
+              "zu": "Eduze kwesango, ngakwesokudla uma ungena."
+            }
+          }
+        ]
+      },
+      "support": {
+        "financial_aid_office": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Admin Building, Room 104. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isakhiwo Sokuphatha, Igumbi 104. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "fees": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Admin Building, Counter 3. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isakhiwo Sokuphatha, Ikhawunta 3. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "careers": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Student Centre, Career Centre. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isikhungo Sabafundi, Isikhungo Semisebenzi. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "societies": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Sports Centre. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isikhungo Sezemidlalo. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "equity": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Admin Building, Room 210. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isakhiwo Sokuphatha, Igumbi 210. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "international": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Student Centre, Room 115. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isikhungo Sabafundi, Igumbi 115. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "residence_office": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Residence Office, front desk. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Ihhovisi Lezindawo Zokuhlala, ideski eliphambili. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "verify_accom": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Residence Office, front desk. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Ihhovisi Lezindawo Zokuhlala, ideski eliphambili. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "packing": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Residence Office, front desk. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Ihhovisi Lezindawo Zokuhlala, ideski eliphambili. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "commuters": {
+          "building": null,
+          "room": null,
+          "hours": null,
+          "away": {
+            "en": "Main Campus: Student Centre, Room G20. The free inter-campus shuttle leaves from the Shuttle Stop every 30 minutes.",
+            "zu": "Ikhampasi Enkulu: Isikhungo Sabafundi, Igumbi G20. I-shuttle yamahhala yamakhampasi isuka eSitobhini Se-shuttle njalo ngemizuzu engama-30."
+          }
+        },
+        "advisor": {
+          "building": "hs_school",
+          "room": {
+            "en": "Faculty Office, first floor",
+            "zu": "Ihhovisi LeFakhalthi, isitezi sokuqala"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "mentor": {
+          "building": "hs_hub",
+          "room": {
+            "en": "Room 2",
+            "zu": "Igumbi 2"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "food_programme": {
+          "building": "hs_hub",
+          "room": {
+            "en": "Room 1",
+            "zu": "Igumbi 1"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "counselling": {
+          "building": "hs_clinic",
+          "room": {
+            "en": "First floor",
+            "zu": "Isitezi sokuqala"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "health": {
+          "building": "hs_clinic",
+          "room": {
+            "en": "Ground floor",
+            "zu": "Isitezi esiphansi"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "student_card": {
+          "building": "hs_hub",
+          "room": {
+            "en": "Front desk",
+            "zu": "Ideski eliphambili"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "orientation": {
+          "building": "hs_hub",
+          "room": {
+            "en": "Front desk",
+            "zu": "Ideski eliphambili"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "library": {
+          "building": "hs_library",
+          "room": {
+            "en": "Help desk at the entrance",
+            "zu": "Ideski losizo emnyango"
+          },
+          "hours": {
+            "en": "Mon–Sun 07:00–23:00",
+            "zu": "Msombuluko–Sonto 07:00–23:00"
+          },
+          "away": null
+        },
+        "devices": {
+          "building": "hs_library",
+          "room": {
+            "en": "Computer lab, ground floor",
+            "zu": "Igumbi lamakhompyutha, isitezi esiphansi"
+          },
+          "hours": {
+            "en": "Mon–Sun 07:00–23:00",
+            "zu": "Msombuluko–Sonto 07:00–23:00"
+          },
+          "away": null
+        },
+        "coach": {
+          "building": "hs_skills",
+          "room": {
+            "en": "Study Support desk",
+            "zu": "Ideski Losizo Lokufunda"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "workshops": {
+          "building": "hs_skills",
+          "room": {
+            "en": "Seminar Room",
+            "zu": "Igumbi Lezingqungquthela"
+          },
+          "hours": {
+            "en": "Mon–Fri 08:00–16:30",
+            "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
+          },
+          "away": null
+        },
+        "campus_safety": {
+          "building": "hs_security",
+          "room": {
+            "en": "Control room",
+            "zu": "Igumbi lokulawula"
+          },
+          "hours": {
+            "en": "Open 24 hours",
+            "zu": "Kuvulwe amahora angu-24"
+          },
+          "away": null
+        }
+      },
+      "pages": {
+        "accredited": {
+          "title": {
+            "en": "Accredited accommodation list",
+            "zu": "Uhlu lwezindawo zokuhlala ezigunyaziwe"
+          },
+          "intro": {
+            "en": "On a real campus this is the housing office's official list. These residences are fictional, like Sizwe itself.",
+            "zu": "Ekhampasi yangempela lolu uhlu olusemthethweni lwehhovisi lezindawo zokuhlala. Lezi zindawo ziqanjiwe, njengeSizwe uqobo."
+          },
+          "items": [
+            {
+              "name": "Sizwe Health Sciences Residence",
+              "detail": {
+                "en": "University residence · 5 minutes' walk from the Medical School · catered",
+                "zu": "Indawo yokuhlala yenyuvesi · imizuzu emi-5 ngezinyawo ukusuka eSikoleni Sezokwelapha · inokudla"
+              }
+            },
+            {
+              "name": "Ilanga Court",
+              "detail": {
+                "en": "Accredited private residence · on the hospital shuttle route · NSFAS-accredited",
+                "zu": "Indawo ezimele egunyaziwe · isendleleni ye-shuttle yesibhedlela · igunyazwe yi-NSFAS"
+              }
+            }
+          ],
+          "note": {
+            "en": "Not on the list? Don't pay anything. Ask the Residence Office first.",
+            "zu": "Ayikho ohlwini? Ungakhokhi lutho. Buza eHhovisi Lezindawo Zokuhlala kuqala."
+          }
+        }
+      }
+    }
+  ],
+  "type": "university"
+}
