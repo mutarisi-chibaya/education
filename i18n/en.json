@@ -298,6 +298,7 @@
   "fc.leadNext": "Based on this chapter, here's where {chapter} is most likely to go wrong for you, and what to do about it.",
   "fc.leadFinal": "Based on everything you've played, here's where your real final year is most likely to go wrong, and what to do about it.",
   "fc.highestNext": "Highest risk in {chapter}: weeks {a} and {b}.",
+  "fc.ahead": "Looking ahead: you haven't played {chapter} yet. Based on your choices in {current}, this is what might happen in the coming weeks, so you can get ready now.",
   "fc.patternNone": "Your pattern: still forming.",
   "fc.count": "You {verb} {n} times out of {total}.",
   "fc.memory": "In {prev} you {pastVerb} {n} of {total} times. This chapter you {nowVerb} {m} of {mtotal} times.",

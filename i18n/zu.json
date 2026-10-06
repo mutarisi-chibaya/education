@@ -298,6 +298,7 @@
   "fc.leadNext": "Ngokusekelwe kulesi sahluko, nakhu lapho i-{chapter} ingase ibe nzima khona kuwe, nokuthi ungenzani ngakho.",
   "fc.leadFinal": "Ngokusekelwe kukho konke okudlalile, nakhu lapho unyaka wakho wokugcina wangempela ungase ube nzima khona, nokuthi ungenzani ngakho.",
   "fc.highestNext": "Ubungozi obukhulu ku-{chapter}: amasonto {a} no-{b}.",
+  "fc.ahead": "Sibheka phambili: awukayidlali i-{chapter}. Ngokusekelwe ezinqumweni ozenze ku-{current}, yilokhu okungase kwenzeke emasontweni ezayo, ukuze uzilungiselele manje.",
   "fc.patternNone": "Iphethini yakho: isakheka.",
   "fc.count": "U{verb} izikhathi ezingu-{n} kwezingu-{total}.",
   "fc.memory": "Ku-{prev} u{pastVerb} izikhathi ezingu-{n} kwezingu-{total}. Kulesi sahluko u{nowVerb} izikhathi ezingu-{m} kwezingu-{mtotal}.",

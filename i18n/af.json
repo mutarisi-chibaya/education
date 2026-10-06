@@ -298,6 +298,7 @@
   "fc.leadNext": "Gebaseer op hierdie hoofstuk, is hier waar {chapter} waarskynlik vir jou verkeerd sal gaan, en wat om daaromtrent te doen.",
   "fc.leadFinal": "Gebaseer op alles wat jy gespeel het, is dit hier waar jou regte finale jaar heel waarskynlik verkeerd gaan, en wat om daaraan te doen.",
   "fc.highestNext": "Hoogste risiko in {chapter}: weke {a} en {b}.",
+  "fc.ahead": "Kyk vorentoe: jy het nog nie {chapter} gespeel nie. Gebaseer op jou keuses in {current}, is dit wat in die komende weke kan gebeur, so jy kan nou gereed maak.",
   "fc.patternNone": "Jou patroon: vorm steeds.",
   "fc.count": "Jy {verb} {n} keer uit {total}.",
   "fc.memory": "In {prev} jy {pastVerb} {n} van {total} keer. Hierdie hoofstuk het jy {nowVerb} {m} van {mtotal} keer.",

@@ -298,6 +298,7 @@
   "fc.leadNext": "Go ya ka kgaolo ye, mo ke moo {chapter} e nago le kgonagalo ye kgolo ya go go phoša, le gore o dire eng ka yona.",
   "fc.leadFinal": "Go ya ka se sengwe le se sengwe seo o se ralokilego, mo ke moo ngwaga wa gago wa mafelelo wa nnete o nago le kgonagalo ye kgolo ya go se sepele gabotse, le gore o dire eng ka yona.",
   "fc.highestNext": "Kotsi ya godimodimo ka {chapter}: dibeke {a} le {b}.",
+  "fc.ahead": "Ge o lebelela pele: ga se wa bapala {chapter} go fihla ga bjale. Go ya ka dikgetho tša gago go {current}, se ke seo se ka diregago dibekeng tše di tlago, gore o kgone go itokišetša bjale.",
   "fc.patternNone": "Paterone ya gago: e sa bopa.",
   "fc.count": "O {verb} {n} makga go tšwa go {total}.",
   "fc.memory": "Ka {prev} o {pastVerb} {n} ya {total} makhetlo. Kgaolo ye o {nowVerb} {m} ya {mtotal} makga.",

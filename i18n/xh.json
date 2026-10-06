@@ -298,6 +298,7 @@
   "fc.leadNext": "Ngokusekelwe kwesi sahluko, nantsi indawo {chapter} ekholisa ukukuhambela kakubi, kwaye wenze ntoni ngayo.",
   "fc.leadFinal": "Ngokusekwe kuyo yonke into oyidlalileyo, kulapho unyaka wakho wokugqibela unokuthi ungahambi kakuhle, kwaye wenze ntoni ngawo.",
   "fc.highestNext": "Owona mngcipheko mkhulu kwi {chapter}: iiveki {a} kunye {b}.",
+  "fc.ahead": "Jonga phambili: awukadlali {chapter} okwangoku. Ngokusekwe kukhetho lwakho kwi- {current}, oku kunokwenzeka kwiiveki ezizayo, ukuze uzilungiselele ngoku.",
   "fc.patternNone": "Ipatheni yakho: isakha.",
   "fc.count": "Wena {verb} {n} amaxesha ngaphandle kwe- {total}.",
   "fc.memory": "Kwi {prev} wena {pastVerb} {n} ye {total} amaxesha. Esi sahluko wena {nowVerb} {m} ye {mtotal} amaxesha.",

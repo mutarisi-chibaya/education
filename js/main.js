@@ -312,6 +312,7 @@ function renderWelcome() {
       <p class="welcome-sub">${esc(t('home.about2'))}</p>
     </div>
     ${obNav(false)}
+    ${installPrompt ? `<div class="stack narrow"><button class="btn ghost" data-action="install">${esc(t('home.install'))}</button></div>` : ''}
   </section>`;
 }
 
@@ -397,15 +398,20 @@ function renderHome() {
 const serviceList = () => (content.services || []).filter((x) => content.support[x.support]
   && (!x.housing || content.housing.some((h) => x.housing.includes(h.id))));
 
+// Services and contacts differ by university, so these stay closed until one is chosen.
+const lockedOpen = (action) => (state
+  ? `<button class="btn primary" data-action="${action}">${esc(t('home.card.open'))}</button>`
+  : `<button class="btn" data-action="start">${esc(t('home.card.needSetup'))}</button>`);
+
 function servicesCard() {
   return `<article class="year-card">
     <div class="year-icon" aria-hidden="true">🧭</div>
     <div class="year-body">
       <h2>${esc(t('svc.title'))}</h2>
       <p>${esc(t('svc.cardDesc'))}</p>
-      <p class="year-meta">${esc(t('svc.meta', { n: serviceList().length }))}</p>
+      ${state ? `<p class="year-meta">${esc(t('svc.meta', { n: serviceList().length }))}</p>` : ''}
     </div>
-    <button class="btn primary" data-action="services">${esc(t('home.card.open'))}</button>
+    ${lockedOpen('services')}
   </article>`;
 }
 
@@ -446,7 +452,7 @@ function realitiesCard() {
       <p>${esc(t('cr.cardDesc'))}</p>
       <p class="year-meta">${esc(t('cr.meta', { n: catalogue.realities.topics.length }))}</p>
     </div>
-    <button class="btn primary" data-action="realities">${esc(t('home.card.open'))}</button>
+    ${lockedOpen('realities')}
   </article>`;
 }
 
@@ -1053,6 +1059,7 @@ function renderForecast() {
     <h1>${esc(t('fc.title'))}</h1>
     <p class="lead">${esc(fc.isNext ? t('fc.leadNext', { chapter: view.targetTitle }) : t('fc.leadFinal'))}</p>
 
+    ${fc.isNext ? `<div class="nudge info" role="note">🔮 ${esc(t('fc.ahead', { chapter: view.targetTitle, current: tx(currentChapter(content, state).title) }))}</div>` : ''}
     ${coach('forecast')}
     <article class="card fc-summary" id="fc-summary" aria-live="polite">
       <h2>${esc(t('fc.summary'))}</h2>
@@ -2070,7 +2077,7 @@ document.addEventListener('keydown', (e) => {
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   installPrompt = e;
-  if (catalogue && screen === 'home') render();
+  if (catalogue && (screen === 'home' || (screen === 'onboard' && obStep === 0))) render();
 });
 
 function connectivity() {
