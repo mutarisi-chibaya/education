@@ -451,6 +451,11 @@ main[data-screen="home"], main[data-screen="event"], main[data-screen="friday"],
 .support-card h2 { color: var(--help); }
 .saved { color: var(--good); font-weight: 700; font-size: 0.9rem; margin: 10px 0 0; }
 .preview-note { margin: 8px 0 0; font-style: italic; }
+.more { margin-top: 10px; }
+.more > summary { cursor: pointer; font-weight: 700; color: var(--brand); padding: 8px 0; }
+.more[open] > summary { margin-bottom: 4px; }
+.support-list > .fold { margin-bottom: 0; }
+.welcome-page > .hook { max-width: 760px; margin: 16px auto 0; }
 
 /* ---------- tests + results ---------- */
 

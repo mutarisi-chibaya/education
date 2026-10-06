@@ -8,7 +8,7 @@ import { loadCatalogue, loadInstitution, openDirectory, searchDirectory, mergeCo
 import { computeBudget, suggestedIncome } from './budget.js';
 import { LANGS, loadLang, currentLang, t, tx, money, cardText } from './i18n.js';
 import {
-  buildPlan, budgetFor, tierAdvice, contactIds, familyText, serviceText, planImageBlob, forecastView, cardVars, setPlanColors,
+  buildPlan, budgetFor, tierAdvice, contactIds, serviceText, planImageBlob, forecastView, cardVars, setPlanColors,
 } from './plan.js';
 import { moneyForecast, aiPayload, LEAKS, fairGame, nextChapterId, copingProfile } from './forecast.js';
 import { cashFlowChart, showChartWeek, riskStrip } from './charts.js';
@@ -291,9 +291,10 @@ function welcomeArc() {
 const OB_PAGES = 3;
 
 function obNav(isLast) {
-  const dots = Array.from({ length: OB_PAGES + 1 }, (_, i) => `<span class="${i === obStep ? 'on' : ''}"></span>`).join('');
+  // The welcome page stands alone; "How it works" is the two pages after it.
+  const dots = Array.from({ length: OB_PAGES - 1 }, (_, i) => `<span class="${i === obStep - 1 ? 'on' : ''}"></span>`).join('');
   return `<div class="ob-nav">
-    <div class="intro-dots" aria-hidden="true">${dots}</div>
+    ${obStep ? `<div class="intro-dots" aria-hidden="true">${dots}</div>` : ''}
     ${cta(`<div class="btn-row">
         ${obStep > 0 ? `<button class="btn primary big" data-action="ob-back">← ${esc(t('ob.back'))}</button>` : ''}
         <button class="btn primary big" data-action="ob-next">${esc(t(isLast ? 'ob.start' : 'ob.next'))} →</button>
@@ -311,7 +312,8 @@ function renderWelcome() {
       <p class="welcome-about">${esc(t('home.about'))}</p>
       <p class="welcome-sub">${esc(t('home.about2'))}</p>
     </div>
-    ${obNav(false)}
+    <blockquote class="hook">${esc(t('why.stat1'))}<cite>${esc(t('why.stat1src'))}</cite></blockquote>
+    ${obNav(true)}
     ${installPrompt ? `<div class="stack narrow"><button class="btn ghost" data-action="install">${esc(t('home.install'))}</button></div>` : ''}
   </section>`;
 }
@@ -357,6 +359,9 @@ function renderHome() {
     </div>
     <button class="btn ${state ? '' : 'primary'}" data-action="${state ? 'change-setup' : 'start'}">${esc(t(state ? 'home.card.edit' : 'home.card.create'))}</button>
   </article>`;
+  // A new character can start anywhere; one card is marked as the place most people begin.
+  const playing = state?.chapter && !['map', 'forecast', 'plan'].includes(state.phase);
+  const startId = state && !state.completed.length && !playing ? (state.setup.status === 'deciding' ? 'before' : 'first') : null;
   const yearCard = (y) => {
     const { built, done } = yearProgress(y);
     const title = t(`home.card.${y.id}`);
@@ -365,15 +370,16 @@ function renderHome() {
       : built.length === 1 ? t('home.card.chapter1') : t('home.card.chapters', { n: built.length });
     const all = state && done === built.length;
     const inProgress = state?.chapter && y.chapters.includes(state.chapter) && !['map', 'forecast', 'plan'].includes(state.phase);
-    return `<article class="year-card ${all ? 'complete' : ''} ${inProgress ? 'now' : ''}">
+    const startHere = y.id === startId;
+    return `<article class="year-card ${all ? 'complete' : ''} ${inProgress || startHere ? 'now' : ''}">
       <div class="year-icon" aria-hidden="true">${y.icon}</div>
       <div class="year-body">
-        <h2>${esc(title)} ${all ? `<span class="pill pilot">✓ ${esc(t('map.done'))}</span>` : ''}${y.id === 'before' && state && state.setup.status !== 'deciding' ? `<span class="pill general">${esc(t('cr.optional'))}</span>` : ''}</h2>
+        <h2>${esc(title)} ${all ? `<span class="pill pilot">✓ ${esc(t('map.done'))}</span>` : ''}${startHere ? `<span class="pill preview">${esc(t('map.start'))}</span>` : ''}${y.id === 'before' && state && state.setup.status !== 'deciding' ? `<span class="pill general">${esc(t('cr.optional'))}</span>` : ''}</h2>
         <p>${esc(desc)}</p>
         <p class="year-meta">${esc(meta)}</p>
         ${state ? `<div class="year-bar" aria-hidden="true"><span style="width:${(done / built.length) * 100}%"></span></div>` : ''}
       </div>
-      <button class="btn ${state ? 'primary' : ''}" data-action="year" data-id="${y.id}">${esc(state ? t('home.card.open') : t('home.card.needSetup'))}</button>
+      <button class="btn ${state && (!startId || startHere) ? 'primary' : ''}" data-action="year" data-id="${y.id}">${esc(state ? t('home.card.open') : t('home.card.needSetup'))}</button>
     </article>`;
   };
   return `<section class="home screen">
@@ -384,10 +390,9 @@ function renderHome() {
     <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${servicesCard()}${realitiesCard()}</div>
     <div class="stack narrow">
       ${state?.completed.length ? `<button class="btn" data-action="summary">${esc(t('map.summary'))}</button>` : ''}
-      <button class="btn ghost" data-action="how">${esc(t('intro.how'))}</button>
       ${installPrompt ? `<button class="btn ghost" data-action="install">${esc(t('home.install'))}</button>` : ''}
     </div>
-    <div class="ob-links info-links">${INFO_PAGES.map((p) => `<button class="link" data-action="page" data-id="${p}">${esc(t(`${p}.link`))}</button>`).join('')}</div>
+    <div class="ob-links info-links"><button class="link" data-action="how">${esc(t('intro.how'))}</button>${INFO_PAGES.map((p) => `<button class="link" data-action="page" data-id="${p}">${esc(t(`${p}.link`))}</button>`).join('')}</div>
     <p class="fine center">${esc(t('home.privacy'))} ${esc(t('footer.examples'))}</p>
     <p class="fine center">${esc(t('about.independent'))}</p>
   </section>`;
@@ -400,7 +405,7 @@ const serviceList = () => (content.services || []).filter((x) => content.support
 
 // Services and contacts differ by university, so these stay closed until one is chosen.
 const lockedOpen = (action) => (state
-  ? `<button class="btn primary" data-action="${action}">${esc(t('home.card.open'))}</button>`
+  ? `<button class="btn ${state.completed.length ? 'primary' : ''}" data-action="${action}">${esc(t('home.card.open'))}</button>`
   : `<button class="btn" data-action="start">${esc(t('home.card.needSetup'))}</button>`);
 
 function servicesCard() {
@@ -448,7 +453,7 @@ function realitiesCard() {
   return `<article class="year-card">
     <div class="year-icon" aria-hidden="true">🛟</div>
     <div class="year-body">
-      <h2>${esc(t('cr.title'))} <span class="pill general">${esc(t('cr.optional'))}</span></h2>
+      <h2>${esc(t('cr.title'))}</h2>
       <p>${esc(t('cr.cardDesc'))}</p>
       <p class="year-meta">${esc(t('cr.meta', { n: catalogue.realities.topics.length }))}</p>
     </div>
@@ -490,7 +495,6 @@ function renderYear() {
       </div>
     </div>
     <div class="chapter-cards">${cards}</div>
-    ${state.completed.length ? `<div class="stack narrow"><button class="btn" data-action="summary">${esc(t('map.summary'))}</button></div>` : ''}
   </section>`;
 }
 
@@ -594,7 +598,8 @@ function setupStep(key) {
           ${label('laptop', draft.laptop === 'yes' ? t('setup.laptopYes') : t('setup.laptopNo'))}
           ${draft.funding === 'family' ? '' : label('family', draft.family_needs === 'yes' ? t('setup.familyYes') : t('setup.familyNo'))}
           ${label('age', tx(findById(content.ages, draft.age_role).label))}
-        </ul>`,
+        </ul>
+        <p class="note">${esc(t('setup.startMoney', { money: money(content.start.money) }))}</p>`,
         cta: `<button class="btn primary big" data-action="begin">${esc(t('setup.save'))}</button>`,
       };
     }
@@ -843,7 +848,7 @@ function renderOutcome() {
 
 // Where a service is and how to reach it: building, room, hours, email, a
 // campus map and, where there is one, the page it tells you to look at.
-function whereBlock(s) {
+function whereParts(s) {
   const b = content.map?.buildings.find((x) => x.id === s.building);
   const page = content.pages?.[s.page];
   const place = b ? [tx(b.name), tx(s.room), tx(s.hours)].filter(Boolean).join(' · ') : tx(s.away);
@@ -852,7 +857,12 @@ function whereBlock(s) {
     b ? `<button class="contact" data-action="sheet" data-kind="map" data-id="${esc(b.id)}"><span aria-hidden="true">🗺️</span> ${esc(t('support.map'))}</button>` : '',
     s.email ? `<a class="contact" href="mailto:${esc(s.email)}"><span aria-hidden="true">✉️</span> ${esc(s.email)}</a>` : '',
   ].join('');
-  return `${place ? `<p><strong>${esc(t('support.where'))}</strong> ${esc(place)}</p>` : ''}${links ? `<div class="contacts">${links}</div>` : ''}`;
+  return { place: place ? `<p><strong>${esc(t('support.where'))}</strong> ${esc(place)}</p>` : '', links };
+}
+
+function whereBlock(s) {
+  const { place, links } = whereParts(s);
+  return `${place}${links ? `<div class="contacts">${links}</div>` : ''}`;
 }
 
 function campusMap(active) {
@@ -915,25 +925,34 @@ function renderSheet() {
   </div>`;
 }
 
+// What the service is and the buttons to reach it; the rest opens on a tap.
 function supportCard(id) {
   const s = content.support[id];
   const v = { short: tx(content.short), area: tx(content.area) };
-  const note = content.status === 'demo' ? t('support.demo', { short: tx(content.short) })
-    : content.status === 'general' ? t('support.general') : '';
+  const { place, links } = whereParts(s);
+  const ways = `${(s.contacts || []).map(contactLink).join('')}${links}`;
   return `<article class="card support-card">
     <p class="tag">${esc(t('support.title', { inst: tx(content.short) }))}</p>
     <h2>${esc(tx(s.name))}</h2>
-    <h3>${esc(t('support.offers'))}</h3>
     <p>${rich(tx(s.offers, v))}</p>
-    <h3>${esc(t('support.reach'))}</h3>
-    <p>${rich(tx(s.reach, v))}</p>
-    ${whereBlock(s)}
-    ${s.contacts ? `<div class="contacts">${s.contacts.map(contactLink).join('')}</div>` : ''}
-    ${s.tip ? `<div class="lesson"><strong>${esc(t('outcome.tip'))}</strong> ${rich(tx(s.tip, v))}</div>` : ''}
-    <div class="contacts"><button class="contact" data-action="share-service" data-id="${esc(id)}"><span aria-hidden="true">📤</span> ${esc(t('svc.share'))}</button></div>
-    ${screen === 'services' ? '' : `<p class="saved">✓ ${esc(t('support.saved'))}</p>`}
-    ${note ? `<p class="fine preview-note">${esc(note)}</p>` : ''}
+    ${ways ? `<div class="contacts">${ways}</div>` : ''}
+    <details class="more">
+      <summary>${esc(t('support.more'))}</summary>
+      <h3>${esc(t('support.reach'))}</h3>
+      <p>${rich(tx(s.reach, v).replace(/:\s*$/, '.'))}</p>
+      ${place}
+      ${s.tip ? `<div class="lesson"><strong>${esc(t('outcome.tip'))}</strong> ${rich(tx(s.tip, v))}</div>` : ''}
+      <div class="contacts"><button class="contact" data-action="share-service" data-id="${esc(id)}"><span aria-hidden="true">📤</span> ${esc(t('svc.share'))}</button></div>
+    </details>
   </article>`;
+}
+
+// Said once under the cards, not on every one.
+function supportNote() {
+  const note = content.status === 'demo' ? t('support.demo', { short: tx(content.short) })
+    : content.status === 'general' ? t('support.general') : '';
+  return `${screen === 'services' ? '' : `<p class="saved">✓ ${esc(t('support.saved'))}</p>`}
+    ${note ? `<p class="fine preview-note">${esc(note)}</p>` : ''}`;
 }
 
 // Whether a support card has something to tap: a map, an email, a page or a link.
@@ -942,7 +961,9 @@ const hasWays = (id) => { const s = content.support[id]; return Boolean((s.build
 function renderSupport() {
   return `<section class="support screen">
     ${state.last.support.some(hasWays) && !coachSeen('reach') ? coach('reach') : coach('services')}
-    <div class="support-list">${state.last.support.map(supportCard).join('')}</div>
+    <div class="support-list">${state.last.support.map((id, i) => (i === 0 ? supportCard(id)
+      : `<details class="fold"><summary>${esc(tx(content.support[id].name))}</summary>${supportCard(id)}</details>`)).join('')}</div>
+    ${supportNote()}
     ${cta(`<button class="btn primary big" data-action="next">${esc(nextLabel())}</button>`)}
   </section>`;
 }
@@ -1208,7 +1229,6 @@ function renderPlan() {
     <div class="actions">
       <button class="btn primary" data-action="share-image">${esc(t('plan.share'))}</button>
       <button class="btn" data-action="save-image">${esc(t('plan.saveImage'))}</button>
-      <button class="btn" data-action="share-family">${esc(t('plan.family'))}</button>
     </div>
 
     <div class="plan-grid">
@@ -1243,12 +1263,15 @@ function renderPlan() {
 
       <article class="card wide">
         <h2>${esc(t('plan.contacts'))}</h2>
+        <div class="contacts">${crisisLinks()}</div>
+        <details class="more"><summary>${esc(t('plan.contactsAll', { n: contactIds(content, state).length }))}</summary>
         <div class="contact-rows">${contactIds(content, state).map((id) => {
           const s = content.support[id];
           return `<div class="contact-row"><h3>${esc(tx(s.name))}</h3><p>${esc(tx(s.reach, vars()))}</p>
             ${whereBlock(s)}
             ${s.contacts ? `<div class="contacts">${s.contacts.map(contactLink).join('')}</div>` : ''}</div>`;
         }).join('')}</div>
+        </details>
       </article>
 
       <details class="fold wide"><summary>${esc(t('plan.rehearsed'))}</summary><article class="card wide">
@@ -1265,8 +1288,7 @@ function renderPlan() {
 
     <div class="stack narrow">
       ${next ? `<button class="btn primary" data-action="chapter" data-id="${next}">${esc(t('chapter.next', { chapter: tx(chapterOf(content, next).title) }))}</button>` : ''}
-      <button class="btn ${next ? '' : 'primary'}" data-action="summary">${esc(t('plan.summary'))}</button>
-      <button class="btn ghost" data-action="to-map">${esc(t('plan.toMap'))}</button>
+      <button class="btn ${next ? 'ghost' : 'primary'}" data-action="to-map">${esc(t('plan.toMap'))}</button>
     </div>
     <p class="fine center">${esc(t('footer.examples'))}</p>
   </section>`;
@@ -1497,6 +1519,7 @@ function renderOverlay() {
   return `<div class="overlay" role="dialog" aria-modal="true" data-action="close-overlay-bg">
     <div class="overlay-inner">
       ${overlay.map(supportCard).join('')}
+      ${supportNote()}
       <button class="btn primary big" data-action="close-overlay">${esc(t('support.close'))}</button>
     </div>
   </div>`;
@@ -1643,7 +1666,6 @@ async function shareText(title, text) {
   try { await navigator.clipboard.writeText(text); toast(t('plan.copied')); } catch { /* nothing else to try */ }
 }
 
-const shareFamily = () => shareText(t('plan.title'), familyText(buildPlan(content, state)));
 
 // A link that opens the app on one service card, at this university and campus.
 function serviceUrl(id) {
@@ -1793,12 +1815,12 @@ document.addEventListener('click', async (e) => {
       render();
       break;
     case 'how':
-      obStep = 2;
+      obStep = 1;
       screen = 'onboard';
       render();
       break;
     case 'ob-next':
-      if (obStep < OB_PAGES - 1) obStep += 1;
+      if (obStep > 0 && obStep < OB_PAGES - 1) obStep += 1;
       else screen = 'home';
       render();
       break;
@@ -1868,8 +1890,7 @@ document.addEventListener('click', async (e) => {
       break;
     case 'begin': {
       content = contentFor(draft.institution, draft.campus);
-      screen = 'year';
-      yearId = draft.status === 'deciding' ? 'before' : 'first';
+      screen = 'home';
       update({ ...newJourney(content, Object.fromEntries(SETUP_KEYS.map((k) => [k, draft[k]]))), packVersion: content.version });
       break;
     }
@@ -1990,9 +2011,6 @@ document.addEventListener('click', async (e) => {
       break;
     case 'save-image':
       shareImage(true);
-      break;
-    case 'share-family':
-      shareFamily();
       break;
     case 'send-feedback': {
       const box = document.getElementById('feedback');

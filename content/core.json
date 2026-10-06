@@ -2930,6 +2930,200 @@
         "en": "Permission for a company to take money from your bank account every month, for a contract or a subscription.",
         "zu": "Imvume yokuthi inkampani ithathe imali e-akhawuntini yakho yasebhange njalo ngenyanga, yenkontileka noma yokubhalisela."
       }
+    },
+    "lo": {
+      "term": {
+        "en": "LO",
+        "zu": "I-LO"
+      },
+      "match": {
+        "en": [
+          "LO"
+        ],
+        "zu": [
+          "LO"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "Life Orientation: the school subject that covers careers, study skills and applying for further study. Your LO teacher can help you with applications.",
+        "zu": "I-Life Orientation: isifundo sasesikoleni esifundisa ngemisebenzi, amakhono okufunda nokufaka izicelo zokuqhubeka nezifundo. Uthisha wakho we-LO angakusiza ngezicelo."
+      }
+    },
+    "tvet": {
+      "term": {
+        "en": "TVET college",
+        "zu": "Ikolishi le-TVET"
+      },
+      "match": {
+        "en": [
+          "TVET"
+        ],
+        "zu": [
+          "TVET"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "Technical and Vocational Education and Training: public colleges that teach practical, job-focused courses.",
+        "zu": "I-Technical and Vocational Education and Training: amakolishi kahulumeni afundisa izifundo ezenziwa ngezandla nezilungiselela umsebenzi."
+      }
+    },
+    "cv": {
+      "term": {
+        "en": "CV",
+        "zu": "I-CV"
+      },
+      "match": {
+        "en": [
+          "CV",
+          "CVs"
+        ],
+        "zu": [
+          "CV",
+          "CVs"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "Curriculum vitae: a short summary of your education, skills and experience that you send when you apply for a job or a bursary.",
+        "zu": "I-curriculum vitae: isifinyezo esifushane semfundo yakho, amakhono nolwazi lomsebenzi osithumela uma ufaka isicelo somsebenzi noma somfundaze."
+      }
+    },
+    "id": {
+      "term": {
+        "en": "ID",
+        "zu": "Umazisi (ID)"
+      },
+      "match": {
+        "en": [
+          "ID"
+        ],
+        "zu": [
+          "ID"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "Your identity document: the green ID book or the smart ID card. You need it, or a certified copy, to register and to apply for funding.",
+        "zu": "Incwadi yakho kamazisi: ibhuku likamazisi eliluhlaza noma ikhadi likamazisi (smart ID). Uyayidinga, noma ikhophi eqinisekisiwe, ukuze ubhalise futhi ufake isicelo soxhaso."
+      }
+    },
+    "gp": {
+      "term": {
+        "en": "GP",
+        "zu": "I-GP"
+      },
+      "match": {
+        "en": [
+          "GP"
+        ],
+        "zu": [
+          "GP"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "General practitioner: an ordinary doctor you see first for most health problems. A private GP charges for each visit.",
+        "zu": "I-general practitioner: udokotela ojwayelekile oqala ngaye ezinkingeni eziningi zempilo. I-GP yangasese ikhokhisa ngokuvakasha ngakunye."
+      }
+    },
+    "ppra": {
+      "term": {
+        "en": "PPRA",
+        "zu": "I-PPRA"
+      },
+      "match": {
+        "en": [
+          "PPRA"
+        ],
+        "zu": [
+          "PPRA"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "The Property Practitioners Regulatory Authority: the body every estate or rental agent must be registered with. You can check an agent's registration for free.",
+        "zu": "I-Property Practitioners Regulatory Authority: inhlangano okumele wonke umenzeli wezindlu abhaliswe kuyo. Ungahlola ukubhaliswa komenzeli mahhala."
+      }
+    },
+    "it": {
+      "term": {
+        "en": "IT",
+        "zu": "I-IT"
+      },
+      "match": {
+        "en": [
+          "IT"
+        ],
+        "zu": [
+          "IT"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "Information technology: the campus department that looks after computers, Wi-Fi, student email and logins.",
+        "zu": "I-information technology: umnyango wasekhempasini obhekele amakhompyutha, i-Wi-Fi, i-imeyili yabafundi nokungena ngemvume."
+      }
+    },
+    "pin": {
+      "term": {
+        "en": "PIN",
+        "zu": "I-PIN"
+      },
+      "match": {
+        "en": [
+          "PIN",
+          "PINs"
+        ],
+        "zu": [
+          "PIN",
+          "PINs"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "Personal identification number: a secret number that proves it is you. Never share it, not even with someone who says they are from the bank or NSFAS.",
+        "zu": "I-personal identification number: inombolo eyimfihlo efakazela ukuthi nguwe. Ungalokothi uyinike muntu, ngisho nomuntu othi uvela ebhange noma kwa-NSFAS."
+      }
+    },
+    "gb": {
+      "term": {
+        "en": "GB",
+        "zu": "I-GB"
+      },
+      "match": {
+        "en": [
+          "GB"
+        ],
+        "zu": [
+          "GB"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "Gigabyte: a measure of mobile data. More gigabytes means more browsing, messaging and video before your data runs out.",
+        "zu": "I-gigabyte: isilinganiso sedatha yeselula. Ama-gigabyte amaningi asho ukuphequlula, imiyalezo nevidiyo okwengeziwe ngaphambi kokuba idatha yakho iphele."
+      }
+    },
+    "lgbtqi": {
+      "term": {
+        "en": "LGBTQI+",
+        "zu": "I-LGBTQI+"
+      },
+      "match": {
+        "en": [
+          "LGBTQI"
+        ],
+        "zu": [
+          "LGBTQI"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "Lesbian, gay, bisexual, transgender, queer and intersex people. The plus sign includes other identities too.",
+        "zu": "Abantu abangongqingili besifazane nabesilisa, abathandana nabobulili bobubili, abashintshe ubulili, ama-queer nama-intersex. Uphawu lokuhlanganisa luhlanganisa nabanye."
+      }
     }
   },
   "otherModule": {
