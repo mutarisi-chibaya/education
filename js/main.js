@@ -958,10 +958,14 @@ function supportNote() {
 // Whether a support card has something to tap: a map, an email, a page or a link.
 const hasWays = (id) => { const s = content.support[id]; return Boolean((s.building && content.map?.buildings.some((b) => b.id === s.building)) || s.email || content.pages?.[s.page] || s.contacts?.length); };
 
+// A wide screen has room for the cards side by side; a phone shows one and folds the rest.
+const sideBySide = window.matchMedia('(min-width: 600px)');
+sideBySide.addEventListener('change', () => { if (document.querySelector('.support-list')) render(); });
+
 function renderSupport() {
   return `<section class="support screen">
     ${state.last.support.some(hasWays) && !coachSeen('reach') ? coach('reach') : coach('services')}
-    <div class="support-list">${state.last.support.map((id, i) => (i === 0 ? supportCard(id)
+    <div class="support-list">${state.last.support.map((id, i) => (i === 0 || sideBySide.matches ? supportCard(id)
       : `<details class="fold"><summary>${esc(tx(content.support[id].name))}</summary>${supportCard(id)}</details>`)).join('')}</div>
     ${supportNote()}
     ${cta(`<button class="btn primary big" data-action="next">${esc(nextLabel())}</button>`)}
