@@ -38,6 +38,9 @@ One setting per row.
   to offer everything.
 - `rent_private`, `taxi_week`: typical monthly rent for a private room, and a week of taxi
   fares, in rand.
+- `supp_code`: the result code a student sees when admitted to a supplementary exam (the game
+  shows `999` if you leave it empty). To explain your other codes, add a `result_codes` page in
+  `pages.csv`, with its official `website`, and set it as the `page_id` of the `supp_exams` service.
 - `brand_name`, `logo_text`: the name and a monogram of up to three letters for the top bar.
 - `colour_brand`, `colour_brand_text`, `colour_accent`, `colour_accent_text`: your colours as
   hex codes, such as `#0b5d5e`. The text colour must be easy to read on the brand colour. The

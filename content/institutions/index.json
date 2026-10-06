@@ -13,7 +13,7 @@
     "type": "university",
     "province": null,
     "status": "demo",
-    "version": 13
+    "version": 15
   },
   {
     "id": "karoo-coast",
@@ -29,6 +29,6 @@
     "type": "university",
     "province": null,
     "status": "demo",
-    "version": 4
+    "version": 6
   }
 ]

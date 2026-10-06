@@ -1,5 +1,5 @@
 {
-  "version": 18,
+  "version": 22,
   "start": {
     "money": 1200,
     "marks": 55,
@@ -30,7 +30,11 @@
           "en": "Maths",
           "zu": "iZibalo"
         }
-      ]
+      ],
+      "otherModule": {
+        "en": "Physics",
+        "zu": "iFiziksi"
+      }
     },
     {
       "id": "bcom",
@@ -47,7 +51,11 @@
           "en": "Economics",
           "zu": "Ezomnotho"
         }
-      ]
+      ],
+      "otherModule": {
+        "en": "Business Management",
+        "zu": "Ukuphathwa Kwebhizinisi"
+      }
     },
     {
       "id": "ba",
@@ -64,7 +72,11 @@
           "en": "Academic Writing",
           "zu": "Ukubhala Kwezemfundo"
         }
-      ]
+      ],
+      "otherModule": {
+        "en": "Sociology",
+        "zu": "Isayensi Yezenhlalo"
+      }
     },
     {
       "id": "beng",
@@ -81,7 +93,11 @@
           "en": "Physics",
           "zu": "iFiziksi"
         }
-      ]
+      ],
+      "otherModule": {
+        "en": "Engineering Drawing",
+        "zu": "Ukudweba Kobunjiniyela"
+      }
     },
     {
       "id": "bed",
@@ -98,7 +114,11 @@
           "en": "Academic Literacy",
           "zu": "Ukufunda Nokubhala Kwezemfundo"
         }
-      ]
+      ],
+      "otherModule": {
+        "en": "Life Skills",
+        "zu": "Amakhono Empilo"
+      }
     },
     {
       "id": "bhsc",
@@ -115,7 +135,11 @@
           "en": "Chemistry",
           "zu": "iKhemistri"
         }
-      ]
+      ],
+      "otherModule": {
+        "en": "Physiology",
+        "zu": "I-Fiziyoloji"
+      }
     }
   ],
   "housing": [
@@ -573,8 +597,8 @@
       "verified": false,
       "last_checked": null,
       "tip": {
-        "en": "Most South African universities run food support. Ask student affairs what yours offers.",
-        "zu": "Iningi lamanyuvesi aseNingizimu Afrika linosizo lokudla. Buza kwabezindaba zabafundi ukuthi eyakho inikezani."
+        "en": "Go before you run out: the programme is there to be used, and nobody asks why you need it.",
+        "zu": "Hamba ngaphambi kokuthi uphelelwe: uhlelo lukhona ukuze lusetshenziswe, futhi akekho obuza ukuthi kungani uludinga."
       }
     },
     "financial_aid_office": {
@@ -613,12 +637,12 @@
         "zu": "Hlola ikamelo ngaphambi kokukhokha"
       },
       "offers": {
-        "en": "Use your university's list of accredited off-campus accommodation. View the room in person, get a written lease, and confirm an agent's registration with the PPRA. Search the photos online, and never pay a deposit under pressure.",
-        "zu": "Sebenzisa uhlu lwenyuvesi yakho lwezindawo zokuhlala ezigunyaziwe ngaphandle kwekhampasi. Bona ikamelo ngamehlo, thola inkontileka ebhaliwe, futhi uqinisekise ukubhaliswa kwe-ejenti ne-PPRA. Sesha izithombe ku-inthanethi, futhi ungalokothi ukhokhe idiphozithi ngaphansi kwengcindezi."
+        "en": "Use the list of accredited off-campus accommodation. View the room in person, get a written lease, and confirm an agent's registration with the PPRA. Search the photos online, and never pay a deposit under pressure.",
+        "zu": "Sebenzisa uhlu lwezindawo zokuhlala ezigunyaziwe ngaphandle kwekhampasi. Bona ikamelo ngamehlo, thola inkontileka ebhaliwe, futhi uqinisekise ukubhaliswa kwe-ejenti ne-PPRA. Sesha izithombe ku-inthanethi, futhi ungalokothi ukhokhe idiphozithi ngaphansi kwengcindezi."
       },
       "reach": {
-        "en": "Ask the residence and accommodation office for the accredited list, and check the accommodation page on your university's official website. If you are on NSFAS, your room must be NSFAS-accredited too.",
-        "zu": "Cela uhlu olugunyaziwe ehhovisi lezindawo zokuhlala, futhi uhlole ikhasi lezindawo zokuhlala kuwebhusayithi esemthethweni yenyuvesi yakho. Uma use-NSFAS, ikamelo lakho kufanele ligunyazwe yi-NSFAS nalo."
+        "en": "Ask the residence and accommodation office for the accredited list, or find it on the accommodation page of the official website. If you are on NSFAS, your room must be NSFAS-accredited too.",
+        "zu": "Cela uhlu olugunyaziwe ehhovisi lezindawo zokuhlala, noma uluthole ekhasini lezindawo zokuhlala kuwebhusayithi esemthethweni. Uma use-NSFAS, ikamelo lakho kufanele ligunyazwe yi-NSFAS nalo."
       },
       "verified": false,
       "last_checked": null,
@@ -671,8 +695,8 @@
         "zu": "Ukuboleka okwesikhashana emtapweni"
       },
       "offers": {
-        "en": "Prescribed textbooks are often kept on short-loan or reserve so you can use them without buying.",
-        "zu": "Izincwadi ezimisiwe zivame ukugcinwa ukuze zibolekwe okwesikhashana ukuze uzisebenzise ngaphandle kokuzithenga."
+        "en": "Prescribed textbooks are kept on short-loan, so you can use them without buying.",
+        "zu": "Izincwadi ezimisiwe zigcinwa ukuze zibolekwe okwesikhashana, ukuze uzisebenzise ngaphandle kokuzithenga."
       },
       "reach": {
         "en": "Ask at the library help desk, or search the library catalogue.",
@@ -789,12 +813,12 @@
         "zu": "Amagumbi amakhompyutha, i-Wi-Fi nosizo lwamadivayisi"
       },
       "offers": {
-        "en": "Open computer labs, library computers and free campus Wi-Fi for students. Some universities also offer laptop loans or device support.",
-        "zu": "Amagumbi amakhompyutha avulekile, amakhompyutha omtapo ne-Wi-Fi yamahhala yasekhampasi yabafundi. Amanye amanyuvesi anikeza nokubolekwa kwama-laptop noma usizo lwamadivayisi."
+        "en": "Open computer labs, library computers and free campus Wi-Fi, plus laptop loans and device support for students who need them.",
+        "zu": "Amagumbi amakhompyutha avulekile, amakhompyutha omtapo ne-Wi-Fi yamahhala yasekhampasi, kanye nokubolekwa kwama-laptop nosizo lwamadivayisi kubafundi abakudingayo."
       },
       "reach": {
-        "en": "Ask the library or Student Affairs which labs open late, and whether device support is available.",
-        "zu": "Buza emtapweni noma kuMnyango Wezindaba Zabafundi ukuthi yimaphi amagumbi avula kuze kube sebusuku, nokuthi lukhona yini usizo lwamadivayisi."
+        "en": "Ask the library or Student Affairs which labs open late, and how to apply for a laptop loan.",
+        "zu": "Buza emtapweni noma kuMnyango Wezindaba Zabafundi ukuthi yimaphi amagumbi avula kuze kube sebusuku, nokuthi usifaka kanjani isicelo sokubolekwa i-laptop."
       },
       "verified": false,
       "last_checked": null
@@ -869,8 +893,8 @@
         "zu": "Amahora okubonisana nomfundisi"
       },
       "offers": {
-        "en": "Most lecturers set aside weekly hours for students. Few students use them, and they make a real difference.",
-        "zu": "Iningi labafundisi libekela abafundi amahora masonto onke. Bambalwa abafundi abawasebenzisayo, futhi enza umehluko wangempela."
+        "en": "Your lecturers set aside hours every week for students. Few students use them, and they make a real difference.",
+        "zu": "Abafundisi bakho babekela abafundi amahora masonto onke. Bambalwa abafundi abawasebenzisayo, futhi enza umehluko wangempela."
       },
       "reach": {
         "en": "Check the module guide or the course page for times.",
@@ -923,8 +947,8 @@
         "zu": "Ezokuphepha ekhampasi"
       },
       "offers": {
-        "en": "Campus security, marked safe walking routes (often called green routes), and escorts or shuttles between campus and residences after dark, where available.",
-        "zu": "Ezokuphepha ekhampasi, izindlela zokuhamba eziphephile ezimakiwe (ezivame ukubizwa ngokuthi ama-green route), nokuphelezelwa noma ama-shuttle phakathi kwekhampasi nezindawo zokuhlala ebusuku, lapho kukhona khona."
+        "en": "Campus security, marked safe walking routes (green routes), and escorts or shuttles between campus and residences after dark.",
+        "zu": "Ezokuphepha ekhampasi, izindlela zokuhamba eziphephile ezimakiwe (ama-green route), nokuphelezelwa noma ama-shuttle phakathi kwekhampasi nezindawo zokuhlala ebusuku."
       },
       "reach": {
         "en": "Save campus security's emergency number on your first day. At orientation, ask where the safe routes run and how to ask security to walk with you.",
@@ -943,8 +967,8 @@
         "zu": "Usizo nendlela eyimfihlo yokubika ukucwasa, ukuhlukunyezwa noma ukuphathwa ngokungalungile."
       },
       "reach": {
-        "en": "Ask Student Affairs or the SRC how to reach it on your campus.",
-        "zu": "Buza kuMnyango Wezindaba Zabafundi noma i-SRC ukuthi ungafinyelela kanjani kulo ekhampasi yakho."
+        "en": "Ask Student Affairs or the SRC to put you in touch.",
+        "zu": "Cela uMnyango Wezindaba Zabafundi noma i-SRC ukuthi bakuxhumanise nalo."
       },
       "verified": false,
       "last_checked": null
@@ -971,12 +995,12 @@
         "zu": "Amasifundisane amakhono ezemfundo"
       },
       "offers": {
-        "en": "Free workshops and one-on-one sessions on time management, academic writing, study methods and exam preparation, usually run by the academic development unit or the writing centre.",
-        "zu": "Amasifundisane amahhala namaseshini omuntu ngamunye okuphatha isikhathi, ukubhala kwezemfundo, izindlela zokufunda nokulungiselela izivivinyo, ngokuvamile aqhutshwa uphiko lokuthuthukiswa kwezemfundo noma isikhungo sokubhala."
+        "en": "Free workshops and one-on-one sessions on time management, academic writing, study methods and exam preparation, run by the academic development unit and the writing centre.",
+        "zu": "Amasifundisane amahhala namaseshini omuntu ngamunye okuphatha isikhathi, ukubhala kwezemfundo, izindlela zokufunda nokulungiselela izivivinyo, aqhutshwa uphiko lokuthuthukiswa kwezemfundo nesikhungo sokubhala."
       },
       "reach": {
-        "en": "Look for the workshop calendar on your university's official website or student portal, or ask at the library.",
-        "zu": "Bheka ikhalenda lamasifundisane kuwebhusayithi esemthethweni yenyuvesi yakho noma kuphothali yabafundi, noma ubuze emtapweni."
+        "en": "Look for the workshop calendar on the official website or the student portal, or ask at the library.",
+        "zu": "Bheka ikhalenda lamasifundisane kuwebhusayithi esemthethweni noma kuphothali yabafundi, noma ubuze emtapweni."
       },
       "tip": {
         "en": "Workshops are not only for students who are failing. Senior students use them to get faster and better.",
@@ -1053,12 +1077,12 @@
         "zu": "Okufanele ukulethe e-res"
       },
       "offers": {
-        "en": "University residences usually provide a bed, a desk and a cupboard, but not bedding, a lock, crockery or cleaning things. Private rooms vary: some are furnished and some are empty.",
-        "zu": "Izindawo zokuhlala zenyuvesi zivame ukunikeza umbhede, ideski nekhabethe, kodwa hhayi izingubo zokulala, ingidi, izitsha noma izinto zokuhlanza. Amakamelo azimele ayahluka: amanye anefenisha kanti amanye awanalutho."
+        "en": "Residences provide a bed, a desk and a cupboard, but not bedding, a lock, crockery or cleaning things. Private rooms vary: some are furnished and some are empty.",
+        "zu": "Izindawo zokuhlala zinikeza umbhede, ideski nekhabethe, kodwa hhayi izingubo zokulala, ingidi, izitsha noma izinto zokuhlanza. Amakamelo azimele ayahluka: amanye anefenisha kanti amanye awanalutho."
       },
       "reach": {
-        "en": "Ask the residence office, or your landlord, for the list of what is provided and what is not allowed: many residences ban some appliances. Res WhatsApp groups sell second-hand basics cheaply.",
-        "zu": "Cela uhlu ehhovisi lezindawo zokuhlala, noma kumnikazi wendlu, lwalokho okunikezwayo nokungavunyelwe: izindawo eziningi zokuhlala zenqabela ezinye izinto zikagesi. Amaqembu e-WhatsApp e-res athengisa izinto ezisetshenzisiwe ngentengo ephansi."
+        "en": "Ask the residence office, or your landlord, for the list of what is provided and what is not allowed: residences ban some appliances. Res WhatsApp groups sell second-hand basics cheaply.",
+        "zu": "Cela uhlu ehhovisi lezindawo zokuhlala, noma kumnikazi wendlu, lwalokho okunikezwayo nokungavunyelwe: izindawo zokuhlala zenqabela ezinye izinto zikagesi. Amaqembu e-WhatsApp e-res athengisa izinto ezisetshenzisiwe ngentengo ephansi."
       },
       "verified": false,
       "last_checked": null
@@ -1073,8 +1097,28 @@
         "zu": "Ikhadi lakho lomfundi livula umtapo, amagumbi amakhompyutha, izindawo zokuhlala nezindawo zezivivinyo, ngakho lithole ezinsukwini zakho zokuqala. Imigqa mide kakhulu ngesonto lokubhalisa."
       },
       "reach": {
-        "en": "Bring your ID and proof of registration. Check the university's official website for where the card office is: some universities let you upload your photo online first, and early mornings are quieter.",
-        "zu": "Letha umazisi wakho nobufakazi bokubhalisa. Hlola iwebhusayithi esemthethweni yenyuvesi ukuthi ihhovisi lamakhadi likuphi: amanye amanyuvesi akuvumela ulayishe isithombe sakho ku-inthanethi kuqala, futhi ekuseni kuthule kakhulu."
+        "en": "Bring your ID and proof of registration. The official website shows where the card office is, and early mornings are quieter.",
+        "zu": "Letha umazisi wakho nobufakazi bokubhalisa. Iwebhusayithi esemthethweni ikhombisa ukuthi ihhovisi lamakhadi likuphi, futhi ekuseni kuthule kakhulu."
+      },
+      "verified": false,
+      "last_checked": null
+    },
+    "supp_exams": {
+      "name": {
+        "en": "Supplementary exams and result codes",
+        "zu": "Izivivinyo ezengeziwe namakhodi emiphumela"
+      },
+      "offers": {
+        "en": "A supplementary exam is a second chance to write a module you narrowly failed. The result codes on your portal say whether you passed, failed or were admitted to one.",
+        "zu": "Isivivinyo esengeziwe yithuba lesibili lokubhala isifundo osehluleke kancane kuso. Amakhodi emiphumela ku-portal yakho asho ukuthi uphasile, wehlulekile noma uvunyelwe ukubhala esengeziwe."
+      },
+      "reach": {
+        "en": "Check your results on the student portal, then ask your faculty office for the date and how to confirm that you will write. The deadlines are short.",
+        "zu": "Hlola imiphumela yakho ku-portal yabafundi, bese ubuza ihhovisi lefakhalthi yakho usuku nokuthi uqinisekisa kanjani ukuthi uzobhala. Izinsuku zokuvala zimfushane."
+      },
+      "tip": {
+        "en": "A supp is a second opportunity, not a verdict on you. Ask to see your script at a perusal, then practise past papers on what you got wrong.",
+        "zu": "Isivivinyo esengeziwe yithuba lesibili, akusona isahlulelo ngawe. Cela ukubona iphepha lakho ku-perusal, bese uzilolonga ngamaphepha adlule kulokho okuphuthile."
       },
       "verified": false,
       "last_checked": null
@@ -2186,5 +2230,710 @@
   ],
   "contact": {
     "email": ""
+  },
+  "suppCode": "999",
+  "services": [
+    {
+      "support": "food_programme",
+      "icon": "🍲",
+      "need": {
+        "en": "I'm hungry",
+        "zu": "Ngilambile"
+      }
+    },
+    {
+      "support": "counselling",
+      "icon": "🫂",
+      "need": {
+        "en": "I'm stressed",
+        "zu": "Ngicindezelekile"
+      }
+    },
+    {
+      "support": "higher_health",
+      "icon": "☎️",
+      "need": {
+        "en": "I need to talk to someone now",
+        "zu": "Ngidinga ukukhuluma nomuntu manje"
+      }
+    },
+    {
+      "support": "campus_safety",
+      "icon": "🚨",
+      "need": {
+        "en": "I don't feel safe",
+        "zu": "Angizizwa ngiphephile"
+      }
+    },
+    {
+      "support": "health",
+      "icon": "🩺",
+      "need": {
+        "en": "I'm sick",
+        "zu": "Ngiyagula"
+      }
+    },
+    {
+      "support": "financial_aid_office",
+      "icon": "💸",
+      "need": {
+        "en": "My allowance is late",
+        "zu": "Imali yami yesibonelelo iphuzile"
+      }
+    },
+    {
+      "support": "fees",
+      "icon": "🧾",
+      "need": {
+        "en": "I can't pay my fees",
+        "zu": "Angikwazi ukukhokha imali yokufunda"
+      }
+    },
+    {
+      "support": "supp_exams",
+      "icon": "🔁",
+      "need": {
+        "en": "I got a result code",
+        "zu": "Ngithole ikhodi yemiphumela"
+      }
+    },
+    {
+      "support": "advisor",
+      "icon": "🧭",
+      "need": {
+        "en": "I'm failing a module",
+        "zu": "Ngiyahluleka esifundweni"
+      }
+    },
+    {
+      "support": "lecturer",
+      "icon": "🙋",
+      "need": {
+        "en": "I don't understand the work",
+        "zu": "Angiwuqondi umsebenzi"
+      }
+    },
+    {
+      "support": "coach",
+      "icon": "⏰",
+      "need": {
+        "en": "I'm falling behind",
+        "zu": "Ngisalela emuva"
+      }
+    },
+    {
+      "support": "workshops",
+      "icon": "✍️",
+      "need": {
+        "en": "I don't know how to study",
+        "zu": "Angazi ukuthi ngifunde kanjani"
+      }
+    },
+    {
+      "support": "library",
+      "icon": "📚",
+      "need": {
+        "en": "I can't afford textbooks",
+        "zu": "Angikwazi ukuthenga izincwadi"
+      }
+    },
+    {
+      "support": "devices",
+      "icon": "💻",
+      "need": {
+        "en": "I have no laptop",
+        "zu": "Anginayo i-laptop"
+      }
+    },
+    {
+      "support": "residence_office",
+      "icon": "🛏️",
+      "need": {
+        "en": "I need a place to stay",
+        "zu": "Ngidinga indawo yokuhlala"
+      }
+    },
+    {
+      "support": "verify_accom",
+      "icon": "🔍",
+      "need": {
+        "en": "Is this room a scam?",
+        "zu": "Ingabe leli kamelo liwumkhonyovu?"
+      }
+    },
+    {
+      "support": "res_life",
+      "icon": "🚪",
+      "need": {
+        "en": "My roommate is a problem",
+        "zu": "Nginenkinga nomuntu engihlala naye"
+      },
+      "housing": [
+        "residence"
+      ]
+    },
+    {
+      "support": "commuters",
+      "icon": "🚌",
+      "need": {
+        "en": "I travel far to campus",
+        "zu": "Ngihamba ibanga elide ukuya ekhampasi"
+      }
+    },
+    {
+      "support": "mentor",
+      "icon": "🧑‍🤝‍🧑",
+      "need": {
+        "en": "I feel lost here",
+        "zu": "Ngizizwa ngidukile lapha"
+      }
+    },
+    {
+      "support": "societies",
+      "icon": "⚽",
+      "need": {
+        "en": "I want to make friends",
+        "zu": "Ngifuna ukwakha abangane"
+      }
+    },
+    {
+      "support": "equity",
+      "icon": "⚖️",
+      "need": {
+        "en": "I'm being treated unfairly",
+        "zu": "Ngiphathwa ngokungafanele"
+      }
+    },
+    {
+      "support": "international",
+      "icon": "🌍",
+      "need": {
+        "en": "I'm from another country",
+        "zu": "Ngivela kwelinye izwe"
+      }
+    },
+    {
+      "support": "student_card",
+      "icon": "🪪",
+      "need": {
+        "en": "I need a student card",
+        "zu": "Ngidinga ikhadi lomfundi"
+      }
+    },
+    {
+      "support": "careers",
+      "icon": "💼",
+      "need": {
+        "en": "I need a job or a CV",
+        "zu": "Ngidinga umsebenzi noma i-CV"
+      }
+    },
+    {
+      "support": "funding_search",
+      "icon": "🎓",
+      "need": {
+        "en": "I need a bursary",
+        "zu": "Ngidinga umfundaze"
+      }
+    }
+  ],
+  "glossary": {
+    "supp": {
+      "term": {
+        "en": "Supplementary exam",
+        "zu": "Isivivinyo esengeziwe"
+      },
+      "match": {
+        "en": [
+          "supplementary exam",
+          "supplementary exams",
+          "supp",
+          "supps"
+        ],
+        "zu": [
+          "isivivinyo esengeziwe",
+          "izivivinyo ezengeziwe",
+          "ezengeziwe"
+        ]
+      },
+      "def": {
+        "en": "A second chance to write an exam you narrowly failed, usually a few weeks later. Students often call it a supp.",
+        "zu": "Ithuba lesibili lokubhala isivivinyo osehluleke kancane kuso, ngokuvamile emasontweni ambalwa kamuva. Abafundi bavame ukusibiza nge-\"supp\"."
+      }
+    },
+    "result_code": {
+      "term": {
+        "en": "Result code",
+        "zu": "Ikhodi yemiphumela"
+      },
+      "match": {
+        "en": [
+          "result code",
+          "result codes"
+        ],
+        "zu": [
+          "ikhodi yemiphumela",
+          "amakhodi emiphumela"
+        ]
+      },
+      "def": {
+        "en": "A code shown with your results, next to or in place of a mark. It says what happens next, such as a supplementary exam. Every university has its own list.",
+        "zu": "Ikhodi evela nemiphumela yakho, eduze kwamamaki noma esikhundleni sawo. Isho ukuthi kulandelani, njengesivivinyo esengeziwe. Inyuvesi ngayinye inohlu lwayo."
+      }
+    },
+    "perusal": {
+      "term": {
+        "en": "Perusal",
+        "zu": "I-perusal"
+      },
+      "match": {
+        "en": [
+          "perusal"
+        ],
+        "zu": [
+          "perusal"
+        ]
+      },
+      "def": {
+        "en": "A session where you may look at your marked exam script to see where you lost marks. You usually have to book it soon after results come out.",
+        "zu": "Iseshini lapho ungabuka khona iphepha lakho lesivivinyo elimakiwe ukuze ubone ukuthi ulahlekelwe kuphi amamaki. Ngokuvamile kufanele uyibhukhe masinyane emva kokuphuma kwemiphumela."
+      }
+    },
+    "nsfas": {
+      "term": {
+        "en": "NSFAS",
+        "zu": "I-NSFAS"
+      },
+      "match": {
+        "en": [
+          "NSFAS"
+        ],
+        "zu": [
+          "NSFAS"
+        ]
+      },
+      "def": {
+        "en": "The National Student Financial Aid Scheme: government funding that pays fees and living allowances for students from lower-income households. Applying is free.",
+        "zu": "I-National Student Financial Aid Scheme: uxhaso lukahulumeni olukhokhela imali yokufunda nezibonelelo zokuphila kwabafundi abavela emindenini engenamali eningi. Ukufaka isicelo kumahhala."
+      }
+    },
+    "bursary": {
+      "term": {
+        "en": "Bursary",
+        "zu": "Umfundaze"
+      },
+      "match": {
+        "en": [
+          "bursary",
+          "bursaries"
+        ],
+        "zu": [
+          "umfundaze",
+          "imifundaze"
+        ]
+      },
+      "def": {
+        "en": "Money for your studies that you do not pay back, from a company, foundation, university or government department. Most come with conditions, such as passing every module.",
+        "zu": "Imali yezifundo zakho ongayibuyiseli, evela enkampanini, enhlanganweni, enyuvesi noma emnyangweni kahulumeni. Eminingi inemibandela, njengokuphasa zonke izifundo."
+      }
+    },
+    "allowance": {
+      "term": {
+        "en": "Allowance",
+        "zu": "Isibonelelo"
+      },
+      "match": {
+        "en": [
+          "allowance",
+          "allowances"
+        ],
+        "zu": [
+          "isibonelelo",
+          "izibonelelo",
+          "allowance"
+        ]
+      },
+      "def": {
+        "en": "Money a funder pays you for living costs such as food, travel and books. It is separate from your fees, and it can arrive late.",
+        "zu": "Imali umxhasi akukhokhela yona yezindleko zokuphila njengokudla, ukuhamba nezincwadi. Ihlukile emalini yokufunda, futhi ingafika sekwephuzile."
+      }
+    },
+    "credits": {
+      "term": {
+        "en": "Credits",
+        "zu": "Amakhredithi"
+      },
+      "match": {
+        "en": [
+          "credits"
+        ],
+        "zu": [
+          "amakhredithi"
+        ]
+      },
+      "def": {
+        "en": "Points that each module is worth. You need a set number of credits to move to the next year and to keep most funding.",
+        "zu": "Amaphuzu isifundo ngasinye esiwabizayo. Udinga inani elithile lamakhredithi ukuze udlulele onyakeni olandelayo futhi ugcine uxhaso oluningi."
+      }
+    },
+    "module": {
+      "term": {
+        "en": "Module",
+        "zu": "Isifundo (module)"
+      },
+      "match": {
+        "en": [
+          "module",
+          "modules"
+        ],
+        "zu": [
+          "module"
+        ]
+      },
+      "def": {
+        "en": "One subject in your course, taught for a semester or a year, with its own tests and exam.",
+        "zu": "Isifundo esisodwa ohlelweni lwakho, esifundiswa isemesta noma unyaka, esinezivivinyo zaso."
+      }
+    },
+    "semester": {
+      "term": {
+        "en": "Semester",
+        "zu": "Isemesta"
+      },
+      "match": {
+        "en": [
+          "semester",
+          "semesters"
+        ],
+        "zu": [
+          "isemesta"
+        ]
+      },
+      "def": {
+        "en": "Half of the academic year: about 14 weeks of classes, followed by exams.",
+        "zu": "Ingxenye yonyaka wezifundo: cishe amasonto ayi-14 amakilasi, alandelwa yizivivinyo."
+      }
+    },
+    "progression": {
+      "term": {
+        "en": "Progression",
+        "zu": "Ukuqhubeka (progression)"
+      },
+      "match": {
+        "en": [
+          "progression"
+        ],
+        "zu": [
+          "progression"
+        ]
+      },
+      "def": {
+        "en": "The rules for moving from one year of study to the next: which modules, and how many credits, you must pass.",
+        "zu": "Imithetho yokusuka onyakeni owodwa wezifundo uye kolandelayo: yiziphi izifundo, namakhredithi amangaki, okufanele uwaphase."
+      }
+    },
+    "exclusion": {
+      "term": {
+        "en": "Academic exclusion",
+        "zu": "Ukukhishwa ezifundweni"
+      },
+      "match": {
+        "en": [
+          "academic exclusion",
+          "exclusion"
+        ],
+        "zu": [
+          "exclusion"
+        ]
+      },
+      "def": {
+        "en": "Being stopped from continuing your course because you passed too few modules. You can usually appeal.",
+        "zu": "Ukuvinjelwa ukuqhubeka nezifundo zakho ngoba uphase izifundo ezimbalwa kakhulu. Ngokuvamile ungafaka isikhalazo."
+      }
+    },
+    "appeal": {
+      "term": {
+        "en": "Appeal",
+        "zu": "Isikhalazo (appeal)"
+      },
+      "match": {
+        "en": [
+          "appeal",
+          "appeals"
+        ],
+        "zu": [
+          "appeal"
+        ]
+      },
+      "def": {
+        "en": "A formal request to have a decision looked at again, such as a funding rejection or an exclusion. Appeals have forms and strict deadlines.",
+        "zu": "Isicelo esisemthethweni sokuthi isinqumo sibuyekezwe, njengokwenqatshelwa uxhaso noma ukukhishwa. Izikhalazo zinamafomu nezinsuku zokuvala eziqinile."
+      }
+    },
+    "faculty": {
+      "term": {
+        "en": "Faculty",
+        "zu": "Ifakhalthi"
+      },
+      "match": {
+        "en": [
+          "faculty",
+          "faculties"
+        ],
+        "zu": [
+          "ifakhalthi"
+        ]
+      },
+      "def": {
+        "en": "A group of related departments, such as Science or Humanities. Your faculty office handles your modules, results and academic rules.",
+        "zu": "Iqembu leminyango ehlobene, njengeSayensi noma ezoLuntu. Ihhovisi lefakhalthi yakho liphatha izifundo zakho, imiphumela nemithetho yezemfundo."
+      }
+    },
+    "student_affairs": {
+      "term": {
+        "en": "Student Affairs",
+        "zu": "I-Student Affairs"
+      },
+      "match": {
+        "en": [
+          "Student Affairs"
+        ],
+        "zu": [
+          "Student Affairs"
+        ]
+      },
+      "def": {
+        "en": "The university office for student life outside class: counselling, food support, housing, clubs and more. A good first place to ask.",
+        "zu": "Ihhovisi lenyuvesi lempilo yabafundi ngaphandle kwekilasi: ukwelulekwa, usizo lokudla, izindawo zokuhlala, amaqembu nokunye. Yindawo enhle yokuqala ukubuza."
+      }
+    },
+    "src": {
+      "term": {
+        "en": "SRC",
+        "zu": "I-SRC"
+      },
+      "match": {
+        "en": [
+          "SRC"
+        ],
+        "zu": [
+          "SRC"
+        ]
+      },
+      "def": {
+        "en": "The Students' Representative Council: students elected to speak for students. They can help with funding, housing and fee problems.",
+        "zu": "I-Students' Representative Council: abafundi abakhethwe ukukhulumela abafundi. Bangasiza ngezinkinga zoxhaso, zezindawo zokuhlala nezemali yokufunda."
+      }
+    },
+    "portal": {
+      "term": {
+        "en": "Student portal",
+        "zu": "I-portal yabafundi"
+      },
+      "match": {
+        "en": [
+          "student portal",
+          "portal"
+        ],
+        "zu": [
+          "portal",
+          "iphothali"
+        ]
+      },
+      "def": {
+        "en": "A website you log in to with your student number, to see your results, fees, timetable and notices.",
+        "zu": "Iwebhusayithi ongena kuyo ngenombolo yakho yomfundi, ukuze ubone imiphumela yakho, imali yokufunda, uhlelo lwezikhathi nezaziso."
+      }
+    },
+    "tutorial": {
+      "term": {
+        "en": "Tutorial",
+        "zu": "I-tutorial"
+      },
+      "match": {
+        "en": [
+          "tutorial",
+          "tutorials"
+        ],
+        "zu": [
+          "tutorial"
+        ]
+      },
+      "def": {
+        "en": "A small weekly class led by a tutor, where you practise problems and ask questions. Often called a tut.",
+        "zu": "Ikilasi elincane lamasonto onke eliholwa ngumfundisi osizayo (tutor), lapho uzilolonga khona futhi ubuze imibuzo. Livame ukubizwa nge-\"tut\"."
+      }
+    },
+    "consultation": {
+      "term": {
+        "en": "Consultation hours",
+        "zu": "Amahora okubonana nomfundisi"
+      },
+      "match": {
+        "en": [
+          "consultation hours"
+        ],
+        "zu": [
+          "consultation hours"
+        ]
+      },
+      "def": {
+        "en": "Set times each week when a lecturer is in their office to answer students' questions.",
+        "zu": "Izikhathi ezibekiwe isonto ngalinye lapho umfundisi esehhovisi lakhe ukuze aphendule imibuzo yabafundi."
+      }
+    },
+    "past_papers": {
+      "term": {
+        "en": "Past papers",
+        "zu": "Amaphepha adlule"
+      },
+      "match": {
+        "en": [
+          "past papers",
+          "past paper"
+        ],
+        "zu": [
+          "amaphepha adlule"
+        ]
+      },
+      "def": {
+        "en": "Exam papers from earlier years. Working through them is one of the best ways to prepare.",
+        "zu": "Amaphepha ezivivinyo eminyaka edlule. Ukuwasebenza kungenye yezindlela ezinhle kakhulu zokulungiselela."
+      }
+    },
+    "short_loan": {
+      "term": {
+        "en": "Short-loan",
+        "zu": "Ukuboleka isikhashana"
+      },
+      "match": {
+        "en": [
+          "short-loan",
+          "short-loans",
+          "short loan"
+        ],
+        "zu": [
+          "short-loan"
+        ]
+      },
+      "def": {
+        "en": "Library books in high demand that you may borrow for a few hours or overnight, so that everyone gets a turn.",
+        "zu": "Izincwadi zomtapo ezifunwa kakhulu ongaziboleka amahora ambalwa noma ubusuku obubodwa, ukuze wonke umuntu athole ithuba."
+      }
+    },
+    "medical_certificate": {
+      "term": {
+        "en": "Medical certificate",
+        "zu": "Isitifiketi sikadokotela"
+      },
+      "match": {
+        "en": [
+          "medical certificate"
+        ],
+        "zu": [
+          "isitifiketi sikadokotela"
+        ]
+      },
+      "def": {
+        "en": "A note from a doctor or clinic saying you were too ill to write. You need one to ask for a sick (deferred) exam.",
+        "zu": "Incwadi evela kudokotela noma emtholampilo ethi ubugula kakhulu ukuthi ubhale. Uyayidinga ukuze ucele isivivinyo sabagulayo (esihlehlisiwe)."
+      }
+    },
+    "registration": {
+      "term": {
+        "en": "Registration",
+        "zu": "Ukubhalisa"
+      },
+      "match": {
+        "en": [
+          "registration"
+        ],
+        "zu": [
+          "registration"
+        ]
+      },
+      "def": {
+        "en": "Signing up for your modules at the start of the year, which makes you officially a student. Unpaid fees can block it.",
+        "zu": "Ukubhalisela izifundo zakho ekuqaleni konyaka, okukwenza ube ngumfundi ngokusemthethweni. Imali yokufunda engakhokhiwe ingakuvimba."
+      }
+    },
+    "accredited": {
+      "term": {
+        "en": "Accredited",
+        "zu": "Okugunyaziwe"
+      },
+      "match": {
+        "en": [
+          "accredited"
+        ],
+        "zu": [
+          "ezigunyaziwe",
+          "egunyaziwe"
+        ]
+      },
+      "def": {
+        "en": "Checked and approved by the university or by NSFAS. An accredited room meets safety and distance rules, and funders will pay for it.",
+        "zu": "Kuhlolwe futhi kwagunyazwa yinyuvesi noma yi-NSFAS. Ikamelo eligunyaziwe lihlangabezana nemithetho yokuphepha neyebanga, futhi abaxhasi bazolikhokhela."
+      }
+    },
+    "lease": {
+      "term": {
+        "en": "Lease",
+        "zu": "Isivumelwano sokuqasha"
+      },
+      "match": {
+        "en": [
+          "lease"
+        ],
+        "zu": [
+          "isivumelwano sokuqasha"
+        ]
+      },
+      "def": {
+        "en": "The written agreement between you and a landlord: the rent, the deposit, the dates and the rules. Read it before you sign or pay.",
+        "zu": "Isivumelwano esibhaliwe phakathi kwakho nomnikazi wendawo: irenti, idiphozi, izinsuku nemithetho. Sifunde ngaphambi kokusayina noma ukukhokha."
+      }
+    },
+    "deposit": {
+      "term": {
+        "en": "Deposit",
+        "zu": "Idiphozi"
+      },
+      "match": {
+        "en": [
+          "deposit"
+        ],
+        "zu": [
+          "idiphozi"
+        ]
+      },
+      "def": {
+        "en": "Money paid upfront to hold a room, usually about a month's rent. You get it back when you leave if nothing is damaged.",
+        "zu": "Imali ekhokhwa kuqala ukuze ubambe ikamelo, ngokuvamile ecishe ilingane nerenti yenyanga. Uyayibuyiselwa uma uhamba uma kungekho okonakele."
+      }
+    },
+    "debit_order": {
+      "term": {
+        "en": "Debit order",
+        "zu": "I-debit order"
+      },
+      "match": {
+        "en": [
+          "debit order",
+          "debit orders"
+        ],
+        "zu": [
+          "debit order"
+        ]
+      },
+      "def": {
+        "en": "Permission for a company to take money from your bank account every month, for a contract or a subscription.",
+        "zu": "Imvume yokuthi inkampani ithathe imali e-akhawuntini yakho yasebhange njalo ngenyanga, yenkontileka noma yokubhalisela."
+      }
+    }
+  },
+  "otherModule": {
+    "en": "one of your other modules",
+    "zu": "esinye sezifundo zakho"
   }
 }

@@ -71,7 +71,7 @@ DEVICE_ID = re.compile(r"^[A-Za-z0-9-]{8,64}$")
 FEEDBACK = {"realistic": {"yes", "partly", "no"}, "learned": {"yes", "no"}, "recommend": {"yes", "maybe", "no"}}
 MODEL = "claude-opus-5-5"
 
-LANGUAGES = {"en": "English", "zu": "isiZulu"}
+LANGUAGES = {"en": "English", "zu": "isiZulu", "xh": "isiXhosa", "af": "Afrikaans", "nso": "Sepedi", "tn": "Setswana", "st": "Sesotho"}
 SYSTEM_PROMPT = """You write the closing "Semester Forecast" for University Simulator, a game \
 that lets South African students rehearse university life, from first year to graduation.
 

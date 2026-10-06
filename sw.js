@@ -4,7 +4,7 @@
 // Institution packs live in their own cache: only the one a student chose is
 // ever downloaded, and it survives app updates.
 const PACKS = 'fys-packs-v1';
-const VERSION = 'fys-v31';
+const VERSION = 'fys-v38';
 const ASSETS = [
   './',
   './index.html',
@@ -19,6 +19,7 @@ const ASSETS = [
   './js/forecast.js',
   './js/charts.js',
   './js/ai.js',
+  './js/glossary.js',
   './content/core.json',
   './content/realities.json',
   './content/chapters/index.json',
@@ -68,7 +69,8 @@ self.addEventListener('fetch', (event) => {
   // The directory and the chosen institution's pack: answer from the cache at
   // once (so it works offline and costs no data to open), and fetch a fresh
   // copy in the background for next time.
-  if (/\/content\/institutions\/[^/]+\.json$/.test(url.pathname)) {
+  // The chosen language's card text (content/lang) is kept the same way.
+  if (/\/content\/institutions\/[^/]+\.json$/.test(url.pathname) || /\/content\/lang\/[^/]+\.json$/.test(url.pathname)) {
     event.respondWith(caches.open(PACKS).then((cache) => cache.match(request).then((cached) => {
       const fresh = fetch(request).then((response) => {
         if (response.ok) cache.put(request, response.clone());

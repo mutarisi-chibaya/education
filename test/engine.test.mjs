@@ -9,7 +9,11 @@ import {
 import { mergeContent, openDirectory, searchDirectory } from '../js/content.js';
 import { checkPack } from '../tools/pack-check.mjs';
 import { parseCsv } from '../tools/pack-lib.mjs';
+import { MACHINE_LANGS, cardTexts, placeholders } from '../tools/translate.mjs';
+import { LANGS } from '../js/i18n.js';
 import { computeBudget, incomeTier, suggestedIncome } from '../js/budget.js';
+import { termIndex, linkTerms } from '../js/glossary.js';
+import { serviceText, cardVars } from '../js/plan.js';
 import {
   moneyForecast, copingProfile, semesterForecast, spendingLeaks, bufferTarget, fairGame, nextChapterId, predictRisk,
 } from '../js/forecast.js';
@@ -699,4 +703,115 @@ test('a streaming subscription charges every week until it is cancelled', () => 
   const card = { ...s, queue: ['SUB-01'], qi: 0, phase: 'event' };
   assert.ok(!activeSubscriptions(choose(up, card, 'cancel')).some((x) => x.id === 'streaming'));
   assert.ok(activeSubscriptions(choose(up, card, 'share')).some((x) => x.id === 'streaming_shared'));
+});
+
+test('services: named by the need, each pointing at a real support card', () => {
+  const seen = new Set();
+  for (const x of core.services) {
+    assert.ok(core.support[x.support], `${x.support} is not a support card`);
+    assert.ok(!seen.has(x.support), `${x.support} is listed twice`);
+    seen.add(x.support);
+    assert.ok(x.icon && words(x.need.en) <= 7, `${x.support}: "${x.need.en}"`);
+    for (const h of x.housing || []) assert.ok(core.housing.some((o) => o.id === h), `${x.support}: housing ${h}`);
+  }
+  for (const id of ['food_programme', 'counselling', 'supp_exams']) assert.ok(seen.has(id), id);
+});
+
+test('sharing a service: the university, the service, one line and the link, and nothing personal', () => {
+  const url = 'https://example.org/?uni=sizwe&campus=main&service=food_programme';
+  const text = serviceText(up, 'food_programme', url);
+  const lines = text.split('\n');
+  assert.ok(lines[0].includes('Sizwe University'), 'names the university');
+  assert.ok(lines[1].includes(up.support.food_programme.name.en) && lines[1].includes("I'm hungry"));
+  assert.equal(sentences(lines[2]), 1, 'one line of description');
+  assert.equal(lines.at(-1), url);
+  // The message is built from the pack alone: no journey state goes in.
+  assert.equal(serviceText.length, 3);
+  assert.ok(serviceText(contentFor('karoo-coast'), 'counselling', url).startsWith('Karoo Coast University'));
+});
+
+test('glossary: the first mention of a word is tappable, whole words only, and text stays escaped', () => {
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+  const index = termIndex(core.glossary, 'en');
+  const html = linkTerms('A supp & a supplementary exam. Credits at accredited res.', index, esc);
+  assert.equal((html.match(/data-id="supp"/g) || []).length, 1, 'linked once');
+  assert.ok(html.includes('>supp</button>') && html.includes('&#38;'));
+  assert.ok(html.includes('data-id="credits"') && html.includes('data-id="accredited"'));
+  assert.ok(!linkTerms('myNSFAS', index, esc).includes('<button'), 'not inside another word');
+  assert.equal(linkTerms('<b>hi</b>', index, esc), esc('<b>hi</b>'));
+  // isiZulu cards match isiZulu words; languages without their own list use the English ones.
+  assert.ok(linkTerms('Izivivinyo ezengeziwe ziyeza.', termIndex(core.glossary, 'zu'), esc).includes('data-id="supp"'));
+  assert.ok(linkTerms('A bursary.', termIndex(core.glossary, 'af'), esc).includes('data-id="bursary"'));
+  for (const [id, g] of Object.entries(core.glossary)) assert.ok(g.match.en.length && sentences(g.def.en) <= 3, id);
+  // Every card that mentions a supp explains it.
+  const texts = JSON.stringify(chapterFiles.find((c) => c.id === 'first_exams').events.find((e) => e.id === 'EX-SU'));
+  assert.ok(/supplementary exam/.test(texts) && /perusal/.test(texts));
+});
+
+test('First Exams results: everyone meets a supp code on a third module, and the fail card follows the real marks', () => {
+  const s = startChapter(up, newJourney(up, base, { seed: 1 }), 'first_exams');
+  const withWorst = (score) => ({ ...s, results: { first_exams: [{ name: { en: 'A' }, score, passed: score >= 50 }, { name: { en: 'B' }, score: 70, passed: true }] } });
+  const shown = (score) => ['EX-W1', 'EX-05', 'EX-SU'].filter((id) => condOk(up.eventIndex[id].conditions, withWorst(score)));
+  assert.deepEqual(shown(62), ['EX-W1', 'EX-SU']);
+  assert.deepEqual(shown(45), ['EX-05', 'EX-SU']);
+  assert.deepEqual(shown(20), ['EX-05', 'EX-SU']);
+  // The supp is on a module outside the two that are scored, so it is never a failed key module.
+  const v = cardVars(up, withWorst(62), up.eventIndex['EX-SU']);
+  assert.ok(v.mod3 && ![v.mod1, v.mod2].includes(v.mod3));
+  for (const c of core.courses) assert.ok(c.otherModule?.en && !c.modules.some((m) => m.en === c.otherModule.en), c.id);
+  assert.ok(up.eventIndex['EX-SU'].choices.every((c) => !c.flags));
+  // Each university shows its own code, and its own page of what the codes mean.
+  assert.equal(v.suppCode, '999');
+  const kc = contentFor('karoo-coast');
+  assert.equal(cardVars(kc, { ...withWorst(45), setup: { ...base, course: kc.courses[0].id } }, kc.eventIndex['EX-SU']).suppCode, 'SUP');
+  for (const c of [up, kc]) assert.ok(c.pages[c.support.supp_exams.page].items.some((i) => i.name.startsWith(c.suppCode)));
+  for (const pick of [helpful, avoidant]) {
+    const runs = allSetups().slice(0, 40).map((setup) => playJourney(up, setup, pick));
+    for (const r of runs) {
+      assert.ok(r.seen.first_exams.includes('EX-SU'), 'every run meets the supp card');
+      assert.equal(r.seen.first_exams.includes('EX-05'), r.s.results.first_exams.some((x) => !x.passed), 'the fail card only after a real fail');
+    }
+  }
+  // After a fail, the advice names what to check: what it blocks, funding, and repeating.
+  for (const id of ['options', 'advisor']) assert.match(up.eventIndex['EX-05'].choices.find((c) => c.id === id).outcome.en, /blocks.*fund.*repeat/s);
+});
+
+test('languages: every language has the whole interface, and the machine-translated ones have the card text', () => {
+  assert.deepEqual(LANGS.filter((l) => l.machine).map((l) => l.id), MACHINE_LANGS);
+  assert.ok(LANGS.every((l) => !l.beta), 'no language is marked beta');
+  const texts = cardTexts();
+  for (const lang of MACHINE_LANGS) {
+    const ui = read(`../i18n/${lang}.json`);
+    assert.deepEqual(Object.keys(en).filter((k) => !ui[k]), [], `${lang}: interface strings`);
+    for (const k of Object.keys(en)) assert.equal(placeholders(ui[k]), placeholders(en[k]), `${lang}: ${k}`);
+    const cards = read(`../content/lang/${lang}.json`);
+    // A string that came back broken is left out and shows in English: only a handful may.
+    const missing = texts.filter((s) => !cards[s]);
+    assert.ok(missing.length <= texts.length * 0.02, `${lang}: ${missing.length} card texts untranslated, e.g. ${missing[0]}`);
+    for (const [src, out] of Object.entries(cards)) assert.equal(placeholders(out), placeholders(src), `${lang}: ${src.slice(0, 40)}`);
+  }
+});
+
+test('Before You Apply has its own money: first year starts fresh, and a later replay does not touch university money', () => {
+  const spend = (ev) => [...ev.choices].sort((a, b) => (a.effects?.money || 0) - (b.effects?.money || 0))[0];
+  const pre = playChapter(up, newJourney(up, { ...base, status: 'deciding' }, { seed: 2 }), 'prequel', spend);
+  assert.ok(pre.s.money < core.start.money, 'application costs were paid');
+  const arrival = startChapter(up, backToMap(pre.s), 'arrival');
+  assert.equal(arrival.chapterStart.arrival.money, core.start.money, 'first year opens on a fresh amount');
+  // Straight into first year, with no prequel: nothing changes.
+  assert.equal(startChapter(up, newJourney(up, base, { seed: 2 }), 'first_term').chapterStart.first_term.money, core.start.money);
+  // Replaying the prequel later: its own amount again, and the university money is waiting afterwards.
+  const term = backToMap(playChapter(up, backToMap(arrival), 'first_term', helpful).s);
+  const again = startChapter(up, term, 'prequel');
+  assert.equal(again.chapterStart.prequel.money, up.chapters.prequel.startMoney);
+  const exams = startChapter(up, backToMap(playChapter(up, term, 'prequel', spend).s), 'first_exams');
+  assert.equal(exams.chapterStart.first_exams.money, Math.max(0, term.money));
+});
+
+test('applying: each demo university has its own "how to apply" page on the applications card', () => {
+  for (const c of [up, contentFor('karoo-coast')]) {
+    const p = c.pages[c.support.applications.page];
+    assert.ok(p.items.length >= 4 && p.title.en.includes(c.short), c.id);
+  }
+  assert.ok(up.eventIndex['PRE-03'].choices.some((x) => x.support?.includes('applications')));
 });

@@ -30,7 +30,7 @@ export function tierAdvice(b) {
 }
 
 // Placeholders any card text can use: {course}, {mod1}, {money}, {city},
-// {failed}, {worst}/{worstScore}, {best}/{bestScore}, {memory}...
+// {mod3}, {failed}, {suppCode}, {worst}/{worstScore}, {best}/{bestScore}, {memory}...
 export function cardVars(content, s, event) {
   const course = findById(content.courses, s.setup.course);
   const amount = s && event ? eventAmount(event, s) : 0;
@@ -40,6 +40,8 @@ export function cardVars(content, s, event) {
     course: course ? tx(course.label) : '',
     mod1: course ? tx(course.modules[0]) : '',
     mod2: course ? tx(course.modules[1]) : '',
+    // A module outside the two that are scored: students carry more than two.
+    mod3: tx(course?.otherModule || content.otherModule),
     money: s ? money(s.money) : '',
     inst: tx(content.name),
     short: tx(content.short),
@@ -49,6 +51,7 @@ export function cardVars(content, s, event) {
     rent: money(content.costs?.rent_private || 0),
     half: money(Math.round(amount / 2 / 50) * 50),
     failed: failed.join(' & ') || (course ? tx(course.modules[0]) : ''),
+    suppCode: content.suppCode || '',
     worst: sum ? tx(sum.worst.name) : '',
     worstScore: sum ? sum.worst.score : '',
     best: sum ? tx(sum.best.name) : '',
@@ -150,6 +153,24 @@ export function buildPlan(content, s) {
         };
       }),
   };
+}
+
+// What a student sends a friend about one service: the university (the friend
+// may be at another campus), the service, one line on what it offers and a
+// link that opens the card. Only what is on the card, nothing about the sender.
+export function serviceText(content, id, url) {
+  const s = content.support[id];
+  const need = content.services?.find((x) => x.support === id)?.need;
+  const inst = content.campuses?.length > 1 ? `${tx(content.name)}, ${tx(content.campus)}` : tx(content.name);
+  const offers = tx(s.offers, { short: tx(content.short), area: tx(content.area) });
+  return [
+    inst,
+    need ? `${tx(s.name)} (${tx(need)})` : tx(s.name),
+    offers.match(/^.+?[.!?](?=\s|$)/)?.[0] || offers,
+    '',
+    t('svc.shareLink'),
+    url,
+  ].join('\n');
 }
 
 export function familyText(plan) {

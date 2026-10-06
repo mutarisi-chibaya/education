@@ -6,13 +6,14 @@ import {
 } from './engine.js';
 import { loadCatalogue, loadInstitution, openDirectory, searchDirectory, mergeContent, fetchNewerPack } from './content.js';
 import { computeBudget, suggestedIncome } from './budget.js';
-import { LANGS, loadLang, currentLang, t, tx, money } from './i18n.js';
+import { LANGS, loadLang, currentLang, t, tx, money, cardText } from './i18n.js';
 import {
-  buildPlan, budgetFor, tierAdvice, contactIds, familyText, planImageBlob, forecastView, cardVars, setPlanColors,
+  buildPlan, budgetFor, tierAdvice, contactIds, familyText, serviceText, planImageBlob, forecastView, cardVars, setPlanColors,
 } from './plan.js';
 import { moneyForecast, aiPayload, LEAKS, fairGame, nextChapterId, copingProfile } from './forecast.js';
 import { cashFlowChart, showChartWeek, riskStrip } from './charts.js';
 import { serverCapabilities, aiPlan, sendStats, fetchStats } from './ai.js';
+import { termIndex, linkTerms } from './glossary.js';
 
 const SAVE_VERSION = 6;
 const SAVE_KEY = 'fys-save-v6';
@@ -40,8 +41,9 @@ const topRight = document.getElementById('topbar-right');
 
 let catalogue;          // { core, institutions, chapterIndex, chapterFiles }
 let content;            // merged content for the current institution
+let ownContent = null;  // the player's own content, set aside while a shared link shows another university's services
 let state = null;       // the journey (null before setup)
-let screen = 'onboard'; // onboard | home | year | setup | summary | game
+let screen = 'onboard'; // onboard | home | year | setup | summary | game | services
 let obStep = 0;         // onboarding page: 0 welcome, 1 why it matters, 2 how it works
 let yearId = 'first';   // which year card is open
 let introStep = 0;
@@ -85,10 +87,20 @@ function contentFor(id, campusId) {
 
 const vars = (ev) => cardVars(content, state, ev);
 
+// Card text with its glossary words made tappable (see glossary.js).
+let terms = {};
+function rich(text) {
+  if (terms.lang !== currentLang() || terms.glossary !== content.glossary) {
+    terms = { lang: currentLang(), glossary: content.glossary, index: termIndex(content.glossary, currentLang(), cardText) };
+  }
+  return linkTerms(text, terms.index, esc);
+}
+
 function delta(n, kind) {
   if (!n) return '';
   const text = kind === 'money' ? money(n).replace(/^R/, '+R') : `${n > 0 ? '+' : ''}${n}`;
-  return `<span class="delta ${n > 0 ? 'up' : 'down'} ${kind}">${esc(text)}</span>`;
+  const unit = kind === 'money' ? '' : ` data-unit="${esc(t(`meter.${kind}`).toLowerCase())}"`;
+  return `<span class="delta ${n > 0 ? 'up' : 'down'} ${kind}"${unit}>${esc(text)}</span>`;
 }
 
 function toast(msg) {
@@ -176,11 +188,9 @@ function renderTopbar() {
         ${LANGS.map((l) => `<li><button role="option" aria-selected="${l.id === cur.id}" class="lang-opt ${l.id === cur.id ? 'on' : ''}" data-action="lang-pick" data-id="${l.id}">
           <span class="lang-badge" aria-hidden="true">${esc(l.code)}</span>
           <span class="lang-name">${esc(l.label)}</span>
-          ${l.beta ? '<span class="pill beta">beta</span>' : ''}
           <span class="tick" aria-hidden="true">${l.id === cur.id ? '✓' : ''}</span>
         </button></li>`).join('')}
       </ul>
-      <p class="lang-note">${esc(t('lang.betaNote'))}</p>
     </div>
   </div>`;
 }
@@ -370,7 +380,7 @@ function renderHome() {
     <h1>${esc(t('home.cardsTitle'))}</h1>
     <p class="lead">${esc(t('home.cardsLead'))}</p>
     ${coach(state ? 'homeYears' : 'homeSetup')}
-    <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${realitiesCard()}</div>
+    <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${servicesCard()}${realitiesCard()}</div>
     <div class="stack narrow">
       ${state?.completed.length ? `<button class="btn" data-action="summary">${esc(t('map.summary'))}</button>` : ''}
       <button class="btn ghost" data-action="how">${esc(t('intro.how'))}</button>
@@ -379,6 +389,52 @@ function renderHome() {
     <div class="ob-links info-links">${INFO_PAGES.map((p) => `<button class="link" data-action="page" data-id="${p}">${esc(t(`${p}.link`))}</button>`).join('')}</div>
     <p class="fine center">${esc(t('home.privacy'))} ${esc(t('footer.examples'))}</p>
     <p class="fine center">${esc(t('about.independent'))}</p>
+  </section>`;
+}
+
+// ---------- Services: every support card, at any time, named by the need ----------
+
+const serviceList = () => (content.services || []).filter((x) => content.support[x.support]
+  && (!x.housing || content.housing.some((h) => x.housing.includes(h.id))));
+
+function servicesCard() {
+  return `<article class="year-card">
+    <div class="year-icon" aria-hidden="true">🧭</div>
+    <div class="year-body">
+      <h2>${esc(t('svc.title'))}</h2>
+      <p>${esc(t('svc.cardDesc'))}</p>
+      <p class="year-meta">${esc(t('svc.meta', { n: serviceList().length }))}</p>
+    </div>
+    <button class="btn primary" data-action="services">${esc(t('home.card.open'))}</button>
+  </article>`;
+}
+
+function renderServices() {
+  const where = content.campuses.length > 1 ? `${tx(content.name)} · ${tx(content.campus)}` : tx(content.name);
+  // Someone who followed a friend's link is looking at the friend's university.
+  const guest = ownContent
+    ? `<div class="nudge info" role="note"><span>${esc(t('svc.visiting', { inst: tx(content.name) }))}</span>
+        <button class="btn small" data-action="services">${esc(t('svc.mine'))}</button></div>`
+    : !state ? `<div class="nudge info" role="note"><span>${esc(t('svc.guest', { inst: tx(content.name) }))}</span>
+        <button class="btn small" data-action="start">${esc(t('home.card.create'))}</button></div>` : '';
+  return `<section class="year screen">
+    <button class="link back-link" data-action="home">← ${esc(t('year.back'))}</button>
+    <div class="year-head">
+      <div class="year-icon big" aria-hidden="true">🧭</div>
+      <div>
+        <h1>${esc(t('svc.title'))}</h1>
+        <p class="lead">${esc(t('svc.lead'))}</p>
+        <p class="fine">${esc(where)}</p>
+      </div>
+    </div>
+    ${guest}
+    <div class="options needs">
+      ${serviceList().map((x) => `<button class="option need" data-action="service" data-id="${esc(x.support)}">
+        <span class="need-icon" aria-hidden="true">${x.icon}</span>
+        <span class="opt-title">${esc(tx(x.need))}</span>
+        <span class="opt-desc">${esc(tx(content.support[x.support].name))}</span>
+      </button>`).join('')}
+    </div>
   </section>`;
 }
 
@@ -673,7 +729,7 @@ function miniBlock() {
   if (state.mini.choice === null) {
     return `<article class="card mini" role="group" aria-label="${esc(t('mini.label'))}">
       <p class="tag">${esc(t('mini.label'))}</p>
-      <p>${esc(tx(mini.text, v))}</p>
+      <p>${rich(tx(mini.text, v))}</p>
       <div class="choices">${mini.choices.map((c, i) => `<button class="choice" data-action="mini" data-id="${i}">
         <span class="choice-text">${esc(tx(c.label, v))}</span></button>`).join('')}</div>
     </article>`;
@@ -681,7 +737,7 @@ function miniBlock() {
   const picked = mini.choices[state.mini.choice];
   return `<article class="card mini done" role="status">
     <p class="tag">${esc(t('mini.label'))}</p>
-    <p><strong>${esc(tx(picked.label, v))}.</strong> ${esc(tx(picked.outcome, v))}</p>
+    <p><strong>${esc(tx(picked.label, v))}.</strong> ${rich(tx(picked.outcome, v))}</p>
   </article>`;
 }
 
@@ -724,7 +780,7 @@ function renderEvent() {
       <article class="card event-card ${ev.type}">
         <p class="tag">${esc(tag)}</p>
         <h1>${ev.type === 'win' ? '🎉 ' : ''}${esc(tx(ev.title, v))}</h1>
-        <p>${esc(tx(ev.text, v))}</p>
+        <p>${rich(tx(ev.text, v))}</p>
         ${ev.effects ? `<div class="deltas big">${delta(ev.effects.money, 'money')}${delta(ev.effects.marks, 'marks')}${delta(ev.effects.wellbeing, 'wellbeing')}</div>` : ''}
       </article>
       ${cta(`<button class="btn primary big" data-action="ack">${esc(t('card.ack'))}</button>`)}
@@ -732,12 +788,13 @@ function renderEvent() {
   }
   const soft = ev.sensitive || ev.content_note;
   const canPay = affordableChoices(state, ev);
+  const text = rich(tx(ev.text, v));
   return `<section class="event screen">
-    ${coach('card')}
+    ${coachSeen('card') && text.includes('class="term"') ? coach('terms') : coach('card')}
     <article class="card event-card ${soft ? 'soft' : ''} ${ev.type}">
       <p class="tag">${esc(tag)}</p>
       <h1>${esc(tx(ev.title, v))}</h1>
-      <p>${esc(tx(ev.text, v))}</p>
+      <p>${text}</p>
       ${ev.tradeoff ? `<p class="note">${esc(t('event.tradeoff'))}</p>` : ''}
       ${ev.type === 'friend_story' ? `<p class="note">${esc(t('card.friendNote'))}</p>` : ''}
     </article>
@@ -765,11 +822,11 @@ function renderOutcome() {
       <p class="tag">${esc(t('outcome.title'))}</p>
       <h1>${esc(tx(choice.label, v))}</h1>
       <div class="deltas big">${delta(d.money, 'money')}${delta(d.marks, 'marks')}${delta(d.wellbeing, 'wellbeing')}</div>
-      <p>${esc(tx(choice.outcome, v))}</p>
+      <p>${rich(tx(choice.outcome, v))}</p>
       ${d.short > 0 && !buffer ? `<p class="nudge warn">${esc(t('outcome.short', { short: money(d.short) }))}</p>` : ''}
       ${bufferSaved ? `<p class="nudge help">${esc(t('buffer.saved', { saved: money(bufferSaved) }))}</p>` : ''}
       ${buffer ? `<p class="nudge ${buffer === 'ok' ? 'help' : 'warn'}">${esc(t(`buffer.${buffer}`))}</p>` : ''}
-      ${choice.tip ? `<div class="lesson"><strong>${esc(t('outcome.tip'))}</strong> ${esc(tx(choice.tip, v))}</div>` : ''}
+      ${choice.tip ? `<div class="lesson"><strong>${esc(t('outcome.tip'))}</strong> ${rich(tx(choice.tip, v))}</div>` : ''}
       ${ev.realities ? `<p class="note">${esc(t('cr.fromCard'))}</p>` : ''}
     </article>
     ${cta(`<button class="btn primary big" data-action="${hasSupport ? 'show-support' : 'next'}">
@@ -810,7 +867,12 @@ function campusMap(active) {
 function renderSheet() {
   let body = '';
   let official = '';
-  if (sheet.kind === 'link') {
+  if (sheet.kind === 'term') {
+    const g = content.glossary[sheet.id];
+    body = `<p class="tag">${esc(t('term.tag'))}</p>
+      <h2>${esc(tx(g.term))}</h2>
+      <p>${esc(tx(g.def))}</p>`;
+  } else if (sheet.kind === 'link') {
     // A real external site: say what it is before leaving the app.
     const link = Object.values(content.support).flatMap((s) => s.contacts || []).find((c) => c.url === sheet.id);
     body = `<p class="tag">${esc(t('link.tag'))}</p>
@@ -839,7 +901,7 @@ function renderSheet() {
   return `<div class="overlay" role="dialog" aria-modal="true" data-action="close-sheet-bg">
     <div class="overlay-inner">
       <article class="card support-card">${body}
-        ${sheet.kind === 'link' ? '' : `<p class="fine preview-note">${esc(t('support.demo', { short: tx(content.short) }))}</p>`}
+        ${['link', 'term'].includes(sheet.kind) ? '' : `<p class="fine preview-note">${esc(t('support.demo', { short: tx(content.short) }))}</p>`}
       </article>
       <div class="stack">${official}
         <button class="btn ${official ? '' : 'primary big'}" data-action="close-sheet">${esc(t('support.close'))}</button></div>
@@ -856,13 +918,14 @@ function supportCard(id) {
     <p class="tag">${esc(t('support.title', { inst: tx(content.short) }))}</p>
     <h2>${esc(tx(s.name))}</h2>
     <h3>${esc(t('support.offers'))}</h3>
-    <p>${esc(tx(s.offers, v))}</p>
+    <p>${rich(tx(s.offers, v))}</p>
     <h3>${esc(t('support.reach'))}</h3>
-    <p>${esc(tx(s.reach, v))}</p>
+    <p>${rich(tx(s.reach, v))}</p>
     ${whereBlock(s)}
     ${s.contacts ? `<div class="contacts">${s.contacts.map(contactLink).join('')}</div>` : ''}
-    ${s.tip ? `<div class="lesson"><strong>${esc(t('outcome.tip'))}</strong> ${esc(tx(s.tip, v))}</div>` : ''}
-    <p class="saved">✓ ${esc(t('support.saved'))}</p>
+    ${s.tip ? `<div class="lesson"><strong>${esc(t('outcome.tip'))}</strong> ${rich(tx(s.tip, v))}</div>` : ''}
+    <div class="contacts"><button class="contact" data-action="share-service" data-id="${esc(id)}"><span aria-hidden="true">📤</span> ${esc(t('svc.share'))}</button></div>
+    ${screen === 'services' ? '' : `<p class="saved">✓ ${esc(t('support.saved'))}</p>`}
     ${note ? `<p class="fine preview-note">${esc(note)}</p>` : ''}
   </article>`;
 }
@@ -872,7 +935,7 @@ const hasWays = (id) => { const s = content.support[id]; return Boolean((s.build
 
 function renderSupport() {
   return `<section class="support screen">
-    ${state.last.support.some(hasWays) ? coach('reach') : ''}
+    ${state.last.support.some(hasWays) && !coachSeen('reach') ? coach('reach') : coach('services')}
     <div class="support-list">${state.last.support.map(supportCard).join('')}</div>
     ${cta(`<button class="btn primary big" data-action="next">${esc(nextLabel())}</button>`)}
   </section>`;
@@ -930,7 +993,7 @@ function renderTests(ev) {
     <article class="card">
       <p class="tag">${esc(unitLabel(state.week))}</p>
       <h1>${esc(tx(ev.title))}</h1>
-      <p>${esc(tx(ev.text))}</p>
+      <p>${rich(tx(ev.text))}</p>
     </article>
     <div class="test-grid">${tests.map(testBlock).join('')}</div>
     ${cta(`<button class="btn primary big" data-action="next">${esc(t('tests.continue'))}</button>`)}
@@ -945,7 +1008,7 @@ function renderResults(ev) {
       <p class="tag">${esc(tx(ev.title))}</p>
       <h1>${esc(tx(r.tier.title))}</h1>
       <p class="big-stat">${esc(t('results.passed', { n: r.passed, total: r.tests.length }))}</p>
-      <p>${esc(tx(r.tier.body))}</p>
+      <p>${rich(tx(r.tier.body))}</p>
       <ul class="final">
         <li><span>${esc(t('meter.money'))}</span><b>${esc(money(state.money))}</b></li>
         <li><span>${esc(t('meter.marks'))}</span><b>${state.marks}%</b></li>
@@ -954,9 +1017,9 @@ function renderResults(ev) {
     </article>
     <article class="card support-card">
       <h2>${esc(tx(content.support.progression.name))}</h2>
-      <p>${esc(tx(r.progressionAll, v))}</p>
-      <p>${esc(tx(r.progression, v))}</p>
-      <p>${esc(tx(content.support.progression.reach))}</p>
+      <p>${rich(tx(r.progressionAll, v))}</p>
+      <p>${rich(tx(r.progression, v))}</p>
+      <p>${rich(tx(content.support.progression.reach))}</p>
     </article>
     ${cta(`<button class="btn primary big" data-action="finish">${esc(t('results.plan'))}</button>`)}
   </section>`;
@@ -1469,6 +1532,8 @@ window.addEventListener('popstate', (e) => {
 });
 
 function render() {
+  // Leaving a friend's shared service card: back to the player's own university.
+  if (ownContent && screen !== 'services') { content = ownContent; ownContent = null; }
   renderTopbar();
   let html;
   if (screen === 'onboard') html = [renderWelcome, renderWhy, renderHow][obStep]();
@@ -1476,6 +1541,7 @@ function render() {
   else if (screen === 'setup') html = renderSetup();
   else if (INFO_PAGES.includes(screen)) html = renderInfo();
   else if (screen === 'realities') html = renderRealities();
+  else if (screen === 'services') html = renderServices();
   else if (screen === 'summary' && state) html = renderSummary();
   else if (screen === 'year' && state) html = renderYear();
   else if (screen === 'game' && state?.chapter && state.phase !== 'map') {
@@ -1558,16 +1624,42 @@ async function shareImage(download) {
   toast(t('plan.imageSaved'));
 }
 
-async function shareFamily() {
-  const text = familyText(buildPlan(content, state));
+// Text goes to the phone's share sheet; without one, to WhatsApp, or the clipboard when offline.
+async function shareText(title, text) {
   if (navigator.share) {
-    try { await navigator.share({ title: t('plan.title'), text }); return; } catch (e) { if (e.name === 'AbortError') return; }
+    try { await navigator.share({ title, text }); return; } catch (e) { if (e.name === 'AbortError') return; }
   }
   if (navigator.onLine) {
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
     return;
   }
   try { await navigator.clipboard.writeText(text); toast(t('plan.copied')); } catch { /* nothing else to try */ }
+}
+
+const shareFamily = () => shareText(t('plan.title'), familyText(buildPlan(content, state)));
+
+// A link that opens the app on one service card, at this university and campus.
+function serviceUrl(id) {
+  const url = new URL(window.location.pathname, window.location.origin);
+  url.search = new URLSearchParams({ uni: content.id, ...(content.campusId ? { campus: content.campusId } : {}), service: id });
+  return url.href;
+}
+
+// A shared service link opens that card at the sender's university. The
+// player's own game is not touched: their content comes back when they leave.
+async function openServiceLink() {
+  const q = new URLSearchParams(window.location.search);
+  const uni = q.get('uni');
+  const id = q.get('service');
+  if (!uni || !id) return;
+  window.history.replaceState(null, '', window.location.pathname);
+  if (!openDirectory(catalogue.directory).some((d) => d.id === uni)) return;
+  try { await loadInstitution(catalogue, uni); } catch { return; }
+  const linked = contentFor(uni, q.get('campus'));
+  if (state && (linked.id !== content.id || linked.campusId !== content.campusId)) ownContent = content;
+  content = linked;
+  screen = 'services';
+  if (content.support[id]) overlay = [id];
 }
 
 // ---------- events ----------
@@ -1615,6 +1707,20 @@ document.addEventListener('click', async (e) => {
       cr = { topic: null, step: 0, picked: null };
       screen = 'realities';
       render();
+      break;
+    case 'services':
+      coachDone('services');
+      if (ownContent) { content = ownContent; ownContent = null; }
+      overlay = null;
+      screen = 'services';
+      render();
+      break;
+    case 'service':
+      overlay = [id];
+      render();
+      break;
+    case 'share-service':
+      shareText(tx(content.support[id].name), serviceText(content, id, serviceUrl(id)));
       break;
     case 'cr-topic':
       cr = { topic: id, step: 0, picked: null };
@@ -1828,7 +1934,8 @@ document.addEventListener('click', async (e) => {
       render();
       break;
     case 'sheet':
-      if (screen === 'game' && state?.phase === 'support') coachDone('reach');
+      if (el.dataset.kind === 'term') coachDone('terms');
+      else if (screen === 'game' && state?.phase === 'support') coachDone('reach');
       sheet = { kind: el.dataset.kind, id };
       render();
       break;
@@ -2021,6 +2128,7 @@ async function boot() {
     content = contentFor(first);
     screen = 'onboard';
   }
+  await openServiceLink();
   connectivity();
   render();
   registerSW();
@@ -2028,11 +2136,14 @@ async function boot() {
   if (caps.ai && screen === 'game' && state?.phase === 'forecast') render();
   if (caps.stats) tested = (await fetchStats())?.students || null;
   // A newer pack from the server replaces the bundled one, but never mid-card.
-  const newer = await fetchNewerPack(catalogue, content.id);
+  const own = ownContent || content;
+  const newer = await fetchNewerPack(catalogue, own.id);
   if (newer && screen !== 'game' && screen !== 'setup') {
+    const visiting = ownContent ? content : null;
     catalogue = newer;
-    content = contentFor(content.id, content.campusId);
+    content = contentFor(own.id, own.campusId);
     syncPack();
+    if (visiting) { ownContent = content; content = contentFor(visiting.id, visiting.campusId); }
     render();
   }
 }

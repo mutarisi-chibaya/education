@@ -17,6 +17,7 @@
     "zu": "Isinyathelo"
   },
   "weeks": 4,
+  "startMoney": 1200,
   "economy": false,
   "friday": false,
   "budget": {

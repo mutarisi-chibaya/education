@@ -1,6 +1,6 @@
 {
   "id": "sizwe",
-  "version": 13,
+  "version": 15,
   "name": {
     "en": "Sizwe University (fictional)",
     "zu": "iNyuvesi yaseSizwe (eqanjiwe)"
@@ -412,6 +412,12 @@
         "zu": "Msombuluko–Lwesihlanu 08:00–16:30"
       },
       "email": "international@sizwe.example"
+    },
+    "supp_exams": {
+      "page": "result_codes"
+    },
+    "applications": {
+      "page": "apply"
     }
   },
   "map": {
@@ -625,6 +631,108 @@
       "note": {
         "en": "Missed one? The Academic Success Centre also books one-on-one sessions.",
         "zu": "Uphuthelwe elilodwa? Isikhungo Sempumelelo Yezemfundo sibhukha namaseshini omuntu ngamunye."
+      }
+    },
+    "result_codes": {
+      "title": {
+        "en": "Exam result codes",
+        "zu": "Amakhodi emiphumela yezivivinyo"
+      },
+      "intro": {
+        "en": "On a real campus this is the official list of result codes. Every university uses its own codes: these are examples, like Sizwe itself.",
+        "zu": "Ekhampasi yangempela lolu uhlu olusemthethweni lwamakhodi emiphumela. Inyuvesi ngayinye isebenzisa amakhodi ayo: lawa ayizibonelo, njengeSizwe uqobo."
+      },
+      "items": [
+        {
+          "name": "999 · Supplementary exam",
+          "detail": {
+            "en": "You narrowly missed the pass mark and may write again. Confirm by the deadline.",
+            "zu": "Uphuthelwe kancane amamaki okuphasa futhi ungabhala futhi. Qinisekisa ngaphambi kosuku lokuvala."
+          }
+        },
+        {
+          "name": "998 · Sick (deferred) exam",
+          "detail": {
+            "en": "You were ill and handed in a medical certificate. You write on a later date.",
+            "zu": "Ubugula futhi wafaka isitifiketi sikadokotela. Uzobhala ngolunye usuku."
+          }
+        },
+        {
+          "name": "997 · Absent",
+          "detail": {
+            "en": "You did not write and gave no accepted reason. See your faculty office at once.",
+            "zu": "Awubhalanga futhi awunikanga isizathu esamukelekayo. Bona ihhovisi lefakhalthi yakho ngokushesha."
+          }
+        },
+        {
+          "name": "996 · Not admitted to the exam",
+          "detail": {
+            "en": "Your semester mark was too low to write. Ask an advisor about repeating the module.",
+            "zu": "Amamaki akho esemesta abephansi kakhulu ukuthi ubhale. Buza umeluleki ngokuphinda isifundo."
+          }
+        },
+        {
+          "name": "995 · Result outstanding",
+          "detail": {
+            "en": "Your mark is not captured yet, or is held back for unpaid fees. Ask before you worry.",
+            "zu": "Amamaki akho awakafakwa, noma abanjiwe ngenxa yemali yokufunda engakhokhiwe. Buza ngaphambi kokukhathazeka."
+          }
+        }
+      ],
+      "note": {
+        "en": "A supp usually needs a final mark just below the pass mark, often 40–49%. It is written within weeks, so check the date now.",
+        "zu": "Isivivinyo esengeziwe ngokuvamile sidinga amamaki okugcina angaphansi nje kwamamaki okuphasa, imvamisa angu-40–49%. Sibhalwa emasontweni ambalwa, ngakho hlola usuku manje."
+      }
+    },
+    "apply": {
+      "title": {
+        "en": "Apply to Sizwe University",
+        "zu": "Faka isicelo e-Sizwe University"
+      },
+      "intro": {
+        "en": "On a real campus this opens the university's own application site. Sizwe University is fictional, so these steps are an example.",
+        "zu": "Ekhampasi yangempela lokhu kuvula isayithi lezicelo lenyuvesi uqobo. I-Sizwe University iqanjiwe, ngakho lezi zinyathelo ziyisibonelo."
+      },
+      "items": [
+        {
+          "name": "1 · Check the requirements",
+          "detail": {
+            "en": "Each course lists the subjects and marks it needs. Check before you pay a fee.",
+            "zu": "Isifundo ngasinye sibala izifundo namamaki esiwadingayo. Hlola ngaphambi kokukhokha imali."
+          }
+        },
+        {
+          "name": "2 · Apply online, yourself",
+          "detail": {
+            "en": "Use your own email address and phone number, so the replies come to you.",
+            "zu": "Sebenzisa ikheli lakho le-imeyili nenombolo yakho yocingo, ukuze izimpendulo zize kuwe."
+          }
+        },
+        {
+          "name": "3 · Upload your documents",
+          "detail": {
+            "en": "A certified copy of your ID and your latest school results.",
+            "zu": "Ikhophi eqinisekisiwe kamazisi wakho nemiphumela yakho yakamuva yesikole."
+          }
+        },
+        {
+          "name": "4 · Keep your reference number",
+          "detail": {
+            "en": "Use it to track your application and to answer every message before its deadline.",
+            "zu": "Yisebenzise ukulandelela isicelo sakho nokuphendula yonke imiyalezo ngaphambi kosuku lwayo lokuvala."
+          }
+        },
+        {
+          "name": "Applications open and close",
+          "detail": {
+            "en": "Example dates: 1 April to 30 September. Residence applications close earlier.",
+            "zu": "Izinsuku eziyisibonelo: 1 Ephreli kuya ku-30 Septhemba. Izicelo zezindawo zokuhlala zivalwa ngaphambili."
+          }
+        }
+      ],
+      "note": {
+        "en": "Apply only on the official site. Nobody can apply for you for a fee, and nobody can sell you a place.",
+        "zu": "Faka isicelo kuphela kusayithi esemthethweni. Akekho ongakufakela isicelo ngenkokhelo, futhi akekho ongakuthengisela indawo."
       }
     }
   },

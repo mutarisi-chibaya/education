@@ -436,10 +436,7 @@ main[data-screen="home"], main[data-screen="event"], main[data-screen="friday"],
 .delta.up { color: var(--good); }
 .delta.down { color: var(--bad); }
 .delta.zero { color: var(--muted); }
-.delta.marks::after { content: " marks"; font-weight: 600; }
-.delta.wellbeing::after { content: " wellbeing"; font-weight: 600; }
-html[lang="zu"] .delta.marks::after { content: " amamaki"; }
-html[lang="zu"] .delta.wellbeing::after { content: " inhlalakahle"; }
+.delta[data-unit]::after { content: " " attr(data-unit); font-weight: 600; }
 
 .nudge { padding: 14px 16px; border-radius: 12px; margin-bottom: 10px; font-size: 0.95rem; }
 .nudge.warn { background: var(--warn-bg); }
@@ -1004,9 +1001,7 @@ details summary { cursor: pointer; font-weight: 650; color: var(--brand); min-he
 }
 .lang-opt.on .lang-badge { background: rgba(255, 255, 255, 0.22); color: inherit; }
 .lang-name { flex: 1; }
-.pill.beta { background: var(--warn-bg); color: var(--accent-ink, #b45309); border-radius: 999px; font-weight: 800; font-size: 0.66rem; padding: 2px 7px; text-transform: uppercase; letter-spacing: 0.04em; }
 .lang-opt .tick { width: 16px; font-weight: 800; }
-.lang-note { margin: 6px 10px 4px; font-size: 0.78rem; color: var(--muted); line-height: 1.35; }
 @media (max-width: 420px) {
   .lang-cur { display: none; }
   .lang-code { display: inline; }
@@ -1100,3 +1095,14 @@ button.contact { font: inherit; cursor: pointer; }
 .uni-brand { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.9rem; color: var(--brand); }
 .monogram { display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding: 0 6px; border-radius: 8px; background: var(--brand); color: var(--brand-ink); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.03em; }
 @media (max-width: 420px) { .uni-brand-name { display: none; } }
+
+/* ---------- services by need, and tappable glossary words ---------- */
+
+.option.need { grid-template-columns: auto 1fr; column-gap: 14px; align-items: center; }
+.need-icon { grid-row: span 2; font-size: 1.7rem; line-height: 1; }
+.needs { margin-top: 14px; }
+.term {
+  font: inherit; font-weight: 700; font-style: italic; color: var(--brand);
+  background: none; border: 0; border-radius: 4px; padding: 0; cursor: pointer;
+}
+.term:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }

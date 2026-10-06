@@ -75,6 +75,7 @@ Two columns: `key` and `value`. Fill in the `value` column.
 | `housing` | Housing options, separated by `;`. Empty means all | `residence;private_rental;commuting` |
 | `rent_private` | Typical monthly rent for a private room, in rand | `3500` |
 | `taxi_week` | A week of taxi fares, in rand | `250` |
+| `supp_code` | The result code a student sees when admitted to a supplementary exam. Empty means `999`. List all your codes on a `result_codes` page (see pages.csv) and point the `supp_exams` service at it | `999` |
 | `brand_name`, `logo_text` | Name and up to three letters for the top bar | `MyU`, `MU` |
 | `colour_brand`, `colour_brand_text` | Main colour, and the text colour on top of it | `#0b5d5e`, `#ffffff` |
 | `colour_accent`, `colour_accent_text` | Highlight colour, and a darker shade of it for text | `#f4b942`, `#6b4a00` |
@@ -128,7 +129,8 @@ description, with no room or email.
   courses taught there. Then put that campus's `campus_id` on its buildings and services.
 - **courses.csv:** the institution's own courses or programmes, for example a college's
   "N4 Engineering Studies". One row each, with a short `course_id`, a label and the two key
-  modules students are tested on. List the `course_id` in the `courses` row of
+  modules students are tested on. A third module (`module3`) is optional: it is the one the
+  supplementary exam card is about. List the `course_id` in the `courses` row of
   `university.csv` (or of a campus) to offer it.
 - **pages.csv and page-items.csv:** lists such as accredited accommodation. One row in
   `pages.csv` for the list, one row in `page-items.csv` for each entry.

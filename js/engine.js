@@ -85,6 +85,7 @@ export function condOk(cond, s) {
         if (!sum) return false;
         if (v.anyFail !== undefined && sum.anyFail !== v.anyFail) return false;
         if (v.worstLt !== undefined && !(sum.worst.score < v.worstLt)) return false;
+        if (v.worstGte !== undefined && !(sum.worst.score >= v.worstGte)) return false;
         if (v.bestGte !== undefined && !(sum.best.score >= v.bestGte)) return false;
         break;
       }
@@ -336,6 +337,21 @@ export function startChapter(content, state, chapterId) {
   s.mini = null;
   // Part-time wages and food vouchers belong to the chapter they started in.
   s.recurring = s.recurring.filter((x) => !((x.effects?.money || 0) > 0));
+
+  // A chapter with its own money (Before You Apply: `startMoney`) never shares
+  // a purse with university life. It always opens on its own amount, and the
+  // next chapter starts fresh, or picks up the university money set aside.
+  const own = chapter.startMoney !== undefined;
+  const wasOwn = s.purse ? s.purse === 'own'
+    : s.started.length > 0 && s.started.every((id) => chapterOf(content, id)?.startMoney !== undefined); // saves from before purses
+  if (own) {
+    if (!wasOwn) s.aside = s.started.length ? s.money : null;
+    s.money = chapter.startMoney;
+  } else if (wasOwn) {
+    s.money = s.aside ?? content.start.money;
+    s.aside = null;
+  }
+  s.purse = own ? 'own' : 'main';
 
   // Between chapters: unpaid balances become debt, and a break restores a little.
   if (s.started.length) {

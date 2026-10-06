@@ -14,6 +14,7 @@
     "test": "node --test test/*.test.mjs",
     "pack:build": "node tools/build-pack.mjs",
     "pack:check": "node tools/pack-check.mjs",
+    "translate": "node tools/translate.mjs",
     "test:portal": "python -m unittest discover -s test -p \"test_*.py\""
   }
 }

@@ -127,6 +127,8 @@ export function mergeContent(core, university, chapterIndex, chapterFiles, campu
       .filter((c) => (campus?.courses || inst.courses || [c.id]).includes(c.id)),
     type: inst.type || 'university',
     costs: inst.costs || {},
+    // The code a student sees when admitted to a supplementary exam: every university has its own.
+    suppCode: inst.suppCode || core.suppCode,
     map: inst.map || null,
     pages: inst.pages || {},
     housing: core.housing.filter((h) => !inst.housing || inst.housing.includes(h.id)).map((h) => ({ ...h, weeklyCosts: weeklyCostsFor(h, inst) })),

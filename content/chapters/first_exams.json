@@ -176,7 +176,8 @@
       "weeks": [
         4,
         5
-      ]
+      ],
+      "weight": 4
     },
     {
       "pool": "repayment",
@@ -541,8 +542,12 @@
             "progression"
           ],
           "outcome": {
-            "en": "You learn about supplementary exams and repeating the module, and what each means for your funding.",
-            "zu": "Ufunda ngezivivinyo ezengeziwe nokuphinda isifundo, nokuthi ngasinye sisho ukuthini oxhasweni lwakho."
+            "en": "You check three things: what {failed} blocks next year, how many credits your funder needs, and when you can repeat it. It is bad news, but now it has edges.",
+            "zu": "Uhlola izinto ezintathu: ukuthi i-{failed} ivimba ini ngonyaka ozayo, ukuthi umxhasi wakho udinga amakhredithi amangaki, nokuthi ungayiphinda nini. Yizindaba ezimbi, kodwa manje seziyaqondakala."
+          },
+          "tip": {
+            "en": "A failed module can block the ones that follow it. Look up its prerequisites in the faculty handbook before you plan next semester.",
+            "zu": "Isifundo osehlulekile kuso singavimba ezilandelayo. Bheka ukuthi sidingwa yiziphi izifundo encwadini yefakhalthi ngaphambi kokuhlela isemesta elandelayo."
           }
         },
         {
@@ -564,8 +569,96 @@
             "advisor"
           ],
           "outcome": {
-            "en": "The advisor helps you plan a repeat alongside your new modules, so you don't fall further behind.",
-            "zu": "Umeluleki ukusiza uhlele ukuphinda kanye nezifundo zakho ezintsha, ukuze ungasali emuva nakakhulu."
+            "en": "The advisor shows you what {failed} blocks, what it does to your funding, and the soonest you can repeat it. You leave with a plan for next semester.",
+            "zu": "Umeluleki ukukhombisa ukuthi i-{failed} ivimba ini, yenzani oxhasweni lwakho, nokuthi ungayiphinda nini ngokushesha. Uhamba unohlelo lwesemesta elandelayo."
+          },
+          "tip": {
+            "en": "Ask three questions: what does this block, what does it mean for my funding, and when can I repeat it?",
+            "zu": "Buza imibuzo emithathu: lokhu kuvimba ini, kusho ukuthini oxhasweni lwami, futhi ngingakuphinda nini?"
+          }
+        }
+      ]
+    },
+    {
+      "id": "EX-SU",
+      "type": "core",
+      "week": 4,
+      "title": {
+        "en": "A code instead of a mark",
+        "zu": "Ikhodi esikhundleni samamaki"
+      },
+      "text": {
+        "en": "Results are in. Your key modules show marks, but next to {mod3} there is no mark, only a code: {suppCode}. Your stomach drops.",
+        "zu": "Imiphumela isiphumile. Izifundo zakho ezibalulekile zinamamaki, kodwa eduze kwe-{mod3} awekho amamaki, kunekhodi kuphela: {suppCode}. Uyethuka."
+      },
+      "forecast_tags": [
+        "wellbeing"
+      ],
+      "choices": [
+        {
+          "id": "assume",
+          "tags": [
+            "avoider"
+          ],
+          "label": {
+            "en": "Assume the worst",
+            "zu": "Cabanga okubi kakhulu"
+          },
+          "effects": {
+            "wellbeing": -8
+          },
+          "outcome": {
+            "en": "You spend two days sure that you failed, and nearly miss the deadline to confirm. Code {suppCode} was never a fail.",
+            "zu": "Uchitha izinsuku ezimbili uqiniseka ukuthi wehlulekile, futhi ucishe uphuthelwe usuku lokugcina lokuqinisekisa. Ikhodi {suppCode} yayingasho ukuthi wehlulekile."
+          }
+        },
+        {
+          "id": "lookup",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Look up the code",
+            "zu": "Hlola ukuthi ikhodi isho ukuthini"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "support": [
+            "supp_exams"
+          ],
+          "outcome": {
+            "en": "Code {suppCode} means you are admitted to a supplementary exam: a second chance to write. You note the date and confirm that you will be there.",
+            "zu": "Ikhodi {suppCode} isho ukuthi uvunyelwe ukubhala isivivinyo esengeziwe: ithuba lesibili lokubhala. Ubhala phansi usuku bese uqinisekisa ukuthi uzobe ukhona."
+          },
+          "tip": {
+            "en": "A supp is a second opportunity, not a verdict on you. Plenty of graduates wrote one in first year.",
+            "zu": "Isivivinyo esengeziwe yithuba lesibili, akusona isahlulelo ngawe. Abaningi abathweswe iziqu babhala esisodwa onyakeni wokuqala."
+          }
+        },
+        {
+          "id": "perusal",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Ask to see my script",
+            "zu": "Cela ukubona iphepha lami"
+          },
+          "effects": {
+            "wellbeing": 8
+          },
+          "support": [
+            "supp_exams",
+            "lecturer"
+          ],
+          "outcome": {
+            "en": "At the perusal you see exactly where the marks went, and your lecturer points you to the past papers to practise. Now you know what to study.",
+            "zu": "Ku-perusal ubona kahle ukuthi amamaki alahleke kuphi, futhi umfundisi wakho ukukhombisa amaphepha adlule okufanele uzilolonge ngawo. Manje uyazi ukuthi ufundeni."
+          },
+          "tip": {
+            "en": "Study what you got wrong, not everything again. Past papers and a tutor beat rereading your notes.",
+            "zu": "Funda lokho okuphuthile, hhayi konke futhi. Amaphepha adlule nomfundisi osizayo kungcono kunokuphinda ufunde amanothi akho."
           }
         }
       ]
@@ -969,8 +1062,12 @@
             "advisor"
           ],
           "outcome": {
-            "en": "You go with them to an advisor. They can repeat one module and still progress.",
-            "zu": "Uhamba nabo uye kumeluleki. Bangaphinda isifundo esisodwa futhi baqhubeke."
+            "en": "Together you check what each failed module blocks, what it means for their funding, and when they can repeat. With an advisor's plan, they can still progress.",
+            "zu": "Nindawonye nihlola ukuthi isifundo ngasinye abehluleke kuso sivimba ini, kusho ukuthini oxhasweni lwabo, nokuthi bangaphinda nini. Ngohlelo lomeluleki, basengaqhubeka."
+          },
+          "tip": {
+            "en": "Failing a module is rarely the end. What matters is what it blocks, what the funder requires, and how soon it can be repeated.",
+            "zu": "Ukwehluleka esifundweni akuvamile ukuba yisiphetho. Okubalulekile ukuthi sivimba ini, umxhasi udingani, nokuthi singaphindwa ngokushesha kangakanani."
           }
         },
         {
@@ -1085,7 +1182,7 @@
     5
   ],
   "budget": {
-    "cards": 7,
+    "cards": 8,
     "minis": 3
   },
   "minis": [

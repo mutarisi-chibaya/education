@@ -12,6 +12,9 @@ engine reads, so they can be added or rewritten without touching game logic.
 There's no account and nothing personal is stored: progress stays on the device. The game and
 the Semester Forecast run fully offline after the first load.
 
+**Engineering docs:** architecture, data model, API, process, testing, security and the
+runbook are in [docs/](docs/README.md). To contribute, start with [CONTRIBUTING.md](CONTRIBUTING.md).
+
 **Independence:** Sizwe University is fictional. The app is independent of every real
 university, uses no real university names or logos, and is not professional advice. Phone
 numbers appear only for verified national services.
@@ -215,7 +218,7 @@ the server is reachable.
 - [ ] "Sizwe University" confirmed as not a real institution name
 - [ ] Campus Realities reviewed by a support professional; quick exit works on every screen
 - [ ] isiZulu reviewed by a first-language speaker
-- [ ] Beta languages (isiXhosa, Afrikaans, Sepedi, Setswana, Sesotho: menus and onboarding only) reviewed by first-language speakers
+- [ ] Machine-translated languages (isiXhosa, Afrikaans, Sepedi, Setswana, Sesotho: menus and cards, from `node tools/translate.mjs`) reviewed by first-language speakers
 - [ ] Testing round 1 (12–14 Oct) and round 2 (18–20 Oct); results recorded honestly (`GET /stats`)
 
 **National numbers in the app** (checked 3 October 2026): NSFAS `08000 67327`, SADAG

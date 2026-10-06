@@ -34,7 +34,7 @@ university and campus, and a university can be added without changing the app.
 - A Semester Forecast and a survival plan after every chapter, which can be saved or shared.
 - Campus Realities: ten optional topics on discrimination, harassment, abuse and safety.
   Never scored, and nothing about what is viewed is saved.
-- English and isiZulu throughout; menus in five more languages.
+- English and isiZulu throughout; five more languages machine-translated, menus and cards.
 - Offline play, no login, and progress kept only on the phone.
 
 **For the university**

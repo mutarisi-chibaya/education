@@ -16,3 +16,5 @@ campus_id,service_id,name_en,name_zu,building_id,room_en,room_zu,hours_en,hours_
 ,residence_office,Off-campus Housing Desk,Ideski Lezindawo Zokuhlala Ezingaphandle,student_services,Room 2,Igumbi 2,Mon–Fri 08:00–16:00,Msombuluko–Lwesihlanu 08:00–16:00,housing@karoocoast.example,,,,,,accredited,Karoo Coast has no residences of its own. The Housing Desk keeps the list of accredited private rooms and checks leases with you.,I-Karoo Coast ayinazo izindawo zayo zokuhlala. Ideski Lezindawo Zokuhlala ligcina uhlu lwamakamelo azimele agunyaziwe futhi lihlola izivumelwano nawe.,,,,
 ,verify_accom,,,student_services,Room 2,Igumbi 2,Mon–Fri 08:00–16:00,Msombuluko–Lwesihlanu 08:00–16:00,housing@karoocoast.example,,,,,,accredited,,,,,,
 ,campus_safety,,,security,Control room,Igumbi lokulawula,Open 24 hours,Kuvulwe amahora angu-24,security@karoocoast.example,,,,,,,,,,,,
+,supp_exams,,,,,,,,,,,,,,result_codes,,,,,,
+,applications,,,,,,,,,,,,,,apply,,,,,,
