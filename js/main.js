@@ -1259,8 +1259,8 @@ function renderPlan() {
     </header>
 
     <div class="actions">
-      <button class="btn primary" data-action="share-image">${esc(t('plan.share'))}</button>
-      <button class="btn" data-action="save-image">${esc(t('plan.saveImage'))}</button>
+      <button class="btn primary" data-action="share-image"><span aria-hidden="true">📤</span> ${esc(t('plan.share'))}</button>
+      <button class="btn" data-action="save-image"><span aria-hidden="true">📥</span> ${esc(t('plan.saveImage'))}</button>
     </div>
 
     <div class="plan-grid">
