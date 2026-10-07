@@ -44,7 +44,7 @@ let content;            // merged content for the current institution
 let ownContent = null;  // the player's own content, set aside while a shared link shows another university's services
 let state = null;       // the journey (null before setup)
 let screen = 'onboard'; // onboard | home | year | setup | summary | game | services
-let obStep = 0;         // onboarding page: 0 welcome, 1 why it matters, 2 how it works
+let obStep = 0;         // onboarding page: 0 welcome, 1 how it works, 2 why it matters
 let yearId = 'first';   // which year card is open
 let introStep = 0;
 let step = 0;           // setup step index
@@ -288,15 +288,13 @@ function welcomeArc() {
   </svg>`;
 }
 
-const OB_PAGES = 3;
-
 function obNav(isLast) {
-  // The welcome page stands alone; "How it works" is the two pages after it.
-  const dots = Array.from({ length: OB_PAGES - 1 }, (_, i) => `<span class="${i === obStep - 1 ? 'on' : ''}"></span>`).join('');
+  // Welcome, then how it works, then the journey. "Why it matters" is a page on its own.
+  const dots = Array.from({ length: 2 }, (_, i) => `<span class="${i === obStep ? 'on' : ''}"></span>`).join('');
   return `<div class="ob-nav">
-    ${obStep ? `<div class="intro-dots" aria-hidden="true">${dots}</div>` : ''}
+    ${obStep < 2 ? `<div class="intro-dots" aria-hidden="true">${dots}</div>` : ''}
     ${cta(`<div class="btn-row">
-        ${obStep > 0 ? `<button class="btn primary big" data-action="ob-back">← ${esc(t('ob.back'))}</button>` : ''}
+        ${obStep === 1 ? `<button class="btn primary big" data-action="ob-back">← ${esc(t('ob.back'))}</button>` : ''}
         <button class="btn primary big" data-action="ob-next">${esc(t(isLast ? 'ob.start' : 'ob.next'))} →</button>
       </div>
       ${state ? `<div class="ob-links"><button class="link" data-action="home">${esc(t('ob.skip'))}</button></div>` : ''}`)}
@@ -313,7 +311,7 @@ function renderWelcome() {
       <p class="welcome-sub">${esc(t('home.about2'))}</p>
     </div>
     <blockquote class="hook">${esc(t('why.stat1'))}<cite>${esc(t('why.stat1src'))}</cite></blockquote>
-    ${obNav(true)}
+    ${obNav(false)}
     ${installPrompt ? `<div class="stack narrow"><button class="btn ghost" data-action="install">${esc(t('home.install'))}</button></div>` : ''}
   </section>`;
 }
@@ -331,7 +329,7 @@ function renderWhy() {
     <h2>${esc(t('why.listTitle'))}</h2>
     <ul class="why-list">${items.map((n, i) => `<li><span class="why-icon" aria-hidden="true">${icons[i]}</span>${esc(t(`why.i${n}`))}</li>`).join('')}</ul>
     <p class="why-everyone">${esc(t('why.everyone'))}</p>
-    ${obNav(false)}
+    ${obNav(true)}
   </section>`;
 }
 
@@ -392,7 +390,7 @@ function renderHome() {
       ${state?.completed.length ? `<button class="btn" data-action="summary">${esc(t('map.summary'))}</button>` : ''}
       ${installPrompt ? `<button class="btn ghost" data-action="install">${esc(t('home.install'))}</button>` : ''}
     </div>
-    <div class="ob-links info-links"><button class="link" data-action="how">${esc(t('intro.how'))}</button>${INFO_PAGES.map((p) => `<button class="link" data-action="page" data-id="${p}">${esc(t(`${p}.link`))}</button>`).join('')}</div>
+    <div class="ob-links info-links"><button class="link" data-action="how">${esc(t('intro.how'))}</button><button class="link" data-action="why">${esc(t('why.tag'))}</button>${INFO_PAGES.map((p) => `<button class="link" data-action="page" data-id="${p}">${esc(t(`${p}.link`))}</button>`).join('')}</div>
     <p class="fine center">${esc(t('home.privacy'))} ${esc(t('footer.examples'))}</p>
     <p class="fine center">${esc(t('about.independent'))}</p>
   </section>`;
@@ -777,6 +775,36 @@ function renderNote() {
   </section>`;
 }
 
+// What a card is about, at a glance: an icon and a colour from its topic.
+const TOPIC_ICON = { money_shortfall: '💸', test_stress: '📚', wellbeing: '🌱', debt: '🧾', family_pressure: '👪', loneliness: '🤝', housing: '🏠', funding_risk: '📄', career: '💼' };
+const TYPE_ICON = { win: '🎉', friend_story: '💬', light: '☀️', recurring: '🔁', tests: '📝', results: '📊', friday: '💃' };
+
+function cardTopic(ev) {
+  return ev.type === 'win' ? 'win' : ev.forecast_tags?.[0] || (TYPE_ICON[ev.type] ? ev.type : 'core');
+}
+
+function cardTop(ev, tag) {
+  const icon = ev.type === 'win' ? TYPE_ICON.win : TOPIC_ICON[ev.forecast_tags?.[0]] || TYPE_ICON[ev.type] || '📌';
+  return `<div class="card-top"><span class="card-art" aria-hidden="true">${icon}</span><p class="tag">${esc(tag)}</p></div>`;
+}
+
+const motionOk = () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pause = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// A short burst for a win card, then it clears itself away.
+function confetti() {
+  const box = document.createElement('div');
+  box.className = 'confetti';
+  box.setAttribute('aria-hidden', 'true');
+  const colours = ['--accent', '--good', '--marks', '--wellbeing'];
+  box.innerHTML = Array.from({ length: 32 }, (_, i) => {
+    const r = (n) => Math.round(Math.random() * n);
+    return `<i style="left:${r(100)}%;background:var(${colours[i % colours.length]});--x:${r(160) - 80}px;--r:${r(720) - 360}deg;--d:${1.4 + Math.random()}s;--delay:${Math.random() * 0.4}s"></i>`;
+  }).join('');
+  document.body.appendChild(box);
+  setTimeout(() => box.remove(), 3200);
+}
+
 function renderEvent() {
   const ev = eventForWeek(content, state);
   if (ev.type === 'tests') return renderTests(ev);
@@ -788,9 +816,9 @@ function renderEvent() {
   const tag = TYPE_TAG[ev.type] ? t(TYPE_TAG[ev.type]) : unitLabel(state.week) + part;
   if (!ev.choices) {
     return `<section class="event screen">
-      <article class="card event-card ${ev.type}">
-        <p class="tag">${esc(tag)}</p>
-        <h1>${ev.type === 'win' ? '🎉 ' : ''}${esc(tx(ev.title, v))}</h1>
+      <article class="card event-card ${ev.type} t-${cardTopic(ev)}">
+        ${cardTop(ev, tag)}
+        <h1>${esc(tx(ev.title, v))}</h1>
         <p>${rich(tx(ev.text, v))}</p>
         ${ev.effects ? `<div class="deltas big">${delta(ev.effects.money, 'money')}${delta(ev.effects.marks, 'marks')}${delta(ev.effects.wellbeing, 'wellbeing')}</div>` : ''}
       </article>
@@ -802,8 +830,8 @@ function renderEvent() {
   const text = rich(tx(ev.text, v));
   return `<section class="event screen">
     ${coachSeen('card') && text.includes('class="term"') ? coach('terms') : coach('card')}
-    <article class="card event-card ${soft ? 'soft' : ''} ${ev.type}">
-      <p class="tag">${esc(tag)}</p>
+    <article class="card event-card ${soft ? 'soft' : ''} ${ev.type} t-${cardTopic(ev)}">
+      ${cardTop(ev, tag)}
       <h1>${esc(tx(ev.title, v))}</h1>
       <p>${text}</p>
       ${ev.tradeoff ? `<p class="note">${esc(t('event.tradeoff'))}</p>` : ''}
@@ -829,8 +857,8 @@ function renderOutcome() {
   const { buffer, bufferSaved } = state.last;
   return `<section class="outcome screen">
     ${hasSupport ? coach('support') : undo ? coach('outcome') : ''}
-    <article class="card">
-      <p class="tag">${esc(t('outcome.title'))}</p>
+    <article class="card t-${cardTopic(ev)}">
+      ${cardTop(ev, t('outcome.title'))}
       <h1>${esc(tx(choice.label, v))}</h1>
       <div class="deltas big">${delta(d.money, 'money')}${delta(d.marks, 'marks')}${delta(d.wellbeing, 'wellbeing')}</div>
       <p>${rich(tx(choice.outcome, v))}</p>
@@ -976,8 +1004,8 @@ function renderFriday() {
   if (state.fridayStep === 'habit') {
     const night = fridayAmount(content, state);
     return `<section class="friday screen">
-      <article class="card event-card friday-card">
-        <p class="tag">${esc(unitLabel(state.week))}</p>
+      <article class="card event-card friday-card t-friday">
+        ${cardTop({ type: 'friday' }, unitLabel(state.week))}
         <h1>${esc(t('friday.habitTitle'))}</h1>
         <p>${esc(t('friday.habitText', { amount: money(night) }))}</p>
         <p class="note">${esc(t('friday.habitNote'))}</p>
@@ -991,8 +1019,8 @@ function renderFriday() {
   const tm = fridayTemptation(content, state);
   const amount = money(tm.amount);
   return `<section class="friday screen">
-    <article class="card event-card friday-card">
-      <p class="tag">${esc(t('friday.title'))}</p>
+    <article class="card event-card friday-card t-friday">
+      ${cardTop({ type: 'friday' }, t('friday.title'))}
       <h1>${esc(t('friday.treatTitle'))}</h1>
       <p>${esc(tx(tm.text, { amount }))}</p>
     </article>
@@ -1021,8 +1049,8 @@ function testBlock(test) {
 function renderTests(ev) {
   const tests = state.results[state.chapter] || computeTests(content, state);
   return `<section class="tests screen">
-    <article class="card">
-      <p class="tag">${esc(unitLabel(state.week))}</p>
+    <article class="card t-tests">
+      ${cardTop({ type: 'tests' }, unitLabel(state.week))}
       <h1>${esc(tx(ev.title))}</h1>
       <p>${rich(tx(ev.text))}</p>
     </article>
@@ -1035,8 +1063,8 @@ function renderResults(ev) {
   const r = computeResults(content, state);
   const v = vars();
   return `<section class="results screen">
-    <article class="card">
-      <p class="tag">${esc(tx(ev.title))}</p>
+    <article class="card t-results">
+      ${cardTop({ type: 'results' }, tx(ev.title))}
       <h1>${esc(tx(r.tier.title))}</h1>
       <p class="big-stat">${esc(t('results.passed', { n: r.passed, total: r.tests.length }))}</p>
       <p>${rich(tx(r.tier.body))}</p>
@@ -1570,7 +1598,7 @@ function render() {
   if (ownContent && screen !== 'services') { content = ownContent; ownContent = null; }
   renderTopbar();
   let html;
-  if (screen === 'onboard') html = [renderWelcome, renderWhy, renderHow][obStep]();
+  if (screen === 'onboard') html = [renderWelcome, renderHow, renderWhy][obStep]();
   else if (screen === 'intro') html = renderIntro();
   else if (screen === 'setup') html = renderSetup();
   else if (INFO_PAGES.includes(screen)) html = renderInfo();
@@ -1606,6 +1634,7 @@ function render() {
   const focus = overlay || sheet ? app.querySelector('.overlay h2') : moved ? app.querySelector('h1') : null;
   if (focus) { focus.setAttribute('tabindex', '-1'); focus.focus({ preventScroll: true }); }
   if (moved) window.scrollTo(0, 0);
+  if (moved && motionOk() && app.querySelector('.event-card.win')) confetti();
 }
 
 function deviceId() {
@@ -1818,13 +1847,18 @@ document.addEventListener('click', async (e) => {
       screen = 'year';
       render();
       break;
+    case 'why':
+      obStep = 2;
+      screen = 'onboard';
+      render();
+      break;
     case 'how':
       obStep = 1;
       screen = 'onboard';
       render();
       break;
     case 'ob-next':
-      if (obStep > 0 && obStep < OB_PAGES - 1) obStep += 1;
+      if (obStep === 0) obStep = 1;
       else screen = 'home';
       render();
       break;
@@ -1921,7 +1955,12 @@ document.addEventListener('click', async (e) => {
       update(skipEvent(content, state));
       break;
     case 'choose':
+      if (el.closest('.choosing')) break; // an answer is already on its way
       coachDone('card');
+      // Show which answer was picked for a moment before its outcome.
+      el.classList.add('picked');
+      el.closest('.choices')?.classList.add('choosing');
+      if (motionOk()) await pause(260);
       undo = state;
       update(choose(content, state, id));
       break;

@@ -1111,3 +1111,48 @@ button.contact { font: inherit; cursor: pointer; }
   background: none; border: 0; border-radius: 4px; padding: 0; cursor: pointer;
 }
 .term:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* Card visuals: a topic icon and colour on every card, and feedback on choosing. */
+.t-money_shortfall { --topic: var(--money); }
+.t-test_stress { --topic: var(--marks); }
+.t-wellbeing { --topic: var(--wellbeing); }
+.t-debt { --topic: var(--bad); }
+.t-family_pressure { --topic: var(--accent); }
+.t-loneliness { --topic: var(--series-1); }
+.t-housing { --topic: var(--help); }
+.t-funding_risk { --topic: var(--accent); }
+.t-career { --topic: var(--brand); }
+.t-win { --topic: var(--good); }
+.t-friend_story { --topic: var(--wellbeing); }
+.t-light { --topic: var(--series-1); }
+.t-recurring { --topic: var(--brand); }
+.t-tests, .t-results { --topic: var(--marks); }
+.t-friday { --topic: var(--wellbeing); }
+.event-card[class*="t-"] { border-top-color: var(--topic, var(--accent)); }
+.card-top { display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+.card-top .tag { margin: 0; }
+.card-art {
+  flex: none; width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; font-size: 1.7rem; line-height: 1;
+  background: var(--surface-2);
+  background: color-mix(in srgb, var(--topic, var(--accent)) 22%, transparent);
+  animation: art-in 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+@keyframes art-in { from { opacity: 0; transform: scale(0.5) rotate(-12deg); } }
+
+.choice { transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease; }
+.choice.picked { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 16%, var(--surface)); transform: scale(1.02); }
+.choices.choosing .choice { pointer-events: none; }
+.choices.choosing .choice:not(.picked) { opacity: 0.4; }
+
+.outcome > .card { animation: outcome-in 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1) both; }
+@keyframes outcome-in { from { opacity: 0; transform: translateY(18px) scale(0.97); } }
+.outcome .deltas.big .delta { animation: chip-pop 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.25s both; }
+.outcome .deltas.big .delta:nth-child(2) { animation-delay: 0.37s; }
+.outcome .deltas.big .delta:nth-child(3) { animation-delay: 0.49s; }
+.outcome .deltas.big .delta.up { background: color-mix(in srgb, var(--good) 18%, var(--surface-2)); }
+.outcome .deltas.big .delta.down { background: color-mix(in srgb, var(--bad) 18%, var(--surface-2)); }
+@keyframes chip-pop { from { opacity: 0; transform: scale(0.4); } }
+
+.confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 60; }
+.confetti i { position: absolute; top: -16px; width: 8px; height: 14px; border-radius: 2px; animation: confetti-fall var(--d) ease-in var(--delay) both; }
+@keyframes confetti-fall { to { transform: translate(var(--x), 105vh) rotate(var(--r)); opacity: 0.85; } }
