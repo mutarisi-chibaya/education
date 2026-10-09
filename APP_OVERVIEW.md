@@ -85,7 +85,7 @@ get different journeys.
 
 **Semester Forecast**
 - The weeks in the next chapter where this student is most at risk, and why.
-- A cash-flow chart, including what happens if an allowance arrives late.
+- The week money runs short, including what happens if an allowance arrives late.
 - Spending leaks per month: nights out, takeaways, clothes, data, subscriptions.
 - A short list of actions, worked out on the phone. If the server has an AI key, an
   AI-written version is offered as well.

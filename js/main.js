@@ -11,7 +11,7 @@ import {
   buildPlan, budgetFor, tierAdvice, contactIds, serviceText, planImageBlob, forecastView, cardVars, setPlanColors,
 } from './plan.js';
 import { moneyForecast, aiPayload, LEAKS, fairGame, nextChapterId, copingProfile } from './forecast.js';
-import { cashFlowChart, showChartWeek, riskStrip } from './charts.js';
+import { riskStrip } from './charts.js';
 import { serverCapabilities, aiPlan, sendStats, fetchStats } from './ai.js';
 import { termIndex, linkTerms } from './glossary.js';
 
@@ -663,20 +663,22 @@ function recapBlock(ch) {
   </div>`;
 }
 
+// The money forecast in two sentences: allowance late, then on time.
+function moneyLines(f) {
+  const rows = [
+    { ok: !f.late.runOut, text: f.late.runOut ? t('money.lateRunOut', { n: f.lateWeeks, week: f.late.runOut }) : t('money.lateOk', { n: f.lateWeeks }) },
+    { ok: !f.onTime.runOut, text: f.onTime.runOut ? t('money.onTimeRunOut', { week: f.onTime.runOut }) : t('money.onTimeOk') },
+  ];
+  return `<ul class="money-lines">${rows.map((r) => `<li class="${r.ok ? 'ok' : 'warn'}"><span class="money-mark" aria-hidden="true">${r.ok ? '✓' : '!'}</span><span>${esc(r.text)}</span></li>`).join('')}</ul>`;
+}
+
 function renderChapterIntro() {
   const ch = currentChapter(content, state);
   let moneyBlock = '';
   if (ch.moneyIntro) {
     const f = moneyForecast(content, state.setup);
-    const lines = [
-      f.late.runOut ? t('money.lateRunOut', { n: f.lateWeeks, week: f.late.runOut }) : t('money.lateOk', { n: f.lateWeeks }),
-      f.onTime.runOut ? t('money.onTimeRunOut', { week: f.onTime.runOut }) : t('money.onTimeOk'),
-    ];
     moneyBlock = `<h2>${esc(t('money.title'))}</h2>
-      <div class="card headline ${f.late.runOut ? 'warn' : 'ok'}">
-        <p class="big-line">${esc(lines[0])}</p><p>${esc(lines[1])}</p>
-      </div>
-      <div class="card">${cashFlowChart(f, f.lateWeeks)}</div>
+      ${moneyLines(f)}
       <p class="fine">${esc(t('money.weekly', { income: money(f.income), costs: money(f.costs), start: money(f.start) }))}
         ${esc(t('money.inGame'))} ${esc(t('footer.examples'))}</p>`;
   }
@@ -1152,7 +1154,7 @@ function renderForecast() {
 
       <article class="card wide">
         <h2>${esc(t('money.title'))}</h2>
-        ${cashFlowChart(fc.money, fc.money.lateWeeks)}
+        ${moneyLines(fc.money)}
       </article>
     </div>
     </details>
@@ -1551,7 +1553,7 @@ function renderOverlay() {
   return `<div class="overlay" role="dialog" aria-modal="true" data-action="close-overlay-bg">
     <div class="overlay-inner">
       ${overlay.map(supportCard).join('')}
-      ${supportNote()}
+      <div class="overlay-note">${supportNote()}</div>
       <button class="btn primary big" data-action="close-overlay">${esc(t('support.close'))}</button>
     </div>
   </div>`;
@@ -2078,8 +2080,6 @@ document.addEventListener('click', async (e) => {
 });
 
 function chartHover(e) {
-  const hit = e.target.closest?.('[data-chart-week]');
-  if (hit) { showChartWeek(hit); return; }
   const col = e.target.closest?.('[data-risk]');
   if (col) col.closest('.card').querySelector('.risk-readout').textContent = col.dataset.risk;
 }

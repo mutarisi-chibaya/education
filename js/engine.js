@@ -15,7 +15,7 @@ const FINAL_TYPES = ['tests', 'results'];
 // The player always keeps a little cash: no payment can take the last R50.
 export const CASH_FLOOR = 50;
 // Living costs never take more than this share of the money in hand.
-const COST_CAP = { food: 0.7, transport: 0.3, data: 0.3, other: 0.3 };
+const COST_CAP = { food: 0.7, transport: 0.3, data: 0.3, snacks: 0.3, other: 0.5 };
 
 const clamp = (n, lo = 0, hi = 100) => Math.max(lo, Math.min(hi, n));
 // Nobody gets 100%. Marks top out here, and gains above 75% count half:
@@ -136,17 +136,27 @@ export function monthlyEssentials(content, setup) {
   return weeklyCosts(content, setup) * 2;
 }
 
-// Living costs, paid in priority order. Groceries are the big monthly shop,
-// bought on the first week of each month (a game week is about two real
-// weeks); transport comes next; data and toiletries/other are the first
-// things to be cut back when money is tight.
-export const SPEND_ORDER = ['food', 'transport', 'data', 'other'];
+// Living costs, paid in priority order. Groceries and toiletries are the big
+// monthly shop, bought on the first week of each month (a game week is about
+// two real weeks). Transport and data are bought every week, and so is a
+// little food on campus: a share of the food money that never makes it into
+// the monthly shop. Data, campus food and toiletries are the first things to
+// be cut back when money is tight.
+export const SPEND_ORDER = ['food', 'transport', 'data', 'snacks', 'other'];
+const SNACK_SHARE = 0.2;
 
 export function livingCosts(content, setup, week) {
   const c = findById(content.housing, setup.housing).weeklyCosts;
-  return SPEND_ORDER
-    .map((id) => ({ id, due: id === 'food' ? (week % 2 === 1 ? (c.food || 0) * 2 : 0) : (c[id] || 0) }))
-    .filter((x) => x.due > 0);
+  const shopWeek = week % 2 === 1;
+  const snacks = roundTo((c.food || 0) * SNACK_SHARE, 5);
+  const due = {
+    food: shopWeek ? ((c.food || 0) - snacks) * 2 : 0,
+    transport: c.transport || 0,
+    data: c.data || 0,
+    snacks,
+    other: shopWeek ? (c.other || 0) * 2 : 0,
+  };
+  return SPEND_ORDER.map((id) => ({ id, due: due[id] })).filter((x) => x.due > 0);
 }
 
 // Pay what you can, in order. Each cost is capped at a share of the money in
@@ -560,7 +570,7 @@ function endWeek(content, s) {
     }
     const transport = missing(['transport']);
     if (transport > 0) addLedger(s, { key: 'ledger.cutTransport' }, { marks: -Math.ceil(3 * transport) });
-    const extras = missing(['data', 'other']);
+    const extras = missing(['data', 'snacks', 'other']);
     if (extras > 0) addLedger(s, { key: 'ledger.cutExtras' }, { wellbeing: -Math.ceil(2 * extras) });
   }
   if (currentChapter(content, s).economy) {
