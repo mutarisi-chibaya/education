@@ -119,7 +119,7 @@ A change is done when all of these hold:
 6. Deploy (see [runbook.md](runbook.md#deploy)).
 7. Smoke test on the deployed site: open, play one week, go offline and reload, open the
    portal sign-in page.
-8. Tag the commit `vX.Y.Z` and add an entry to `CHANGELOG.md` **(to set up)**.
+8. Tag the commit `vX.Y.Z` and add an entry to [CHANGELOG.md](CHANGELOG.md).
 
 ## Versioning
 
