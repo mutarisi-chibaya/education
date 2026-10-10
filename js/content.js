@@ -194,12 +194,15 @@ export function searchDirectory(directory, query, lang = 'en') {
 }
 
 // Ask the server for a newer pack. Returns an updated catalogue, or null to
-// keep the bundled one (server down, asleep, slow, or nothing newer).
-export async function fetchNewerPack(catalogue, id) {
+// keep the bundled one (server down, asleep, slow, or nothing newer). `latest`
+// is the version the server's short directory reported: when the phone already
+// has it, the pack itself is not downloaded, which saves the student's data.
+export async function fetchNewerPack(catalogue, id, latest) {
   if (typeof navigator !== 'undefined' && !navigator.onLine) return null;
   try {
-    const pack = await getJson(`packs/${encodeURIComponent(id)}`, PACK_TIMEOUT);
     const bundled = catalogue.institutions.find((i) => i.id === id);
+    if (bundled && latest !== undefined && !(latest > packVersion(catalogue.core, bundled))) return null;
+    const pack = await getJson(`packs/${encodeURIComponent(id)}`, PACK_TIMEOUT);
     const src = pack?.source;
     if (!bundled || !src?.core || !src.institution || !Array.isArray(src.chapters)) return null;
     if (!(pack.version > packVersion(catalogue.core, bundled))) return null;

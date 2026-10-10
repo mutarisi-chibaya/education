@@ -2,7 +2,7 @@ import {
   newJourney, startChapter, backToMap, eventForWeek, choose, acknowledge, nextWeek, advance, setPhase, openEvent,
   skipEvent, seekHelp, canSeekHelp, fridayDue, friday, fridayTemptation, fridayAmount, setHabit, activeSubscriptions, resolveEvent,
   computeTests, computeResults, findById, monthlyEssentials, chapterOf, currentChapter, TAGS, currentMini, answerMini,
-  affordableChoices, canAffordTreat,
+  affordableChoices, canAffordTreat, setupGaps,
 } from './engine.js';
 import { loadCatalogue, loadInstitution, openDirectory, searchDirectory, mergeContent, fetchNewerPack } from './content.js';
 import { computeBudget, suggestedIncome } from './budget.js';
@@ -10,9 +10,9 @@ import { LANGS, loadLang, currentLang, t, tx, money, cardText } from './i18n.js'
 import {
   buildPlan, budgetFor, tierAdvice, contactIds, serviceText, planImageBlob, forecastView, cardVars, setPlanColors,
 } from './plan.js';
-import { moneyForecast, aiPayload, LEAKS, fairGame, nextChapterId, copingProfile } from './forecast.js';
+import { moneyForecast, LEAKS, fairGame, nextChapterId, copingProfile } from './forecast.js';
 import { riskStrip } from './charts.js';
-import { serverCapabilities, aiPlan, sendStats, fetchStats } from './ai.js';
+import { serverCapabilities, sendStats, fetchStats } from './server.js';
 import { termIndex, linkTerms } from './glossary.js';
 
 const SAVE_VERSION = 6;
@@ -54,7 +54,7 @@ let overlay = null;     // support ids shown as an overlay
 let sheet = null;       // a campus map or demo page shown on top: { kind, id }
 let installPrompt = null;
 let lastMeters = null;
-let caps = { ai: false, stats: false };
+let caps = { stats: false, versions: {} };
 let tested = null;      // real completion count from the server, for the About screen
 // Campus Realities: kept in memory only. Nothing about what was viewed is saved or sent.
 let cr = { topic: null, step: 0, picked: null };
@@ -62,8 +62,6 @@ let undo = null;        // the state before the last choice, so an answer can be
 let lastView = null;    // the page only jumps to the top when the view changes
 let lastNav = null;     // the browser-history entry for the current screen
 let navMode = 'push';   // 'replace' while restoring a history entry or leaving a sensitive card
-let aiPending = false;
-let showAi = true;
 
 // ---------- storage (wrapped: private mode can throw) ----------
 
@@ -666,7 +664,7 @@ function recapBlock(ch) {
 // The money forecast in two sentences: allowance late, then on time.
 function moneyLines(f) {
   const rows = [
-    { ok: !f.late.runOut, text: f.late.runOut ? t('money.lateRunOut', { n: f.lateWeeks, week: f.late.runOut }) : t('money.lateOk', { n: f.lateWeeks }) },
+    { ok: !f.late.runOut, text: f.late.runOut ? t('money.lateRunOut', { label: tx(f.label), n: f.lateWeeks, week: f.late.runOut }) : t('money.lateOk', { label: tx(f.label), n: f.lateWeeks }) },
     { ok: !f.onTime.runOut, text: f.onTime.runOut ? t('money.onTimeRunOut', { week: f.onTime.runOut }) : t('money.onTimeOk') },
   ];
   return `<ul class="money-lines">${rows.map((r) => `<li class="${r.ok ? 'ok' : 'warn'}"><span class="money-mark" aria-hidden="true">${r.ok ? '✓' : '!'}</span><span>${esc(r.text)}</span></li>`).join('')}</ul>`;
@@ -1089,18 +1087,11 @@ function renderResults(ev) {
 // ---------- Semester Forecast (end of every chapter) ----------
 
 function forecastSummaryHtml(view) {
-  const ai = state.ai?.[`${state.chapter}:${currentLang()}`];
-  const template = `<p class="big-line">${esc(view.highest)}</p>
+  return `<p class="big-line">${esc(view.highest)}</p>
     <p>${esc(view.cause)} ${esc(view.pattern)}</p>
     ${view.memory ? `<p class="memory">${esc(view.memory)}</p>` : ''}
     <p><strong>${esc(t('fc.planIntro'))}</strong></p>
     <ol class="steps">${view.actions.map((a) => `<li>${esc(a)}</li>`).join('')}</ol>`;
-  if (ai && showAi) {
-    return `<p class="ai-label">✨ ${esc(t('fc.aiLabel'))}</p>
-      ${ai.split(/\n{2,}/).map((para) => `<p>${esc(para)}</p>`).join('')}
-      <button class="link" data-action="toggle-ai">${esc(t('fc.aiOriginal'))}</button>`;
-  }
-  return template + (ai ? `<button class="link" data-action="toggle-ai">${esc(t('fc.aiShow'))}</button>` : '');
 }
 
 function renderForecast() {
@@ -1108,7 +1099,6 @@ function renderForecast() {
   const { fc } = view;
   const p = fc.profile;
   const pips = (n) => `<span class="pips">${Array.from({ length: Math.max(p.total, 1) }, (_, i) => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</span>`;
-  requestAi(view);
   return `<section class="forecast screen">
     <p class="tag">${esc(tx(currentChapter(content, state).title))}</p>
     <h1>${esc(t('fc.title'))}</h1>
@@ -1175,31 +1165,6 @@ function subscriptionsHtml() {
   return `<h3>${esc(t('fc.subs'))}</h3>
     <ul class="coping">${subs.map((x) => `<li><span>${esc(tx(x.label))}</span><span></span><b>${esc(t('fc.subsMonth', { amount: money(x.monthly) }))}</b></li>`).join('')}</ul>
     <p class="fine">${esc(t('fc.subsYear', { amount: money(year) }))}</p>`;
-}
-
-// Ask the optional AI writer once per chapter and language; the template shows meanwhile.
-function requestAi(view) {
-  const key = `${state.chapter}:${currentLang()}`;
-  if (!caps.ai || aiPending || state.ai?.[key] || !navigator.onLine) return;
-  aiPending = true;
-  const payload = aiPayload(content, state, view.fc, {
-    lang: currentLang(),
-    tx,
-    tier: computeBudget(content, state.setup).tier,
-    actions: view.actions,
-    services: contactIds(content, state).map((id) => {
-      const s = content.support[id];
-      return { name: tx(s.name), phones: (s.contacts || []).filter((c) => c.tel).map((c) => c.label) };
-    }),
-  });
-  aiPlan(payload).then((text) => {
-    aiPending = false;
-    if (!text) return;
-    state = { ...state, ai: { ...state.ai, [key]: text } };
-    save();
-    const el = document.getElementById('fc-summary');
-    if (el) el.innerHTML = `<h2>${esc(t('fc.summary'))}</h2>${forecastSummaryHtml(forecastView(content, state))}`;
-  });
 }
 
 // ---------- survival plan ----------
@@ -1404,7 +1369,7 @@ function renderInfo() {
       <p class="tag">${esc(t('app.title'))}</p>
       <h1>${esc(t('privacy.title'))}</h1>
       <p class="lead">${esc(t('privacy.lead'))}</p>
-      ${list(['privacy.p1', 'privacy.p2', 'privacy.p3', 'privacy.p4', 'privacy.p5'])}
+      ${list(['privacy.p1', 'privacy.p2', 'privacy.p3', 'privacy.p5'])}
       <div class="stack narrow"><button class="btn" data-action="erase">${esc(t('privacy.erase'))}</button></div>
     </section>`;
   }
@@ -1476,7 +1441,7 @@ function renderRealities() {
             <button class="btn small" data-action="cr-topic" data-id="${x.id}">${esc(t('cr.open'))}</button></div>
         </article>`).join('')}
       </div>
-      <p class="fine">${esc(t('cr.private'))} ${esc(t(data.reviewed ? 'cr.reviewed' : 'cr.notReviewed'))}</p>
+      <p class="fine">${esc(t('cr.private'))}${data.reviewed ? ` ${esc(t('cr.reviewed'))}` : ''}</p>
     </section>`;
   }
   // Steps: 0 content note, 1 recognise, 2 scenario, 3 its feedback, 4 you, 5 a friend, 6 rights.
@@ -1647,13 +1612,38 @@ function deviceId() {
   return id;
 }
 
+// An anonymous count that a chapter was completed: a random id, no answers.
+// It waits on the device until the server has taken it, so a busy or
+// unreachable server never loses one. Sending twice is harmless: the server
+// keeps one row per device and chapter.
+const sameStat = (a, b) => a.institution === b.institution && a.chapter === b.chapter;
+function queueStat(entry) {
+  const unsent = (prefs().unsent || []).filter((x) => !sameStat(x, entry));
+  store.set(PREFS_KEY, { ...prefs(), unsent: [...unsent, entry].slice(-20) });
+}
+let flushing = false;
+async function flushStats() {
+  if (flushing || !caps.stats) return;
+  flushing = true;
+  try {
+    for (const entry of prefs().unsent || []) {
+      if (!(await sendStats({ device_id: deviceId(), ...entry, completed: true }))) break;
+      store.set(PREFS_KEY, { ...prefs(), unsent: (prefs().unsent || []).filter((x) => !sameStat(x, entry)) });
+    }
+  } finally {
+    flushing = false;
+  }
+}
+
 function update(next) {
   const finished = state?.phase !== 'forecast' && next.phase === 'forecast';
   state = next;
   save();
   render();
-  // An anonymous count that a chapter was completed: a random id, no answers.
-  if (finished && caps.stats) sendStats({ device_id: deviceId(), institution: content.id, chapter: state.chapter, completed: true });
+  if (finished) {
+    queueStat({ institution: content.id, chapter: state.chapter });
+    flushStats();
+  }
 }
 
 // A saved game remembers its pack version. If the pack has changed, an
@@ -2039,10 +2029,6 @@ document.addEventListener('click', async (e) => {
       coachDone('forecast');
       update(setPhase(state, 'plan'));
       break;
-    case 'toggle-ai':
-      showAi = !showAi;
-      document.getElementById('fc-summary').innerHTML = `<h2>${esc(t('fc.summary'))}</h2>${forecastSummaryHtml(forecastView(content, state))}`;
-      break;
 
     // plan
     case 'budget-reset':
@@ -2143,7 +2129,12 @@ window.addEventListener('beforeinstallprompt', (e) => {
 function connectivity() {
   document.body.classList.toggle('offline', !navigator.onLine);
 }
-window.addEventListener('online', connectivity);
+window.addEventListener('online', async () => {
+  connectivity();
+  // Back online: counts that could not be sent earlier go now.
+  caps = await serverCapabilities();
+  flushStats();
+});
 window.addEventListener('offline', () => { connectivity(); toast(t('home.offline')); });
 
 async function registerSW() {
@@ -2182,6 +2173,7 @@ async function boot() {
   const wanted = saveData?.v === SAVE_VERSION ? saveData.setup?.institution : null;
   const first = openDirectory(catalogue.directory)[0]?.id || catalogue.directory[0].id;
   let loaded = null;
+  let repair = null;
   if (wanted) loaded = await loadInstitution(catalogue, wanted).catch(() => null);
   if (!loaded) await loadInstitution(catalogue, first);
   if (loaded) {
@@ -2189,7 +2181,15 @@ async function boot() {
     if (state.setup.housing === 'living_at_home') state.setup.housing = 'commuting';
     if (!state.setup.campus) state.setup.campus = catalogue.institutions.find((i) => i.id === state.setup.institution).campuses?.[0]?.id;
     content = contentFor(state.setup.institution, state.setup.campus);
-    syncPack();
+    // The university has since removed something this student chose, so the saved game
+    // can't be played. Setup opens with the answers that still fit and asks for the rest.
+    const gaps = setupGaps(content, state.setup);
+    if (gaps.length) {
+      repair = Object.fromEntries(Object.entries(state.setup).filter(([k]) => !gaps.includes(k)));
+      state = null;
+    } else {
+      syncPack();
+    }
     screen = 'onboard';
   } else {
     content = contentFor(first);
@@ -2197,14 +2197,22 @@ async function boot() {
   }
   await openServiceLink();
   connectivity();
+  if (repair) {
+    draft = repair;
+    fromReview = true; // back to the review screen once the missing answers are in
+    step = firstMissing();
+    if (step < 0) step = STEPS.indexOf('review');
+    screen = 'setup';
+  }
   render();
+  if (repair) toast(t('setup.changed'));
   registerSW();
   caps = await serverCapabilities();
-  if (caps.ai && screen === 'game' && state?.phase === 'forecast') render();
+  flushStats();
   if (caps.stats) tested = (await fetchStats())?.students || null;
   // A newer pack from the server replaces the bundled one, but never mid-card.
   const own = ownContent || content;
-  const newer = await fetchNewerPack(catalogue, own.id);
+  const newer = await fetchNewerPack(catalogue, own.id, caps.versions[own.id]);
   if (newer && screen !== 'game' && screen !== 'setup') {
     const visiting = ownContent ? content : null;
     catalogue = newer;

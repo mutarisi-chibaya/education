@@ -243,6 +243,16 @@ function addLeak(s, kind, amount) {
 const addFlags = (s, flags = []) => { for (const f of flags) if (!s.flags.includes(f)) s.flags.push(f); };
 const addSupport = (s, ids = []) => { for (const id of ids) if (!s.supportSeen.includes(id)) s.supportSeen.push(id); };
 
+// A pack can change after a game was saved. These are the setup answers it no
+// longer offers (a course, a housing option, a campus): the game can't be
+// played until they are chosen again.
+export function setupGaps(content, setup) {
+  const lists = { status: content.statuses, course: content.courses, housing: content.housing, funding: content.funding, origin: content.origins, age_role: content.ages };
+  const gaps = Object.keys(lists).filter((k) => !findById(lists[k], setup[k]));
+  if (content.campuses?.length > 1 && !findById(content.campuses, setup.campus)) gaps.push('campus');
+  return gaps;
+}
+
 // ---------- journey ----------
 
 export function newJourney(content, setup, { seed = Math.floor(Math.random() * 2 ** 31) } = {}) {

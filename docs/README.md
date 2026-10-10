@@ -25,6 +25,7 @@ the documents at the repository root and is not repeated here.
 | [api.md](api.md) | Every HTTP endpoint the server exposes |
 | [sdlc.md](sdlc.md) | How work moves from an idea to students' phones |
 | [testing.md](testing.md) | What is tested, how, and what is not |
+| [portal-testing.md](portal-testing.md) | Testing the staff portal by hand: a 10-minute check and a full test |
 | [security-privacy.md](security-privacy.md) | What we protect, from whom, and what data we hold |
 | [SECURITY.md](SECURITY.md) | How to report a security problem, and what is in scope |
 | [privacy-policy.md](privacy-policy.md) | Draft privacy notice for students and university staff |
@@ -40,7 +41,6 @@ the documents at the repository root and is not repeated here.
 | [PORTAL.md](../PORTAL.md) | Staff portal: roles, workflow, first sign-in, security measures |
 | [ADDING_A_UNIVERSITY.md](../ADDING_A_UNIVERSITY.md) | Step-by-step guide to onboarding an institution |
 | [intake/README.md](../intake/README.md) | The guide sent to a university with the intake spreadsheets |
-| [proposal-app/README.md](../proposal-app/README.md) | The separate backup app built to the original proposal |
 
 ## Where each standard document lives
 
@@ -61,11 +61,12 @@ A map from the documents a software project is usually expected to have to where
 | Development | README, setup | [README.md](../README.md) |
 | Development | Contributing guide, conventions, definition of done | [CONTRIBUTING.md](../CONTRIBUTING.md), [sdlc.md](sdlc.md#definition-of-done) |
 | Testing | Test strategy and known gaps | [testing.md](testing.md) |
+| Testing | Manual test cases for the staff portal | [portal-testing.md](portal-testing.md) |
 | Release | Release checklist, versioning, rollback | [sdlc.md](sdlc.md#release-checklist), [runbook.md](runbook.md) |
 | Release | Changelog | [CHANGELOG.md](CHANGELOG.md) |
 | Operations | Runbook, incidents, backup and recovery, monitoring | [runbook.md](runbook.md) |
 | Operations | Security reporting | [SECURITY.md](SECURITY.md) |
-| Users | Staff and admin guide | [PORTAL.md](../PORTAL.md), [ADDING_A_UNIVERSITY.md](../ADDING_A_UNIVERSITY.md), [intake/README.md](../intake/README.md) |
+| Users | Staff and admin guide | The **Guide** tab inside the portal, [PORTAL.md](../PORTAL.md), [ADDING_A_UNIVERSITY.md](../ADDING_A_UNIVERSITY.md), [intake/README.md](../intake/README.md) |
 | Users | Privacy notice | [privacy-policy.md](privacy-policy.md) (draft) |
 
 Not written yet, because each needs something we do not have:

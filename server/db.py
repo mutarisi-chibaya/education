@@ -84,6 +84,15 @@ MIGRATIONS = [
     """
     ALTER TABLE users DROP COLUMN locked_until;
     """,
+    # 4: single-use backup codes for two-step login
+    """
+    CREATE TABLE recovery_codes (
+        user_id INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+        code_hash TEXT NOT NULL,
+        used INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (user_id, code_hash)
+    );
+    """,
 ]
 
 

@@ -14,8 +14,8 @@ The tests exist to guarantee four things, in this order:
 
 | Suite | Command | Count | Runtime |
 |---|---|---|---|
-| App and content | `npm test` | 44 tests | about 20 s |
-| Staff portal | `npm run test:portal` | 27 tests | seconds |
+| App and content | `npm test` | 48 tests | about 20 s |
+| Staff portal and server | `npm run test:portal` | 36 tests | under a minute |
 | One pack | `npm run pack:check <id>` | n/a | about 1 s |
 
 Both use only the standard test runners (`node --test`, `unittest`). There are no test
@@ -41,8 +41,8 @@ flowchart TB
 | Journey | [test/engine.test.mjs](../test/engine.test.mjs), [tools/pack-check.mjs](../tools/pack-check.mjs) | Every setup plays every chapter; money never below zero; every placeholder is filled |
 | Pack | [tools/pack-check.mjs](../tools/pack-check.mjs) | Run for every bundled pack in `npm test`, and by the portal before submit and before publish |
 | Workflow and isolation | [test/test_portal.py](../test/test_portal.py) | Staff cannot see other institutions; nobody approves their own submission; rollback; audit log cannot be changed |
+| Public server | [test/test_server.py](../test/test_server.py) | Only the app's own files are served, however the address is spelled; completion counts are validated, counted once and rate-limited |
 | Offline manifest | [test/engine.test.mjs](../test/engine.test.mjs) | The service worker precaches every content file |
-| Backup app | [test/proposal.test.mjs](../test/proposal.test.mjs) | The proposal edition |
 
 The engine is a pure state machine with a seed, so journey tests are deterministic.
 
@@ -61,6 +61,7 @@ These cannot be automated and are tracked in the
 | National helpline numbers | Engineer or content author | Before launch, then on the audit schedule |
 | Institution names are not real | Platform admin | When an institution is added |
 | Play-testing rounds with students | Team | As scheduled |
+| The staff portal's screens, by hand ([portal-testing.md](portal-testing.md)) | Engineer | A 10-minute check after any portal change; the full test before a pilot |
 
 ## Gaps
 
@@ -69,9 +70,8 @@ Known areas with no automated coverage. Each is a candidate for future work.
 | Gap | Risk it leaves |
 |---|---|
 | No browser tests of `main.js` (rendering, navigation, storage, undo) | A screen can break without a test failing |
-| No test of `serve.py`'s public endpoints or static-file rules | Validation, rate limits and what is served are checked by hand |
 | No test of the service worker's behaviour, only its file list | Update and offline regressions |
-| No test that loads an old save against a newer pack | A pack change that removes a course or housing option used by a save |
+| No browser test of reopening an old save against a newer pack | The check that finds the missing answers is tested; the screen that asks for them again is not |
 | No continuous integration | Tests run only when someone remembers |
 | No accessibility or performance budget checks | Regressions on low-end phones |
 

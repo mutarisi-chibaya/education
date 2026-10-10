@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import {
   newJourney, startChapter, backToMap, eventForWeek, openEvent, skipEvent, choose, acknowledge, advance, friday,
   nextWeek, setPhase, seekHelp, canSeekHelp, computeTests, resolveEvent, monthlyEssentials, eventAmount, condOk, TAGS,
-  setHabit, activeSubscriptions, fridayTemptation, currentMini, answerMini, TRACKERS, affordableChoices, CASH_FLOOR, MARKS_MAX,
+  setHabit, activeSubscriptions, fridayTemptation, currentMini, answerMini, TRACKERS, affordableChoices, CASH_FLOOR, MARKS_MAX, setupGaps,
 } from '../js/engine.js';
 import { mergeContent, openDirectory, searchDirectory } from '../js/content.js';
 import { checkPack } from '../tools/pack-check.mjs';
@@ -354,6 +354,16 @@ test('intake sheets: CSV with quotes, commas and comment rows', () => {
   assert.deepEqual(rows, [{ a: 'one, two', b: 'say "hi"' }, { a: 'last', b: '' }]);
 });
 
+test('a saved game whose course, housing or campus has left the pack is caught before it is played', () => {
+  assert.deepEqual(setupGaps(up, base), []);
+  assert.deepEqual(setupGaps(up, { ...base, course: 'a-course-since-removed' }), ['course']);
+  assert.deepEqual(setupGaps(up, { ...base, housing: 'living_at_home', funding: 'gone' }), ['housing', 'funding']);
+  assert.deepEqual(setupGaps(up, { ...base, campus: 'a-campus-since-closed' }), ['campus']);
+  // A one-campus university never asks which campus, so a missing answer there is not a gap.
+  const { campus, ...noCampus } = base;
+  assert.deepEqual(setupGaps(contentFor('karoo-coast'), { ...noCampus, institution: 'karoo-coast', housing: contentFor('karoo-coast').housing[0].id }), []);
+});
+
 test('commuters skip the first night alone', () => {
   const home = playChapter(up, newJourney(up, { ...base, housing: 'commuting' }), 'arrival', helpful);
   assert.ok(home.seen.includes('ARR-01C') && !home.seen.includes('ARR-01'));
@@ -482,6 +492,10 @@ test('forecast: next chapter risk weeks, cross-chapter memory', () => {
 test('money forecast and budget', () => {
   const f = moneyForecast(up, base);
   assert.equal(f.lateWeeks, 3);
+  // The late-money line names the student's own funding, not "allowance" for everyone.
+  assert.equal(f.label.en, 'NSFAS allowance');
+  assert.equal(moneyForecast(up, { ...base, funding: 'family' }).label.en, 'Money from family');
+  for (const l of [en, zu]) for (const k of ['money.lateRunOut', 'money.lateOk']) assert.ok(l[k].includes('{label}'), k);
   assert.ok(f.late.runOut && f.late.runOut <= 2);
   assert.equal(f.onTime.runOut, null);
   assert.equal(incomeTier(0.97), 'gap');
@@ -642,7 +656,7 @@ test('service worker precaches every content file', () => {
   assert.ok(sw.includes('fys-packs') && sw.includes('content\\/institutions'));
   for (const id of BUILT) assert.ok(sw.includes(`./content/chapters/${id}.json`), `sw.js misses chapter ${id}`);
   assert.ok(sw.includes('./content/realities.json'));
-  for (const f of ['main', 'engine', 'i18n', 'plan', 'budget', 'content', 'forecast', 'charts', 'ai']) assert.ok(sw.includes(`./js/${f}.js`));
+  for (const f of ['main', 'engine', 'i18n', 'plan', 'budget', 'content', 'forecast', 'charts', 'server']) assert.ok(sw.includes(`./js/${f}.js`));
 });
 
 test('living costs: capped at a share of your money, and spare money gets spent', () => {

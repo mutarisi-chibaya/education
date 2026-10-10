@@ -4,31 +4,24 @@ Serves the static app, plus the small API from the build spec (section 11).
 The app works fully offline without it: packs are bundled, and every call
 falls back quietly.
 
-    GET  /institutions         available versions (sizwe, general) and features
+    GET  /institutions         available institutions and features
     GET  /packs/{institution}  latest content pack (JSON) with its version
     POST /stats                anonymous completion counts
                                {device_id (random), institution, chapter, completed, feedback?}
     GET  /stats                summary of those counts (real numbers only);
                                add ?institution=<id> for one institution's numbers
-    POST /plan                 AI writes the Semester Forecast in natural language
-                               (needs the `anthropic` package and an API key,
-                               which stays on the server)
     /portal/                   the staff portal: institutions edit their own pack
     /portal/api/...            its API (see server/web.py). Accounts are created
                                with `python -m server.admin`.
 
-Security (spec section 12): public endpoints are read-only except /stats and
-/plan; /stats validates its schema, is rate-limited, de-duplicates by the
-random device id and only accepts cross-origin posts from FYS_APP_ORIGIN.
+Security (spec section 12): public endpoints are read-only except /stats,
+which validates its schema, is rate-limited, de-duplicates by the random
+device id and only accepts cross-origin posts from FYS_APP_ORIGIN.
 Deploy behind HTTPS.
 
 Usage:
     python serve.py            # http://localhost:8080
     python serve.py 3000       # custom port
-
-Turn on the AI plan by installing requirements and setting a key:
-    pip install -r requirements.txt
-    set ANTHROPIC_API_KEY=...      (PowerShell: $env:ANTHROPIC_API_KEY="...")
 
 Service workers (offline mode) only run on localhost or HTTPS, so open the
 game via http://localhost, not a LAN IP or file:// URL.
@@ -51,40 +44,25 @@ from server import mailer as portal_mailer
 from server import web as portal_web
 from server.portal import Portal, node_check
 
-try:
-    import anthropic
-except ImportError:  # the AI plan is optional
-    anthropic = None
-
 ROOT = Path(__file__).resolve().parent
-PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+PORT = int(sys.argv[1]) if __name__ == "__main__" and len(sys.argv) > 1 else 8080
 CONTENT = ROOT / "content"
 STATS_DB = ROOT / "data" / "stats.db"
 MAX_BODY = 16 * 1024
 # The only other origin allowed to call the API (e.g. https://firstyearsim.example).
 # Same-origin requests need no CORS header at all.
 APP_ORIGIN = os.environ.get("FYS_APP_ORIGIN", "")
-PRIVATE_DIRS = {"data", "__pycache__", "test", "tools", "server", "intake"}
-RATE_LIMIT = 30  # write requests per client per minute
-ROUTE = re.compile(r"(?:^|/)(institutions|stats|plan|packs/([a-z0-9_-]{1,40}))$")
+# The only parts of the repository a browser may fetch. Everything else (data/, server
+# code, tools, documents, dot-folders) is refused, however the address is spelled.
+PUBLIC_DIRS = {"css", "js", "i18n", "icons", "content", "portal"}
+PUBLIC_FILES = {"index.html", "manifest.webmanifest", "sw.js"}
+# Completion counts per minute. A campus network puts a whole lecture hall behind one
+# address, so the per-address limit is roomy and each device has its own, tighter one.
+RATE_LIMIT = 600
+DEVICE_LIMIT = 10
+ROUTE = re.compile(r"(?:^|/)(institutions|stats|packs/([a-z0-9_-]{1,40}))$")
 DEVICE_ID = re.compile(r"^[A-Za-z0-9-]{8,64}$")
 FEEDBACK = {"realistic": {"yes", "partly", "no"}, "learned": {"yes", "no"}, "recommend": {"yes", "maybe", "no"}}
-MODEL = "claude-opus-5-5"
-
-LANGUAGES = {"en": "English", "zu": "isiZulu", "xh": "isiXhosa", "af": "Afrikaans", "nso": "Sepedi", "tn": "Setswana", "st": "Sesotho"}
-SYSTEM_PROMPT = """You write the closing "Semester Forecast" for University Simulator, a game \
-that lets South African students rehearse university life, from first year to graduation.
-
-Write directly to the student ("you"), warmly and without judgement: the goal is confidence, \
-not fear. Sending money home has no single right answer, and needing help is normal.
-
-Use only the facts in the forecast data you are given: the risk weeks and their causes, the \
-coping pattern, the plan steps, and the named services and phone numbers. Never invent \
-services, phone numbers, amounts or rules.
-
-Write 90 to 130 words of plain text in {language}: no headings, no markdown, no lists. \
-Start with the riskiest weeks and why, describe the coping pattern kindly, then give the \
-plan steps as concrete actions with their week numbers. End with one encouraging sentence."""
 
 # Two-step login is on unless PORTAL_MFA=off (for a local demo only). The session
 # cookie is marked Secure unless PORTAL_INSECURE_COOKIE=1 (plain http on a LAN).
@@ -104,64 +82,6 @@ def portal():
 
 _stats_lock = threading.Lock()
 _hits = {}
-
-
-def ai_enabled():
-    has_credentials = bool(os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN"))
-    return anthropic is not None and (has_credentials or os.environ.get("FYS_AI_ENABLED") == "1")
-
-
-_client = None
-
-
-def ai_client():
-    global _client
-    if _client is None:
-        _client = anthropic.Anthropic(timeout=25.0, max_retries=1)
-    return _client
-
-
-def write_plan(payload):
-    """Return AI-written forecast text, or None so the app keeps its template."""
-    language = LANGUAGES.get(payload.get("lang"), "English")
-    try:
-        response = ai_client().beta.messages.create(
-            model=MODEL,
-            max_tokens=4000,
-            # Short, low-stakes writing: low effort keeps it fast and cheap.
-            output_config={"effort": "low"},
-            # If a safety classifier declines, the API retries on Anthropic's
-            # recommended fallback model instead of returning the refusal.
-            betas=["server-side-fallback-2026-07-01"],
-            fallbacks="default",
-            system=SYSTEM_PROMPT.format(language=language),
-            messages=[{"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
-        )
-    except anthropic.RateLimitError:
-        print("AI plan: rate limited, using template")
-        return None
-    except anthropic.APIStatusError as e:
-        print(f"AI plan: API error {e.status_code}, using template")
-        return None
-    except anthropic.APIConnectionError:
-        print("AI plan: no connection, using template")
-        return None
-    except anthropic.AnthropicError as e:  # e.g. no credentials configured
-        print(f"AI plan: {e.__class__.__name__}, using template")
-        return None
-
-    if response.stop_reason == "refusal":
-        return None
-    text = "".join(block.text for block in response.content if block.type == "text").strip()
-    return text or None
-
-
-def clean_plan_payload(data):
-    """Keep only the anonymous forecast fields the prompt needs."""
-    keys = ["lang", "institution", "course", "housing", "funding", "incomeBand", "chapter", "nextChapter", "riskWeeks",
-            "copingStyle", "copingCounts", "moneyRunsOutIfLate", "moneyRunsOutOnTime", "allowanceWeeksLate",
-            "spendingLeaksPerMonth", "emergencyBufferTarget", "plan", "services"]
-    return {k: data.get(k) for k in keys}
 
 
 def load(path):
@@ -319,13 +239,16 @@ def stats_summary(institution=None):
     return out
 
 
-def rate_limited(client):
+def rate_limited(key, limit=RATE_LIMIT):
     now = time.time()
     with _stats_lock:
-        recent = [t for t in _hits.get(client, []) if now - t < 60]
+        if len(_hits) > 20000:  # forget addresses and devices that have gone quiet
+            for k in [k for k, times in _hits.items() if now - times[-1] >= 60]:
+                del _hits[k]
+        recent = [t for t in _hits.get(key, []) if now - t < 60]
         recent.append(now)
-        _hits[client] = recent
-        return len(recent) > RATE_LIMIT
+        _hits[key] = recent
+        return len(recent) > limit
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -375,6 +298,23 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_response(204)
         self.end_headers()
 
+    def public_file(self):
+        """Whether the address leads to a file the app or the portal serves. It is judged on the
+        file it resolves to, so capitals, percent-encoding and ".." cannot reach anything else."""
+        try:
+            parts = Path(self.translate_path(self.path)).resolve().relative_to(ROOT).parts
+        except ValueError:
+            return False
+        if not parts:
+            return True  # the app's own front page
+        top = parts[0].lower()
+        return top in PUBLIC_DIRS or (len(parts) == 1 and top in PUBLIC_FILES)
+
+    def do_HEAD(self):
+        if not self.public_file():
+            return self.send_json(404, {"error": "not found"})
+        return super().do_HEAD()
+
     def send_json(self, status, body, cookie=None):
         data = json.dumps(body, ensure_ascii=False).encode("utf-8")
         self.send_response(status)
@@ -422,14 +362,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self.portal_api("GET")
         route = ROUTE.search(path)
         if not route:
-            # Never serve stored stats, the virtualenv or server code as static files.
-            first = path.lstrip("/").split("/")[0]
-            if first in PRIVATE_DIRS or first.startswith(".") or path.endswith(".py"):
+            if not self.public_file():
                 return self.send_json(404, {"error": "not found"})
             return super().do_GET()
         name = route.group(1)
         if name == "institutions":
-            return self.send_json(200, {"institutions": list_institutions(), "features": {"ai": ai_enabled(), "stats": True}})
+            return self.send_json(200, {"institutions": list_institutions(), "features": {"stats": True}})
         if name == "stats":
             wanted = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query).get("institution", [None])[0]
             if wanted is not None and wanted not in institution_ids():
@@ -445,7 +383,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self.portal_api("POST")
         route = ROUTE.search(self.path.split("?")[0])
         name = route.group(1) if route else None
-        if name not in ("stats", "plan"):
+        if name != "stats":
             return self.send_json(404, {"error": "not found"})
         if self.cross_origin_blocked():
             return self.send_json(403, {"error": "origin not allowed"})
@@ -454,18 +392,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         data = self.read_json()
         if data is None or not isinstance(data, dict):
             return self.send_json(400, {"error": "invalid JSON"})
-        if name == "plan":
-            if not ai_enabled():
-                return self.send_json(503, {"error": "AI plan is not configured"})
-            try:
-                text = write_plan(clean_plan_payload(data))
-            except Exception as e:  # e.g. no credentials found; the app keeps its template
-                print(f"AI plan unavailable: {e}")
-                text = None
-            return self.send_json(200, {"text": text}) if text else self.send_json(502, {"error": "no plan"})
         record = clean_stats(data)
         if record is None:
             return self.send_json(400, {"error": "invalid stats"})
+        if rate_limited(("device", record["device_id"]), DEVICE_LIMIT):
+            return self.send_json(429, {"error": "too many requests"})
         save_stats(record)
         return self.send_json(200, {"ok": True})
 
@@ -491,7 +422,6 @@ if __name__ == "__main__":
     server, port = open_server(PORT)
     with server as httpd:
         print(f"University Simulator -> http://localhost:{port}  (Ctrl+C to stop)")
-        print(f"  AI-written plan: {'on' if ai_enabled() else 'off (template plan; see serve.py docstring)'}")
         print(f"  Completion stats: http://localhost:{port}/stats")
         print(f"  Staff portal:     http://localhost:{port}/portal/  (two-step login {'on' if PORTAL_MFA else 'OFF: demo only'})")
         print(f"  Portal email:     {'SMTP via ' + os.environ['SMTP_HOST'] if os.environ.get('SMTP_HOST') else 'data/outbox/ (no mail server set; links are shown on screen)'}")

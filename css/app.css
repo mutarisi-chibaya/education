@@ -709,7 +709,6 @@ details summary { cursor: pointer; font-weight: 650; color: var(--brand); min-he
 .card > .money-lines:last-child { margin-bottom: 0; }
 .fc-summary { border-top: 6px solid var(--accent); }
 .fc-summary .steps { margin-bottom: 8px; }
-.ai-label { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
 .fc-grid { display: grid; gap: 0 14px; }
 .how summary { font-weight: 700; color: var(--brand); }
 .how p { margin: 10px 0 0; color: var(--muted); font-size: 0.95rem; }

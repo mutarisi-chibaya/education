@@ -10,9 +10,10 @@ and what follows from it. They explain why the code looks the way it does.
 | [0003](0003-no-student-accounts.md) | No student accounts; progress stays on the device | Accepted |
 | [0004](0004-standard-library-server-and-sqlite.md) | Standard-library Python server and SQLite | Accepted |
 | [0005](0005-two-person-publish-with-server-side-check.md) | Two-person publish with a server-side pack check | Accepted |
-| [0006](0006-rule-based-forecast.md) | A rule-based forecast, with AI only for wording | Accepted |
+| [0006](0006-rule-based-forecast.md) | A rule-based forecast, with AI only for wording | Superseded by 0007 |
+| [0007](0007-rule-based-forecast-without-ai.md) | A rule-based forecast, with no AI | Accepted |
 
-These six were written on 5 October 2026 from the code and existing documents, after the
+The first six were written on 5 October 2026 from the code and existing documents, after the
 decisions had been made. The reasoning recorded is what the code comments and documents
 state; where the team's actual reasons differed, correct the record.
 

@@ -20,7 +20,6 @@ To run the server with the API and the staff portal:
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install -r requirements.txt        # only for the optional AI plan
 python -m server.admin demo            # demo staff accounts; passwords print once
 python serve.py
 ```
@@ -46,7 +45,7 @@ worker will not run.
   `content.js` must keep running in Node.
 - **Nothing about an institution lives in code.** It goes in that institution's pack.
 - **Engine functions do not mutate their input.** They take a state and return a new one.
-- **Every string that reaches the page goes through `esc()`**, including content and AI text.
+- **Every string that reaches the page goes through `esc()`**, including content.
 - **Every server call from the app is optional.** It must time out and fail quietly.
 - **No new runtime dependency** without a [decision record](docs/adr/README.md).
 - **Content text** needs English and isiZulu and must pass the writing rules: situation at

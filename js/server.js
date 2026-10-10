@@ -1,7 +1,6 @@
 // Optional server features. The static app works fully without them; when
 // served by serve.py (or any backend with the same endpoints) it can:
 //   - list the available versions and features (GET institutions)
-//   - have AI write the forecast plan in natural language (POST plan)
 //   - send anonymous completion counts and optional feedback (POST stats)
 // Every call fails quietly back to the offline behaviour. Nothing here ever
 // carries a name, a login or anything about Campus Realities.
@@ -24,18 +23,12 @@ async function call(path, { body, timeout = 4000 } = {}) {
   }
 }
 
-// { ai: boolean, stats: boolean }
+// { stats: boolean, versions: { institution id: latest pack version } }
 export async function serverCapabilities() {
-  if (!navigator.onLine) return { ai: false, stats: false };
+  if (!navigator.onLine) return { stats: false, versions: {} };
   const info = await call('institutions', { timeout: 2500 });
-  return { ai: Boolean(info?.features?.ai), stats: Boolean(info?.features?.stats) };
-}
-
-export async function aiPlan(payload) {
-  if (!navigator.onLine) return null;
-  const res = await call('plan', { body: payload, timeout: 30000 });
-  const text = typeof res?.text === 'string' ? res.text.trim() : '';
-  return text || null;
+  const versions = Object.fromEntries((info?.institutions || []).map((i) => [i.id, i.version]));
+  return { stats: Boolean(info?.features?.stats), versions };
 }
 
 // { device_id (random), chapter, completed, feedback? }

@@ -9,7 +9,6 @@ root as the working directory.
 |---|---|
 | Student app only | Any static web host with HTTPS |
 | Server | Python 3.11, the version it is developed on (standard library only), and Node.js 20 on the same machine for the pack check |
-| AI plan (optional) | `pip install -r requirements.txt` and `ANTHROPIC_API_KEY` |
 | Email (optional) | An SMTP server |
 
 Service workers only run on `localhost` or HTTPS. Without HTTPS there is no offline mode.
@@ -28,11 +27,10 @@ what is published.
 2. Set the environment (see [security-privacy.md](security-privacy.md#secrets-and-configuration)):
    - `PORTAL_URL` to the public address
    - `SMTP_HOST` and its companions, so invitation and reset links are emailed and not shown on screen
-   - `ANTHROPIC_API_KEY` if the AI plan is wanted
    - Leave `PORTAL_MFA` and `PORTAL_INSECURE_COOKIE` unset
 3. Create the first admin, once: `python -m server.admin create-admin you@example.org "Your Name"`
 4. Start: `python serve.py 8080`
-5. Check the start-up lines: AI plan on or off, two-step login on, portal email via SMTP.
+5. Check the start-up lines: two-step login on, portal email via SMTP.
 
 `data/` is created on first use and must be on persistent storage that is backed up.
 
@@ -86,9 +84,10 @@ students; students who already chose it keep playing.
 ### A staff member is locked out or has lost their phone
 
 A locked account is emailed a link for choosing a new password, which unlocks it, and
-"Forgot your password?" on the sign-in page sends another. Otherwise, sign in as a platform
+"Forgot your password?" on the sign-in page sends another. Someone without their phone can
+type one of their backup codes where the 6-digit code goes. Otherwise, sign in as a platform
 admin, open the Platform admin tab and press "New temporary password" beside the account.
-This also clears their two-step setup.
+This also clears their two-step setup and their backup codes.
 
 ### Ship a content or code change to phones
 
@@ -121,8 +120,9 @@ Reusing an old value will not reach phones that already installed the bad one.
 
 ### The server is down
 
-Students are unaffected: the app plays from its cache and bundled packs. Statistics, pack
-updates, the AI plan and the portal are unavailable until it returns. Restart
+Students are unaffected: the app plays from its cache and bundled packs. Pack updates and the
+portal are unavailable until it returns, and completion counts wait on each phone and are
+sent once it is back. Restart
 `python serve.py`. If the port is busy it tries the next free one and prints which.
 
 ### The database is lost or corrupt
@@ -142,11 +142,6 @@ A restore has not yet been rehearsed; do one before a pilot.
 2. Read the audit log for that account's actions.
 3. Roll back any pack it published (a reviewer still had to approve it; check who).
 4. Issue a new temporary password only once the person is confirmed.
-
-### The API key is leaked or abused
-
-Revoke the key with the provider, set a new `ANTHROPIC_API_KEY` and restart. With no key the
-app shows its built-in plan and nothing else changes.
 
 ## Monitoring
 

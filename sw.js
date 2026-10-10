@@ -4,7 +4,7 @@
 // Institution packs live in their own cache: only the one a student chose is
 // ever downloaded, and it survives app updates.
 const PACKS = 'fys-packs-v1';
-const VERSION = 'fys-v48';
+const VERSION = 'fys-v49';
 const ASSETS = [
   './',
   './index.html',
@@ -18,7 +18,7 @@ const ASSETS = [
   './js/content.js',
   './js/forecast.js',
   './js/charts.js',
-  './js/ai.js',
+  './js/server.js',
   './js/glossary.js',
   './content/core.json',
   './content/realities.json',
@@ -54,7 +54,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
-      // Only our own old caches: the backup app in proposal-app/ keeps its own.
+      // Only our own old app caches: the chosen university's pack has its own and is kept.
       .then((keys) => Promise.all(keys.filter((k) => /^fys-v\d+$/.test(k) && k !== VERSION).map((k) => caches.delete(k))))
       .then(() => self.clients.claim()),
   );
@@ -65,7 +65,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-  if (request.method !== 'GET' || url.origin !== self.location.origin || url.pathname.includes('/proposal-app/') || url.pathname.includes('/portal/')) return;
+  if (request.method !== 'GET' || url.origin !== self.location.origin || url.pathname.includes('/portal/')) return;
   // The directory and the chosen institution's pack: answer from the cache at
   // once (so it works offline and costs no data to open), and fetch a fresh
   // copy in the background for next time.

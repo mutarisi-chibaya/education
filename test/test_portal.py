@@ -149,6 +149,34 @@ class TwoStep(PortalCase):
         self.assertIsNone(token)
         self.assertEqual(err.status, 429)
 
+    def test_backup_codes_sign_in_once_each_when_the_phone_is_lost(self):
+        token, _ = self.portal.login("editor@sizwe.example", PASSWORD)
+        user = self.portal.session(token)
+        secret = self.portal.two_step_begin(user)["secret"]
+        codes = self.portal.two_step_confirm(user, auth.totp(secret, self.clock.now), token)["backupCodes"]
+        self.assertEqual(len(set(codes)), 8)
+        # Only hashes are stored.
+        con = sqlite3.connect(self.tmp / "data" / "portal.db")
+        stored = [r[0] for r in con.execute("SELECT code_hash FROM recovery_codes")]
+        con.close()
+        self.assertEqual(len(stored), 8)
+        self.assertFalse(set(codes) & set(stored))
+        # A code works in place of the authenticator, typed loosely, and then never again.
+        token, info = self.portal.login("editor@sizwe.example", PASSWORD, f" {codes[0].lower()} ")
+        self.assertTrue(token)
+        self.assertEqual(info["backupCodesLeft"], 7)
+        self.assertIsNone(self.portal.login("editor@sizwe.example", PASSWORD, codes[0])[0])
+        self.assertIsNone(self.portal.login("editor@sizwe.example", PASSWORD, "AAAAA-AAAAA")[0])
+        # A normal sign-in says nothing about backup codes.
+        _, info = self.portal.login("editor@sizwe.example", PASSWORD, auth.totp(secret, self.clock.now))
+        self.assertNotIn("backupCodesLeft", info)
+        # An admin reset clears two-step login, and the old codes with it.
+        temp = self.portal.reset_user(self.admin, self.editor["id"])["temporaryPassword"]
+        self.assertTrue(self.portal.login("editor@sizwe.example", temp)[0])
+        con = sqlite3.connect(self.tmp / "data" / "portal.db")
+        self.assertEqual(con.execute("SELECT COUNT(*) FROM recovery_codes").fetchone()[0], 0)
+        con.close()
+
     def test_totp_matches_the_published_test_vector(self):
         # RFC 6238 test secret "12345678901234567890" at T = 59 seconds.
         self.assertEqual(auth.totp("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", 59), "287082")
@@ -374,6 +402,31 @@ class Reviewing(PortalCase):
         added = diff["pages > accredited > items > 4 > name"]
         self.assertEqual((added["before"], added["after"]), ("", "Harbour House"))
         self.assertNotIn("version", " ".join(diff), "only what staff can edit is compared")
+
+    def test_only_our_team_adds_a_card_and_the_institution_still_reviews_it(self):
+        card = {"id": "SZ-01", "type": "situational", "pool": "ft_sit",
+                "title": {"en": "The late bus"}, "text": {"en": "The last campus bus has gone and it is dark."},
+                "choices": [{"id": "a", "label": {"en": "Walk alone"}, "outcome": {"en": "You get home shaken."}, "effects": {"wellbeing": -4}},
+                            {"id": "b", "label": {"en": "Call campus security"}, "outcome": {"en": "An escort walks you home."}, "effects": {"wellbeing": 2}}]}
+        with self.assertRaises(PortalError) as e:
+            self.edit(self.editor, cards={"add": {"first_term": [card]}})
+        self.assertEqual(e.exception.status, 403)
+        self.assertNotIn("add", self.portal.get_pack(self.editor, "sizwe")["pack"].get("cards") or {}, "nothing was saved")
+        self.assertFalse(self.portal.get_pack(self.editor, "sizwe")["can"]["addCards"])
+        self.assertTrue(self.portal.get_pack(self.admin, "sizwe")["can"]["addCards"])
+        # Our team adds it. After that the editor can still change other things, switch the card off, but not alter it.
+        self.edit(self.admin, cards={"add": {"first_term": [card]}})
+        self.edit(self.editor, area={"en": "Riverside"})
+        self.edit(self.editor, cards={"add": {"first_term": [card]}, "off": ["SZ-01"]})
+        changed = {**card, "choices": [{**card["choices"][0], "effects": {"money": -900}}, card["choices"][1]]}
+        with self.assertRaises(PortalError):
+            self.edit(self.editor, cards={"add": {"first_term": [changed]}})
+        with self.assertRaises(PortalError):
+            self.edit(self.editor, cards={})
+        # It goes live only when the institution's own reviewer approves it.
+        self.portal.submit(self.admin, "sizwe")
+        self.portal.review(self.reviewer, "sizwe", "approve")
+        self.assertEqual(self.live()["cards"]["add"]["first_term"][0]["id"], "SZ-01")
 
     def test_catalogue_offers_what_an_own_card_needs(self):
         cat = self.portal.catalogue()

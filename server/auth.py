@@ -48,6 +48,20 @@ def token_hash(token):
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
 
+# ---- backup codes: single-use, for signing in when the authenticator app is out of reach ----
+
+CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"  # no 0/O or 1/I/L, so a code can be copied from paper
+
+
+def new_recovery_codes(count=8):
+    return ["-".join("".join(secrets.choice(CODE_ALPHABET) for _ in range(5)) for _ in range(2)) for _ in range(count)]
+
+
+def recovery_hash(code):
+    """Stored like session tokens: only as a hash. Spaces and lower case in what was typed are forgiven."""
+    return token_hash("".join((code or "").split()).upper())
+
+
 # ---- time-based one-time codes (RFC 6238), as used by authenticator apps ----
 
 def new_totp_secret():

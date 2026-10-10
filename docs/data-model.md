@@ -39,7 +39,6 @@ One JSON object, created by `newJourney` in [js/engine.js](../js/engine.js). The
 | `supportSeen` | string[] | Services the player has met; shown on the survival plan |
 | `snapshots` | object[] | Meter values at the end of each week |
 | `budget` | object | The player's own edits to the budget split |
-| `ai` | object | AI-written forecast text, keyed `chapter:lang` |
 | `feedbackSent` | string[] | Chapters for which feedback was sent |
 
 Nothing in the save identifies a person. Campus Realities progress is deliberately absent:
@@ -53,6 +52,7 @@ it is held in a module variable and lost on reload.
 | `device` | Random id sent with completion counts |
 | `coach` | Which first-time tips have been dismissed |
 | `introSeen` | Whether the intro slides were shown |
+| `unsent` | Chapter completions the server has not taken yet: institution and chapter only. Sent when next online |
 
 ## Content pack
 
@@ -75,7 +75,7 @@ In summary a card has an `id`, a `type`, either a fixed `week` or a `pool`, opti
 | `map` | Yes | Buildings on the fixed campus grid |
 | `support` | Yes | Per-service overrides: name, building, room, hours, email, contacts, `verified`, `last_checked` |
 | `pages` | Yes | Lists a service points to |
-| `cards` | Yes | `off`, `edit` (wording only), `add` (own cards) |
+| `cards` | Yes | `off`, `edit` (wording only), `add` (own cards; only a platform admin may change these) |
 | `campuses` | Yes | A further layer with its own `map`, `costs`, `pages`, `courses`, `support`, `cards` |
 
 The editable and protected sets are defined once, in `EDITABLE` and `PROTECTED` in
@@ -89,6 +89,7 @@ The editable and protected sets are defined once, in `EDITABLE` and `PROTECTED` 
 erDiagram
     users ||--o{ sessions : "has"
     users ||--o{ tokens : "has"
+    users ||--o{ recovery_codes : "has"
     users ||--o{ packs : "updated_by, submitted_by"
 
     users {
@@ -119,6 +120,11 @@ erDiagram
         int user_id FK
         text purpose "invite, reset"
         real expires_at
+        int used
+    }
+    recovery_codes {
+        int user_id FK
+        text code_hash "backup code for two-step login"
         int used
     }
     packs {

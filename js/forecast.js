@@ -53,6 +53,7 @@ export function cashFlow(content, setup, { lateWeeks = 0, weeks = 8 } = {}) {
 export function moneyForecast(content, setup) {
   const lateWeeks = lateWeeksFor(content, setup);
   return {
+    label: findById(content.funding, setup.funding)?.incomeLabel, // what this student's money is called
     start: content.start.money,
     income: weeklyIncome(setup),
     costs: weeklyCosts(content, setup),
@@ -261,31 +262,4 @@ export function fairGame(content, s) {
   const supports = [...new Set(pressures.flatMap((f) => f.supports))].filter((id) => content.support[id]);
   const level = pressures.length >= 4 ? 'heavier' : pressures.length >= 2 ? 'moderate' : 'lighter';
   return { pressures: pressures.map((f) => f.id), advantages: advantages.map((f) => f.id), supports, level };
-}
-
-// Everything the optional AI writer needs, and nothing personal.
-export function aiPayload(content, s, forecast, render) {
-  const course = findById(content.courses, s.setup.course);
-  const housing = findById(content.housing, s.setup.housing);
-  const funding = findById(content.funding, s.setup.funding);
-  return {
-    lang: render.lang,
-    institution: render.tx(content.short),
-    course: render.tx(course.label),
-    housing: render.tx(housing.label),
-    funding: render.tx(funding.label),
-    incomeBand: render.tier,
-    chapter: render.tx(chapterOf(content, s.chapter).title),
-    nextChapter: render.tx(chapterOf(content, forecast.target).title),
-    riskWeeks: forecast.top.map((r) => ({ week: r.week, cause: r.cause })),
-    copingStyle: forecast.profile.top,
-    copingCounts: forecast.profile.counts,
-    moneyRunsOutIfLate: forecast.money.late.runOut,
-    moneyRunsOutOnTime: forecast.money.onTime.runOut,
-    allowanceWeeksLate: forecast.money.lateWeeks,
-    spendingLeaksPerMonth: forecast.leaks.perMonth,
-    emergencyBufferTarget: forecast.buffer.target,
-    plan: render.actions,
-    services: render.services,
-  };
 }

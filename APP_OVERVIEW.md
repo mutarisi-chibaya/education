@@ -87,8 +87,7 @@ get different journeys.
 - The weeks in the next chapter where this student is most at risk, and why.
 - The week money runs short, including what happens if an allowance arrives late.
 - Spending leaks per month: nights out, takeaways, clothes, data, subscriptions.
-- A short list of actions, worked out on the phone. If the server has an AI key, an
-  AI-written version is offered as well.
+- A short list of actions, worked out on the phone.
 
 **Survival plan**
 - An editable budget split by percentage.
@@ -175,7 +174,8 @@ screen.
 - A web app with no framework: plain HTML, CSS and JavaScript.
 - A small Python server, which is optional. The app plays without it.
 - All cards, services and definitions are data files, so content changes need no code.
-- 48 automated tests, which play every chapter for every combination of setup answers.
+- 84 automated tests, which play every chapter for every combination of setup answers and
+  check the staff portal and the server.
 
 ## Honest limits
 

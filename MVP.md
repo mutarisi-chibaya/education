@@ -41,7 +41,8 @@ university and campus, and a university can be added without changing the app.
 
 - Its own campus in the app: services, buildings, map, costs, lists, colours and name.
 - Several campuses under one university, each with its own map, services and courses.
-- Control over its cards: switch one off, reword it, or add its own. The game rules stay the
+- Control over its cards: switch one off or reword it, and ask us for cards of its own, which
+  it reviews before they go live. The game rules stay the
   same everywhere.
 - Anonymous numbers for its own students: how many completed each chapter and what they said.
 

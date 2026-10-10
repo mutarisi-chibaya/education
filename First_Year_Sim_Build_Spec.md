@@ -312,7 +312,6 @@ Runs at the end of every chapter, remembers earlier chapters.
 5. **Adaptive selection:** trackers weight next chapter's cards.
 6. **Cross-chapter memory:** e.g. "In First Term you avoided help three times…"
 7. **Fair game reflection** (final screen).
-8. **Optional AI plan:** server endpoint writes the plan in natural language when online; template fallback offline.
 
 **Survival plan:** budget, buffer target, "allowance is late" playbook, risk weeks, support types. Advice phrased to hold on any real campus. Shareable as an image.
 
@@ -325,7 +324,6 @@ Runs at the end of every chapter, remembers earlier chapters.
 | `GET /institutions` | List available versions (sizwe, general) |
 | `GET /packs/{institution}` | Latest content pack (JSON) with version number |
 | `POST /stats` | Anonymous completion counts `{device_id (random), chapter, completed, feedback?}` |
-| `POST /plan` (optional) | AI-written survival plan; API key held server-side |
 
 App behaviour: try server for newer pack; on failure or timeout, use bundled pack. Store pack version with saved game; migrate or restart chapter if versions differ.
 
@@ -337,7 +335,7 @@ App behaviour: try server for newer pack; on failure or timeout, use bundled pac
 
 - HTTPS everywhere
 - No secrets in front-end code; API keys in server environment variables
-- Public endpoints read-only except `/stats` and `/plan`
+- Public endpoints read-only except `/stats`
 - `/stats`: validate schema, rate-limit, restrict CORS to the app domain, dedupe by random device ID
 - Render all card and pack text as **plain text**, never HTML (prevents XSS, important once partners write content)
 - Minimal, updated dependencies

@@ -15,7 +15,7 @@ const S = {
   dirty: false, tab: 'details', layer: '',
   check: null, history: null, stats: null, users: null, notice: null,
 };
-const TABS = [['details', 'Details and look'], ['campuses', 'Campuses'], ['buildings', 'Buildings and map'], ['services', 'Services'],
+const TABS = [['guide', 'Guide'], ['details', 'Details and look'], ['campuses', 'Campuses'], ['buildings', 'Buildings and map'], ['services', 'Services'],
   ['lists', 'Lists'], ['cards', 'Story cards'], ['review', 'Review and publish'], ['history', 'History'], ['numbers', 'Numbers']];
 
 // ---------- small helpers ----------
@@ -107,7 +107,7 @@ function viewLogin() {
     <form data-form="login">
       <label>Email address<input name="email" type="email" autocomplete="username" required></label>
       <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
-      ${S.needCode ? '<label>6-digit code from your authenticator app<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></label>' : ''}
+      ${S.needCode ? '<label>6-digit code from your authenticator app <span class="hint">or one of your backup codes</span><input name="code" autocomplete="one-time-code" maxlength="14" required></label>' : ''}
       <button class="primary">Sign in</button>
     </form>
     <p><button class="link" data-action="forgot">Forgot your password?</button></p></section>`;
@@ -151,6 +151,175 @@ function viewTwoStep() {
       <form data-form="two-step"><label>Code<input name="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required></label>
       <button class="primary">Finish</button></form>`
     : '<button class="primary" data-action="two-step-begin">Start</button>'}
+  </section>`;
+}
+
+// Shown once, straight after two-step login is set up.
+function viewBackupCodes() {
+  return `<section class="card narrow"><h1>Save your backup codes</h1>
+    <p class="muted">If you lose your phone, one of these codes signs you in instead of the authenticator app. Each works once.
+      Write them down or print them now: they are not shown again.</p>
+    <code class="secret">${S.backupCodes.map(esc).join('<br>')}</code>
+    <button class="primary" data-action="codes-saved">I have saved them</button>
+  </section>`;
+}
+
+// ---------- the guide ----------
+
+// A built-in tutorial: how a change reaches students, what each tab is for, and
+// step-by-step instructions for the common jobs. It opens by itself the first
+// time someone signs in on a browser, and is always there as the first tab.
+const GUIDE_SEEN = 'fys-portal-guide-seen';
+const goTo = (tab, label) => `<button class="link" data-action="tab" data-id="${tab}">${esc(label)}</button>`;
+const howTo = (title, steps, note = '') => `<details class="item"><summary>${esc(title)}</summary>
+  <ol>${steps.map((s) => `<li>${s}</li>`).join('')}</ol>${note ? `<p class="muted small">${note}</p>` : ''}</details>`;
+const SEND = `Press <strong>Save draft</strong> (top right), then send it for review (see "Send your changes for review").`;
+
+function tabGuide() {
+  const role = S.me.role;
+  const admin = role === 'admin';
+  const canReview = role !== 'editor';
+  const roleText = {
+    editor: 'You are an <strong>editor</strong>. You can change your institution\'s draft, run the check and submit it for review. A reviewer has to approve it.',
+    reviewer: 'You are a <strong>reviewer</strong>. You can do everything an editor can, and you approve or send back changes that someone else submitted. You can also publish an earlier version again.',
+    admin: 'You are a <strong>platform admin</strong> on the University Simulator team. You can work on every institution, create institutions and accounts, set licences, and write an institution\'s own story cards.',
+  }[role];
+  return `<section class="card"><h2>How the portal works</h2>
+    <p>This is where you keep your institution's information in University Simulator up to date. Students never see a change until a second person has approved it.</p>
+    <ol>
+      <li><strong>Edit.</strong> Change something on any tab, then press <strong>Save draft</strong> at the top right. Students still see the old version.</li>
+      <li><strong>Check.</strong> On ${goTo('review', 'Review and publish')}, press <strong>Run the check</strong>. It plays the whole story on every campus and lists anything that must be fixed.</li>
+      <li><strong>Submit.</strong> Press <strong>Submit for review</strong>. The draft is locked until it is approved or sent back.</li>
+      <li><strong>Review.</strong> A different person signs in, reads what changed, and approves it or sends it back with a note. Nobody can approve their own submission.</li>
+      <li><strong>Published.</strong> Students get the new version the next time they open the app online.</li>
+    </ol>
+    <p class="muted">The label beside your institution's name shows where you are: <span class="pill ok">Up to date</span> <span class="pill">Draft with changes</span> <span class="pill wait">Waiting for review</span></p>
+    <p>${roleText}</p>
+  </section>
+
+  <section class="card"><h2>What each tab is for</h2>
+    <ul>
+      <li>${goTo('details', 'Details and look')}: your name, local costs, the courses and housing you offer, your monogram and colours.</li>
+      <li>${goTo('campuses', 'Campuses')}: add campuses if you have more than one, with the courses taught on each.</li>
+      <li>${goTo('buildings', 'Buildings and map')}: the buildings your services are in, and where each sits on the campus map.</li>
+      <li>${goTo('services', 'Services')}: for each support service, what you call it, its building, room, hours, email, phone and website.</li>
+      <li>${goTo('lists', 'Lists')}: lists a service points students to, such as accredited accommodation.</li>
+      <li>${goTo('cards', 'Story cards')}: switch off a situation that does not fit your institution, or reword it.</li>
+      <li>${goTo('review', 'Review and publish')}: see what changed, run the check, submit, and approve.</li>
+      <li>${goTo('history', 'History')}: every published version, and a record of who did what.</li>
+      <li>${goTo('numbers', 'Numbers')}: how many of your students finished each chapter, and their feedback. Anonymous.</li>
+      ${admin ? `<li>${goTo('admin', 'Platform admin')}: licences, new institutions and staff accounts.</li>` : ''}
+    </ul>
+    <p class="muted">If you have more than one campus, the Buildings, Services and Lists tabs start with an <strong>Editing</strong> box. Choose "Whole university" for what is the same everywhere, or one campus for what differs there.</p>
+  </section>
+
+  <section class="card"><h2>How to…</h2>
+    ${howTo("Update a service's room, hours or email address", [
+      `Open ${goTo('services', 'Services')} and click the service, for example "Student counselling".`,
+      'Change the room, opening hours or email address. Each text box has an English and an isiZulu version.',
+      SEND,
+    ])}
+    ${howTo('Add or change a phone number', [
+      `Open ${goTo('services', 'Services')} and click the service.`,
+      'Fill in <strong>Phone number</strong> and <strong>Phone label</strong> (what students see, such as "Counselling desk").',
+      'Fill in <strong>Phone checked by</strong> with the name of the person who phoned the number, and <strong>Date checked</strong>.',
+      SEND,
+    ], 'A phone number without a name and a date is refused by the check. A fictional demo institution cannot show phone numbers at all.')}
+    ${howTo('Add a building and put a service in it', [
+      `Open ${goTo('buildings', 'Buildings and map')}. Type a short id such as "library" and press <strong>Add building</strong>.`,
+      'Give it a name, choose its place on the map (there are eight places), and write walking directions from the gate. The preview on the right updates as you go.',
+      `Open ${goTo('services', 'Services')}, click a service and choose the building in its <strong>Building</strong> box.`,
+      SEND,
+    ], 'A service placed in a building that is not on the map is refused by the check.')}
+    ${howTo('Add a list, such as accredited accommodation', [
+      `Open ${goTo('lists', 'Lists')}. Type a short id such as "accredited" and press <strong>Add a list</strong>.`,
+      'Give it a title and an introduction, then press <strong>Add an entry</strong> for each line.',
+      `Open ${goTo('services', 'Services')}, click the service that should show it, and choose it under <strong>List this service points students to</strong>.`,
+      SEND,
+    ])}
+    ${howTo('Switch a story card off, or reword it', [
+      `Open ${goTo('cards', 'Story cards')} and click a chapter to see its cards.`,
+      'To switch a card off, untick the box beside its title.',
+      'To reword it, click the card and type your wording. The original is shown in each box; leave a box empty to keep it.',
+      SEND,
+    ], 'You can change wording only. A situation may be at most 40 words, an answer at most 6 words, and "what happens" at most 2 sentences. What a choice does to money, marks and wellbeing is the same at every institution.')}
+    ${admin ? howTo("Write a card of an institution's own", [
+      `Choose the institution at the top left, then open ${goTo('cards', 'Story cards')}.`,
+      'Under <strong>Your own cards</strong>, choose the chapter, type a card id such as "KC-02" and press <strong>Add a card</strong>.',
+      'Fill in the title, the situation, and two or three answers. For each answer set what happens, and its effect on money, marks and wellbeing. At least one answer must cost no money.',
+      'Save the draft and submit it. The institution\'s reviewer approves it before students see it.',
+    ], 'Only platform admins can add or change these cards. Institution staff can read them and switch them off.')
+    : howTo('Get a story card of your own', [
+      'Tell the University Simulator team about the situation: what happens, and the two or three things a student might do.',
+      'We write the card and add it to your draft.',
+      `It appears under <strong>Your own cards</strong> on ${goTo('cards', 'Story cards')}, and comes to your reviewer for approval like any other change.`,
+    ], 'You can read your own cards and switch them off, but only our team can write or change them.')}
+    ${howTo('Change your name, monogram or colours', [
+      `Open ${goTo('details', 'Details and look')}.`,
+      'Change the name, the monogram (up to 3 letters) or the colours. The small preview shows how they look together.',
+      SEND,
+    ], 'Text must be easy to read on your main colour. The check refuses colours that are too close together.')}
+    ${howTo('Add a campus', [
+      `Open ${goTo('campuses', 'Campuses')}. Type a short id such as "north" and press <strong>Add campus</strong>.`,
+      'Give it a name and a description, and tick the courses taught there.',
+      'On the Buildings, Services and Lists tabs, choose the campus in the <strong>Editing</strong> box to set what is different there.',
+      SEND,
+    ])}
+    ${howTo('Send your changes for review', [
+      'Press <strong>Save draft</strong> if it is not greyed out.',
+      `Open ${goTo('review', 'Review and publish')}. The list shows what has changed, with a before-and-after table.`,
+      'Press <strong>Run the check</strong>. If it lists problems, fix them, save, and run it again.',
+      'Press <strong>Submit for review</strong>, then tell your reviewer it is waiting.',
+    ])}
+    ${canReview ? howTo('Approve a change, or send it back', [
+      `Open ${goTo('review', 'Review and publish')}. A change that is waiting shows "Submitted by" and the before-and-after table.`,
+      'Read each line: the middle column is what students see now, the right column is what they would see.',
+      'Press <strong>Approve and publish</strong>, or write a note and press <strong>Send back</strong>.',
+    ], 'You cannot approve something you submitted yourself. Ask another reviewer.') : ''}
+    ${canReview ? howTo('Go back to an earlier version', [
+      `Open ${goTo('history', 'History')}.`,
+      'Beside the version you want, press <strong>Publish this version again</strong> and confirm.',
+    ], 'It is published as a new version, so nothing in the history is lost.') : ''}
+    ${admin ? howTo('Add an institution', [
+      `Open ${goTo('admin', 'Platform admin')}. Under <strong>Add an institution</strong>, fill in the id, name, type and status, and press <strong>Create</strong>.`,
+      'Fill in its details, buildings and services on the other tabs.',
+      'Submit it for review. Students cannot see it until its first version is approved.',
+    ]) : ''}
+    ${admin ? howTo('Create a staff account, or help someone who cannot sign in', [
+      `Open ${goTo('admin', 'Platform admin')}. Under <strong>Accounts</strong>, fill in the email, name, role and institution, and press <strong>Create account</strong>.`,
+      'The person gets an invitation link to choose their own password. With no mail server set up, the link is shown to you on screen to pass on.',
+      'If someone is locked out or has lost their phone, press <strong>New temporary password</strong> beside their account. This also clears their two-step login.',
+      'To stop an account being used, press <strong>Switch off</strong>.',
+    ]) : ''}
+    ${admin ? howTo("Set an institution's licence", [
+      `Choose the institution at the top left and open ${goTo('admin', 'Platform admin')}.`,
+      'Under <strong>This institution\'s licence</strong>, set the status, type, tier and expiry date, and press <strong>Save licence</strong>.',
+      'It is saved to the draft and goes live through review, like any other change.',
+    ]) : ''}
+  </section>
+
+  <section class="card"><h2>If something goes wrong</h2>
+    ${howTo('The check lists problems', [
+      'Each line says where the problem is and what is wrong.',
+      'Fix it on the tab it names, press <strong>Save draft</strong>, and run the check again.',
+    ], 'Nothing can be submitted or published while the check finds a problem.')}
+    ${howTo('"Someone else saved changes while you were editing"', [
+      'A colleague saved the draft after you opened it.',
+      'Reload the page to see their changes, then make your change again.',
+    ])}
+    ${howTo('I cannot edit anything', [
+      'The draft is waiting for review, so it is locked.',
+      'Ask your reviewer to approve it or send it back. Then you can edit again.',
+    ])}
+    ${howTo('I forgot my password, or my account is locked', [
+      'On the sign-in screen, press <strong>Forgot your password?</strong> and enter your email address.',
+      'Open the link we email you and choose a new password. This also unlocks a locked account.',
+    ], 'An account locks after eight wrong passwords or codes, and stays locked until you do this or an admin resets it.')}
+    ${howTo('I lost the phone with my authenticator app', [
+      'Sign in with your email and password as usual.',
+      'Where it asks for the 6-digit code, type one of the backup codes you saved when you set up two-step login. Each works once.',
+      'If you have none left, ask a platform admin to reset your account.',
+    ])}
   </section>`;
 }
 
@@ -301,11 +470,21 @@ function tabLists() {
 }
 
 // The institution's own story cards. Unlike rewording, these do set what a
-// choice does, within limits the pack check enforces.
+// choice does, so only our team writes them (the server refuses anyone else).
+// Institution staff see them here and approve them in review.
 function ownCards() {
   const add = S.pack.cards?.add || {};
   const chapters = S.catalogue.chapters.filter((ch) => ch.pools.length);
   const cards = Object.entries(add).flatMap(([chapter, list]) => list.map((card, i) => ({ chapter, card, i })));
+  if (!S.data.can.addCards) {
+    return `<section class="card"><h2>Your own cards</h2>
+      <p class="muted">Situations particular to your institution. The University Simulator team writes these with you: ask us for one, and it comes to you for review before students see it.</p>
+      ${cards.map(({ chapter, card }) => `<details class="item"><summary>${esc(en(card.title) || card.id)} <span class="tag">${esc(en(S.catalogue.chapters.find((x) => x.id === chapter)?.title))}</span></summary>
+        <p>${esc(en(card.text))}</p>
+        <ul>${(card.choices || []).map((c) => `<li><b>${esc(en(c.label))}</b>: ${esc(en(c.outcome))}</li>`).join('')}</ul>
+      </details>`).join('') || '<p>You have no cards of your own yet.</p>'}
+    </section>`;
+  }
   const num = (label, path) => `<label>${label}<input type="number" data-number data-path="${path}" value="${val(path)}" ${locked()}></label>`;
   return `<section class="card"><h2>Your own cards</h2>
     <p class="muted">A situation that is particular to your institution. It needs a short title, a situation of at most 40 words, and two or three answers of at most six words each. At least one answer must cost no money.</p>
@@ -454,10 +633,11 @@ function render() {
   else if (S.step === 'forgot') app.innerHTML = viewForgot();
   else if (S.step === 'login') app.innerHTML = viewLogin();
   else if (S.step === 'password') app.innerHTML = viewPassword();
+  else if (S.backupCodes) app.innerHTML = viewBackupCodes();
   else if (S.step === 'two-step') app.innerHTML = viewTwoStep();
   else if (!S.data) app.innerHTML = '<p class="muted">Loading…</p>';
   else {
-    const body = { details: tabDetails, campuses: tabCampuses, buildings: tabBuildings, services: tabServices, lists: tabLists, cards: tabCards,
+    const body = { guide: tabGuide, details: tabDetails, campuses: tabCampuses, buildings: tabBuildings, services: tabServices, lists: tabLists, cards: tabCards,
       review: tabReview, history: tabHistory, numbers: tabNumbers, admin: tabAdmin }[S.tab]();
     app.innerHTML = header() + body;
     paintPreview();
@@ -494,6 +674,10 @@ async function signedIn(info) {
   S.catalogue = cat.data;
   S.institutions = list.data;
   S.inst = S.me.institution || S.institutions[0]?.id;
+  // The first time on this browser, start on the guide.
+  try {
+    if (!localStorage.getItem(GUIDE_SEEN)) { S.tab = 'guide'; localStorage.setItem(GUIDE_SEEN, '1'); }
+  } catch { /* private mode: the Guide tab is still there */ }
   await loadPack();
 }
 
@@ -617,6 +801,7 @@ document.addEventListener('click', async (e) => {
   const ownCard = () => S.pack.cards.add[el.dataset.chapter][Number(el.dataset.index)];
   if (action === 'tab') { S.tab = id; render(); loadTab(); }
   else if (action === 'forgot') { S.step = 'forgot'; render(); }
+  else if (action === 'codes-saved') { S.backupCodes = null; await start(); }
   else if (action === 'to-login') { S.step = 'login'; render(); }
   else if (action === 'page-remove') { if (window.confirm('Remove this list?')) { delete layerObj().pages[id]; S.dirty = true; render(); } }
   else if (action === 'item-add') { (layerObj().pages[id].items ||= []).push({ name: '', detail: { en: '' } }); S.dirty = true; render(); }
@@ -661,7 +846,12 @@ document.addEventListener('submit', async (e) => {
   const kind = form.dataset.form;
   if (kind === 'login') {
     const r = await api('POST', 'login', f);
-    if (r.ok) { S.needCode = false; await signedIn(r.data); return; }
+    if (r.ok) {
+      S.needCode = false;
+      await signedIn(r.data);
+      if (r.data.backupCodesLeft !== undefined) toast(`You signed in with a backup code. ${r.data.backupCodesLeft} left.`);
+      return;
+    }
     S.needCode = r.data.need === 'code' || S.needCode;
     S.notice = r.data.need === 'code' && !f.code ? null : r.data.error;
     render();
@@ -671,7 +861,7 @@ document.addEventListener('submit', async (e) => {
     if (r.ok) await start(); else { S.notice = r.data.error; render(); }
   } else if (kind === 'two-step') {
     const r = await api('POST', 'two-step/confirm', f);
-    if (r.ok) { S.twoStep = null; await start(); } else { S.notice = r.data.error; render(); }
+    if (r.ok) { S.twoStep = null; S.backupCodes = r.data.backupCodes || null; if (S.backupCodes) render(); else await start(); } else { S.notice = r.data.error; render(); }
   } else if (kind === 'forgot') {
     const r = await api('POST', 'reset/request', f);
     S.notice = 'If that address has an account, a link is on its way.';

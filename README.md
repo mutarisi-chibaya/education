@@ -25,7 +25,6 @@ numbers appear only for verified national services.
 
 ```powershell
 .venv\Scripts\Activate.ps1
-pip install -r requirements.txt      # only needed for the optional AI-written plan
 python serve.py                      # http://localhost:8080
 ```
 
@@ -41,13 +40,6 @@ Service workers need `localhost` or HTTPS. To test on a phone, deploy (Netlify, 
 Pages) or use an HTTPS tunnel (`npx cloudflared tunnel --url http://localhost:8080`).
 **When you change any file, bump `VERSION` in [sw.js](sw.js)** so players get the update.
 
-### Backup app: First Year Sim (proposal edition)
-
-[proposal-app/](proposal-app/) is a separate, simpler app built to the original proposal PDF
-(eight weeks, English + isiZulu; it still uses the original pilot campus from the proposal). Open it at `http://localhost:8080/proposal-app/`. It has
-its own content, offline cache and saved game, so changes to this app don't affect it. See
-[proposal-app/README.md](proposal-app/README.md).
-
 ### Server (serve.py, spec §11–12)
 
 The app is bundled with its content packs and plays without the server. When the server is
@@ -55,18 +47,19 @@ reachable, the app uses it; when it is down, asleep or slow, the app carries on 
 
 | Endpoint | Purpose |
 |---|---|
-| `GET /institutions` | Available institutions (`sizwe`) and which features are on |
+| `GET /institutions` | Available institutions, each with its latest pack version, and which features are on |
 | `GET /packs/{institution}` | Latest content pack with its version: `support`, `cards`, `minis`, `tips`, `costs` |
 | `POST /stats` | Anonymous completion counts: `{device_id (random), chapter, completed, feedback?}` |
 | `GET /stats` | Summary of those counts. The About screen shows "Tested by X students" from it, and nothing if there are none |
-| `POST /plan` | AI-written forecast (optional). Set `ANTHROPIC_API_KEY` on the server; without it the app shows its template plan |
 
 - The saved game stores its pack version. If a newer pack arrives, an unfinished chapter
   restarts on the new content and finished chapters are kept.
-- `/stats` validates its schema, is rate-limited, keeps one row per device and chapter, and
-  refuses cross-origin posts unless the origin matches `FYS_APP_ORIGIN`.
-- API keys live in server environment variables, never in front-end code. `data/`, `.venv/`
-  and `*.py` are never served as static files.
+- `/stats` validates its schema, is rate-limited per device and per address, keeps one row
+  per device and chapter, and refuses cross-origin posts unless the origin matches
+  `FYS_APP_ORIGIN`. The app keeps a completion on the phone until the server has taken it.
+- Secrets live in server environment variables, never in front-end code. Only the app's own
+  folders are served; `data/`, server code, tools and documents are refused.
+- A phone downloads its university's pack only when the server lists a newer version.
 - All card and pack text is rendered as plain text, never HTML.
 - Deploy behind HTTPS.
 
@@ -178,8 +171,8 @@ Shared random pools live in [core.json](content/core.json) (`events`): **surpris
 | Memory | "In First Term you avoided help 5 of 8 times. This chapter..." The recurring cards quote it too |
 | Fair game | The final screen lists what made this setup's start harder or easier, and the supports that level the field |
 
-These are transparent, research-based rules, and the app says so. A pilot with consented,
-anonymous play data is what would let a trained model replace them.
+These are transparent, research-based rules, and the app says so. Nothing in the forecast is
+written or decided by an AI model.
 
 ## Campus Realities (spec §9)
 
@@ -191,8 +184,8 @@ happens to a friend, and rights and where to go.
 - A content note comes first, and a **Quick exit** button is on every screen.
 - The scenario is **never scored**, and **nothing about what was viewed is saved or sent**:
   the section's state lives in memory only.
-- The body text is English until a support professional has reviewed it (`reviewed: false`
-  shows a "draft wording" line in the app). Set `reviewed: true` once that is done.
+- The body text is English until a support professional has reviewed it. Set
+  `reviewed: true` once that is done, and the app then says so on each topic.
 
 In the main game, the friend's-story cards (unfair treatment, xenophobic comments, a friend
 shaken after a party) only add `connection` and `help_seeking`, never touch the meters, and
@@ -215,7 +208,7 @@ the server is reachable.
 - [ ] Tested on a low-cost Android phone with slow data
 - [x] Content validation passes (word limits, choice counts)
 - [x] National helpline numbers verified (3 October 2026); no invented numbers anywhere
-- [ ] "Sizwe University" confirmed as not a real institution name
+- [x] "Sizwe University" and "Karoo Coast University" not found as real institution names (web search, 11 October 2026)
 - [ ] Campus Realities reviewed by a support professional; quick exit works on every screen
 - [ ] isiZulu reviewed by a first-language speaker
 - [ ] Machine-translated languages (isiXhosa, Afrikaans, Sepedi, Setswana, Sesotho: menus and cards, from `node tools/translate.mjs`) reviewed by first-language speakers
@@ -238,7 +231,8 @@ npm run pack:check sizwe                # check a pack; add --online to test tha
 ```
 
 A pack can set its own services, map, costs, courses, housing options, campuses and brand
-(name, monogram, colours), and can switch cards off, reword them or add its own (`cards` in the
+(name, monogram, colours), and can switch cards off or reword them. Cards of its own are written by our team on
+request (`cards` in the
 institution file). Wording can change; effects, flags and conditions cannot. The check refuses a
 pack with unverified phone numbers, services in buildings that are not on the map, placeholder
 email addresses in a licensed pack, unreadable brand colours, card edits that break the writing
@@ -274,7 +268,7 @@ npm run test:portal              # accounts, isolation, workflow, audit log
 | What keeps details true over time? | `tools/pack-audit.mjs` lists phone checks that are getting old and licences close to expiry. A campus phone number unchecked for 400 days is hidden automatically; national helplines always stay |
 | What happens when a licence lapses? | The institution drops out of the list for new students. Students who already chose it keep playing |
 | Can an institution see its own numbers? | Yes. Completions carry the institution id; `GET /stats?institution=<id>` returns that institution's students, chapters and feedback. Still anonymous: a random device code, no names |
-| Will the server cope? | Students play from static files, which any web host or CDN serves at any scale. The server only handles packs (cached in memory), stats (SQLite, one row per device and chapter) and the optional AI plan |
+| Will the server cope? | Students play from static files, which any web host or CDN serves at any scale. The server only handles packs (cached in memory), and stats (SQLite, one row per device and chapter) |
 
 Still to do before a national rollout: college versions of the story chapters, and managed
 hosting (a hosted database in place of the SQLite files, a production web server, backups,

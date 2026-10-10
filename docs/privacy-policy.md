@@ -31,17 +31,16 @@ Nothing about what you open in Campus Realities is saved or sent, even on your o
 
 | What | When | Why |
 |---|---|---|
-| A random device code, your university's id and the chapter name | When you finish a chapter while online | To count how many students completed each chapter. The code is made up on your phone and is not linked to you |
+| A random device code, your university's id and the chapter name | When you finish a chapter, or the next time you are online | To count how many students completed each chapter. The code is made up on your phone and is not linked to you |
 | Your answers to three feedback questions | Only if you tap Send | To improve the app |
 
 Your university can see these counts and answers for its own students, in total. It cannot
 see who anyone is.
 
-### The optional AI-written plan
+### The forecast and plan
 
-The app's forecast and plan are worked out on your phone. If the operator switches on the
-optional AI-written plan, your forecast numbers (such as course, housing type and risk weeks)
-are sent to an external AI provider to write it. No name is sent, and nothing you typed.
+The app's forecast and plan are worked out on your phone. Nothing about them is sent
+anywhere, and no AI service is involved.
 
 ### Sharing
 
@@ -91,7 +90,6 @@ These are open decisions, also listed in [risks.md](risks.md#privacy-and-complia
 - [ ] The name of the responsible party and a contact address for privacy questions
 - [ ] How long completion counts are kept
 - [ ] How long staff accounts and the record of actions are kept after a licence ends
-- [ ] Whether the AI-written plan is offered at all, and if so, whether a university can switch it off
 - [ ] Where the server is hosted, and whether any information leaves South Africa
 - [ ] Review by someone with legal responsibility
 - [ ] Matching wording on the app's Privacy screen

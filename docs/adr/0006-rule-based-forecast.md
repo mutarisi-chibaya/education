@@ -1,6 +1,6 @@
 # 0006. A rule-based forecast, with AI only for wording
 
-- **Status:** Accepted
+- **Status:** Superseded by 0007
 - **Date:** 2026-10-05 (recorded retrospectively)
 - **Deciders:** project team
 

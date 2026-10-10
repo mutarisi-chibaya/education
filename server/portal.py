@@ -274,6 +274,7 @@ class Portal:
                 digest, salt = auth.hash_password(password)
                 con.execute("UPDATE users SET pw_hash = ?, pw_salt = ?, must_change = 1, totp_secret = NULL, totp_enabled = 0, failed = 0 WHERE id = ?",
                             (digest, salt, user_id))
+                con.execute("DELETE FROM recovery_codes WHERE user_id = ?", (user_id,))
                 self._log(con, actor["email"], "user.reset", target["institution_id"], target["email"], ip)
                 return {"temporaryPassword": password}
         finally:
@@ -312,12 +313,17 @@ class Portal:
                     self._failed(con, user, "", ip)
                     return None, bad
                 mfa_ok = 0 if self.mfa else 1
+                backup_left = None  # set when a backup code was used in place of the authenticator
                 if self.mfa and user["totp_enabled"]:
                     if not code:
                         return None, PortalError(401, "Enter the 6-digit code from your authenticator app.", need="code")
                     if not auth.verify_totp(user["totp_secret"], code, self.clock()):
-                        self._failed(con, user, "wrong code", ip)
-                        return None, PortalError(401, "That code is not right. Codes change every 30 seconds.", need="code")
+                        spent = con.execute("UPDATE recovery_codes SET used = 1 WHERE user_id = ? AND code_hash = ? AND used = 0",
+                                            (user["id"], auth.recovery_hash(code))).rowcount
+                        if not spent:
+                            self._failed(con, user, "wrong code", ip)
+                            return None, PortalError(401, "That code is not right. Codes change every 30 seconds.", need="code")
+                        backup_left = con.execute("SELECT COUNT(*) FROM recovery_codes WHERE user_id = ? AND used = 0", (user["id"],)).fetchone()[0]
                     mfa_ok = 1
                 token = auth.new_token()
                 csrf = auth.new_token()
@@ -326,8 +332,9 @@ class Portal:
                 con.execute("DELETE FROM sessions WHERE expires_at < ?", (now,))
                 con.execute("INSERT INTO sessions (token_hash, user_id, csrf, mfa_ok, created_at, expires_at) VALUES (?, ?, ?, ?, ?, ?)",
                             (auth.token_hash(token), user["id"], csrf, mfa_ok, now, now + SESSION_HOURS * 3600))
-                self._log(con, email, "login", user["institution_id"], "", ip)
-                return token, self._me(user, csrf, mfa_ok)
+                self._log(con, email, "login", user["institution_id"], "" if backup_left is None else "with a backup code", ip)
+                info = self._me(user, csrf, mfa_ok)
+                return token, info if backup_left is None else {**info, "backupCodesLeft": backup_left}
         finally:
             con.close()
 
@@ -405,10 +412,14 @@ class Portal:
                     raise PortalError(400, "That code is not right. Codes change every 30 seconds.")
                 con.execute("UPDATE users SET totp_enabled = 1 WHERE id = ?", (user["id"],))
                 con.execute("UPDATE sessions SET mfa_ok = 1 WHERE token_hash = ?", (auth.token_hash(token),))
+                # Backup codes for a lost or broken phone. Shown once, now; only their hashes are kept.
+                codes = auth.new_recovery_codes()
+                con.execute("DELETE FROM recovery_codes WHERE user_id = ?", (user["id"],))
+                con.executemany("INSERT INTO recovery_codes (user_id, code_hash) VALUES (?, ?)", [(user["id"], auth.recovery_hash(c)) for c in codes])
                 self._log(con, user["email"], "two-step.enabled", user["institution_id"], "", ip)
         finally:
             con.close()
-        return {"ok": True}
+        return {"ok": True, "backupCodes": codes}
 
     # ------------------------------------------------------------------- packs
 
@@ -464,6 +475,7 @@ class Portal:
                     "diff": self.diff(live, draft),
                     "can": {
                         "edit": row["state"] == "draft",
+                        "addCards": row["state"] == "draft" and user["role"] == "admin",
                         "submit": row["state"] == "draft" and bool(self.changes(live, draft)),
                         "review": row["state"] == "submitted" and user["role"] in ("reviewer", "admin") and not submitted_by_me,
                         "ownSubmission": row["state"] == "submitted" and submitted_by_me,
@@ -536,6 +548,12 @@ class Portal:
             raise PortalError(413, "The pack is too large.")
         return merged
 
+    @staticmethod
+    def _own_cards(pack):
+        """The cards written specially for this institution, for the whole of it and for each campus."""
+        layers = {"": pack, **{c.get("id"): c for c in pack.get("campuses") or []}}
+        return {k: add for k, layer in layers.items() if (add := (layer.get("cards") or {}).get("add"))}
+
     def save(self, user, institution_id, pack, rev, ip=""):
         self._scope(user, institution_id)
         self._need(user, "editor", "reviewer", "admin")
@@ -547,7 +565,12 @@ class Portal:
                     raise PortalError(409, "This pack is waiting for review and cannot be edited until it is approved or sent back.")
                 if row["rev"] != rev:
                     raise PortalError(409, "Someone else saved changes while you were editing. Reload to see them, then make your change again.", rev=row["rev"])
-                merged = self._merge(json.loads(row["draft"]), pack)
+                current = json.loads(row["draft"])
+                merged = self._merge(current, pack)
+                # A new card sets what a choice does, which is a game rule. Our team writes those,
+                # on request; the institution's reviewer still approves them like any other change.
+                if user["role"] != "admin" and self._own_cards(merged) != self._own_cards(current):
+                    raise PortalError(403, "New story cards are written by the University Simulator team. Ask us for one, and it will come to you for review.")
                 con.execute("UPDATE packs SET draft = ?, rev = rev + 1, updated_by = ?, updated_at = ?, review_note = NULL WHERE institution_id = ?",
                             (json.dumps(merged, ensure_ascii=False), user["id"], self.clock(), institution_id))
                 self._log(con, user["email"], "draft.saved", institution_id, "; ".join(self.changes(self.published(institution_id), merged)), ip)

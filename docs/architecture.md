@@ -2,7 +2,7 @@
 
 University Simulator is a static, offline-first web app (PWA) with a small optional Python
 server. Students play entirely in the browser. The server adds three things when it is
-reachable: content updates, anonymous completion counts and an AI-written forecast. It also
+reachable: content updates and anonymous completion counts. It also
 hosts the staff portal, where institutions edit their own content.
 
 The reasons behind the main choices are in the [decision records](adr/README.md).
@@ -23,7 +23,6 @@ flowchart LR
         portal["Staff portal"]
     end
 
-    llm["Anthropic API<br/>(optional)"]
     smtp["SMTP mail server<br/>(optional)"]
     auth["Authenticator app<br/>(staff phone)"]
 
@@ -32,7 +31,6 @@ flowchart LR
     staff --> portal
     admin --> portal
     portal --> server
-    server -. "AI forecast" .-> llm
     server -. "invites, resets" .-> smtp
     staff -. "one-time codes" .- auth
 ```
@@ -72,7 +70,7 @@ flowchart TB
     sw --> cache
     ui -- "fetch" --> sw
     sw -- "cache miss or refresh" --> static
-    ui -. "institutions, packs, stats, plan" .-> api
+    ui -. "institutions, packs, stats" .-> api
     api --> statsdb
     api --> packs
     pui --> papi
@@ -86,13 +84,13 @@ flowchart TB
 | Student app | Vanilla JavaScript ES modules, no build step | Renders screens, runs the game, saves progress on the device |
 | Service worker | `sw.js` | Precaches the app for offline play; keeps the chosen institution's pack in its own cache |
 | Static files | Any web host or CDN | Everything a student needs to play |
-| Public API | Python standard library `http.server` | Institution list, content packs, completion counts, AI forecast |
+| Public API | Python standard library `http.server` | Institution list, content packs, completion counts |
 | Portal API | Python standard library, SQLite | Staff accounts, drafts, review workflow, publishing, audit log |
 | Pack check | Node.js, shares the engine with the app | Validates a pack and plays the whole journey before it is published |
 | Portal UI | Vanilla JavaScript | A form over the portal API; enforces nothing itself |
 
 The student app can be hosted as static files alone (Netlify, GitHub Pages). The server is
-needed only for the portal, statistics, live pack updates and the AI forecast.
+needed only for the portal, statistics and live pack updates.
 
 ## 3. Components of the student app
 
@@ -106,7 +104,7 @@ flowchart LR
     budget["budget.js<br/>monthly budget split"]
     charts["charts.js<br/>inline SVG charts"]
     i18n["i18n.js<br/>UI strings, money format"]
-    ai["ai.js<br/>optional server calls"]
+    ai["server.js<br/>optional server calls"]
 
     main --> engine
     main --> content
@@ -157,7 +155,8 @@ flowchart TB
     merged --> engine["engine.js"]
 ```
 
-An institution may change wording, switch cards off and add its own cards. It may not change
+An institution may change wording and switch cards off. Cards of its own are written by our
+team and approved by its reviewer. It may not change
 what a choice does: effects, flags and conditions are game rules, and the pack check rejects a
 pack that tries.
 
@@ -280,7 +279,7 @@ Each part a rollout would replace sits behind one named place in the code. The t
 | Offline | Cache-first service worker; bundled packs; every server call fails quietly |
 | Privacy | No account; progress in `localStorage`; statistics carry a random device id only; Campus Realities state is in memory and never saved or sent |
 | Internationalisation | UI strings in `i18n/<lang>.json`; content carries `{ en, zu }`; anything missing falls back to English |
-| Output safety | All content, pack text and AI text is escaped before it reaches the page |
+| Output safety | All content and pack text is escaped before it reaches the page |
 | Determinism | A journey has a seed; card and mini selection is reproducible from it |
 | Versioning | Four independent version numbers; see [data-model.md](data-model.md#version-numbers) |
 | Accessibility | Keyboard shortcuts for choices, focus moved to the heading on each screen, live regions on the HUD and charts, contrast enforced on brand colours by the pack check |
@@ -298,5 +297,4 @@ Each part a rollout would replace sits behind one named place in the code. The t
 | `tools/` | Pack build, check, audit, reindex, icons, and a static dev server |
 | `intake/` | Spreadsheet templates and the Karoo Coast worked example |
 | `test/` | Node tests for the app and content; Python tests for the portal |
-| `proposal-app/` | A separate, self-contained backup app |
 | `data/` | Runtime databases, outbox and backups. Not in version control |

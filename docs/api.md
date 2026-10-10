@@ -13,7 +13,6 @@ and falls back silently when a call fails or times out.
 | GET | `/packs/{id}` | The assembled content pack for one institution |
 | GET | `/stats` | Completion summary; `?institution={id}` for one institution |
 | POST | `/stats` | Record that a device completed a chapter, with optional feedback |
-| POST | `/plan` | Have the AI write the Semester Forecast as prose |
 
 ### GET `/institutions`
 
@@ -23,12 +22,13 @@ and falls back silently when a call fails or times out.
     { "id": "sizwe", "name": { "en": "..." }, "short": "Sizwe", "type": "university",
       "status": "demo", "version": 18013, "active": true }
   ],
-  "features": { "ai": false, "stats": true }
+  "features": { "stats": true }
 }
 ```
 
-`active` is false once a licence has expired. `features.ai` is true only when the Anthropic
-SDK is installed and credentials are set.
+`active` is false once a licence has expired. `version` is the institution's latest pack
+version: the app compares it with the pack it holds and downloads the pack only when the
+server's is newer.
 
 ### GET `/packs/{id}`
 
@@ -51,17 +51,10 @@ Returns `institution`, `version`, `name`, `costs`, `support`, `cards`, `minis`, 
 | `feedback` | Optional; keys `realistic` (yes, partly, no), `learned` (yes, no), `recommend` (yes, maybe, no) |
 | Other keys | Rejected |
 | Body size | At most 16 KB |
-| Rate limit | 30 writes per client address per minute, shared with `/plan` |
+| Rate limit | 10 a minute per device, and 600 a minute per client address (a campus network shares one address) |
 | Origin | A cross-origin post is refused unless the origin equals `FYS_APP_ORIGIN` |
 
 Responses: `200 {"ok": true}`, `400` invalid, `403` origin, `429` rate limit.
-
-### POST `/plan`
-
-Accepts the anonymous forecast fields built by `aiPayload` in
-[js/forecast.js](../js/forecast.js); any other key is dropped. Returns `200 {"text": "..."}`,
-`502` when no text was produced, or `503` when the AI plan is not configured. Same size,
-rate and origin rules as `POST /stats`.
 
 ## Portal API
 
@@ -85,7 +78,7 @@ returns `404`, exactly as if it did not exist.
 | POST | `logout` | setup | End the session |
 | POST | `password` | setup | Change password |
 | POST | `two-step/begin` | setup | Get a new authenticator secret |
-| POST | `two-step/confirm` | setup | Confirm it with a code |
+| POST | `two-step/confirm` | setup | Confirm it with a code. Answers with `backupCodes`, eight single-use codes shown once |
 | GET | `catalogue` | any | Services, cards, courses, housing and map positions to choose from |
 | GET | `institutions` | any | Institutions this user works on, with workflow state |
 | POST | `institutions` | admin | Create an institution as a draft |
