@@ -74,15 +74,17 @@ class Accounts(PortalCase):
         _, unknown = self.portal.login("nobody@sizwe.example", "wrong")
         self.assertEqual(err.body, unknown.body)
 
-    def test_account_locks_after_repeated_failures(self):
+    def test_account_locks_after_repeated_failures_and_waiting_does_not_unlock_it(self):
         for _ in range(8):
             self.portal.login("editor@sizwe.example", "wrong")
         token, err = self.portal.login("editor@sizwe.example", PASSWORD)
         self.assertIsNone(token)
         self.assertEqual(err.status, 429)
-        self.clock.now += 16 * 60
-        token, _ = self.portal.login("editor@sizwe.example", PASSWORD)
-        self.assertTrue(token)
+        self.clock.now += 30 * 86400
+        self.assertIsNone(self.portal.login("editor@sizwe.example", PASSWORD)[0])
+        # An admin's reset is one way back in.
+        temp = self.portal.reset_user(self.admin, self.editor["id"])["temporaryPassword"]
+        self.assertTrue(self.portal.login("editor@sizwe.example", temp)[0])
 
     def test_temporary_password_must_be_replaced_with_a_strong_one(self):
         temp = self.portal.create_user(self.admin, "new@sizwe.example", "New", "editor", "sizwe")["temporaryPassword"]
@@ -140,6 +142,12 @@ class TwoStep(PortalCase):
         self.assertIsNone(self.portal.login("editor@sizwe.example", PASSWORD, "123456")[0])
         token, info = self.portal.login("editor@sizwe.example", PASSWORD, auth.totp(secret, self.clock.now))
         self.assertEqual(info["step"], "ready")
+        # Wrong codes count towards the lock as wrong passwords do.
+        for _ in range(8):
+            self.portal.login("editor@sizwe.example", PASSWORD, "000000")
+        token, err = self.portal.login("editor@sizwe.example", PASSWORD, auth.totp(secret, self.clock.now))
+        self.assertIsNone(token)
+        self.assertEqual(err.status, 429)
 
     def test_totp_matches_the_published_test_vector(self):
         # RFC 6238 test secret "12345678901234567890" at T = 59 seconds.
@@ -326,6 +334,18 @@ class EmailLinks(PortalCase):
         self.portal.redeem_link(self.token(self.mail.sent[-1]), "a brand new passphrase")
         self.assertIsNone(self.portal.session(session), "a reset signs out every device")
         self.assertIsNone(self.portal.login("editor@sizwe.example", PASSWORD)[0])
+        self.assertTrue(self.portal.login("editor@sizwe.example", "a brand new passphrase")[0])
+
+    def test_a_locked_account_is_emailed_a_link_that_unlocks_it(self):
+        before = len(self.mail.sent)
+        for _ in range(8):
+            self.portal.login("editor@sizwe.example", "wrong")
+        self.assertEqual(len(self.mail.sent), before + 1, "one email, sent when the account locks")
+        message = self.mail.sent[-1]
+        self.assertEqual(message["to"], "editor@sizwe.example")
+        self.assertIn("locked", message["subject"])
+        self.assertIsNone(self.portal.login("editor@sizwe.example", PASSWORD)[0], "the right password does not unlock it")
+        self.portal.redeem_link(self.token(message), "a brand new passphrase")
         self.assertTrue(self.portal.login("editor@sizwe.example", "a brand new passphrase")[0])
 
     def test_smtp_mailer_is_chosen_from_the_environment(self):

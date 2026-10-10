@@ -102,8 +102,7 @@ erDiagram
         int must_change
         text totp_secret
         int totp_enabled
-        int failed
-        real locked_until
+        int failed "8 locks the account"
         int disabled
         real created_at
     }

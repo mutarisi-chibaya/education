@@ -58,7 +58,7 @@ flowchart LR
 | Script injection through content or AI text | Everything is escaped on output; links must be `https://`; the portal has a strict Content-Security-Policy | `esc()` in `js/main.js` and `portal/portal.js`, `serve.py` |
 | Staff of one institution reach another's data | Scope enforced on the server for every request; out-of-scope ids return 404 | `Portal._scope` |
 | One person publishes alone | The submitter cannot approve, whatever their role | `Portal.review` |
-| Stolen or guessed password | scrypt hashes, 12-character minimum, lockout after 8 failures, two-step login | `server/auth.py`, `Portal.login` |
+| Stolen or guessed password | scrypt hashes, 12-character minimum, two-step login, and a lock after 8 failures that only an emailed reset link or an admin lifts | `server/auth.py`, `Portal.login` |
 | Stolen database used to log in | Session, invitation and reset tokens stored only as hashes | `auth.token_hash` |
 | Cross-site request forgery | SameSite=Strict cookie plus a per-session token in a header | `server/web.py` |
 | Lost update between two editors | Revision number checked on save | `Portal.save` |
@@ -120,5 +120,5 @@ browser.
 ## Reporting a problem
 
 Report a suspected vulnerability privately to the maintainers rather than in a public issue.
-A contact address should be added here and to `contact.email` in `content/core.json` before
-the first pilot.
+How to report and what is in scope is in [SECURITY.md](SECURITY.md). A contact address should
+be added there and to `contact.email` in `content/core.json` before the first pilot.

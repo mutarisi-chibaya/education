@@ -35,7 +35,6 @@ Likelihood and impact are Low, Medium or High, judged for a public pilot, not fo
 | S2 | `npm start` (`tools/serve.mjs`) serves the whole repository, including `data/` and `.git/` | M | H | Accepted | Local development only. Do not expose it through a tunnel; use `python serve.py` or a static deploy |
 | S3 | With no mail server configured, a password-reset link is returned in the response to whoever asks | H | H | Accepted | Demo behaviour, documented in PORTAL.md. Set `SMTP_HOST` for anything beyond a demo; consider refusing to start without it unless a demo flag is set |
 | S4 | Rate limits use the connecting address and live in process memory | M | M | Accepted | Behind a proxy all clients share one limit. Listed as a swap point in PORTAL.md |
-| S5 | Wrong two-step codes are counted but do not lock the account | L | M | Open | Apply the same lockout as wrong passwords |
 | S6 | `POST /plan` is unauthenticated and spends API credit | M | M | Accepted | Rate limit and field allowlist. Add a per-day cap before a pilot |
 | S7 | No recovery codes for two-step login | M | L | Planned | An admin reset is the only recovery; listed in PORTAL.md |
 | S8 | An institution's own cards are checked for wording and numeric effects only; the size of a money effect and fields such as `flags` and `recurring` are not restricted | L | M | Open | Tighten `tools/pack-check.mjs` to an allowlist of fields and a bound on money |
@@ -79,4 +78,5 @@ that resolved it, so the history is kept.
 
 ## Resolved
 
-None yet.
+- **S5** (10 October 2026): wrong two-step codes now lock the account as wrong passwords do. A locked
+  account stays locked until its password is reset by emailed link or by an admin.

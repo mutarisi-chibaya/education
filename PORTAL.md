@@ -160,8 +160,9 @@ drafts and the history go with it; what is already published to students stays.
   an account, and using one signs that account out everywhere.
 - **Two-step login** with an authenticator app (time-based one-time codes) is required for
   every account.
-- **Lockout:** eight wrong passwords lock an account for 15 minutes, and sign-in attempts are
-  rate-limited per address. An unknown account and a wrong password get the same answer.
+- **Lockout:** eight wrong passwords or two-step codes lock an account. It stays locked until
+  its owner sets a new password through an emailed link, or an admin resets it; waiting does
+  not unlock it. Sign-in attempts are also rate-limited per address. An unknown account and a wrong password get the same answer.
 - **Sessions** last eight hours. The session cookie is HttpOnly, Secure and SameSite=Strict,
   and limited to `/portal`. Only a hash of the session token is stored.
 - **Every change needs a second token** sent in a header, so another website cannot act on a

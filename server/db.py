@@ -80,6 +80,10 @@ MIGRATIONS = [
         used INTEGER NOT NULL DEFAULT 0
     );
     """,
+    # 3: a locked account stays locked until its password is reset, so the timed lock goes
+    """
+    ALTER TABLE users DROP COLUMN locked_until;
+    """,
 ]
 
 

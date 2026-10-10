@@ -85,8 +85,10 @@ students; students who already chose it keep playing.
 
 ### A staff member is locked out or has lost their phone
 
-Sign in as a platform admin, open the Platform admin tab and press "New temporary password"
-beside the account. This also clears their two-step setup.
+A locked account is emailed a link for choosing a new password, which unlocks it, and
+"Forgot your password?" on the sign-in page sends another. Otherwise, sign in as a platform
+admin, open the Platform admin tab and press "New temporary password" beside the account.
+This also clears their two-step setup.
 
 ### Ship a content or code change to phones
 
@@ -162,7 +164,7 @@ minimum:
 | Default port | 8080 (`python serve.py <port>`; `PORT` for `npm start`) |
 | Databases | `data/portal.db`, `data/stats.db` (SQLite; `portal.db` in WAL mode) |
 | Session length | 8 hours |
-| Lockout | 8 wrong passwords, 15 minutes |
+| Lockout | 8 wrong passwords or codes; unlocked by an emailed reset link or an admin reset |
 | Invitation link | 7 days, single use |
 | Reset link | 1 hour, single use |
 | Phone number hidden when unchecked for | 400 days |

@@ -24,7 +24,6 @@ from . import auth, db
 
 SESSION_HOURS = 8
 MAX_FAILED = 8
-LOCK_SECONDS = 15 * 60
 MAX_PACK_BYTES = 400 * 1024
 INVITE_DAYS = 7
 RESET_HOURS = 1
@@ -173,7 +172,7 @@ class Portal:
 
     # ---------------------------------------------- invitation and reset links
 
-    def _send_link(self, con, user, purpose):
+    def _send_link(self, con, user, purpose, locked=False):
         """Email a single-use link for setting a password. Only its hash is stored."""
         token = auth.new_token()
         life = INVITE_DAYS * 86400 if purpose == "invite" else RESET_HOURS * 3600
@@ -186,6 +185,11 @@ class Portal:
             body = (f"Hello {user['name']},\n\nAn account has been created for you on the University Simulator staff portal, "
                     f"as {user['role']}.\n\nChoose your password here (the link works once, for {INVITE_DAYS} days):\n{link}\n\n"
                     "After that you will be asked to set up two-step login with an authenticator app.")
+        elif locked:
+            subject = "Your University Simulator account is locked"
+            body = (f"Hello {user['name']},\n\nYour account was locked after {MAX_FAILED} wrong sign-in attempts. To unlock it, choose a "
+                    f"new password here (the link works once, for {RESET_HOURS} hour):\n{link}\n\nIf the link has expired, use "
+                    "\"Forgot your password?\" on the sign-in page. If the attempts were not yours, tell your administrator.")
         else:
             subject = "Reset your University Simulator password"
             body = (f"Hello {user['name']},\n\nSomeone asked to reset the password for this account. If it was you, choose a new "
@@ -227,7 +231,7 @@ class Portal:
                 if problem:
                     raise PortalError(400, problem)
                 digest, salt = auth.hash_password(new_password)
-                con.execute("UPDATE users SET pw_hash = ?, pw_salt = ?, must_change = 0, failed = 0, locked_until = 0 WHERE id = ?",
+                con.execute("UPDATE users SET pw_hash = ?, pw_salt = ?, must_change = 0, failed = 0 WHERE id = ?",
                             (digest, salt, row["user_id"]))
                 con.execute("UPDATE tokens SET used = 1 WHERE token_hash = ?", (row["token_hash"],))
                 con.execute("DELETE FROM sessions WHERE user_id = ?", (row["user_id"],))
@@ -268,7 +272,7 @@ class Portal:
                     return {"ok": True}
                 password = auth.new_password()
                 digest, salt = auth.hash_password(password)
-                con.execute("UPDATE users SET pw_hash = ?, pw_salt = ?, must_change = 1, totp_secret = NULL, totp_enabled = 0, failed = 0, locked_until = 0 WHERE id = ?",
+                con.execute("UPDATE users SET pw_hash = ?, pw_salt = ?, must_change = 1, totp_secret = NULL, totp_enabled = 0, failed = 0 WHERE id = ?",
                             (digest, salt, user_id))
                 self._log(con, actor["email"], "user.reset", target["institution_id"], target["email"], ip)
                 return {"temporaryPassword": password}
@@ -276,6 +280,16 @@ class Portal:
             con.close()
 
     # ------------------------------------------------------------------- login
+
+    def _failed(self, con, user, detail, ip):
+        """Count a wrong password or code. The last one allowed locks the account until its owner
+        sets a new password through an emailed link, or an admin resets it."""
+        failed = user["failed"] + 1
+        locked = failed >= MAX_FAILED
+        con.execute("UPDATE users SET failed = ? WHERE id = ?", (failed, user["id"]))
+        self._log(con, user["email"], "login.locked" if locked else "login.failed", user["institution_id"], detail, ip)
+        if locked and self.mailer:
+            self._send_link(con, user, "reset", locked=True)
 
     def login(self, email, password, code=None, ip=""):
         """Returns (session token, info). The same message for every failure, so accounts cannot be guessed."""
@@ -291,27 +305,24 @@ class Portal:
                     return None, bad
                 if user["disabled"]:
                     return None, bad
-                if user["locked_until"] > self.clock():
-                    return None, PortalError(429, "Too many wrong attempts. Try again in 15 minutes.")
+                if user["failed"] >= MAX_FAILED:
+                    return None, PortalError(429, 'This account is locked after too many wrong attempts. Use "Forgot your password?" '
+                                                  "to unlock it by email, or ask an administrator.")
                 if not auth.verify_password(password or "", user["pw_hash"], user["pw_salt"]):
-                    failed = user["failed"] + 1
-                    locked = self.clock() + LOCK_SECONDS if failed >= MAX_FAILED else 0
-                    con.execute("UPDATE users SET failed = ?, locked_until = ? WHERE id = ?", (0 if locked else failed, locked, user["id"]))
-                    self._log(con, email, "login.locked" if locked else "login.failed", user["institution_id"], "", ip)
+                    self._failed(con, user, "", ip)
                     return None, bad
                 mfa_ok = 0 if self.mfa else 1
                 if self.mfa and user["totp_enabled"]:
                     if not code:
                         return None, PortalError(401, "Enter the 6-digit code from your authenticator app.", need="code")
                     if not auth.verify_totp(user["totp_secret"], code, self.clock()):
-                        con.execute("UPDATE users SET failed = failed + 1 WHERE id = ?", (user["id"],))
-                        self._log(con, email, "login.failed", user["institution_id"], "wrong code", ip)
+                        self._failed(con, user, "wrong code", ip)
                         return None, PortalError(401, "That code is not right. Codes change every 30 seconds.", need="code")
                     mfa_ok = 1
                 token = auth.new_token()
                 csrf = auth.new_token()
                 now = self.clock()
-                con.execute("UPDATE users SET failed = 0, locked_until = 0 WHERE id = ?", (user["id"],))
+                con.execute("UPDATE users SET failed = 0 WHERE id = ?", (user["id"],))
                 con.execute("DELETE FROM sessions WHERE expires_at < ?", (now,))
                 con.execute("INSERT INTO sessions (token_hash, user_id, csrf, mfa_ok, created_at, expires_at) VALUES (?, ?, ?, ?, ?, ?)",
                             (auth.token_hash(token), user["id"], csrf, mfa_ok, now, now + SESSION_HOURS * 3600))
