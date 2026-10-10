@@ -1077,10 +1077,6 @@ button.contact { font: inherit; cursor: pointer; }
 .coach { border: 2px dashed var(--help); }
 .overlay-inner .stack { margin: 12px 0 0; }
 /* Notes under a support card sit on their own panel, so the page behind never shows through the text. */
-.overlay-note { background: var(--surface); border-radius: var(--radius); padding: 12px 16px; margin: 12px 0; }
-.overlay-note:empty { display: none; }
-.overlay-note > :first-child { margin-top: 0; }
-.overlay-note > :last-child { margin-bottom: 0; }
 /* A licensed university's monogram and name in the top bar. */
 .topbar-right { display: flex; align-items: center; gap: 10px; }
 .uni-brand { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.9rem; color: var(--brand); }

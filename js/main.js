@@ -973,11 +973,12 @@ function supportCard(id) {
       ${place}
       ${s.tip ? `<div class="lesson"><strong>${esc(t('outcome.tip'))}</strong> ${rich(tx(s.tip, v))}</div>` : ''}
       <div class="contacts"><button class="contact" data-action="share-service" data-id="${esc(id)}"><span aria-hidden="true">📤</span> ${esc(t('svc.share'))}</button></div>
+      ${supportNote()}
     </details>
   </article>`;
 }
 
-// Said once under the cards, not on every one.
+// Closes the card's details: saved to the plan, and how real the contact details are.
 function supportNote() {
   const note = content.status === 'demo' ? t('support.demo', { short: tx(content.short) })
     : content.status === 'general' ? t('support.general') : '';
@@ -997,7 +998,6 @@ function renderSupport() {
     ${state.last.support.some(hasWays) && !coachSeen('reach') ? coach('reach') : coach('services')}
     <div class="support-list">${state.last.support.map((id, i) => (i === 0 || sideBySide.matches ? supportCard(id)
       : `<details class="fold"><summary>${esc(tx(content.support[id].name))}</summary>${supportCard(id)}</details>`)).join('')}</div>
-    ${supportNote()}
     ${cta(`<button class="btn primary big" data-action="next">${esc(nextLabel())}</button>`)}
   </section>`;
 }
@@ -1553,7 +1553,6 @@ function renderOverlay() {
   return `<div class="overlay" role="dialog" aria-modal="true" data-action="close-overlay-bg">
     <div class="overlay-inner">
       ${overlay.map(supportCard).join('')}
-      <div class="overlay-note">${supportNote()}</div>
       <button class="btn primary big" data-action="close-overlay">${esc(t('support.close'))}</button>
     </div>
   </div>`;
