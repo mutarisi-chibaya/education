@@ -1,0 +1,5 @@
+# University Simulator: Python requirements
+#
+# None. The server (serve.py) and the staff portal use only Python's standard
+# library. This file is kept because hosting services such as Render run
+# "pip install -r requirements.txt" as their build step and fail without it.
