@@ -898,6 +898,7 @@ details summary { cursor: pointer; font-weight: 650; color: var(--brand); min-he
 
 .why-stats { display: grid; gap: 14px; margin: 16px 0 24px; }
 .why-stats .hook { margin: 0; }
+.why-reasons { margin: -8px 0 24px; color: var(--muted); }
 .why-list { list-style: none; padding: 0; margin: 10px 0 18px; display: grid; gap: 10px; }
 .why-list li {
   display: flex; gap: 12px; align-items: center;
@@ -1086,6 +1087,7 @@ button.contact { font: inherit; cursor: pointer; }
 
 .option.need { grid-template-columns: auto 1fr; column-gap: 14px; align-items: center; }
 .need-icon { grid-row: span 2; font-size: 1.7rem; line-height: 1; }
+.svc-search { margin: 4px 0 14px; }
 .needs { margin-top: 14px; }
 .term {
   font: inherit; font-weight: 700; font-style: italic; color: var(--brand);

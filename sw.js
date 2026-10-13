@@ -1,10 +1,10 @@
 // Service worker: precaches the whole game on first load so it runs offline.
-// Bump VERSION whenever any file below changes so players get the update.
+// Bump VERSION when the list of files below changes, or to clear out old caches.
 
 // Institution packs live in their own cache: only the one a student chose is
 // ever downloaded, and it survives app updates.
 const PACKS = 'fys-packs-v1';
-const VERSION = 'fys-v49';
+const VERSION = 'fys-v52';
 const ASSETS = [
   './',
   './index.html',
@@ -60,8 +60,12 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Cache first: the app is small and versioned, and players are often on
-// expensive or patchy data. Pages fall back to the cached shell offline.
+// Network first: when the player is online a refresh always shows the latest
+// files, so nobody is left on an old copy. The server answers unchanged files
+// with a tiny "not modified" reply, so this costs little data. Offline, or when
+// the connection stalls, the cached copy is used instead.
+const NETWORK_WAIT_MS = 4000;
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -85,18 +89,20 @@ self.addEventListener('fetch', (event) => {
   // Server endpoints always go to the network; the app falls back to bundled packs.
   if (/\/(institutions|stats|plan|packs\/[^/]+)$/.test(url.pathname)) return;
 
-  event.respondWith(
-    caches.match(request, { ignoreSearch: true }).then((cached) => {
-      if (cached) return cached;
-      return fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(VERSION).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(() => (request.mode === 'navigate' ? caches.match('./index.html') : Response.error()));
-    }),
-  );
+  event.respondWith((async () => {
+    const cached = await caches.match(request, { ignoreSearch: true });
+    const fresh = fetch(request, { cache: 'no-cache' }).then((response) => {
+      if (response.ok) {
+        const copy = response.clone();
+        caches.open(VERSION).then((cache) => cache.put(request, copy));
+      }
+      return response;
+    });
+    if (!cached) {
+      return fresh.catch(() => (request.mode === 'navigate' ? caches.match('./index.html') : Response.error()));
+    }
+    // Slow connection: show the cached copy now; the fresh one is still stored for next time.
+    const slow = new Promise((resolve) => { setTimeout(() => resolve(cached), NETWORK_WAIT_MS); });
+    return Promise.race([fresh.then((response) => (response.ok ? response : cached)).catch(() => cached), slow]);
+  })());
 });

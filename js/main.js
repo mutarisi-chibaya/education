@@ -308,7 +308,6 @@ function renderWelcome() {
       <p class="welcome-about">${esc(t('home.about'))}</p>
       <p class="welcome-sub">${esc(t('home.about2'))}</p>
     </div>
-    <blockquote class="hook">${esc(t('why.stat1'))}<cite>${esc(t('why.stat1src'))}</cite></blockquote>
     ${obNav(false)}
     ${installPrompt ? `<div class="stack narrow"><button class="btn ghost" data-action="install">${esc(t('home.install'))}</button></div>` : ''}
   </section>`;
@@ -324,6 +323,7 @@ function renderWhy() {
       <blockquote class="hook">${esc(t('why.stat1'))}<cite>${esc(t('why.stat1src'))}</cite></blockquote>
       <blockquote class="hook">${esc(t('why.stat2'))}<cite>${esc(t('why.stat2src'))}</cite></blockquote>
     </div>
+    <p class="why-reasons">${esc(t('why.reasons'))}</p>
     <h2>${esc(t('why.listTitle'))}</h2>
     <ul class="why-list">${items.map((n, i) => `<li><span class="why-icon" aria-hidden="true">${icons[i]}</span>${esc(t(`why.i${n}`))}</li>`).join('')}</ul>
     <p class="why-everyone">${esc(t('why.everyone'))}</p>
@@ -435,14 +435,29 @@ function renderServices() {
       </div>
     </div>
     ${guest}
-    <div class="options needs">
-      ${serviceList().map((x) => `<button class="option need" data-action="service" data-id="${esc(x.support)}">
-        <span class="need-icon" aria-hidden="true">${x.icon}</span>
-        <span class="opt-title">${esc(tx(x.need))}</span>
-        <span class="opt-desc">${esc(tx(content.support[x.support].name))}</span>
-      </button>`).join('')}
-    </div>
+    <label class="income-input svc-search">${esc(t('setup.search'))}
+      <input id="svc-search" type="search" autocomplete="off" placeholder="${esc(t('svc.searchHint'))}"></label>
+    <div id="svc-list" aria-live="polite">${serviceOptions()}</div>
   </section>`;
+}
+
+// The need cards, narrowed by a search over the need, the service's name and
+// what it offers. Every word typed has to appear somewhere in those.
+function serviceOptions(query = '') {
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  const found = serviceList().filter((x) => {
+    const s = content.support[x.support];
+    const text = [tx(x.need), tx(s.name), tx(s.offers)].join(' ').toLowerCase();
+    return words.every((w) => text.includes(w));
+  });
+  if (!found.length) return `<p class="fine">${esc(t('svc.noMatch'))}</p>`;
+  return `<div class="options needs">
+    ${found.map((x) => `<button class="option need" data-action="service" data-id="${esc(x.support)}">
+      <span class="need-icon" aria-hidden="true">${x.icon}</span>
+      <span class="opt-title">${esc(tx(x.need))}</span>
+      <span class="opt-desc">${esc(tx(content.support[x.support].name))}</span>
+    </button>`).join('')}
+  </div>`;
 }
 
 function realitiesCard() {
@@ -2074,6 +2089,7 @@ document.addEventListener('click', chartHover);
 
 document.addEventListener('input', (e) => {
   if (e.target.id === 'inst-search') document.getElementById('inst-list').innerHTML = institutionOptions(e.target.value);
+  if (e.target.id === 'svc-search') document.getElementById('svc-list').innerHTML = serviceOptions(e.target.value);
   if (e.target.id === 'income') {
     const amount = Math.max(0, Number(e.target.value) || 0);
     document.getElementById('income-preview').innerHTML = incomePreview(amount);
@@ -2140,7 +2156,16 @@ window.addEventListener('offline', () => { connectivity(); toast(t('home.offline
 async function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   try {
-    const reg = await navigator.serviceWorker.register('./sw.js');
+    // An updated service worker taking over means this page is running old
+    // files: reload once so the player gets the new version without clearing anything.
+    if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.addEventListener('controllerchange', () => location.reload(), { once: true });
+    }
+    const reg = await navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
+    // The installed app can stay open for days, so check for an update whenever it comes back into view.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') reg.update().catch(() => {});
+    });
     // On a first visit the directory and the chosen pack were fetched before the
     // service worker took over, so fetch them once more to store them for offline play.
     if (!navigator.serviceWorker.controller) {
