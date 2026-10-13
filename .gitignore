@@ -15,3 +15,6 @@ npm-debug.log*
 Thumbs.db
 
 data/
+
+# Hackathon deck and videos: kept on Google Drive, not in the repo
+submission/
