@@ -604,11 +604,11 @@
   "card.whatIfNote": "’n Repetisie: jy sal sien wat jou antwoord sou doen, dan gaan alles terug. Dit gebeur wel elke jaar met sommige studente.",
   "whatif.real": "As dit werklik was",
   "whatif.lost": "Jy het {left} oor om die jaar te begin.",
-  "whatif.owe": "En jy sal steeds {short} skuld.",
+  "whatif.owe": "En jy sal jou vriend {short} skuld.",
   "whatif.hard": "Dit sou 'n moeilike begin van die jaar gewees het.",
   "whatif.good": "Goeie oproep. Dit is wat om te doen as dit ooit met jou gebeur.",
-  "whatif.back": "Terug na die regte reis",
-  "whatif.restoredTitle": "Dit was net 'n repetisie",
-  "whatif.restored": "Niks hiervan het regtig gebeur nie: jou geld en welstand is terug. Onthou wat jy sou doen as dit ooit gebeur. Jou regte reis begin nou.",
-  "plans.short": "My planne"
+  "plans.short": "My planne",
+  "whatif.beginsTitle": "Jou regte reis begin",
+  "whatif.beginsSub": "Jou geld en welstand is terug. Alles van hier af tel.",
+  "whatif.reset": "Jou geld en welstand gaan terug na normaal wanneer jou regte reis begin."
 }

@@ -604,11 +604,11 @@
   "card.whatIfNote": "Boikoetliso: u tla bona hore na karabo ea hau e tla etsa eng, ebe tsohle li khutlela morao. E etsahala ho baithuti ba bang selemo se seng le se seng.",
   "whatif.real": "Haeba sena e ne e le 'nete",
   "whatif.lost": "U saletsoe ke {left} hore u qale selemo.",
-  "whatif.owe": "Mme o ntse o tla kolota {short}.",
+  "whatif.owe": "'Me u tla kolota motsoalle oa hau {short}.",
   "whatif.hard": "E ka be e bile qalo e boima ea selemo.",
   "whatif.good": "Pitso e ntle. Sena ke seo u lokelang ho se etsa haeba se ka etsahala ho uena.",
-  "whatif.back": "Khutlela leetong la sebele",
-  "whatif.restoredTitle": "E ne e le boitlhakiso feela",
-  "whatif.restored": "Ha ho le e 'ngoe ea tseo e hlileng e etsahetseng: chelete ea hau le boiketlo ba hau li khutlile. Hopola seo u neng u tla se etsa haeba se etsahala. Leeto la hau la 'nete le qala hona joale.",
-  "plans.short": "Merero eaka"
+  "plans.short": "Merero eaka",
+  "whatif.beginsTitle": "Leeto la hao la sebele lea qala",
+  "whatif.beginsSub": "Chelete ea hau le boiketlo ba hau li khutlile. Tsohle tse tsoang mona lia bohlokoa.",
+  "whatif.reset": "Chelete ea hau le bophelo bo botle li khutlela setloaeleng ha leeto la hau la 'nete le qala."
 }

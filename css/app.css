@@ -1185,16 +1185,25 @@ button.contact { font: inherit; cursor: pointer; }
 .plan-kept { margin: -4px 0 14px; color: var(--good); font-weight: 600; }
 
 /* "What if" outcomes: the would-be hit, then back to the real journey */
-.whatif-panel { margin: 14px 0 4px; padding: 14px 16px; border-radius: 12px; border-left: 5px solid var(--bad); background: var(--warn-bg); }
+.whatif-panel { margin: 14px 0 4px; padding: 14px 16px; border-radius: 12px; border-left: 4px solid var(--accent); background: var(--surface-2); }
 .whatif-panel strong { display: block; margin-bottom: 4px; }
 .whatif-panel p { margin: 0; }
-.whatif-panel.good { border-left-color: var(--good); background: var(--help-bg); }
-.whatif-panel.restored { border-left-color: var(--help); background: var(--help-bg); animation: whatif-in 0.35s ease-out; }
-.deltas.struck .delta { text-decoration: line-through; opacity: 0.55; }
+.whatif-panel p + p { margin-top: 6px; }
 #hud.whatif .meters { outline: 2px dashed var(--bad); outline-offset: 4px; border-radius: 10px; }
 #hud.whatif .week { color: var(--bad); }
-@keyframes whatif-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .whatif-panel.restored { animation: none; } }
+
+/* "Your real journey begins": a quiet line above the first real card */
+.journey-start { display: grid; justify-items: center; gap: 4px; margin: 2px 0 16px; text-align: center; animation: js-in 0.5s ease-out both; }
+.journey-start svg { width: min(220px, 60%); height: 14px; overflow: visible; }
+.journey-start path { fill: none; stroke: var(--line); stroke-width: 3; stroke-linecap: round; }
+.journey-start circle { fill: var(--accent); animation: js-travel 1.4s 0.2s ease-in-out both; }
+.journey-start strong { font-size: 1rem; letter-spacing: 0.02em; color: var(--brand); }
+.journey-start span { font-size: 0.85rem; color: var(--muted); }
+.journey-start + .screen { animation: js-card 0.5s 0.35s ease-out both; }
+@keyframes js-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes js-travel { from { transform: translateX(0); } to { transform: translateX(206px); } }
+@keyframes js-card { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .journey-start, .journey-start circle, .journey-start + .screen { animation: none; } }
 
 /* Saved plans: a button beside the "Your journey" heading */
 .home-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }

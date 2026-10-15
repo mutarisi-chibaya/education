@@ -604,11 +604,11 @@
   "card.whatIfNote": "Go ikatisa: o tla bona gore karabo ya gago e ne e tla dira eng, morago ga moo sengwe le sengwe se boele morago. Go a diragalela baithuti bangwe ngwaga le ngwaga.",
   "whatif.real": "Fa seno e ka bo e le sa mmatota",
   "whatif.lost": "O tla bo o setse ka {left} go simolola ngwaga.",
-  "whatif.owe": "Mme o ne o tla bo o sa ntse o kolota {short}.",
+  "whatif.owe": "Mme o ne o tla kolota tsala ya gago {short}.",
   "whatif.hard": "E ka bo e le tshimologo e e thata ya ngwaga.",
   "whatif.good": "Mogala o montle. Se ke se o tshwanetseng go se dira fa go ka go diragalela.",
-  "whatif.back": "Go boela kwa loetong lwa mmatota",
-  "whatif.restoredTitle": "E ne e le go ikatisa fela",
-  "whatif.restored": "Ga go na sepe sa seo se se diragetseng tota: madi a gago le boitekanelo di boetse. Gakologelwa se o ka se dirang fa e ka dira jalo. Leeto la gago la mmatota le simolola jaanong.",
-  "plans.short": "Dithulaganyo tsa me"
+  "plans.short": "Dithulaganyo tsa me",
+  "whatif.beginsTitle": "Leeto la gago la mmatota le a simolola",
+  "whatif.beginsSub": "Madi le boitekanelo jwa gago di boile. Sengwe le sengwe go tswa fa se a bala.",
+  "whatif.reset": "Madi a gago le boitekanelo jwa gago di boela kwa mannong fa loeto lwa gago lwa mmatota lo simolola."
 }

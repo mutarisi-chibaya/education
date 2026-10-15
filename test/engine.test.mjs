@@ -420,7 +420,8 @@ test('res overbooking is a "what if" before the first night in res, and never co
   const after = choose(up, s, 'take');
   assert.equal(after.money, s.money);
   // What it would have done, for the outcome screen: every rand you had, and the rest owed.
-  assert.deepEqual(after.last.whatIf, { money: -800, short: 700, marks: 0, wellbeing: -10 });
+  assert.deepEqual(after.last.whatIf, { money: -1500, short: 700, marks: 0, wellbeing: -10 });
+  assert.match(resolveEvent(up, after, 'ARR-03').choices.find((c) => c.id === 'take').outcome.en, /borrow {borrowed}/);
   assert.ok(!after.flags.includes('scammed') && after.trackers.debt === s.trackers.debt);
 });
 

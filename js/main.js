@@ -62,7 +62,7 @@ let caps = { stats: false, versions: {} };
 // Campus Realities: kept in memory only. Nothing about what was viewed is saved or sent.
 let cr = { topic: null, step: 0, picked: null };
 let undo = null;        // the state before the last choice, so an answer can be changed
-let restoredFor = null; // a "what if" outcome whose money has been given back (keyed by history length)
+let realStart = false;  // the first real card after a "what if" shows that the real journey begins
 let lastView = null;    // the page only jumps to the top when the view changes
 let lastNav = null;     // the browser-history entry for the current screen
 let navMode = 'push';   // 'replace' while restoring a history entry or leaving a sensitive card
@@ -266,15 +266,15 @@ function updateHud() {
     `<span class="dot ${i + 1 < state.week ? 'done' : i + 1 === state.week ? 'now' : ''}"></span>`).join('');
 }
 
-// While a "what if" outcome is on screen, the meters show what the answer would
-// have done; going back to the real journey puts the real numbers back.
-const rehearsing = () => screen === 'game' && state?.phase === 'outcome' && state.last?.whatIf && restoredFor !== state.history.length;
+// From a "what if" answer until the real journey begins (its outcome and its
+// support cards), the meters show what the answer would have done.
+const rehearsing = () => screen === 'game' && ['outcome', 'support'].includes(state?.phase) && Boolean(state.last?.whatIf);
 
 function shownMeters() {
   if (!rehearsing()) return state;
   const w = state.last.whatIf;
   const clamp = (n) => Math.max(0, Math.min(100, n));
-  return { money: state.money + w.money, marks: clamp(state.marks + w.marks), wellbeing: clamp(state.wellbeing + w.wellbeing) };
+  return { money: Math.max(0, state.money + w.money), marks: clamp(state.marks + w.marks), wellbeing: clamp(state.wellbeing + w.wellbeing) };
 }
 
 // ---------- intro slides ----------
@@ -1043,27 +1043,31 @@ function renderOutcome() {
 // the money comes back and the card says why, before the real journey goes on.
 function renderWhatIfOutcome(ev, choice, v, hasSupport) {
   const w = state.last.whatIf;
-  const real = !rehearsing();
-  const lost = w.money < 0;
-  const verdict = lost
-    ? `${t('whatif.lost', { left: money(state.money + w.money) })}${w.short ? ` ${t('whatif.owe', { short: money(w.short) })}` : ''}`
+  const verdict = w.money < 0
+    ? `${t('whatif.lost', { left: money(Math.max(0, state.money + w.money)) })}${w.short ? ` ${t('whatif.owe', { short: money(w.short) })}` : ''}`
     : w.wellbeing < 0 || w.marks < 0 ? t('whatif.hard') : t('whatif.good');
   return `<section class="outcome screen">
     <article class="card t-${cardTopic(ev)}">
       ${cardTop(ev, t('card.whatIf'))}
       <h1>${esc(tx(choice.label, v))}</h1>
-      <div class="deltas big ${real ? 'struck' : ''}">${delta(w.money, 'money')}${delta(w.marks, 'marks')}${delta(w.wellbeing, 'wellbeing')}</div>
+      <div class="deltas big">${delta(w.money, 'money')}${delta(w.marks, 'marks')}${delta(w.wellbeing, 'wellbeing')}</div>
       <p>${rich(tx(choice.outcome, v))}</p>
-      ${real
-        ? `<div class="whatif-panel restored" role="status"><strong>${esc(t('whatif.restoredTitle'))}</strong><p>${esc(t('whatif.restored'))}</p></div>`
-        : `<div class="whatif-panel ${lost || w.wellbeing < 0 ? 'hit' : 'good'}"><strong>${esc(t('whatif.real'))}</strong><p>${esc(verdict)}</p></div>`}
+      <div class="whatif-panel"><strong>${esc(t('whatif.real'))}</strong><p>${esc(verdict)}</p><p class="fine">${esc(t('whatif.reset'))}</p></div>
       ${choice.tip ? `<div class="lesson"><strong>${esc(t('outcome.tip'))}</strong> ${rich(tx(choice.tip, v))}</div>` : ''}
     </article>
-    ${cta(real
-      ? `<button class="btn primary big" data-action="${hasSupport ? 'show-support' : 'next'}">${esc(hasSupport ? t('outcome.support') : nextLabel())}</button>`
-      : `<button class="btn primary big" data-action="whatif-back">${esc(t('whatif.back'))} →</button>
-        ${undo ? `<button class="btn ghost" data-action="undo">← ${esc(t('outcome.undo'))}</button>` : ''}`)}
+    ${cta(`<button class="btn primary big" data-action="${hasSupport ? 'show-support' : 'next'}">${esc(hasSupport ? t('outcome.support') : nextLabel())}</button>
+      ${undo ? `<button class="btn ghost" data-action="undo">← ${esc(t('outcome.undo'))}</button>` : ''}`)}
   </section>`;
+}
+
+// Leaving a "what if": a quiet line above the first real card says the real
+// journey starts here, while the meters spring back to the real numbers.
+function journeyStart() {
+  return `<div class="journey-start" role="status">
+    <svg viewBox="0 0 220 14" aria-hidden="true"><path d="M7 7 H213" /><circle cx="7" cy="7" r="5" /></svg>
+    <strong>${esc(t('whatif.beginsTitle'))}</strong>
+    <span>${esc(t('whatif.beginsSub'))}</span>
+  </div>`;
 }
 
 // Where a service is and how to reach it: building, room, hours, email, a
@@ -1788,6 +1792,7 @@ function render() {
     screen = 'home';
     html = renderHome();
   }
+  if (realStart && screen === 'game') html = journeyStart() + html;
   app.innerHTML = html + renderOverlay();
   app.dataset.screen = screen === 'game' ? state.phase : screen;
   syncHistory();
@@ -1971,6 +1976,8 @@ document.addEventListener('click', async (e) => {
   const el = e.target.closest('[data-action]');
   if (!el) return;
   const { action, id } = el.dataset;
+  // The "real journey begins" line only greets the first real card.
+  if (realStart && !['coach-done', 'lang-toggle', 'lang-pick'].includes(action)) realStart = false;
   switch (action) {
     case 'lang-toggle':
       setLangMenu(el.getAttribute('aria-expanded') !== 'true');
@@ -2200,19 +2207,11 @@ document.addEventListener('click', async (e) => {
       el.closest('.choices')?.classList.add('choosing');
       if (motionOk()) await pause(260);
       undo = state;
-      restoredFor = null;
       update(choose(content, state, id));
       break;
     case 'undo':
       if (undo) update(undo);
       undo = null;
-      restoredFor = null;
-      break;
-    case 'whatif-back':
-      // The rehearsal is over: the real numbers come back, with the meters showing the change.
-      restoredFor = state.history.length;
-      undo = null;
-      render();
       break;
     case 'ack':
       update(acknowledge(content, state));
@@ -2221,11 +2220,14 @@ document.addEventListener('click', async (e) => {
       coachDone('support');
       update(setPhase(state, 'support'));
       break;
-    case 'next':
+    case 'next': {
       coachDone('outcome');
       undo = null;
+      const leavingRehearsal = rehearsing();
+      realStart = leavingRehearsal;
       update(advance(content, state));
       break;
+    }
     case 'finish':
       update(nextWeek(content, state));
       break;

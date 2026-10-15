@@ -675,13 +675,13 @@ export function choose(content, state, choiceId) {
   const effects = { ...(event.effects || {}), ...choice.effects };
   effects.money = (event.effects?.money || 0) + resolveMoney(choice.effects?.money, event, s);
   // A "what if" shows what the answer would have done, so the player feels it,
-  // then it is undone: a scam deposit takes every rand you have, up to its cost.
+  // then it is undone: the whole cost, with whatever you don't have borrowed.
   let whatIf = null;
   if (event.type === 'what_if') {
     const cost = Math.max(0, -(effects.money || 0));
     const have = Math.max(0, s.money);
     whatIf = {
-      money: cost ? -Math.min(cost, have) : effects.money || 0,
+      money: cost ? -cost : effects.money || 0,
       short: Math.max(0, cost - have),
       marks: effects.marks || 0,
       wellbeing: effects.wellbeing || 0,

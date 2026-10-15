@@ -604,11 +604,11 @@
   "card.whatIfNote": "A rehearsal: o tla bona gore karabo ya gago e be e tla dira eng, ke moka dilo ka moka di boela morago. E tloga e diragalela barutwana ba bangwe ngwaga le ngwaga.",
   "whatif.real": "Ge nkabe se e bile sa kgonthe",
   "whatif.lost": "O be o tla ba o šetše {left} go thoma ngwaga.",
-  "whatif.owe": "Gomme o be o tla no kolota {short}.",
+  "whatif.owe": "Gomme o be o tla kolota mogwera wa gago {short}.",
   "whatif.hard": "E be e tla ba mathomo a thata a ngwaga.",
   "whatif.good": "Mogala o mobotse. Se ke seo o swanetšego go se dira ge e ba se ka tsoga se go diragalela.",
-  "whatif.back": "Go boela morago leetong la kgonthe",
-  "whatif.restoredTitle": "E be e le feela go itlwaetša",
-  "whatif.restored": "Ga go le se tee sa tšeo seo se diregilego e le ka kgonthe: tšhelete ya gago le bophelo bjo bobotse di boile. Gopola seo o bego o tla se dira ge e ba e ka tsoga e dirile. Leeto la gago la nnete le thoma bjale.",
-  "plans.short": "Merero ya ka"
+  "plans.short": "Merero ya ka",
+  "whatif.beginsTitle": "Leeto la gago la kgonthe le a thoma",
+  "whatif.beginsSub": "Tšhelete ya gago le bophelo bjo bobotse di boile. Se sengwe le se sengwe go tšwa mo se a bala.",
+  "whatif.reset": "Tšhelete ya gago le bophelo bjo bobotse di boela sekeng ge leeto la gago la kgonthe le thoma."
 }

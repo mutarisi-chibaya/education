@@ -604,11 +604,11 @@
   "card.whatIfNote": "A rehearsal: you'll see what your answer would do, then everything goes back. It does happen to some students every year.",
   "whatif.real": "If this had been real",
   "whatif.lost": "You'd have {left} left to start the year.",
-  "whatif.owe": "And you'd still owe {short}.",
+  "whatif.owe": "And you'd owe your friend {short}.",
   "whatif.hard": "It would have been a hard start to the year.",
   "whatif.good": "Good call. This is what to do if it ever happens to you.",
-  "whatif.back": "Back to the real journey",
-  "whatif.restoredTitle": "It was only a rehearsal",
-  "whatif.restored": "None of that really happened: your money and wellbeing are back. Remember what you'd do if it ever does. Your real journey starts now.",
-  "plans.short": "My plans"
+  "plans.short": "My plans",
+  "whatif.beginsTitle": "Your real journey begins",
+  "whatif.beginsSub": "Your money and wellbeing are back. Everything from here counts.",
+  "whatif.reset": "Your money and wellbeing go back to normal when your real journey begins."
 }

@@ -35,8 +35,8 @@
         "zu": "Kuthiwani uma i-res igcwele ngokweqile?"
       },
       "text": {
-        "en": "Some years, res accepts more students than it has beds. Imagine you arrive and there's no room for you. Outside, people offer rooms: \"for students, pay the deposit today\".",
-        "zu": "Eminye iminyaka, i-res yamukela abafundi abaningi kunemibhede enayo. Cabanga ufika kungekho kamelo lakho. Ngaphandle, abantu banikeza amakamelo: \"abafundi, khokhani idiphozithi namuhla\"."
+        "en": "Some years, res accepts more students than it has beds. Imagine you arrive and there's no room for you. Outside, people offer rooms: \"for students, pay the R1 500 deposit today\".",
+        "zu": "Eminye iminyaka, i-res yamukela abafundi abaningi kunemibhede enayo. Cabanga ufika kungekho kamelo lakho. Ngaphandle, abantu banikeza amakamelo: \"abafundi, khokhani idiphozithi engu-R1 500 namuhla\"."
       },
       "forecast_tags": [
         "housing"
@@ -57,8 +57,8 @@
             "saw_res_overbooked"
           ],
           "outcome": {
-            "en": "You hand over the deposit, every rand you can find. The \"landlord\" stops answering: it was a scam, it happens every year, and it's not your fault.",
-            "zu": "Unikela ngediphozithi, wonke amarandi ongawathola. \"Umnikazi\" akasaphenduli: bekuwukukhwabanisa, kwenzeka minyaka yonke, futhi akulona iphutha lakho."
+            "en": "You hand over the R1 500 deposit. The \"landlord\" stops answering: it was a scam, it happens every year, and it's not your fault.",
+            "zu": "Unikeza idiphozithi engu-R1 500. \"Umnikazi wendlu\" uyeka ukuphendula: bekungumkhonyovu, kwenzeka minyaka yonke, futhi akulona iphutha lakho."
           },
           "tip": {
             "en": "A real landlord lets you view the room and gives you a lease. Check the university's accredited list before paying anyone.",
@@ -67,7 +67,18 @@
           "support": [
             "verify_accom"
           ],
-          "takesAll": true
+          "takesAll": true,
+          "variants": [
+            {
+              "conditions": {
+                "moneyBelow": 1500
+              },
+              "outcome": {
+                "en": "You hand over every rand you have and borrow {borrowed} from a friend to make up the R1 500. The \"landlord\" stops answering: it was a scam, it happens every year, and it's not your fault.",
+                "zu": "Unikeza yonke imali onayo bese uboleka u-{borrowed} kumngane ukuze kuphelele u-R1 500. \"Umnikazi wendlu\" uyeka ukuphendula: bekungumkhonyovu, kwenzeka minyaka yonke, futhi akulona iphutha lakho."
+              }
+            }
+          ]
         },
         {
           "id": "check",

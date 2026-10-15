@@ -604,11 +604,11 @@
   "card.whatIfNote": "Ukuziqhelanisa: Uzakubona ukuba impendulo yakho iza kwenza ntoni, emva koko yonke into ibuyele umva. Iyenzeka kwabanye abafundi minyaka le.",
   "whatif.real": "Ukuba oku bekuyinyani",
   "whatif.lost": "Uzakuba ne- {left} eshiyekileyo ukuze uqale unyaka.",
-  "whatif.owe": "Kwaye useza kubatyala {short}.",
+  "whatif.owe": "Kwaye ungatyala umhlobo wakho {short}.",
   "whatif.hard": "Bekuya kuba nzima ukuqala unyaka.",
   "whatif.good": "Umnxeba olungileyo. Nantsi into omawuyenze ukuba ikhe yenzeke kuwe.",
-  "whatif.back": "Buyela kuhambo lokwenyani",
-  "whatif.restoredTitle": "Yayiluqheliselo kuphela",
-  "whatif.restored": "Akukho nanye kwezi nyani: imali yakho kunye nempilo zibuyile. Khumbula into obuya kuyenza ukuba iyenzeka. Uhambo lwakho lokwenyani luqala ngoku.",
-  "plans.short": "Izicwangciso zam"
+  "plans.short": "Izicwangciso zam",
+  "whatif.beginsTitle": "Uhambo lwakho lokwenyani luyaqala",
+  "whatif.beginsSub": "Imali yakho kunye nempilo zibuyile. Yonke into esuka apha ibalulekile.",
+  "whatif.reset": "Imali yakho kunye nempilo yakho ibuyela kwisiqhelo xa uhambo lwakho lokwenyani luqala."
 }
