@@ -78,7 +78,8 @@
                 "zu": "Unikeza yonke imali onayo bese uboleka u-{borrowed} kumngane ukuze kuphelele u-R1 500. \"Umnikazi wendlu\" uyeka ukuphendula: bekungumkhonyovu, kwenzeka minyaka yonke, futhi akulona iphutha lakho."
               }
             }
-          ]
+          ],
+          "icon": "😢"
         },
         {
           "id": "check",
@@ -101,7 +102,8 @@
           },
           "flags": [
             "saw_res_overbooked"
-          ]
+          ],
+          "icon": "🙂"
         },
         {
           "id": "ask",
@@ -124,7 +126,8 @@
           },
           "flags": [
             "saw_res_overbooked"
-          ]
+          ],
+          "icon": "🙂"
         }
       ]
     },
@@ -316,6 +319,101 @@
       ]
     },
     {
+      "id": "ARR-06",
+      "type": "core",
+      "week": 1,
+      "conditions": {
+        "laptop": [
+          "no"
+        ]
+      },
+      "title": {
+        "en": "No laptop yet",
+        "zu": "Ayikho i-laptop okwamanje"
+      },
+      "text": {
+        "en": "Registration, your timetable and the student portal are all online, and assignments must be typed. Your phone keeps logging you out.",
+        "zu": "Ukubhalisa, uhlelo lwakho lwezifundo nephothali yabafundi konke kuku-inthanethi, futhi imisebenzi kufanele ithayiphwe. Ifoni yakho ihlala ikukhipha."
+      },
+      "forecast_tags": [
+        "test_stress"
+      ],
+      "choices": [
+        {
+          "id": "friend",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Borrow a friend's laptop",
+            "zu": "Boleka i-laptop yomngane"
+          },
+          "effects": {
+            "wellbeing": 0
+          },
+          "outcome": {
+            "en": "Your neighbour lets you use theirs for an hour. It works, but you can't do this every week.",
+            "zu": "Umakhelwane wakho ukuvumela usebenzise eyakhe ihora elilodwa. Kuyasebenza, kodwa awukwazi ukwenza lokhu masonto onke."
+          },
+          "tip": {
+            "en": "Borrowing works once. For every week, ask the library or IT help desk which computer labs are open late.",
+            "zu": "Ukuboleka kusebenza kanye. Okwamasonto onke, buza emtapweni noma edeskini le-IT ukuthi yimaphi amagumbi amakhompyutha avula kuze kube sebusuku."
+          }
+        },
+        {
+          "id": "labs",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Find the computer labs",
+            "zu": "Thola amagumbi amakhompyutha"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "flags": [
+            "used_labs"
+          ],
+          "support": [
+            "devices"
+          ],
+          "outcome": {
+            "en": "You find a lab that's open late and save its hours in your phone.",
+            "zu": "Uthola igumbi elivulekile kuze kube sebusuku futhi ulondoloze amahora alo efonini yakho."
+          }
+        },
+        {
+          "id": "loan",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Ask about a laptop loan",
+            "zu": "Buza ngokubolekwa i-laptop"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "flags": [
+            "used_labs"
+          ],
+          "support": [
+            "devices"
+          ],
+          "outcome": {
+            "en": "Student Affairs shows you how to apply for a laptop loan, and which computer labs to use until yours is ready.",
+            "zu": "UMnyango Wezindaba Zabafundi ukukhombisa ukuthi ufaka kanjani isicelo sokubolekwa i-laptop, nokuthi yimaphi amagumbi amakhompyutha ozowasebenzisa kuze kube yilapho eyakho isilungile."
+          },
+          "tip": {
+            "en": "Many universities lend laptops to students who need one, and some bursaries include money for study materials. Ask in your first week: loan laptops run out.",
+            "zu": "Amanyuvesi amaningi aboleka abafundi abayidingayo ama-laptop, futhi eminye imixhaso ifaka imali yezinto zokufunda. Buza ngesonto lakho lokuqala: ama-laptop okubolekwa ayaphela."
+          }
+        }
+      ],
+      "research": "Student interviews (October 2026): tech skills"
+    },
+    {
       "id": "ARR-04",
       "type": "core",
       "week": 2,
@@ -436,12 +534,12 @@
         ]
       },
       "title": {
-        "en": "First time in {city}",
-        "zu": "Okokuqala {city}"
+        "en": "Lost on campus",
+        "zu": "Ulahlekile ekhampasi"
       },
       "text": {
-        "en": "Everything is new: the campus, the streets and the taxi routes. You're lost between buildings, and your first session starts in ten minutes.",
-        "zu": "Konke kusha: ikhampasi, imigwaqo nemizila yamatekisi. Ulahlekile phakathi kwezakhiwo, futhi iseshini yakho yokuqala iqala emizuzwini eyishumi."
+        "en": "You're new to {city}, and on your first day the campus is a maze of buildings that all look the same. Your first session starts in ten minutes, and you can't find the venue.",
+        "zu": "Umusha e-{city}, futhi ngosuku lwakho lokuqala ikhampasi iyisixakaxaka sezakhiwo ezibukeka ziyefana. Iseshini yakho yokuqala iqala emizuzwini eyishumi, futhi awulitholi igumbi."
       },
       "forecast_tags": [
         "loneliness"
@@ -477,8 +575,8 @@
             "wellbeing": 5
           },
           "outcome": {
-            "en": "A third-year walks you there and tells you which taxis go to town. You save their number.",
-            "zu": "Umfundi wonyaka wesithathu ukuhambisa lapho futhi akutshele ukuthi yimaphi amatekisi aya edolobheni. Ulondoloza inombolo yakhe."
+            "en": "A third-year walks you to the venue and tells you which taxis go to town. You save their number.",
+            "zu": "Umfundi wonyaka wesithathu ukuhambisa egumbini futhi akutshele ukuthi yimaphi amatekisi aya edolobheni. Ulondoloza inombolo yakhe."
           },
           "tip": {
             "en": "Orientation leaders, mentors and house committee members wear name tags in the first weeks. They expect questions.",
@@ -510,97 +608,6 @@
           }
         }
       ]
-    },
-    {
-      "id": "ARR-06",
-      "type": "situational",
-      "week": 2,
-      "conditions": {
-        "laptop": [
-          "no"
-        ]
-      },
-      "title": {
-        "en": "No laptop, and a computer-skills module",
-        "zu": "Ayikho i-laptop, nesifundo samakhono ekhompyutha"
-      },
-      "text": {
-        "en": "A compulsory computer-skills module starts this week, and everything else runs on the student portal. Your phone keeps logging you out.",
-        "zu": "Isifundo esiphoqelekile samakhono ekhompyutha siqala kuleli sonto, futhi konke okunye kwenzeka kuphothali yabafundi. Ifoni yakho ihlala ikukhipha."
-      },
-      "forecast_tags": [
-        "test_stress"
-      ],
-      "choices": [
-        {
-          "id": "friend",
-          "tags": [
-            "connector"
-          ],
-          "label": {
-            "en": "Borrow a friend's laptop",
-            "zu": "Boleka i-laptop yomngane"
-          },
-          "effects": {
-            "wellbeing": 0
-          },
-          "outcome": {
-            "en": "Your neighbour lets you use theirs for an hour. It works, but you can't do this every week.",
-            "zu": "Umakhelwane wakho ukuvumela usebenzise eyakhe ihora elilodwa. Kuyasebenza, kodwa awukwazi ukwenza lokhu masonto onke."
-          },
-          "tip": {
-            "en": "Borrowing works once. For every week, ask the library or IT help desk which computer labs are open late.",
-            "zu": "Ukuboleka kusebenza kanye. Okwamasonto onke, buza emtapweni noma edeskini le-IT ukuthi yimaphi amagumbi amakhompyutha avula kuze kube sebusuku."
-          }
-        },
-        {
-          "id": "labs",
-          "tags": [
-            "planner"
-          ],
-          "label": {
-            "en": "Find the computer labs",
-            "zu": "Thola amagumbi amakhompyutha"
-          },
-          "effects": {
-            "wellbeing": 5
-          },
-          "flags": [
-            "used_labs"
-          ],
-          "support": [
-            "devices"
-          ],
-          "outcome": {
-            "en": "You find a lab that's open late and save its hours in your phone.",
-            "zu": "Uthola igumbi elivulekile kuze kube sebusuku futhi ulondoloze amahora alo efonini yakho."
-          }
-        },
-        {
-          "id": "devices",
-          "tags": [
-            "help_seeker"
-          ],
-          "label": {
-            "en": "Ask about device support",
-            "zu": "Buza ngosizo lwamadivayisi"
-          },
-          "effects": {
-            "wellbeing": 5
-          },
-          "flags": [
-            "used_labs"
-          ],
-          "support": [
-            "devices"
-          ],
-          "outcome": {
-            "en": "Student Affairs tells you which labs to use and how to ask about device support.",
-            "zu": "UMnyango Wezindaba Zabafundi ukutshela ukuthi yimaphi amagumbi okufanele uwasebenzise nokuthi ungabuza kanjani ngosizo lwamadivayisi."
-          }
-        }
-      ],
-      "research": "Student interviews (October 2026): tech skills"
     },
     {
       "id": "ARR-02",
@@ -901,7 +908,7 @@
     }
   ],
   "budget": {
-    "cards": 5,
+    "cards": 6,
     "minis": 2
   },
   "minis": [

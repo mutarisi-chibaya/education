@@ -332,6 +332,15 @@ function planMinis(chapter, seed) {
   return weeks.slice(0, chapter.budget?.minis || 0).sort((a, b) => a - b);
 }
 
+function moneyBefore(content, s, chapterId) {
+  const order = content.chapterOrder.filter((c) => c.status === 'built').map((c) => c.id);
+  const prev = order[order.indexOf(chapterId) - 1];
+  const end = s.completed.includes(prev) && chapterOf(content, prev)?.startMoney === undefined
+    ? s.snapshots.filter((x) => x.chapter === prev).pop()
+    : null;
+  return end ? { money: end.money, from: prev } : { money: content.start.money, from: null };
+}
+
 export function startChapter(content, state, chapterId) {
   const s = clone(state);
   const chapter = chapterOf(content, chapterId);
@@ -360,20 +369,18 @@ export function startChapter(content, state, chapterId) {
   // Part-time wages and food vouchers belong to the chapter they started in.
   s.recurring = s.recurring.filter((x) => !((x.effects?.money || 0) > 0));
 
-  // A chapter with its own money (Before You Apply: `startMoney`) never shares
-  // a purse with university life. It always opens on its own amount, and the
-  // next chapter starts fresh, or picks up the university money set aside.
-  const own = chapter.startMoney !== undefined;
-  const wasOwn = s.purse ? s.purse === 'own'
-    : s.started.length > 0 && s.started.every((id) => chapterOf(content, id)?.startMoney !== undefined); // saves from before purses
-  if (own) {
-    if (!wasOwn) s.aside = s.started.length ? s.money : null;
-    s.money = chapter.startMoney;
-  } else if (wasOwn) {
-    s.money = s.aside ?? content.start.money;
-    s.aside = null;
-  }
-  s.purse = own ? 'own' : 'main';
+  // Money follows the story, not the order the chapters are played in. Before
+  // You Apply (`startMoney`) has its own purse; every other chapter opens on
+  // what the chapter before it in the story ended with, or on the fresh amount
+  // when that one hasn't been finished (or is Before You Apply). So playing
+  // First Term and then going back to Arrival doesn't bring term money into
+  // your first day.
+  const carried = chapter.startMoney === undefined ? moneyBefore(content, s, chapterId) : { money: chapter.startMoney, from: null };
+  s.money = carried.money;
+  delete s.purse;
+  delete s.aside;
+  s.scamLosses = { ...s.scamLosses };
+  delete s.scamLosses[chapterId]; // replaying a chapter replaces its scam too
 
   // Between chapters: unpaid balances become debt, and a break restores a little.
   if (s.started.length) {
@@ -384,12 +391,11 @@ export function startChapter(content, state, chapterId) {
     const fresh = Math.round((s.marks + content.start.marks) / 2) - s.marks;
     addLedger(s, { key: 'ledger.break' }, { wellbeing: 10, marks: Math.max(0, fresh) });
   }
-  // The scam made its point: the money it took is returned, so the next
-  // chapter starts on a fair footing.
-  if (s.scamLoss) {
-    addLedger(s, { key: 'ledger.scamBack' }, { money: s.scamLoss, debt: -1 });
-    s.scamLoss = 0;
-  }
+  // The scam made its point: the money it took is returned when the money
+  // carries on from that chapter, so the next one starts on a fair footing.
+  const back = (carried.from ? s.scamLosses[carried.from] || 0 : 0) + (s.scamLoss || 0); // scamLoss: saves from before
+  delete s.scamLoss;
+  if (back) addLedger(s, { key: 'ledger.scamBack' }, { money: back, debt: -1 });
   if (!s.started.includes(chapterId)) s.started.push(chapterId);
   s.chapterStart[chapterId] = { money: s.money, marks: s.marks, wellbeing: s.wellbeing, trackers: { ...s.trackers } };
   s.slots = planSlots(chapter, s.seed ^ hash(chapterId));
@@ -565,8 +571,11 @@ function endWeek(content, s) {
   if (currentChapter(content, s).economy) {
     const { lines, money } = payCosts(s.money, livingCosts(content, s.setup, s.week));
     s.money = money;
+    // Living at home, the monthly shop is your share of the family's groceries.
+    const home = s.setup.housing === 'commuting';
     for (const l of lines) {
-      if (l.paid) s.ledger.push({ key: `ledger.cost.${l.id}`, money: -l.paid, marks: 0, wellbeing: 0 });
+      const key = home && l.id === 'food' ? 'ledger.cost.foodHome' : `ledger.cost.${l.id}`;
+      if (l.paid) s.ledger.push({ key, money: -l.paid, marks: 0, wellbeing: 0 });
     }
     // Going without hurts in proportion to how much was missing.
     const missing = (ids) => {
@@ -710,7 +719,7 @@ export function choose(content, state, choiceId) {
     taken = Math.min(-effects.money, Math.max(0, s.money));
     if (taken < -effects.money) effects.debt = (effects.debt || 0) + 1;
     s.money -= taken;
-    s.scamLoss = (s.scamLoss || 0) + taken;
+    s.scamLosses = { ...s.scamLosses, [s.chapter]: (s.scamLosses?.[s.chapter] || 0) + taken };
     effects.money = 0;
   }
   const deltas = applyEffects(s, effects);
@@ -719,7 +728,9 @@ export function choose(content, state, choiceId) {
   for (const l of choice.later || []) s.scheduled.push({ week: s.week + l.in, effects: l.effects, label: l.label });
   if (choice.recurring) s.recurring.push({ ...choice.recurring });
   if (choice.cancelRecurring) s.recurring = s.recurring.filter((r) => r.id !== choice.cancelRecurring);
-  if (choice.followUp) {
+  if (choice.followUp?.in === 0) {
+    s.queue.splice(s.qi + 1, 0, choice.followUp.event); // straight after this card
+  } else if (choice.followUp) {
     const w = s.week + choice.followUp.in;
     s.followUps[w] = [...(s.followUps[w] || []), choice.followUp.event];
   }
@@ -879,7 +890,14 @@ export function advance(content, state) {
     s.history.push({ chapter: s.chapter, week: s.week, eventId: current.id, tags: [] });
   }
   s.last = null;
-  if (s.qi + 1 < (s.queue || []).length) {
+  // A card queued at the start of the step can stop making sense after an
+  // answer: no acceptance letter once you've decided to wait a year.
+  const stillDue = (id) => {
+    const c = findEvent(content, id)?.conditions;
+    return condOk({ flags: c?.flags || [], notFlags: c?.notFlags || [] }, s);
+  };
+  s.queue = [...(s.queue || []).slice(0, s.qi + 1), ...(s.queue || []).slice(s.qi + 1).filter(stillDue)];
+  if (s.qi + 1 < s.queue.length) {
     s.qi += 1;
     return openEvent(content, s);
   }

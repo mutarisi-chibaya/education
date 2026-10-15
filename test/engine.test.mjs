@@ -37,7 +37,12 @@ const base = {
   institution: 'sizwe', campus: 'main', status: 'accepted', course: 'bsc', housing: 'private_rental', origin: 'village_rural', funding: 'nsfas',
   family_needs: 'yes', laptop: 'no', age_role: 'straight_from_school', monthlyIncome: 1650,
 };
-const choiceCards = (content, ids) => ids.filter((id) => content.eventIndex[id].choices).length;
+// Follow-up cards (no week, no pool) come on top of the budget: panicking on
+// results day costs you an extra step, and that's the point.
+const choiceCards = (content, ids) => ids.filter((id) => {
+  const e = content.eventIndex[id];
+  return e.choices && (e.week || e.pool);
+}).length;
 
 const helpful = (ev) => ev.choices.find((c) => c.tags?.includes('help_seeker')) || ev.choices[0];
 const avoidant = (ev) => ev.choices.find((c) => c.tags?.includes('avoider')) || ev.choices.find((c) => !c.tags?.includes('help_seeker')) || ev.choices[0];
@@ -109,7 +114,9 @@ test('every chapter completes for every setup combination, without dead ends, wi
       for (const id of BUILT) {
         const { budget } = up.chapters[id];
         assert.ok(choiceCards(up, seen[id]) <= budget.cards, `${id}: ${choiceCards(up, seen[id])} cards, budget ${budget.cards}`);
-        assert.ok(choiceCards(up, seen[id]) >= budget.cards - 2, `${id}: only ${choiceCards(up, seen[id])} cards`);
+        // Setups with few matching cards play shorter: a local student with a
+        // laptop who came with friends has three Arrival cards.
+        assert.ok(choiceCards(up, seen[id]) >= budget.cards - 3, `${id}: only ${choiceCards(up, seen[id])} cards`);
         assert.equal(s.miniLog.filter((m) => m.chapter === id).length, budget.minis, `${id}: minis`);
         assert.ok(seen[id].some((c) => up.eventIndex[c].type === 'win') || id !== 'finish_line');
       }
@@ -204,8 +211,9 @@ test('a room scam takes everything you have', () => {
   assert.equal(after.last.deltas.money, -800);
   assert.equal(after.trackers.debt, 1, 'you owe the rest of the deposit');
   assert.ok(after.flags.includes('scammed'));
-  // First Term starts with that money returned.
-  const ft = startChapter(scam, backToMap(after), 'first_term');
+  // First Term carries on from the end of Arrival, with that money returned.
+  const done = { ...after, completed: ['arrival'], snapshots: [{ chapter: 'arrival', week: 3, money: after.money, marks: after.marks, wellbeing: after.wellbeing }] };
+  const ft = startChapter(scam, backToMap(done), 'first_term');
   assert.equal(ft.money, 800);
   assert.equal(ft.trackers.debt, 0);
   assert.ok(ft.ledger.some((l) => l.key === 'ledger.scamBack' && l.money === 800));
@@ -219,6 +227,48 @@ test('Prequel: applying yourself, and where to find funding', () => {
   assert.ok(r.seen.includes('PRE-09') && r.s.supportSeen.includes('verify_accom'), 'where to live, and residence scams');
   const home = playChapter(up, newJourney(up, { ...base, status: 'deciding', housing: 'commuting' }, { seed: 2 }), 'prequel', helpful);
   assert.ok(!home.seen.includes('PRE-09'), 'not asked of students who will live at home');
+});
+
+test('results day: rewriting means no university this year; panicking comes back to the choice', () => {
+  const answer = (map) => (ev) => (map[ev.id] ? ev.choices.find((c) => c.id === map[ev.id]) : helpful(ev));
+  const play = (map, setup = {}) => playChapter(up, newJourney(up, { ...base, status: 'deciding', ...setup }, { seed: 2 }), 'prequel', answer(map)).seen;
+
+  assert.ok(play({ 'PRE-06': 'check' }).includes('PRE-W1'), 'checking your options: a place');
+  const rewrite = play({ 'PRE-06': 'rewrite' }, { status: 'deciding' });
+  assert.ok(!rewrite.includes('PRE-W1') && !rewrite.includes('PRE-06P'), 'rewriting: no acceptance letter');
+
+  const panic = play({ 'PRE-06': 'panic', 'PRE-06P': 'second' });
+  assert.equal(panic[panic.indexOf('PRE-06') + 1], 'PRE-06P', 'two days later comes straight after');
+  assert.ok(panic.includes('PRE-W1'), 'panic, then the second choice: a place');
+  assert.deepEqual(up.eventIndex['PRE-06P'].choices.find((c) => c.id === 'better').support, ['applications'], 'admissions, not careers');
+  assert.ok(!play({ 'PRE-06': 'panic', 'PRE-06P': 'rewrite' }).includes('PRE-W1'), 'panic, then rewrite: no letter');
+
+  // One application, waitlisted: no waiting list once you've chosen to rewrite.
+  const one = (ev) => (ev.id === 'PRE-06' ? ev.choices.find((c) => c.id === 'rewrite') : ev.choices.find((c) => c.flags?.includes('one_application')) || helpful(ev));
+  const r = playChapter(up, newJourney(up, { ...base, status: 'deciding' }, { seed: 2 }), 'prequel', one);
+  assert.ok(r.s.flags.includes('one_application'));
+  assert.ok(!r.seen.includes('PRE-07') && !r.seen.includes('PRE-W1'));
+});
+
+test('without a laptop, the laptop card comes in the first week of Arrival', () => {
+  const r = playChapter(up, newJourney(up, { ...base, laptop: 'no' }, { seed: 2 }), 'arrival', helpful);
+  assert.ok(r.seen.includes('ARR-06'));
+  assert.equal(r.s.history.find((h) => h.eventId === 'ARR-06').week, 1);
+  assert.equal(up.eventIndex['ARR-06'].choices.find((c) => c.id === 'loan').label.en, 'Ask about a laptop loan');
+  assert.ok(!playChapter(up, newJourney(up, { ...base, laptop: 'yes' }, { seed: 2 }), 'arrival', helpful).seen.includes('ARR-06'));
+});
+
+test('money follows the story: going back to Arrival after First Term starts fresh', () => {
+  const term = backToMap(playChapter(up, newJourney(up, base, { seed: 2 }), 'first_term', helpful).s);
+  assert.notEqual(term.money, core.start.money);
+  const arrival = startChapter(up, term, 'arrival');
+  assert.equal(arrival.chapterStart.arrival.money, core.start.money, 'Arrival comes before First Term');
+  // Then First Term again: it opens on what Arrival ended with.
+  const arrived = backToMap(playChapter(up, term, 'arrival', helpful).s);
+  assert.equal(startChapter(up, arrived, 'first_term').chapterStart.first_term.money, Math.max(0, arrived.money));
+  // Replaying First Term from the map also restarts from the end of Arrival, not from where the term ended.
+  const again = startChapter(up, backToMap(playChapter(up, arrived, 'first_term', helpful).s), 'first_term');
+  assert.equal(again.chapterStart.first_term.money, Math.max(0, arrived.money));
 });
 
 test('the marks meter matches the module marks after tests', () => {

@@ -8,7 +8,7 @@ import { loadCatalogue, loadInstitution, openDirectory, searchDirectory, mergeCo
 import { computeBudget, suggestedIncome } from './budget.js';
 import { LANGS, loadLang, currentLang, t, tx, money, cardText } from './i18n.js';
 import {
-  buildPlan, budgetFor, tierAdvice, contactIds, serviceText, planImageBlob, planPdfBlob, forecastView, cardVars, setPlanColors,
+  buildPlan, budgetFor, tierAdvice, contactIds, serviceText, planPdfBlob, forecastView, cardVars, setPlanColors,
 } from './plan.js';
 import { moneyForecast, LEAKS, fairGame, nextChapterId, copingProfile } from './forecast.js';
 import { riskStrip } from './charts.js';
@@ -946,9 +946,11 @@ function cardTopic(ev) {
   return ev.type === 'win' ? 'win' : ev.forecast_tags?.[0] || (TYPE_ICON[ev.type] ? ev.type : 'core');
 }
 
-function cardTop(ev, tag) {
-  const icon = ['win', 'what_if'].includes(ev.type) ? TYPE_ICON[ev.type] : TOPIC_ICON[ev.forecast_tags?.[0]] || TYPE_ICON[ev.type] || '📌';
-  return `<div class="card-top"><span class="card-art" aria-hidden="true">${icon}</span><p class="tag">${esc(tag)}</p></div>`;
+// An answer can bring its own sticker to the outcome (a scam paid: 😢);
+// otherwise the outcome keeps the card's.
+function cardTop(ev, tag, choice = null) {
+  const icon = choice?.icon || (['win', 'what_if'].includes(ev.type) ? TYPE_ICON[ev.type] : TOPIC_ICON[ev.forecast_tags?.[0]] || TYPE_ICON[ev.type] || '📌');
+  return `<div class="card-top"><span class="card-art" aria-hidden="true">${esc(icon)}</span><p class="tag">${esc(tag)}</p></div>`;
 }
 
 const motionOk = () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1023,7 +1025,7 @@ function renderOutcome() {
   return `<section class="outcome screen">
     ${hasSupport ? coach('support') : undo ? coach('outcome') : ''}
     <article class="card t-${cardTopic(ev)}">
-      ${cardTop(ev, t('outcome.title'))}
+      ${cardTop(ev, t('outcome.title'), choice)}
       <h1>${esc(tx(choice.label, v))}</h1>
       <div class="deltas big">${delta(d.money, 'money')}${delta(d.marks, 'marks')}${delta(d.wellbeing, 'wellbeing')}</div>
       <p>${rich(tx(choice.outcome, v))}</p>
@@ -1048,7 +1050,7 @@ function renderWhatIfOutcome(ev, choice, v, hasSupport) {
     : w.wellbeing < 0 || w.marks < 0 ? t('whatif.hard') : t('whatif.good');
   return `<section class="outcome screen">
     <article class="card t-${cardTopic(ev)}">
-      ${cardTop(ev, t('card.whatIf'))}
+      ${cardTop(ev, t('card.whatIf'), choice)}
       <h1>${esc(tx(choice.label, v))}</h1>
       <div class="deltas big">${delta(w.money, 'money')}${delta(w.marks, 'marks')}${delta(w.wellbeing, 'wellbeing')}</div>
       <p>${rich(tx(choice.outcome, v))}</p>
@@ -1064,7 +1066,6 @@ function renderWhatIfOutcome(ev, choice, v, hasSupport) {
 // journey starts here, while the meters spring back to the real numbers.
 function journeyStart() {
   return `<div class="journey-start" role="status">
-    <svg viewBox="0 0 220 14" aria-hidden="true"><path d="M7 7 H213" /><circle cx="7" cy="7" r="5" /></svg>
     <strong>${esc(t('whatif.beginsTitle'))}</strong>
     <span>${esc(t('whatif.beginsSub'))}</span>
   </div>`;
@@ -1425,7 +1426,7 @@ function renderPlan() {
     </header>
 
     <div class="actions">
-      <button class="btn primary" data-action="share-image"><span aria-hidden="true">📤</span> ${esc(t('plan.share'))}</button>
+      <button class="btn primary" data-action="share-pdf"><span aria-hidden="true">📤</span> ${esc(t('plan.share'))}</button>
       <button class="btn" data-action="plan-pdf" data-id="current"><span aria-hidden="true">📄</span> ${esc(t('plans.pdf'))}</button>
     </div>
     <p class="fine plan-kept">✓ ${esc(t('plans.kept'))}</p>
@@ -1863,9 +1864,12 @@ function syncPack() {
 
 // ---------- sharing ----------
 
-async function shareImage() {
-  const blob = await planImageBlob(buildPlan(content, state));
-  const file = new File([blob], 'university-survival-plan.png', { type: 'image/png' });
+// Sharing sends the same PDF the download button saves. Without a share
+// sheet that takes files, the PDF is downloaded instead.
+async function sharePdf() {
+  const pdf = await makePdf('current');
+  if (!pdf) return;
+  const file = new File([pdf.blob], pdf.name, { type: 'application/pdf' });
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
     try {
       await navigator.share({ files: [file], title: t('plan.title'), text: `${t('app.title')}: ${t('plan.title')}` });
@@ -1874,8 +1878,8 @@ async function shareImage() {
       if (e.name === 'AbortError') return;
     }
   }
-  saveFile(blob, file.name);
-  toast(t('plan.imageSaved'));
+  saveFile(pdf.blob, pdf.name);
+  toast(t('plans.pdfSaved'));
 }
 
 function saveFile(blob, name) {
@@ -1897,21 +1901,27 @@ async function openSavedPlan(id) {
 }
 
 // The whole plan as a PDF with pages, drawn on the phone, in the plan's university colours.
-async function downloadPdf(id) {
+async function makePdf(id) {
   const view = id === 'current'
     ? { entry: { savedAt: new Date().toISOString() }, content, plan: buildPlan(content, state) }
     : await openSavedPlan(id);
-  if (!view) return;
+  if (!view) return null;
   toast(t('plans.making'));
   setPlanColors(view.content.brand?.colors);
   try {
     const blob = await planPdfBlob(view.plan, { savedOn: t('plans.savedOn', { date: savedDate(view.entry.savedAt) }) });
     const slug = view.plan.chapter.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    saveFile(blob, `survival-plan-${slug || 'chapter'}.pdf`);
-    toast(t('plans.pdfSaved'));
+    return { blob, name: `survival-plan-${slug || 'chapter'}.pdf` };
   } finally {
     setPlanColors(content.brand?.colors);
   }
+}
+
+async function downloadPdf(id) {
+  const pdf = await makePdf(id);
+  if (!pdf) return;
+  saveFile(pdf.blob, pdf.name);
+  toast(t('plans.pdfSaved'));
 }
 
 // Text goes to the phone's share sheet; without one, to WhatsApp, or the clipboard when offline.
@@ -2323,8 +2333,8 @@ document.addEventListener('click', async (e) => {
       render();
       toast(t('plans.deleted'));
       break;
-    case 'share-image':
-      shareImage();
+    case 'share-pdf':
+      sharePdf();
       break;
     case 'send-feedback': {
       const box = document.getElementById('feedback');

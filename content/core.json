@@ -180,12 +180,12 @@
     {
       "id": "commuting",
       "label": {
-        "en": "Commuting from home",
-        "zu": "Ugibela usuka ekhaya"
+        "en": "Living with family, and commuting",
+        "zu": "Uhlala nomndeni, futhi uyagibela"
       },
       "desc": {
-        "en": "Travel to campus by taxi, bus or train",
-        "zu": "Uya ekhampasi ngetekisi, ibhasi noma isitimela"
+        "en": "At home or with relatives, travelling to campus by taxi, bus or train",
+        "zu": "Ekhaya noma nezihlobo, uya ekhampasi ngetekisi, ibhasi noma isitimela"
       },
       "weeklyCosts": {
         "food": 350,

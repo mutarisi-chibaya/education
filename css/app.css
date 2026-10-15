@@ -1193,17 +1193,9 @@ button.contact { font: inherit; cursor: pointer; }
 #hud.whatif .week { color: var(--bad); }
 
 /* "Your real journey begins": a quiet line above the first real card */
-.journey-start { display: grid; justify-items: center; gap: 4px; margin: 2px 0 16px; text-align: center; animation: js-in 0.5s ease-out both; }
-.journey-start svg { width: min(220px, 60%); height: 14px; overflow: visible; }
-.journey-start path { fill: none; stroke: var(--line); stroke-width: 3; stroke-linecap: round; }
-.journey-start circle { fill: var(--accent); animation: js-travel 1.4s 0.2s ease-in-out both; }
+.journey-start { display: grid; justify-items: center; gap: 4px; margin: 2px 0 16px; text-align: center; }
 .journey-start strong { font-size: 1rem; letter-spacing: 0.02em; color: var(--brand); }
 .journey-start span { font-size: 0.85rem; color: var(--muted); }
-.journey-start + .screen { animation: js-card 0.5s 0.35s ease-out both; }
-@keyframes js-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes js-travel { from { transform: translateX(0); } to { transform: translateX(206px); } }
-@keyframes js-card { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .journey-start, .journey-start circle, .journey-start + .screen { animation: none; } }
 
 /* Saved plans: a button beside the "Your journey" heading */
 .home-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }

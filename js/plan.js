@@ -369,10 +369,6 @@ export function renderPlanCanvas(plan) {
   return canvas;
 }
 
-export function planImageBlob(plan) {
-  return new Promise((resolve) => renderPlanCanvas(plan).toBlob(resolve, 'image/png'));
-}
-
 // ---------- PDF: the whole plan on A4 pages ----------
 
 const PW = 1240; // 150 dpi across an A4 page

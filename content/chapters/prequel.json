@@ -207,7 +207,8 @@
           "tip": {
             "en": "Applying is something you do yourself, on official websites. If this happens, change your passwords and tell your school.",
             "zu": "Ukufaka isicelo yinto oyenza wena, kumawebhusayithi asemthethweni. Uma lokhu kwenzeka, shintsha amaphasiwedi akho futhi utshele isikole sakho."
-          }
+          },
+          "icon": "😢"
         },
         {
           "id": "self",
@@ -228,7 +229,8 @@
           "outcome": {
             "en": "It takes an afternoon and a lot of scanning. Every reference number and password is yours alone.",
             "zu": "Kuthatha intambama nokuskena okuningi. Yonke inombolo yereferensi nephasiwedi ngeyakho wedwa."
-          }
+          },
+          "icon": "🙂"
         },
         {
           "id": "school",
@@ -250,7 +252,8 @@
           "outcome": {
             "en": "Your LO teacher sits with you at the school computer. You apply yourself, on the official websites, and it costs nothing.",
             "zu": "Uthisha wakho we-LO uhlala nawe kukhompyutha yesikole. Uzifakela wena, kumawebhusayithi asemthethweni, futhi akubizi lutho."
-          }
+          },
+          "icon": "🙂"
         }
       ]
     },
@@ -617,8 +620,12 @@
             "wellbeing": -10
           },
           "outcome": {
-            "en": "You switch off your phone for two days. The options are still there when you switch it back on.",
-            "zu": "Ucisha ifoni yakho izinsuku ezimbili. Izindlela zisekhona uma uyivula futhi."
+            "en": "You switch off your phone for two days. When you switch it back on, the choices are still waiting for you.",
+            "zu": "Ucisha ifoni yakho izinsuku ezimbili. Uma uyivula futhi, izinqumo zisakulindile."
+          },
+          "followUp": {
+            "in": 0,
+            "event": "PRE-06P"
           }
         },
         {
@@ -648,20 +655,110 @@
             "planner"
           ],
           "label": {
-            "en": "Consider a rewrite",
-            "zu": "Cabanga ukubhala kabusha"
+            "en": "Rewrite, and apply again next year",
+            "zu": "Bhala kabusha, bese ufaka isicelo futhi ngonyaka ozayo"
           },
           "effects": {
             "wellbeing": 2,
             "marks": 2
           },
+          "flags": [
+            "gap_year"
+          ],
           "outcome": {
-            "en": "You register to rewrite one subject, and accept your second choice in the meantime.",
-            "zu": "Ubhalisela ukubhala kabusha isifundo esisodwa, futhi wamukela ukukhetha kwakho kwesibili okwamanje."
+            "en": "You won't start university this year. You'll rewrite the subjects you need, and apply again next year for the course you really want.",
+            "zu": "Ngeke uqale inyuvesi kulo nyaka. Uzobhala kabusha izifundo ozidingayo, bese ufaka isicelo futhi ngonyaka ozayo sesifundo osifuna ngempela."
           },
           "tip": {
-            "en": "Ask your school how to register for the supplementary or Second Chance exams, and when registration closes.",
-            "zu": "Buza esikoleni sakho ukuthi ubhalisela kanjani izivivinyo ezengeziwe noma ze-Second Chance, nokuthi ukubhalisa kuvalwa nini."
+            "en": "Ask your school how to register for the supplementary or Second Chance exams, and when registration closes. Then check when applications for next year open.",
+            "zu": "Buza esikoleni sakho ukuthi ubhalisela kanjani izivivinyo ezengeziwe noma ze-Second Chance, nokuthi ukubhalisa kuvalwa nini. Bese uhlola ukuthi izicelo zonyaka ozayo zivulwa nini."
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRE-06P",
+      "type": "core",
+      "title": {
+        "en": "Two days later",
+        "zu": "Ezinsukwini ezimbili kamuva"
+      },
+      "text": {
+        "en": "Your phone is back on. Your first-choice course is out of reach this year, but other doors haven't closed. What now?",
+        "zu": "Ifoni yakho isivuliwe. Isifundo sakho sokuqala asifinyeleleki kulo nyaka, kodwa eminye iminyango ayivalekanga. Manje kuthiwani?"
+      },
+      "forecast_tags": [
+        "wellbeing"
+      ],
+      "choices": [
+        {
+          "id": "second",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Take your second choice",
+            "zu": "Thatha ukukhetha kwakho kwesibili"
+          },
+          "effects": {
+            "wellbeing": 3
+          },
+          "outcome": {
+            "en": "You check the points: you still qualify for your second choice. You accept the offer before it closes.",
+            "zu": "Uhlola amaphuzu: usafanelekela ukukhetha kwakho kwesibili. Wamukela isipho ngaphambi kokuthi sivalwe."
+          },
+          "tip": {
+            "en": "Each university lists the minimum points for every course. Call or email admissions to confirm before the offer closes.",
+            "zu": "Inyuvesi ngayinye ibala amaphuzu amancane esifundo ngasinye. Shayela noma uthumele i-imeyili ehhovisi lokwamukelwa ukuze uqinisekise ngaphambi kokuthi isipho sivalwe."
+          }
+        },
+        {
+          "id": "better",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Look for something that fits better",
+            "zu": "Funa okukufanela kangcono"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "support": [
+            "applications"
+          ],
+          "outcome": {
+            "en": "Admissions points you to an extended programme in your first-choice course: one extra year, and the same degree at the end.",
+            "zu": "Ihhovisi lokwamukelwa likukhombisa uhlelo olwelulwe esifundweni sakho sokuqala: unyaka owodwa owengeziwe, neziqu ezifanayo ekugcineni."
+          },
+          "tip": {
+            "en": "Extended programmes add a foundation year for students who were a few points short. Ask admissions whether you qualify.",
+            "zu": "Izinhlelo ezelulwe zengeza unyaka wesisekelo kubafundi abasweleke amaphuzu ambalwa. Buza ehhovisi lokwamukelwa ukuthi uyafanelekela yini."
+          }
+        },
+        {
+          "id": "rewrite",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Rewrite, and apply again next year",
+            "zu": "Bhala kabusha, bese ufaka isicelo futhi ngonyaka ozayo"
+          },
+          "effects": {
+            "wellbeing": 2,
+            "marks": 2
+          },
+          "flags": [
+            "gap_year"
+          ],
+          "outcome": {
+            "en": "You won't start university this year. You'll rewrite the subjects you need, and apply again next year for the course you really want.",
+            "zu": "Ngeke uqale inyuvesi kulo nyaka. Uzobhala kabusha izifundo ozidingayo, bese ufaka isicelo futhi ngonyaka ozayo sesifundo osifuna ngempela."
+          },
+          "tip": {
+            "en": "Ask your school how to register for the supplementary or Second Chance exams, and when registration closes. Then check when applications for next year open.",
+            "zu": "Buza esikoleni sakho ukuthi ubhalisela kanjani izivivinyo ezengeziwe noma ze-Second Chance, nokuthi ukubhalisa kuvalwa nini. Bese uhlola ukuthi izicelo zonyaka ozayo zivulwa nini."
           }
         }
       ]
@@ -673,6 +770,9 @@
       "conditions": {
         "flags": [
           "one_application"
+        ],
+        "notFlags": [
+          "gap_year"
         ]
       },
       "title": {
@@ -699,7 +799,10 @@
           "outcome": {
             "en": "You plan a year of work and reapplying. A gap year with a plan is not a failure.",
             "zu": "Uhlela unyaka wokusebenza nokufaka isicelo futhi. Unyaka wokuphumula onohlelo awukona ukwehluleka."
-          }
+          },
+          "flags": [
+            "gap_year"
+          ]
         },
         {
           "id": "tvet",
@@ -749,6 +852,11 @@
       "id": "PRE-W1",
       "type": "win",
       "week": 4,
+      "conditions": {
+        "notFlags": [
+          "gap_year"
+        ]
+      },
       "title": {
         "en": "The acceptance letter",
         "zu": "Incwadi yokwamukelwa"

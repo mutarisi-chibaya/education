@@ -95,7 +95,7 @@ get different journeys.
 - What to do if money arrives late.
 - The support services the student met, with how to reach each one.
 - Everything the student rehearsed, with the tips.
-- It can be saved as an image, or sent to family as a WhatsApp message.
+- It can be downloaded or shared as a PDF, or sent to family as a WhatsApp message.
 
 Finishing the last chapter adds a journey summary and a "fair game" reflection, which
 names how a harder starting point (no laptop, family to support) changed the odds.

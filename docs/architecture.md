@@ -100,7 +100,7 @@ flowchart LR
     engine["engine.js<br/>pure state machine"]
     content["content.js<br/>load and merge packs"]
     forecast["forecast.js<br/>risk, coping, fair game"]
-    plan["plan.js<br/>survival plan, share image"]
+    plan["plan.js<br/>survival plan, PDF pages"]
     budget["budget.js<br/>monthly budget split"]
     charts["charts.js<br/>inline SVG charts"]
     i18n["i18n.js<br/>UI strings, money format"]
@@ -129,7 +129,7 @@ flowchart LR
 | `engine.js` | No | Every exported function takes a state and returns a new one. Runs in Node for tests and the pack check |
 | `content.js` | No (uses `fetch` in its loaders only) | `mergeContent` layers core, chapters, institution and campus into one playable pack |
 | `forecast.js`, `budget.js` | No | Transparent rules, not a trained model |
-| `plan.js` | Canvas only, for the share image | |
+| `plan.js` | Canvas only, for the plan PDF | |
 | `main.js` | Yes | The only module that touches `localStorage`, history and the page |
 
 The rule that keeps this testable: **game logic never touches the DOM, and `main.js` never
