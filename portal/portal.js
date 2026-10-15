@@ -406,6 +406,7 @@ function tabBuildings() {
   const taken = buildings.map((b) => positions.find((p) => S.catalogue.positions[p].x === b.x && S.catalogue.positions[p].y === b.y));
   return `<section class="card">${layerPicker()}<h2>Buildings and map</h2>
     <p class="muted">These are the buildings your services are in. Students see them on a simple map with walking directions from the gate. There are eight places on the map.</p>
+    ${field('Your official campus map', `${base}map.url`, { type: 'url', hint: 'starting with https://; students get a button to open it' })}
     <div class="split"><div>
     ${buildings.map((b, i) => `<details class="item" open><summary>${esc(en(b.name) || b.id)} <span class="tag">${esc(b.id)}</span></summary>
       ${both('Name on the map', `${base}map.buildings.${i}.name`)}

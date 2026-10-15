@@ -41,6 +41,9 @@ One setting per row.
 - `supp_code`: the result code a student sees when admitted to a supplementary exam (the game
   shows `999` if you leave it empty). To explain your other codes, add a `result_codes` page in
   `pages.csv`, with its official `website`, and set it as the `page_id` of the `supp_exams` service.
+- `map_website`: your official campus map, starting with `https://`. Every "Show on campus map"
+  screen gets a button that opens it. A campus with its own map can set `map_website` in
+  `campuses.csv` too.
 - `brand_name`, `logo_text`: the name and a monogram of up to three letters for the top bar.
 - `colour_brand`, `colour_brand_text`, `colour_accent`, `colour_accent_text`: your colours as
   hex codes, such as `#0b5d5e`. The text colour must be easy to read on the brand colour. The

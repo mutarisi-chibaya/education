@@ -8,6 +8,8 @@
 // week. Each chapter draws a fixed budget of cards and minis, so runs stay
 // short. At the end of a chapter comes the Semester Forecast.
 
+// Card types that are rehearsed but never scored: a friend's story, and a "what if".
+export const UNSCORED = ['friend_story', 'what_if'];
 export const TRACKERS = ['connection', 'buffer', 'help_seeking', 'family_obligation', 'confidence', 'debt', 'bunk_count'];
 export const TAGS = ['help_seeker', 'avoider', 'borrower', 'planner', 'self_sacrificer', 'connector'];
 const METERS = ['money', 'marks', 'wellbeing'];
@@ -649,6 +651,8 @@ export function choiceCost(event, choice, s) {
 // Choices the player has the money for. If none is affordable, the cheapest
 // stays open (you pay what you can), so a card is never a dead end.
 export function affordableChoices(s, event) {
+  // A rehearsal costs nothing, so every answer is open.
+  if (UNSCORED.includes(event.type)) return event.choices.map((c) => c.id);
   const costs = event.choices.map((c) => ({ id: c.id, cost: choiceCost(event, c, s) }));
   // "takesAll" choices (the room scam) are always open: they take everything you have.
   const ok = costs.filter((c, i) => c.cost === 0 || c.cost <= s.money - CASH_FLOOR || event.choices[i].takesAll);
@@ -670,8 +674,8 @@ export function choose(content, state, choiceId) {
 
   const effects = { ...(event.effects || {}), ...choice.effects };
   effects.money = (event.effects?.money || 0) + resolveMoney(choice.effects?.money, event, s);
-  // Friend's-story cards are never scored on the meters.
-  if (event.type === 'friend_story') for (const m of METERS) delete effects[m];
+  // Friend's-story and "what if" cards are never scored on the meters: they didn't happen to you.
+  if (UNSCORED.includes(event.type)) for (const m of METERS) delete effects[m];
   const tags = choice.tags || [];
   if (tags.includes('help_seeker')) effects.help_seeking = (effects.help_seeking || 0) + 1;
   if (tags.includes('connector')) effects.connection = (effects.connection || 0) + 1;
@@ -715,7 +719,7 @@ export function choose(content, state, choiceId) {
 
   const support = [...(event.support || []), ...(choice.support || [])];
   addSupport(s, support);
-  s.history.push({ chapter: s.chapter, week: s.week, eventId: event.id, choiceId, tags: event.type === 'friend_story' ? [] : tags });
+  s.history.push({ chapter: s.chapter, week: s.week, eventId: event.id, choiceId, tags: UNSCORED.includes(event.type) ? [] : tags });
   s.last = { eventId: event.id, choiceId, deltas, support, buffer, bufferSaved };
   s.phase = 'outcome';
   return s;

@@ -1,6 +1,6 @@
 {
   "id": "karoo-coast",
-  "version": 6,
+  "version": 7,
   "name": {
     "en": "Karoo Coast University (fictional)",
     "zu": "iNyuvesi yaseKaroo Coast (eqanjiwe)"
@@ -462,6 +462,79 @@
     },
     "applications": {
       "page": "apply",
+      "verified": false,
+      "last_checked": null
+    },
+    "mentor": {
+      "name": {
+        "en": "Karoo Coast First-Year Mentors",
+        "zu": "Abeluleki Bonyaka Wokuqala baseKaroo Coast"
+      },
+      "building": "student_services",
+      "room": {
+        "en": "Room 5",
+        "zu": "Igumbi 5"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "mentors@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "societies": {
+      "building": "student_services",
+      "room": {
+        "en": "SRC office",
+        "zu": "Ihhovisi le-SRC"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "societies@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "lecturer": {
+      "building": "lecture_block",
+      "room": {
+        "en": "Lecturers' offices, first floor",
+        "zu": "Amahhovisi abafundisi, isitezi sokuqala"
+      },
+      "hours": {
+        "en": "The hours in your module guide",
+        "zu": "Amahora asemhlahlandleleni wemojuli yakho"
+      },
+      "verified": false,
+      "last_checked": null
+    },
+    "equity": {
+      "building": "main_building",
+      "room": {
+        "en": "Room 15",
+        "zu": "Igumbi 15"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "equity@karoocoast.example",
+      "verified": false,
+      "last_checked": null
+    },
+    "international": {
+      "building": "student_services",
+      "room": {
+        "en": "Room 8",
+        "zu": "Igumbi 8"
+      },
+      "hours": {
+        "en": "Mon–Fri 08:00–16:00",
+        "zu": "Msombuluko–Lwesihlanu 08:00–16:00"
+      },
+      "email": "international@karoocoast.example",
       "verified": false,
       "last_checked": null
     }

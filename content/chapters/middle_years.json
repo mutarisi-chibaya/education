@@ -234,8 +234,8 @@
         "zu": "Ukuthuthela ngaphandle kwekhampasi: isivumelwano, idiphozithi, abahlala nawe"
       },
       "text": {
-        "en": "Three friends want to share a house near campus. The agent wants a signed lease and a R2 000 deposit by tomorrow. You have {money}.",
-        "zu": "Abangane abathathu bafuna ukwabelana ngendlu eduze nekhampasi. I-ejenti ifuna isivumelwano esisayiniwe nedipozithi engu-R2 000 kusasa. Uno-{money}."
+        "en": "Three friends want to share a house near campus. The agent wants a signed lease and a R2 000 deposit, split four ways, by tomorrow. You have {money}.",
+        "zu": "Abangane abathathu bafuna ukwabelana ngendlu eduze nekhampasi. I-ejenti ifuna isivumelwano esisayiniwe nedipozithi engu-R2 000, ihlukaniswe kane, kusasa. Uno-{money}."
       },
       "forecast_tags": [
         "housing",
@@ -249,15 +249,15 @@
             "zu": "Sayina ngokushesha"
           },
           "effects": {
-            "money": -1000,
+            "money": -800,
             "wellbeing": -5
           },
           "flags": [
             "bad_lease"
           ],
           "outcome": {
-            "en": "You find out later that the lease makes you liable for the whole house's water bill.",
-            "zu": "Uthola kamuva ukuthi isivumelwano sikwenza ubhekane nesikweletu samanzi sendlu yonke."
+            "en": "The lease makes you liable for the whole house's water bill. The first one, R300, arrives with your R500 share of the deposit.",
+            "zu": "Isivumelwano sikwenza ubhekane nesikweletu samanzi sendlu yonke. Esokuqala, u-R300, sifika nengxenye yakho yedipozithi engu-R500."
           }
         },
         {

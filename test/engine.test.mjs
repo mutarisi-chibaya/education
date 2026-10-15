@@ -190,20 +190,26 @@ test('you can only pay for what you can afford, and always keep some cash', () =
   assert.ok(choose(up, sx, 'help').money >= CASH_FLOOR);
 });
 
-test('the room scam takes everything you have', () => {
-  const s0 = { ...setPhase(startChapter(up, newJourney(up, { ...base, housing: 'residence' }), 'arrival'), 'event'), queue: ['ARR-03'], qi: 0, money: 800 };
-  assert.ok(affordableChoices(s0, eventForWeek(up, s0)).includes('take'));
-  const after = choose(up, s0, 'take');
+test('a room scam takes everything you have', () => {
+  // A scored scam card (ARR-03 itself is now a "what if"), as a university could add one.
+  const real = structuredClone(up.eventIndex['ARR-03']);
+  real.type = 'situational';
+  real.choices.find((c) => c.id === 'take').takesAll = true;
+  real.choices.find((c) => c.id === 'take').flags = ['scammed'];
+  const scam = { ...up, eventIndex: { ...up.eventIndex, 'ARR-03': real } };
+  const s0 = { ...setPhase(startChapter(scam, newJourney(scam, { ...base, housing: 'residence' }), 'arrival'), 'event'), queue: ['ARR-03'], qi: 0, money: 800 };
+  assert.ok(affordableChoices(s0, eventForWeek(scam, s0)).includes('take'));
+  const after = choose(scam, s0, 'take');
   assert.equal(after.money, 0);
   assert.equal(after.last.deltas.money, -800);
   assert.equal(after.trackers.debt, 1, 'you owe the rest of the deposit');
   assert.ok(after.flags.includes('scammed'));
   // First Term starts with that money returned.
-  const ft = startChapter(up, backToMap(after), 'first_term');
+  const ft = startChapter(scam, backToMap(after), 'first_term');
   assert.equal(ft.money, 800);
   assert.equal(ft.trackers.debt, 0);
   assert.ok(ft.ledger.some((l) => l.key === 'ledger.scamBack' && l.money === 800));
-  assert.equal(startChapter(up, backToMap(ft), 'first_exams').ledger.some((l) => l.key === 'ledger.scamBack'), false, 'returned once');
+  assert.equal(startChapter(scam, backToMap(ft), 'first_exams').ledger.some((l) => l.key === 'ledger.scamBack'), false, 'returned once');
 });
 
 test('Prequel: applying yourself, and where to find funding', () => {
@@ -326,7 +332,8 @@ test('scale: a directory of hundreds, searched and grouped, with one pack per ph
   const open = openDirectory(big, '2026-10-03');
   assert.equal(open.length, 270, 'lapsed licences drop out of the list');
   assert.equal(searchDirectory(open, 'institution 42').length, 1);
-  assert.ok(searchDirectory(open, 'limpopo').every((d) => d.province === 'Limpopo'));
+  assert.equal(searchDirectory(open, 'limpopo').length, 0, 'searches names, not provinces');
+  assert.equal(searchDirectory(open, '42 institution').length, 1);
   assert.equal(searchDirectory(open, '   ').length, 270);
   assert.ok(JSON.stringify(big).length < 80 * 1024, 'the whole directory is a small download');
 });
@@ -370,6 +377,43 @@ test('commuters skip the first night alone', () => {
   const res = playChapter(up, newJourney(up, { ...base, housing: 'residence' }), 'arrival', helpful);
   assert.ok(res.seen.includes('ARR-01') && !res.seen.includes('ARR-01C'));
   assert.ok(!up.housing.some((h) => h.id === 'living_at_home'));
+});
+
+test('forecast advice fits the student: the food programme only when money is short, a set amount for home only when home needs it', () => {
+  const comfortable = { ...base, funding: 'family', family_needs: 'no', monthlyIncome: 8000 };
+  const rich = semesterForecast(up, playChapter(up, newJourney(up, comfortable), 'arrival', helpful).s).actions.map((a) => a.key);
+  assert.ok(!rich.includes('fc.act.money') && !rich.includes('fc.act.moneyNsfas'), rich.join());
+  assert.ok(!rich.includes('fc.act.family'), rich.join());
+  const short = semesterForecast(up, playChapter(up, newJourney(up, { ...base, monthlyIncome: 900 }), 'arrival', helpful).s);
+  assert.ok(short.actions.some((a) => a.key === 'fc.act.moneyNsfas'));
+});
+
+test('older students with responsibilities meet their own cards, not the school-leaver ones', () => {
+  const older = { ...base, age_role: 'older_with_responsibilities' };
+  const arr = playChapter(up, newJourney(up, older), 'arrival', helpful);
+  assert.ok(arr.seen.includes('ARR-08') && !arr.seen.includes('ARR-07'));
+  assert.match(resolveEvent(up, arr.s, 'ARR-02').text.en, /mature and part-time students/);
+  const ft = playChapter(up, backToMap(arr.s), 'first_term', helpful);
+  assert.ok(ft.seen.includes('FT-OLD'));
+  const young = playChapter(up, newJourney(up, base), 'arrival', helpful);
+  assert.ok(young.seen.includes('ARR-07') && !young.seen.includes('ARR-08'));
+  assert.doesNotMatch(resolveEvent(up, young.s, 'ARR-02').text.en, /mature/);
+});
+
+test('res overbooking is a "what if" before the first night in res, and never costs the student', () => {
+  const take = (ev) => (ev.id === 'ARR-03' ? ev.choices.find((c) => c.id === 'take') : helpful(ev));
+  const start = newJourney(up, { ...base, housing: 'residence' });
+  const r = playChapter(up, start, 'arrival', take);
+  assert.ok(r.seen.indexOf('ARR-03') < r.seen.indexOf('ARR-01'), r.seen.join());
+  const first = resolveEvent(up, r.s, 'ARR-01');
+  assert.equal(first.title.en, 'Your first night in res');
+  assert.match(first.text.en, /no overbooking/);
+  // Choosing the scam in the rehearsal takes no money and leaves no scam behind.
+  const s = { ...setPhase(startChapter(up, start, 'arrival'), 'event'), queue: ['ARR-03'], qi: 0, money: 800 };
+  assert.deepEqual(affordableChoices(s, eventForWeek(up, s)), ['take', 'check', 'ask'], 'every answer is open, whatever you have');
+  const after = choose(up, s, 'take');
+  assert.equal(after.money, s.money);
+  assert.ok(!after.flags.includes('scammed') && after.trackers.debt === s.trackers.debt);
 });
 
 test('confidence rises by asking and falls by staying quiet', () => {
@@ -551,7 +595,7 @@ test('content: every support card, flag and pool referenced exists', () => {
   for (const inst of institutions) for (const id of Object.keys(inst.support)) assert.ok(core.support[id], `${inst.id}: ${id}`);
   for (const s of Object.values(up.support)) assert.equal(typeof s.verified, 'boolean');
   for (const e of all) if (e.realities && e.realities !== 'index') assert.ok(realities.topics.some((x) => x.id === e.realities), `${e.id}: topic`);
-  for (const e of all) assert.ok(['core', 'situational', 'random', 'recurring', 'friend_story', 'win', 'light', 'tests', 'results'].includes(e.type), `${e.id}: type ${e.type}`);
+  for (const e of all) assert.ok(['core', 'situational', 'random', 'recurring', 'friend_story', 'what_if', 'win', 'light', 'tests', 'results'].includes(e.type), `${e.id}: type ${e.type}`);
 });
 
 // Writing rules (spec section 4). The chapter tables list more choices for these three cards.
@@ -656,7 +700,7 @@ test('service worker precaches every content file', () => {
   assert.ok(sw.includes('fys-packs') && sw.includes('content\\/institutions'));
   for (const id of BUILT) assert.ok(sw.includes(`./content/chapters/${id}.json`), `sw.js misses chapter ${id}`);
   assert.ok(sw.includes('./content/realities.json'));
-  for (const f of ['main', 'engine', 'i18n', 'plan', 'budget', 'content', 'forecast', 'charts', 'server']) assert.ok(sw.includes(`./js/${f}.js`));
+  for (const f of ['main', 'engine', 'i18n', 'plan', 'pdf', 'budget', 'content', 'forecast', 'charts', 'server']) assert.ok(sw.includes(`./js/${f}.js`));
 });
 
 test('living costs: capped at a share of your money, and spare money gets spent', () => {

@@ -1,5 +1,5 @@
 {
-  "version": 22,
+  "version": 25,
   "start": {
     "money": 1200,
     "marks": 55,
@@ -1615,8 +1615,8 @@
         "zu": "Okungalindelekile: udinga udokotela"
       },
       "text": {
-        "en": "A fever that won't go away. You can't use a medical aid here, so a private GP visit costs about R550 in cash. You have {money}.",
-        "zu": "Imfiva engapheli. Awukwazi ukusebenzisa usizo lwezokwelapha lapha, ngakho ukuvakashela udokotela ozimele kubiza cishe u-R550 ngokheshi. Uno-{money}."
+        "en": "A fever that won't go away. You don't have medical aid, so a private GP visit costs about R550 in cash. You have {money}.",
+        "zu": "Imfiva engapheli. Awunalo usizo lwezokwelapha, ngakho ukuvakashela udokotela ozimele kubiza cishe u-R550 ngokheshi. Uno-{money}."
       },
       "forecast_tags": [
         "money_shortfall",
@@ -2225,7 +2225,6 @@
     "Violence and mental health among female students (peer-reviewed study)",
     "Higher Health: student mental health and suicide prevention",
     "DHET cohort studies on student dropout",
-    "The RU Game (Rhodes University)",
     "Student interviews, October 2026"
   ],
   "contact": {
@@ -2239,6 +2238,10 @@
       "need": {
         "en": "I'm hungry",
         "zu": "Ngilambile"
+      },
+      "keywords": {
+        "en": "food money broke meals eat",
+        "zu": "ukudla imali ngilambile"
       }
     },
     {
@@ -2247,6 +2250,10 @@
       "need": {
         "en": "I'm stressed",
         "zu": "Ngicindezelekile"
+      },
+      "keywords": {
+        "en": "anxiety depressed sad mental health therapy worried",
+        "zu": "ukukhathazeka ukucindezeleka impilo yengqondo"
       }
     },
     {
@@ -2255,6 +2262,10 @@
       "need": {
         "en": "I need to talk to someone now",
         "zu": "Ngidinga ukukhuluma nomuntu manje"
+      },
+      "keywords": {
+        "en": "crisis suicide helpline call urgent",
+        "zu": "usizo oluphuthumayo ucingo"
       }
     },
     {
@@ -2263,6 +2274,10 @@
       "need": {
         "en": "I don't feel safe",
         "zu": "Angizizwa ngiphephile"
+      },
+      "keywords": {
+        "en": "unsafe danger attack robbed security",
+        "zu": "ingozi ukuphepha ukugetshengwa"
       }
     },
     {
@@ -2271,6 +2286,10 @@
       "need": {
         "en": "I'm sick",
         "zu": "Ngiyagula"
+      },
+      "keywords": {
+        "en": "doctor clinic ill nurse medicine",
+        "zu": "udokotela umtholampilo ngiyagula"
       }
     },
     {
@@ -2279,6 +2298,10 @@
       "need": {
         "en": "My allowance is late",
         "zu": "Imali yami yesibonelelo iphuzile"
+      },
+      "keywords": {
+        "en": "money NSFAS allowance funding late payment",
+        "zu": "imali i-NSFAS isibonelelo uxhaso"
       }
     },
     {
@@ -2287,6 +2310,10 @@
       "need": {
         "en": "I can't pay my fees",
         "zu": "Angikwazi ukukhokha imali yokufunda"
+      },
+      "keywords": {
+        "en": "money debt owe account registration blocked",
+        "zu": "imali isikweletu imali yesikole ukubhalisa"
       }
     },
     {
@@ -2295,6 +2322,10 @@
       "need": {
         "en": "I got a result code",
         "zu": "Ngithole ikhodi yemiphumela"
+      },
+      "keywords": {
+        "en": "supp failed exam rewrite marks",
+        "zu": "ukuhluleka isivivinyo amamaki"
       }
     },
     {
@@ -2303,6 +2334,10 @@
       "need": {
         "en": "I'm failing a module",
         "zu": "Ngiyahluleka esifundweni"
+      },
+      "keywords": {
+        "en": "failing repeat exclusion change course",
+        "zu": "ukuhluleka ukuphinda isifundo"
       }
     },
     {
@@ -2311,6 +2346,10 @@
       "need": {
         "en": "I don't understand the work",
         "zu": "Angiwuqondi umsebenzi"
+      },
+      "keywords": {
+        "en": "confused questions lecturer help",
+        "zu": "ukudideka imibuzo umfundisi"
       }
     },
     {
@@ -2319,6 +2358,10 @@
       "need": {
         "en": "I'm falling behind",
         "zu": "Ngisalela emuva"
+      },
+      "keywords": {
+        "en": "behind marks study plan tutor",
+        "zu": "ukusalela emuva amamaki ukufunda"
       }
     },
     {
@@ -2327,6 +2370,10 @@
       "need": {
         "en": "I don't know how to study",
         "zu": "Angazi ukuthi ngifunde kanjani"
+      },
+      "keywords": {
+        "en": "study skills exams writing time management",
+        "zu": "ukufunda izivivinyo ukubhala isikhathi"
       }
     },
     {
@@ -2335,6 +2382,10 @@
       "need": {
         "en": "I can't afford textbooks",
         "zu": "Angikwazi ukuthenga izincwadi"
+      },
+      "keywords": {
+        "en": "books textbook money expensive",
+        "zu": "izincwadi incwadi imali"
       }
     },
     {
@@ -2343,6 +2394,10 @@
       "need": {
         "en": "I have no laptop",
         "zu": "Anginayo i-laptop"
+      },
+      "keywords": {
+        "en": "computer laptop wifi data internet printing",
+        "zu": "ikhompyutha i-laptop i-wifi idatha i-inthanethi"
       }
     },
     {
@@ -2351,6 +2406,10 @@
       "need": {
         "en": "I need a place to stay",
         "zu": "Ngidinga indawo yokuhlala"
+      },
+      "keywords": {
+        "en": "res housing room accommodation",
+        "zu": "i-res indawo yokuhlala ikamelo"
       }
     },
     {
@@ -2359,6 +2418,10 @@
       "need": {
         "en": "Is this room a scam?",
         "zu": "Ingabe leli kamelo liwumkhonyovu?"
+      },
+      "keywords": {
+        "en": "landlord deposit scam rent housing",
+        "zu": "umnikazi wendlu idiphozithi irenti"
       }
     },
     {
@@ -2370,7 +2433,11 @@
       },
       "housing": [
         "residence"
-      ]
+      ],
+      "keywords": {
+        "en": "res noise roommate",
+        "zu": "i-res umsindo ohlala naye"
+      }
     },
     {
       "support": "commuters",
@@ -2378,6 +2445,10 @@
       "need": {
         "en": "I travel far to campus",
         "zu": "Ngihamba ibanga elide ukuya ekhampasi"
+      },
+      "keywords": {
+        "en": "transport taxi bus travel",
+        "zu": "ukuhamba itekisi ibhasi"
       }
     },
     {
@@ -2386,6 +2457,10 @@
       "need": {
         "en": "I feel lost here",
         "zu": "Ngizizwa ngidukile lapha"
+      },
+      "keywords": {
+        "en": "lonely lost new first-year",
+        "zu": "isizungu ngilahlekile omusha"
       }
     },
     {
@@ -2394,6 +2469,10 @@
       "need": {
         "en": "I want to make friends",
         "zu": "Ngifuna ukwakha abangane"
+      },
+      "keywords": {
+        "en": "lonely friends clubs sport",
+        "zu": "isizungu abangane amaqembu ezemidlalo"
       }
     },
     {
@@ -2402,6 +2481,10 @@
       "need": {
         "en": "I'm being treated unfairly",
         "zu": "Ngiphathwa ngokungafanele"
+      },
+      "keywords": {
+        "en": "racism discrimination harassment unfair",
+        "zu": "ubandlululo ukuhlukunyezwa"
       }
     },
     {
@@ -2410,6 +2493,10 @@
       "need": {
         "en": "I'm from another country",
         "zu": "Ngivela kwelinye izwe"
+      },
+      "keywords": {
+        "en": "foreign permit visa",
+        "zu": "owokufika imvume i-visa"
       }
     },
     {
@@ -2418,6 +2505,10 @@
       "need": {
         "en": "I need a student card",
         "zu": "Ngidinga ikhadi lomfundi"
+      },
+      "keywords": {
+        "en": "card ID access",
+        "zu": "ikhadi"
       }
     },
     {
@@ -2426,6 +2517,10 @@
       "need": {
         "en": "I need a job or a CV",
         "zu": "Ngidinga umsebenzi noma i-CV"
+      },
+      "keywords": {
+        "en": "job work CV internship",
+        "zu": "umsebenzi i-CV"
       }
     },
     {
@@ -2434,6 +2529,10 @@
       "need": {
         "en": "I need a bursary",
         "zu": "Ngidinga umfundaze"
+      },
+      "keywords": {
+        "en": "money bursary NSFAS scholarship loan funding",
+        "zu": "imali umfundaze i-NSFAS imboleko uxhaso"
       }
     }
   ],

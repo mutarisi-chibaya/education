@@ -186,11 +186,17 @@ export function openDirectory(directory, today = new Date().toISOString().slice(
   return directory.filter((d) => !d.licence?.expires || d.licence.expires >= today);
 }
 
-// Search by name, short name or province.
+// Search by the institution's name or short name. Every word typed has to
+// start a word of the name, so "cape tech" finds "Cape Peninsula University
+// of Technology" and "uni 4" does not find "University 14".
 export function searchDirectory(directory, query, lang = 'en') {
-  const q = query.trim().toLowerCase();
-  if (!q) return directory;
-  return directory.filter((d) => [d.name?.[lang], d.name?.en, d.short?.en || d.short, d.province].some((x) => typeof x === 'string' && x.toLowerCase().includes(q)));
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  if (!words.length) return directory;
+  return directory.filter((d) => {
+    const names = [d.name?.[lang], d.name?.en, d.short?.en || d.short].filter((x) => typeof x === 'string')
+      .join(' ').toLowerCase().split(/[^\p{L}\p{N}]+/u);
+    return words.every((w) => names.some((n) => n.startsWith(w)));
+  });
 }
 
 // Ask the server for a newer pack. Returns an updated catalogue, or null to

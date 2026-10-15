@@ -4,13 +4,14 @@
 // Institution packs live in their own cache: only the one a student chose is
 // ever downloaded, and it survives app updates.
 const PACKS = 'fys-packs-v1';
-const VERSION = 'fys-v52';
+const VERSION = 'fys-v54';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './css/app.css',
   './js/main.js',
+  './js/pdf.js',
   './js/engine.js',
   './js/i18n.js',
   './js/plan.js',

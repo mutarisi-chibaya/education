@@ -648,6 +648,93 @@
       "research": "Understanding Students Issue 2: cost stops many students joining"
     },
     {
+      "id": "FT-OLD",
+      "type": "situational",
+      "week": 2,
+      "conditions": {
+        "age_role": [
+          "older_with_responsibilities"
+        ]
+      },
+      "title": {
+        "en": "Nobody to cover at home",
+        "zu": "Akekho ozosiza ekhaya"
+      },
+      "text": {
+        "en": "The person who usually helps at home can't come this week, and it is the same morning as your {mod1} tutorial. Tutorials count towards your marks.",
+        "zu": "Umuntu ojwayele ukusiza ekhaya ngeke akwazi ukuza kuleli sonto, futhi kungukuseni okufanayo nethutoriyali yakho ye-{mod1}. Amathutoriyali abalwa emamakini akho."
+      },
+      "forecast_tags": [
+        "family_pressure",
+        "test_stress"
+      ],
+      "research": "Understanding Students Issue 1: older students",
+      "choices": [
+        {
+          "id": "miss",
+          "tags": [
+            "self_sacrificer"
+          ],
+          "label": {
+            "en": "Stay home and miss it",
+            "zu": "Hlala ekhaya uyiphuthe"
+          },
+          "effects": {
+            "marks": -3,
+            "wellbeing": -2
+          },
+          "outcome": {
+            "en": "Home is covered, but you lose the tutorial mark and the worked answers.",
+            "zu": "Ekhaya kunakekelwe, kodwa ulahlekelwa amamaki ethutoriyali nezimpendulo ezisebenzile."
+          },
+          "tip": {
+            "en": "Most departments let you move to another tutorial group if you ask early.",
+            "zu": "Iminyango eminingi ikuvumela ukuthi ushintshele kwelinye iqembu lethutoriyali uma ucela kusenesikhathi."
+          }
+        },
+        {
+          "id": "swap",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Email the tutor about another group",
+            "zu": "Bhalela uthisha wethutoriyali nge-imeyili ngelinye iqembu"
+          },
+          "effects": {
+            "marks": 1,
+            "wellbeing": 3
+          },
+          "support": [
+            "lecturer"
+          ],
+          "outcome": {
+            "en": "The tutor moves you to the Thursday afternoon group for good. Students with jobs and children ask this all the time.",
+            "zu": "Uthisha ukushintshela eqenjini langoLwesine ntambama unomphela. Abafundi abasebenzayo nabanezingane bacela lokhu njalo."
+          }
+        },
+        {
+          "id": "notes",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Ask a classmate for the notes",
+            "zu": "Cela amanothi kumfundi ofunda nawe"
+          },
+          "effects": {
+            "marks": -1,
+            "wellbeing": 1,
+            "connection": 1
+          },
+          "outcome": {
+            "en": "A classmate sends photos of the notes and the answers. You return the favour the next week.",
+            "zu": "Umfundi ofunda nawe ukuthumelela izithombe zamanothi nezimpendulo. Uyambuyisela umusa ngesonto elilandelayo."
+          }
+        }
+      ]
+    },
+    {
       "id": "FT-W2",
       "type": "win",
       "week": 3,
@@ -1896,7 +1983,7 @@
             "zu": "Cela ukulibona kuqala"
           },
           "effects": {
-            "marks": -1
+            "wellbeing": -1
           },
           "flags": [
             "avoided_scam"
@@ -2724,7 +2811,7 @@
     },
     {
       "id": "FT-F3",
-      "type": "light",
+      "type": "friend_story",
       "pool": "ft_light",
       "title": {
         "en": "A friend thinks she might be pregnant",
@@ -2768,8 +2855,8 @@
         {
           "id": "options",
           "label": {
-            "en": "Help her find campus health",
-            "zu": "Msize athole umtholampilo wasekhampasi"
+            "en": "Help her talk to a counsellor",
+            "zu": "Msize akhulume nomeluleki"
           },
           "effects": {
             "help_seeking": 1
@@ -2787,7 +2874,7 @@
     },
     {
       "id": "FT-F4",
-      "type": "light",
+      "type": "friend_story",
       "pool": "ft_light",
       "title": {
         "en": "A friend comes out to you",

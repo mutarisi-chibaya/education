@@ -18,3 +18,8 @@ campus_id,service_id,name_en,name_zu,building_id,room_en,room_zu,hours_en,hours_
 ,campus_safety,,,security,Control room,Igumbi lokulawula,Open 24 hours,Kuvulwe amahora angu-24,security@karoocoast.example,,,,,,,,,,,,
 ,supp_exams,,,,,,,,,,,,,,result_codes,,,,,,
 ,applications,,,,,,,,,,,,,,apply,,,,,,
+,mentor,Karoo Coast First-Year Mentors,Abeluleki Bonyaka Wokuqala baseKaroo Coast,student_services,Room 5,Igumbi 5,Mon–Fri 08:00–16:00,Msombuluko–Lwesihlanu 08:00–16:00,mentors@karoocoast.example,,,,,,,,,,,,
+,societies,,,student_services,SRC office,Ihhovisi le-SRC,Mon–Fri 08:00–16:00,Msombuluko–Lwesihlanu 08:00–16:00,societies@karoocoast.example,,,,,,,,,,,,
+,lecturer,,,lecture_block,"Lecturers' offices, first floor","Amahhovisi abafundisi, isitezi sokuqala",The hours in your module guide,Amahora asemhlahlandleleni wemojuli yakho,,,,,,,,,,,,,
+,equity,,,main_building,Room 15,Igumbi 15,Mon–Fri 08:00–16:00,Msombuluko–Lwesihlanu 08:00–16:00,equity@karoocoast.example,,,,,,,,,,,,
+,international,,,student_services,Room 8,Igumbi 8,Mon–Fri 08:00–16:00,Msombuluko–Lwesihlanu 08:00–16:00,international@karoocoast.example,,,,,,,,,,,,

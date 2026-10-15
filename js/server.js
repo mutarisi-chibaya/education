@@ -36,9 +36,3 @@ export async function sendStats(payload) {
   if (!navigator.onLine) return false;
   return Boolean(await call('stats', { body: payload }));
 }
-
-// Real completion counts for the About screen; null when there is no server.
-export async function fetchStats() {
-  if (!navigator.onLine) return null;
-  return call('stats', { timeout: 2500 });
-}

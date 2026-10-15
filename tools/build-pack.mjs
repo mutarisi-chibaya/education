@@ -92,7 +92,7 @@ const cardsFor = (key) => (cards[key] ? clean({ off: cards[key].off, edit: Objec
 const campuses = sheet('campuses.csv').map((r) => clean({
   id: r.campus_id, name: text(r, 'name'), desc: text(r, 'description'), courses: list(r.courses),
   costs: clean({ rent_private: num(r.rent_private, `${r.campus_id} rent`), taxi_week: num(r.taxi_week, `${r.campus_id} taxi`) }),
-  map: maps[r.campus_id] ? { buildings: maps[r.campus_id] } : undefined,
+  map: maps[r.campus_id] ? clean({ buildings: maps[r.campus_id], url: r.map_website }) : undefined,
   support: support[r.campus_id], pages: pages[r.campus_id], cards: cardsFor(r.campus_id),
 }));
 for (const key of Object.keys({ ...maps, ...support, ...pages })) if (key && !campuses.some((c) => c.id === key)) problems.push(`campus "${key}" is used in a sheet but is not in campuses.csv`);
@@ -117,7 +117,7 @@ const pack = clean({
   housing: list(u.housing),
   brand: clean({ name: u.brand_name, logo: u.logo_text, colors: palette(''), colorsDark: palette('dark_') }),
   signedOff: clean({ by: u.signed_off_by, date: u.signed_off_date }),
-  map: maps[''] ? { buildings: maps[''] } : undefined,
+  map: maps[''] ? clean({ buildings: maps[''], url: u.map_website }) : undefined,
   support: support[''] || {},
   pages: pages[''],
   cards: cardsFor(''),

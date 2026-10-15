@@ -21,7 +21,7 @@ const read = (p) => JSON.parse(readFileSync(resolve(ROOT, p), 'utf8'));
 // conditions are game rules and stay locked.
 const CARD_FIELDS = ['title', 'text', 'research'];
 const CHOICE_FIELDS = ['label', 'outcome', 'tip', 'support'];
-const CARD_TYPES = ['core', 'situational', 'random', 'recurring', 'friend_story', 'win', 'light'];
+const CARD_TYPES = ['core', 'situational', 'random', 'recurring', 'friend_story', 'what_if', 'win', 'light'];
 const words = (s) => s.trim().split(/\s+/).length;
 const sentences = (s) => (s.match(/[.!?]+(?=\s|$|")/g) || []).length;
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -140,6 +140,7 @@ export function checkPack(id, pack) {
     let content;
     try { content = mergeContent(core, inst, index, chapters, campus?.id); } catch (e) { err(`${where}: cannot be merged: ${e.message}`); continue; }
     const buildings = content.map?.buildings || [];
+    if (content.map?.url && !/^https:\/\//.test(content.map.url)) err(`${where}: the campus map link must start with https://`);
     const ids = new Set();
     for (const b of buildings) {
       if (ids.has(b.id)) err(`${where}: building "${b.id}" appears twice`);

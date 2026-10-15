@@ -5,6 +5,7 @@ import { findById, choiceLog, eventAmount, chapterOf, testsSummary } from './eng
 import { semesterForecast, copingProfile } from './forecast.js';
 import { computeBudget } from './budget.js';
 import { t, tx, money } from './i18n.js';
+import { imagesToPdf, A4_RATIO } from './pdf.js';
 
 const HIDDEN_CONTACTS = ['progression', 'family_budget', 'verify_accom'];
 
@@ -79,7 +80,9 @@ export function forecastView(content, s) {
   const p = fc.profile;
   const mp = fc.memory?.profile;
   const names = (n) => Object.fromEntries(Object.entries(n).map(([k, v]) => [k, tx(v)]).concat([['chapter', targetTitle]]));
-  const fmt = (x) => ({ ...x.vars, ...Object.fromEntries((x.money || []).map((k) => [k, money(x.vars[k])])) });
+  // "Before First Term starts" reads better than "before week 1 of First Term".
+  const when = (week) => (week > 1 ? t('fc.when.week', { week, chapter: targetTitle }) : t('fc.when.start', { chapter: targetTitle }));
+  const fmt = (x) => ({ ...x.vars, when: when(x.vars.week), ...Object.fromEntries((x.money || []).map((k) => [k, money(x.vars[k])])) });
   const l = fc.leaks;
   const gap = computeBudget(content, s.setup).gap;
   return {
@@ -135,18 +138,24 @@ export function buildPlan(content, s) {
     dates: content.plan.dates.map((d) => ({ when: tx(d.when), what: tx(d.what) })),
     contacts: contactIds(content, s).map((id) => {
       const c = content.support[id];
+      const b = content.map?.buildings.find((x) => x.id === c.building);
       return {
         name: tx(c.name),
-        reach: tx(c.reach, vars),
+        reach: tx(c.reach, vars).replace(/:\s*$/, '.'),
         phones: (c.contacts || []).filter((x) => x.tel).map((x) => x.label),
+        place: b ? [tx(b.name), tx(c.room), tx(c.hours)].filter(Boolean).join(' · ') : tx(c.away),
+        email: c.email || '',
       };
     }),
+    chapter: tx(chapterOf(content, s.chapter).title),
     rehearsed: choiceLog(content, s)
       .filter((x) => x.choice)
       .map((x) => {
         const v = cardVars(content, s, x.event);
+        const ch = chapterOf(content, s.chapter);
         return {
           week: x.week,
+          when: t('unit.label', { unit: tx(ch.unit), n: x.week, total: ch.weeks }),
           event: tx(x.event.title, v),
           choice: tx(x.choice.label, v),
           tip: tx(x.choice.tip, v),
@@ -288,20 +297,17 @@ function layout(ctx, plan, draw) {
   text(`${plan.inst} · ${plan.subtitle}`, { size: 26, color: '#d6e2f0' });
   y = headerH;
 
+  // One phone screen: the forecast, the buffer, the budget and the numbers to
+  // call. The rest of the plan (late money, dates, every contact) stays in the app.
   heading(t('plan.forecast'));
   text(plan.forecast.highest, { size: 32, weight: 700 });
   text(plan.forecast.cause, { size: 28 });
-  text(plan.forecast.pattern, { size: 28 });
   gap(6);
-  plan.forecast.actions.forEach((l, i) => { text(`${i + 1}.  ${l}`, { size: 28 }); gap(4); });
-  gap(6);
-  text(plan.forecast.leaks, { size: 25, color: C.muted });
+  plan.forecast.actions.slice(0, 3).forEach((l, i) => { text(`${i + 1}.  ${l}`, { size: 28 }); gap(4); });
 
   heading(t('plan.buffer'));
   text(money(plan.buffer.target), { size: 40, weight: 800, color: C.brand });
-  text(plan.buffer.body, { size: 26 });
   text(plan.buffer.save, { size: 26 });
-  if (plan.buffer.tested) text(plan.buffer.tested, { size: 24, color: C.muted });
 
   const b = plan.budget;
   heading(t('plan.budget'));
@@ -312,11 +318,9 @@ function layout(ctx, plan, draw) {
   }
   gap(16);
   const advice = () => {
-    gap(18);
+    gap(14);
     text(plan.advice.title, { size: 30, weight: 700, x: PAD + 24, width: inner - 48, color: b.tier === 'gap' ? C.bad : C.good });
-    text(plan.advice.body, { size: 25, x: PAD + 24, width: inner - 48 });
-    plan.advice.steps.forEach((s, i) => text(`${i + 1}. ${s}`, { size: 25, x: PAD + 24, width: inner - 48 }));
-    gap(18);
+    gap(14);
   };
   if (draw) {
     // Measure the advice first so its tinted box can be drawn behind it.
@@ -330,31 +334,22 @@ function layout(ctx, plan, draw) {
     ctx.fillRect(PAD, top, inner, bottom - top);
   }
   advice();
-  gap(10);
-  text(plan.rentNote, { size: 24, color: C.muted });
 
-  heading(t('plan.late'));
-  plan.late.forEach((l, i) => { text(`${i + 1}.  ${l}`, { size: 28 }); gap(6); });
-
-  heading(t('plan.dates'));
-  for (const d of plan.dates) {
-    text(d.when, { size: 26, weight: 700, color: C.brand });
-    text(d.what, { size: 28 });
-    gap(8);
-  }
-
-  heading(t('plan.contacts'));
-  for (const c of plan.contacts) {
-    text(c.name, { size: 30, weight: 700 });
-    if (c.phones.length) text(c.phones.join('  ·  '), { size: 28, weight: 700, color: C.good });
-    text(c.reach, { size: 24, color: C.muted });
-    gap(12);
+  const phones = plan.contacts.filter((c) => c.phones.length).slice(0, 4);
+  if (phones.length) {
+    heading(t('plan.contacts'));
+    for (const c of phones) {
+      text(c.name, { size: 28, weight: 700 });
+      text(c.phones.join('  ·  '), { size: 28, weight: 700, color: C.good });
+      gap(8);
+    }
   }
 
   gap(30);
   if (draw) { ctx.fillStyle = C.line; ctx.fillRect(PAD, y, inner, 2); }
   gap(10);
-  text(`${t('app.title')} · ${t('app.tagline')} ${t('plan.examples')}`, { size: 22, color: C.muted });
+  text(t('plan.imageMore'), { size: 24, color: C.ink });
+  text(`${t('app.title')} · ${t('plan.examples')}`, { size: 22, color: C.muted });
   gap(PAD);
   return y;
 }
@@ -375,4 +370,155 @@ export function renderPlanCanvas(plan) {
 
 export function planImageBlob(plan) {
   return new Promise((resolve) => renderPlanCanvas(plan).toBlob(resolve, 'image/png'));
+}
+
+// ---------- PDF: the whole plan on A4 pages ----------
+
+const PW = 1240; // 150 dpi across an A4 page
+const PH = Math.round(PW * A4_RATIO);
+const M = 96;
+
+// The full plan, laid out on as many pages as it needs. A line that would run
+// past the bottom starts a new page, and a heading never sits alone at the foot.
+export function renderPlanPages(plan, { savedOn = '' } = {}) {
+  const pages = [];
+  const inner = PW - M * 2;
+  const bottom = PH - M - 30;
+  let ctx;
+  let y = 0;
+  const newPage = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = PW;
+    canvas.height = PH;
+    ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, PW, PH);
+    ctx.textBaseline = 'alphabetic';
+    pages.push(canvas);
+    y = M;
+  };
+  const room = (h) => { if (y + h > bottom) newPage(); };
+  const gap = (h) => { y += h; };
+  const text = (str, { size = 25, weight = 400, color = C.ink, x = M, width = inner, lh = 1.42, italic = false } = {}) => {
+    if (!str) return;
+    const font = `${italic ? 'italic ' : ''}${weight} ${size}px ${FONT}`;
+    ctx.font = font;
+    for (const line of wrap(ctx, str, width)) {
+      room(size * lh);
+      ctx.font = font;
+      ctx.fillStyle = color;
+      y += size * lh;
+      ctx.fillText(line, x, y - size * (lh - 1) * 0.5 - size * 0.2);
+    }
+  };
+  const heading = (str) => {
+    room(150);
+    gap(40);
+    ctx.fillStyle = C.accent;
+    ctx.fillRect(M, y + 8, 8, 32);
+    text(str, { size: 32, weight: 700, color: C.brand, x: M + 22, width: inner - 22 });
+    gap(10);
+  };
+  const numbered = (items) => items.forEach((l, i) => { text(`${i + 1}.`, { size: 25, weight: 700 }); y -= 25 * 1.42; text(l, { x: M + 38, width: inner - 38 }); gap(6); });
+
+  // Header band on the first page
+  newPage();
+  ctx.fillStyle = C.brand;
+  ctx.fillRect(0, 0, PW, 250);
+  ctx.fillStyle = C.accent;
+  ctx.fillRect(0, 242, PW, 8);
+  y = 40;
+  text(t('app.title').toUpperCase(), { size: 24, weight: 700, color: C.accent });
+  text(t('plan.title'), { size: 54, weight: 800, color: '#ffffff' });
+  text(`${plan.inst} · ${plan.chapter}`, { size: 25, color: '#d6e2f0' });
+  text([plan.subtitle, savedOn].filter(Boolean).join(' · '), { size: 22, color: '#d6e2f0' });
+  y = 260;
+
+  heading(t('plan.forecast'));
+  text(plan.forecast.highest, { size: 29, weight: 700 });
+  text([plan.forecast.cause, plan.forecast.pattern].filter(Boolean).join(' '));
+  if (plan.forecast.memory) text(plan.forecast.memory, { color: C.muted, italic: true });
+  gap(10);
+  text(t('fc.planIntro'), { weight: 700 });
+  numbered(plan.forecast.actions);
+  text(plan.forecast.leaks, { size: 23, color: C.muted });
+
+  heading(t('plan.buffer'));
+  text(money(plan.buffer.target), { size: 40, weight: 800, color: C.brand });
+  text(plan.buffer.body);
+  text(plan.buffer.save);
+  if (plan.buffer.tested) text(plan.buffer.tested, { size: 23, color: C.muted });
+
+  const b = plan.budget;
+  heading(t('plan.budget'));
+  const row = (cells, { bold = false, colors = [] } = {}) => {
+    room(46);
+    y += 46;
+    ctx.font = `${bold ? 700 : 400} 25px ${FONT}`;
+    const xs = [M, PW - M - 240, PW - M];
+    cells.forEach((c, i) => {
+      ctx.fillStyle = colors[i] || C.ink;
+      ctx.textAlign = i === 0 ? 'left' : 'right';
+      ctx.fillText(c, xs[i], y - 13);
+    });
+    ctx.textAlign = 'left';
+    ctx.fillStyle = C.line;
+    ctx.fillRect(M, y, inner, 2);
+  };
+  row([t('plan.incomeLabel'), '', money(b.income)], { bold: true });
+  for (const i of b.items) row([`${t(`budget.${i.id}`)}${i.belowMin ? '  ⚠' : ''}`, `${i.pct}%`, money(i.amount)], { colors: [C.ink, C.muted, i.belowMin ? C.bad : C.ink] });
+  gap(20);
+  text(plan.advice.title, { size: 27, weight: 700, color: b.tier === 'gap' ? C.bad : C.good });
+  text(plan.advice.body);
+  if (plan.advice.steps.length) numbered(plan.advice.steps);
+  text(plan.rentNote, { size: 23, color: C.muted });
+
+  heading(t('plan.late'));
+  numbered(plan.late);
+
+  heading(t('plan.dates'));
+  for (const d of plan.dates) { text(d.when, { weight: 700, color: C.brand }); text(d.what); gap(8); }
+
+  heading(t('plan.contacts'));
+  for (const c of plan.contacts) {
+    room(110);
+    text(c.name, { size: 26, weight: 700 });
+    if (c.phones.length) text(c.phones.join('  ·  '), { weight: 700, color: C.good });
+    text([c.place, c.email].filter(Boolean).join(' · '), { size: 23 });
+    text(c.reach, { size: 23, color: C.muted });
+    gap(14);
+  }
+
+  if (plan.rehearsed.length) {
+    heading(t('plan.rehearsed'));
+    for (const r of plan.rehearsed) {
+      room(110);
+      text(`${r.when} · ${r.event}`, { weight: 700 });
+      text(`→ ${r.choice}`);
+      if (r.tip) text(r.tip, { size: 23, color: C.muted, italic: true });
+      gap(12);
+    }
+  }
+
+  // Footer on every page, now that the page count is known.
+  pages.forEach((canvas, i) => {
+    const c = canvas.getContext('2d');
+    c.fillStyle = C.line;
+    c.fillRect(M, PH - M + 10, inner, 2);
+    c.font = `400 20px ${FONT}`;
+    c.fillStyle = C.muted;
+    c.fillText(`${t('app.title')} · ${t('plan.examples')}`, M, PH - M + 46);
+    c.textAlign = 'right';
+    c.fillText(`${i + 1} / ${pages.length}`, PW - M, PH - M + 46);
+    c.textAlign = 'left';
+  });
+  return pages;
+}
+
+export async function planPdfBlob(plan, opts) {
+  const pages = await Promise.all(renderPlanPages(plan, opts).map(async (canvas) => {
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+    return { jpeg: new Uint8Array(await blob.arrayBuffer()), width: canvas.width, height: canvas.height };
+  }));
+  return imagesToPdf(pages);
 }

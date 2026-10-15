@@ -896,8 +896,7 @@
           },
           "effects": {
             "money": -400,
-            "wellbeing": 10,
-            "family_obligation": 1
+            "wellbeing": 10
           },
           "outcome": {
             "en": "Home food, your own bed, and everyone asking how varsity is. Travel and gifts cost R400.",

@@ -22,6 +22,101 @@
   "slots": [],
   "events": [
     {
+      "id": "ARR-03",
+      "type": "what_if",
+      "week": 1,
+      "conditions": {
+        "housing": [
+          "residence"
+        ]
+      },
+      "title": {
+        "en": "What if res is overbooked?",
+        "zu": "Kuthiwani uma i-res igcwele ngokweqile?"
+      },
+      "text": {
+        "en": "Some years, res accepts more students than it has beds. Imagine you arrive and there's no room for you. Outside, people offer rooms: \"for students, pay the deposit today\".",
+        "zu": "Eminye iminyaka, i-res yamukela abafundi abaningi kunemibhede enayo. Cabanga ufika kungekho kamelo lakho. Ngaphandle, abantu banikeza amakamelo: \"abafundi, khokhani idiphozithi namuhla\"."
+      },
+      "forecast_tags": [
+        "housing"
+      ],
+      "research": "RU Game: residence crisis",
+      "choices": [
+        {
+          "id": "take",
+          "label": {
+            "en": "Take the first room offered",
+            "zu": "Thatha ikamelo lokuqala elinikezwayo"
+          },
+          "effects": {
+            "money": -1500,
+            "wellbeing": -10
+          },
+          "flags": [
+            "saw_res_overbooked"
+          ],
+          "outcome": {
+            "en": "You hand over the deposit, every rand you can find. The \"landlord\" stops answering: it was a scam, it happens every year, and it's not your fault.",
+            "zu": "Unikela ngediphozithi, wonke amarandi ongawathola. \"Umnikazi\" akasaphenduli: bekuwukukhwabanisa, kwenzeka minyaka yonke, futhi akulona iphutha lakho."
+          },
+          "tip": {
+            "en": "A real landlord lets you view the room and gives you a lease. Check the university's accredited list before paying anyone.",
+            "zu": "Umnikazi wangempela uyakuvumela ubone ikamelo futhi akunike isivumelwano. Hlola uhlu olugunyaziwe lwenyuvesi ngaphambi kokukhokhela noma ubani."
+          },
+          "support": [
+            "verify_accom"
+          ]
+        },
+        {
+          "id": "check",
+          "tags": [
+            "planner"
+          ],
+          "label": {
+            "en": "Check it's legitimate first",
+            "zu": "Hlola kuqala ukuthi kuyiqiniso"
+          },
+          "effects": {
+            "wellbeing": 0
+          },
+          "support": [
+            "verify_accom"
+          ],
+          "outcome": {
+            "en": "The address doesn't match the photos. You walk away and keep looking on the university's accredited list.",
+            "zu": "Ikheli alihambisani nezithombe. Uyahamba bese uqhubeka ufuna ohlwini lwenyuvesi olugunyaziwe."
+          },
+          "flags": [
+            "saw_res_overbooked"
+          ]
+        },
+        {
+          "id": "ask",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Ask the university for help",
+            "zu": "Cela usizo enyuvesi"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "support": [
+            "residence_office"
+          ],
+          "outcome": {
+            "en": "The housing office finds you a temporary place and keeps you on the list. A room opens up in week two.",
+            "zu": "Ihhovisi lezindawo zokuhlala likutholela indawo yesikhashana futhi likugcine ohlwini. Ikamelo liyavuleka ngesonto lesibili."
+          },
+          "flags": [
+            "saw_res_overbooked"
+          ]
+        }
+      ]
+    },
+    {
       "id": "ARR-01",
       "type": "core",
       "week": 1,
@@ -101,7 +196,38 @@
           "residence",
           "private_rental"
         ]
-      }
+      },
+      "variants": [
+        {
+          "conditions": {
+            "housing": [
+              "residence"
+            ],
+            "flags": [
+              "saw_res_overbooked"
+            ]
+          },
+          "title": {
+            "en": "Your first night in res",
+            "zu": "Ubusuku bakho bokuqala e-res"
+          },
+          "text": {
+            "en": "This time there was no overbooking: your room was ready. Your family has just left, the room is quiet, your phone is on 8%, and orientation starts tomorrow.",
+            "zu": "Kulokhu kwakungekho ukugcwala ngokweqile: ikamelo lakho lalilungile. Umndeni wakho usanda kuhamba, ikamelo lithule, ifoni yakho isele no-8%, futhi ukwethulwa kuqala kusasa."
+          }
+        },
+        {
+          "conditions": {
+            "housing": [
+              "residence"
+            ]
+          },
+          "title": {
+            "en": "Your first night in res",
+            "zu": "Ubusuku bakho bokuqala e-res"
+          }
+        }
+      ]
     },
     {
       "id": "ARR-01C",
@@ -173,96 +299,6 @@
           "tip": {
             "en": "Ask Student Affairs about commuter or day-student groups. Many campuses have a WhatsApp group for each route, for lifts and safe travel.",
             "zu": "Buza kuMnyango Wezindaba Zabafundi ngamaqembu abafundi abagibelayo. Amakhampasi amaningi aneqembu le-WhatsApp lomzila ngamunye, lokugibelisana nokuhamba ngokuphepha."
-          }
-        }
-      ]
-    },
-    {
-      "id": "ARR-03",
-      "type": "situational",
-      "week": 1,
-      "conditions": {
-        "housing": [
-          "residence"
-        ]
-      },
-      "title": {
-        "en": "No residence space",
-        "zu": "Asikho isikhala e-res"
-      },
-      "text": {
-        "en": "Res is full and students are being turned away. Outside, people offer rooms: \"for students, pay the deposit today\". You have {money}.",
-        "zu": "I-res igcwele futhi abafundi bayabuyiselwa emuva. Ngaphandle, abantu banikeza amakamelo: \"abafundi, khokha idiphozithi namuhla\". Uno-{money}."
-      },
-      "forecast_tags": [
-        "housing"
-      ],
-      "research": "RU Game: residence crisis",
-      "choices": [
-        {
-          "id": "take",
-          "label": {
-            "en": "Take the first room offered",
-            "zu": "Thatha ikamelo lokuqala elinikezwayo"
-          },
-          "effects": {
-            "money": -1500,
-            "wellbeing": -10
-          },
-          "flags": [
-            "scammed"
-          ],
-          "outcome": {
-            "en": "You hand over the deposit, every rand you can find. The \"landlord\" stops answering: it was a scam, it happens every year, and it's not your fault.",
-            "zu": "Unikela ngediphozithi, wonke amarandi ongawathola. \"Umnikazi\" akasaphenduli: bekuwukukhwabanisa, kwenzeka minyaka yonke, futhi akulona iphutha lakho."
-          },
-          "takesAll": true,
-          "tip": {
-            "en": "A real landlord lets you view the room and gives you a lease. Check the university's accredited list before paying anyone.",
-            "zu": "Umnikazi wangempela uyakuvumela ubone ikamelo futhi akunike isivumelwano. Hlola uhlu olugunyaziwe lwenyuvesi ngaphambi kokukhokhela noma ubani."
-          },
-          "support": [
-            "verify_accom"
-          ]
-        },
-        {
-          "id": "check",
-          "tags": [
-            "planner"
-          ],
-          "label": {
-            "en": "Check it's legitimate first",
-            "zu": "Hlola kuqala ukuthi kuyiqiniso"
-          },
-          "effects": {
-            "wellbeing": 0
-          },
-          "support": [
-            "verify_accom"
-          ],
-          "outcome": {
-            "en": "The address doesn't match the photos. You walk away and keep looking on the university's accredited list.",
-            "zu": "Ikheli alihambisani nezithombe. Uyahamba bese uqhubeka ufuna ohlwini lwenyuvesi olugunyaziwe."
-          }
-        },
-        {
-          "id": "ask",
-          "tags": [
-            "help_seeker"
-          ],
-          "label": {
-            "en": "Ask the university for help",
-            "zu": "Cela usizo enyuvesi"
-          },
-          "effects": {
-            "wellbeing": 5
-          },
-          "support": [
-            "residence_office"
-          ],
-          "outcome": {
-            "en": "The housing office finds you a temporary place and keeps you on the list. A room opens up in week two.",
-            "zu": "Ihhovisi lezindawo zokuhlala likutholela indawo yesikhashana futhi likugcine ohlwini. Ikamelo liyavuleka ngesonto lesibili."
           }
         }
       ]
@@ -392,8 +428,8 @@
         "zu": "Okokuqala {city}"
       },
       "text": {
-        "en": "Campus is bigger than your whole town centre. You're lost between buildings, and your first session starts in ten minutes.",
-        "zu": "Ikhampasi inkulu kunedolobha lakho lonke. Ulahlekile phakathi kwezakhiwo, futhi iseshini yakho yokuqala iqala emizuzwini eyishumi."
+        "en": "Everything is new: the campus, the streets and the taxi routes. You're lost between buildings, and your first session starts in ten minutes.",
+        "zu": "Konke kusha: ikhampasi, imigwaqo nemizila yamatekisi. Ulahlekile phakathi kwezakhiwo, futhi iseshini yakho yokuqala iqala emizuzwini eyishumi."
       },
       "forecast_tags": [
         "loneliness"
@@ -638,6 +674,19 @@
             "zu": "Wonga imali namandla. NgoMsombuluko, bonke abanye babonakala bazana."
           }
         }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "age_role": [
+              "older_with_responsibilities"
+            ]
+          },
+          "text": {
+            "en": "Orientation week: campus tours, a faculty welcome and a party every night. Most first-years are 18. There is also a welcome for mature and part-time students on Tuesday afternoon.",
+            "zu": "Isonto lokwamukela: ukuvakashela ikhampasi, ukwamukelwa yifakhalthi nephathi njalo ebusuku. Iningi labafundi bonyaka wokuqala lineminyaka engu-18. Kukhona nokwamukelwa kwabafundi abadala nabafunda isikhashana ngoLwesibili ntambama."
+          }
+        }
       ]
     },
     {
@@ -647,6 +696,9 @@
       "conditions": {
         "notFlags": [
           "came_with_friend"
+        ],
+        "age_role": [
+          "straight_from_school"
         ]
       },
       "title": {

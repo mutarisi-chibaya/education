@@ -8,21 +8,23 @@ import { loadCatalogue, loadInstitution, openDirectory, searchDirectory, mergeCo
 import { computeBudget, suggestedIncome } from './budget.js';
 import { LANGS, loadLang, currentLang, t, tx, money, cardText } from './i18n.js';
 import {
-  buildPlan, budgetFor, tierAdvice, contactIds, serviceText, planImageBlob, forecastView, cardVars, setPlanColors,
+  buildPlan, budgetFor, tierAdvice, contactIds, serviceText, planImageBlob, planPdfBlob, forecastView, cardVars, setPlanColors,
 } from './plan.js';
 import { moneyForecast, LEAKS, fairGame, nextChapterId, copingProfile } from './forecast.js';
 import { riskStrip } from './charts.js';
-import { serverCapabilities, sendStats, fetchStats } from './server.js';
+import { serverCapabilities, sendStats } from './server.js';
 import { termIndex, linkTerms } from './glossary.js';
 
 const SAVE_VERSION = 6;
 const SAVE_KEY = 'fys-save-v6';
 const PREFS_KEY = 'fys-prefs-v1';
+const PLANS_KEY = 'fys-plans-v1'; // finished plans, kept apart from the game so a new character doesn't lose them
+const MAX_PLANS = 30;
 const INTRO_SLIDES = 3;
 const STEPS = ['institution', 'campus', 'status', 'course', 'housing', 'funding', 'income', 'origin', 'laptop', 'family_needs', 'age_role', 'review'];
 const SETUP_KEYS = ['institution', 'campus', 'status', 'course', 'housing', 'funding', 'origin', 'laptop', 'family_needs', 'age_role', 'monthlyIncome'];
 const INFO_PAGES = ['about', 'universities', 'privacy'];
-const SEARCH_FROM = 7;  // the institution list gets a search box and groups once it is this long
+const SEARCH_FROM = 7;  // the institution list is grouped by kind once it is this long
 const TYPES = ['university', 'tvet', 'private'];
 const FEEDBACK = { realistic: ['yes', 'partly', 'no'], learned: ['yes', 'no'], recommend: ['yes', 'maybe', 'no'] };
 const HUD_PHASES = ['dashboard', 'note', 'event', 'outcome', 'support', 'friday'];
@@ -33,7 +35,7 @@ const YEARS = [
   { id: 'middle', icon: '🏠', chapters: ['middle_years'] },
   { id: 'final', icon: '🎓', chapters: ['finish_line'] },
 ];
-const TYPE_TAG = { win: 'card.win', light: 'card.light', friend_story: 'card.friend', recurring: 'card.recurring' };
+const TYPE_TAG = { win: 'card.win', light: 'card.light', friend_story: 'card.friend', what_if: 'card.whatIf', recurring: 'card.recurring' };
 
 const app = document.getElementById('app');
 const hud = document.getElementById('hud');
@@ -44,18 +46,19 @@ let content;            // merged content for the current institution
 let ownContent = null;  // the player's own content, set aside while a shared link shows another university's services
 let state = null;       // the journey (null before setup)
 let screen = 'onboard'; // onboard | home | year | setup | summary | game | services
-let obStep = 0;         // onboarding page: 0 welcome, 1 how it works, 2 why it matters
+let obStep = 0;         // onboarding page: 0 welcome, 1 how it works
 let yearId = 'first';   // which year card is open
 let introStep = 0;
 let step = 0;           // setup step index
 let draft = {};         // setup answers in progress
 let fromReview = false;
+let reasked = [];       // setup answers cleared because a new university doesn't offer them
 let overlay = null;     // support ids shown as an overlay
 let sheet = null;       // a campus map or demo page shown on top: { kind, id }
+let planView = null;    // the saved plan being read: { entry, content, plan }
 let installPrompt = null;
 let lastMeters = null;
 let caps = { stats: false, versions: {} };
-let tested = null;      // real completion count from the server, for the About screen
 // Campus Realities: kept in memory only. Nothing about what was viewed is saved or sent.
 let cr = { topic: null, step: 0, picked: null };
 let undo = null;        // the state before the last choice, so an answer can be changed
@@ -69,8 +72,28 @@ const store = {
   get(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } },
   set(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch { /* ignore */ } },
 };
-const save = () => state && store.set(SAVE_KEY, state);
 const prefs = () => store.get(PREFS_KEY) || {};
+
+// ---------- saved plans ----------
+
+// Every finished chapter's plan is kept on the phone, so it can be read again
+// or downloaded later without replaying. The journey as it was is kept, and the
+// plan is rebuilt from it, in whatever language the app is in. Replaying a
+// chapter replaces that chapter's plan; a new character starts new ones.
+const savedPlans = () => store.get(PLANS_KEY) || [];
+
+function keepPlan() {
+  if (!state?.chapter || state.phase !== 'plan') return;
+  const id = `${state.seed}:${state.chapter}`;
+  const entry = { id, chapter: state.chapter, institution: state.setup.institution, campus: state.setup.campus, savedAt: new Date().toISOString(), state };
+  store.set(PLANS_KEY, [entry, ...savedPlans().filter((p) => p.id !== id)].slice(0, MAX_PLANS));
+}
+
+const save = () => {
+  if (!state) return;
+  store.set(SAVE_KEY, state);
+  keepPlan();
+};
 
 // ---------- helpers ----------
 
@@ -287,10 +310,10 @@ function welcomeArc() {
 }
 
 function obNav(isLast) {
-  // Welcome, then how it works, then the journey. "Why it matters" is a page on its own.
+  // Welcome, then how it works, then the journey.
   const dots = Array.from({ length: 2 }, (_, i) => `<span class="${i === obStep ? 'on' : ''}"></span>`).join('');
   return `<div class="ob-nav">
-    ${obStep < 2 ? `<div class="intro-dots" aria-hidden="true">${dots}</div>` : ''}
+    <div class="intro-dots" aria-hidden="true">${dots}</div>
     ${cta(`<div class="btn-row">
         ${obStep === 1 ? `<button class="btn primary big" data-action="ob-back">← ${esc(t('ob.back'))}</button>` : ''}
         <button class="btn primary big" data-action="ob-next">${esc(t(isLast ? 'ob.start' : 'ob.next'))} →</button>
@@ -313,10 +336,14 @@ function renderWelcome() {
   </section>`;
 }
 
+// Opened from the home screen, How it works and Why it matters are plain pages
+// with a way back, not steps of the onboarding.
+const homeLink = () => `<button class="link back-link" data-action="home">← ${esc(t('year.back'))}</button>`;
+
 function renderWhy() {
   const items = [1, 2, 3, 4, 5, 6, 7, 8];
   const icons = ['💸', '🏠', '💻', '🫂', '📚', '🌧️', '⏰', '📄'];
-  return `<section class="onboard screen">
+  return `<section class="onboard screen">${homeLink()}
     <p class="tag">${esc(t('why.tag'))}</p>
     <h1>${esc(t('why.title'))}</h1>
     <div class="why-stats">
@@ -327,14 +354,14 @@ function renderWhy() {
     <h2>${esc(t('why.listTitle'))}</h2>
     <ul class="why-list">${items.map((n, i) => `<li><span class="why-icon" aria-hidden="true">${icons[i]}</span>${esc(t(`why.i${n}`))}</li>`).join('')}</ul>
     <p class="why-everyone">${esc(t('why.everyone'))}</p>
-    ${obNav(true)}
   </section>`;
 }
 
 function renderHow() {
   const steps = [1, 2, 3, 4];
   const icons = ['🧑‍🎓', '📅', '🤝', '🔮'];
-  return `<section class="onboard screen">
+  const onboarding = screen === 'onboard';
+  return `<section class="onboard screen">${onboarding ? '' : homeLink()}
     <p class="tag">${esc(t('how.tag'))}</p>
     <h1>${esc(t('how.title'))}</h1>
     <ol class="how-steps">${steps.map((n, i) => `<li>
@@ -342,7 +369,7 @@ function renderHow() {
       <div><h2><span aria-hidden="true">${icons[i]}</span> ${esc(t(`how.s${n}t`))}</h2><p>${esc(t(`how.s${n}`))}</p></div>
     </li>`).join('')}</ol>
     <p class="fine center">${esc(t('how.note'))}</p>
-    ${obNav(true)}
+    ${onboarding ? obNav(true) : ''}
   </section>`;
 }
 
@@ -383,7 +410,7 @@ function renderHome() {
     <h1>${esc(t('home.cardsTitle'))}</h1>
     <p class="lead">${esc(t('home.cardsLead'))}</p>
     ${coach(state ? 'homeYears' : 'homeSetup')}
-    <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${servicesCard()}${realitiesCard()}</div>
+    <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${plansCard()}${servicesCard()}${realitiesCard()}</div>
     <div class="stack narrow">
       ${state?.completed.length ? `<button class="btn" data-action="summary">${esc(t('map.summary'))}</button>` : ''}
       ${installPrompt ? `<button class="btn ghost" data-action="install">${esc(t('home.install'))}</button>` : ''}
@@ -392,6 +419,19 @@ function renderHome() {
     <p class="fine center">${esc(t('home.privacy'))} ${esc(t('footer.examples'))}</p>
     <p class="fine center">${esc(t('about.independent'))}</p>
   </section>`;
+}
+
+// ---------- search field (institutions and services) ----------
+
+// A search box with an icon and its own clear button; the list under it
+// narrows as the player types (see the input handler).
+function searchBox(id, listId, hint) {
+  return `<div class="search" role="search">
+    <label class="sr-only" for="${id}">${esc(t('setup.search'))}</label>
+    <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    <input id="${id}" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="${esc(hint)}" aria-controls="${listId}">
+    <button class="search-clear" type="button" data-action="search-clear" data-id="${id}" aria-label="${esc(t('search.clear'))}" hidden>✕</button>
+  </div>`;
 }
 
 // ---------- Services: every support card, at any time, named by the need ----------
@@ -435,19 +475,19 @@ function renderServices() {
       </div>
     </div>
     ${guest}
-    <label class="income-input svc-search">${esc(t('setup.search'))}
-      <input id="svc-search" type="search" autocomplete="off" placeholder="${esc(t('svc.searchHint'))}"></label>
+    ${searchBox('svc-search', 'svc-list', t('svc.searchHint'))}
     <div id="svc-list" aria-live="polite">${serviceOptions()}</div>
   </section>`;
 }
 
-// The need cards, narrowed by a search over the need, the service's name and
-// what it offers. Every word typed has to appear somewhere in those.
+// The need cards, narrowed by a search over the need, the service's name, what
+// it offers and its search words ("money", "laptop"; the English ones match in
+// every language). Every word typed has to appear somewhere in those.
 function serviceOptions(query = '') {
   const words = query.toLowerCase().split(/\s+/).filter(Boolean);
   const found = serviceList().filter((x) => {
     const s = content.support[x.support];
-    const text = [tx(x.need), tx(s.name), tx(s.offers)].join(' ').toLowerCase();
+    const text = [tx(x.need), tx(s.name), tx(s.offers), tx(x.keywords), x.keywords?.en].join(' ').toLowerCase();
     return words.every((w) => text.includes(w));
   });
   if (!found.length) return `<p class="fine">${esc(t('svc.noMatch'))}</p>`;
@@ -458,6 +498,98 @@ function serviceOptions(query = '') {
       <span class="opt-desc">${esc(tx(content.support[x.support].name))}</span>
     </button>`).join('')}
   </div>`;
+}
+
+function plansCard() {
+  const n = savedPlans().length;
+  if (!n) return '';
+  return `<article class="year-card">
+    <div class="year-icon" aria-hidden="true">📋</div>
+    <div class="year-body">
+      <h2>${esc(t('plans.title'))}</h2>
+      <p>${esc(t('plans.cardDesc'))}</p>
+      <p class="year-meta">${esc(t('plans.meta', { n }))}</p>
+    </div>
+    <button class="btn" data-action="plans">${esc(t('home.card.open'))}</button>
+  </article>`;
+}
+
+const savedDate = (iso) => new Date(iso).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' });
+
+function renderPlans() {
+  const list = savedPlans();
+  const row = (p) => {
+    const inst = catalogue.directory.find((d) => d.id === p.institution);
+    return `<article class="chapter-card">
+      <div class="chapter-num" aria-hidden="true">📋</div>
+      <div>
+        <h2>${esc(tx(chapterOf(content, p.chapter)?.title))}</h2>
+        <p class="opt-desc">${esc(inst ? tx(inst.name) : p.institution)}</p>
+        <p class="fine">${esc(t('plans.savedOn', { date: savedDate(p.savedAt) }))}</p>
+        <div class="btn-row plan-btns">
+          <button class="btn primary small" data-action="open-plan" data-id="${esc(p.id)}">${esc(t('plans.open'))}</button>
+          <button class="btn small" data-action="plan-pdf" data-id="${esc(p.id)}">${esc(t('plans.pdf'))}</button>
+          <button class="btn ghost small" data-action="delete-plan" data-id="${esc(p.id)}">${esc(t('plans.delete'))}</button>
+        </div>
+      </div>
+    </article>`;
+  };
+  return `<section class="year screen">
+    <button class="link back-link" data-action="home">← ${esc(t('year.back'))}</button>
+    <div class="year-head">
+      <div class="year-icon big" aria-hidden="true">📋</div>
+      <div>
+        <h1>${esc(t('plans.title'))}</h1>
+        <p class="lead">${esc(t('plans.lead'))}</p>
+      </div>
+    </div>
+    ${list.length ? `<div class="chapter-cards">${list.map(row).join('')}</div>` : `<p class="fine">${esc(t('plans.none'))}</p>`}
+  </section>`;
+}
+
+// A saved plan, to read: everything the plan screen shows, nothing to edit.
+function renderSavedPlan() {
+  const { entry, plan } = planView;
+  const b = plan.budget;
+  const fold = (title, body, wide = false) => `<details class="fold ${wide ? 'wide' : ''}"><summary>${esc(title)}</summary>
+    <article class="card ${wide ? 'wide' : ''}"><h2>${esc(title)}</h2>${body}</article></details>`;
+  const budgetRows = [[t('plan.incomeLabel'), money(b.income)], ...b.items.map((i) => [`${t(`budget.${i.id}`)} · ${i.pct}%`, money(i.amount)])]
+    .map(([k, v]) => `<li><span>${esc(k)}</span><b>${esc(v)}</b></li>`).join('');
+  const contacts = plan.contacts.map((c) => `<div class="contact-row"><h3>${esc(c.name)}</h3>
+    ${c.phones.length ? `<p><strong>${esc(c.phones.join(' · '))}</strong></p>` : ''}
+    ${c.place || c.email ? `<p>${esc([c.place, c.email].filter(Boolean).join(' · '))}</p>` : ''}
+    <p class="fine">${esc(c.reach)}</p></div>`).join('');
+  const rehearsed = plan.rehearsed.map((r) => `<li><span class="wk">${esc(r.when)}</span><b>${esc(r.event)}</b>
+    <span>→ ${esc(r.choice)}</span>${r.tip ? `<em>${esc(r.tip)}</em>` : ''}</li>`).join('');
+  return `<section class="plan screen">
+    <button class="link back-link" data-action="plans">← ${esc(t('plans.back'))}</button>
+    <header class="plan-head">
+      <p class="tag">${esc(t('app.title'))} · ${esc(plan.chapter)}</p>
+      <h1>${esc(t('plan.title'))}</h1>
+      <p>${esc(plan.inst)} · ${esc(plan.subtitle)}</p>
+      <p class="fine">${esc(t('plans.savedOn', { date: savedDate(entry.savedAt) }))}</p>
+    </header>
+    <div class="actions">
+      <button class="btn primary" data-action="plan-pdf" data-id="${esc(entry.id)}"><span aria-hidden="true">📄</span> ${esc(t('plans.pdf'))}</button>
+    </div>
+    <div class="plan-grid">
+      <article class="card wide plan-forecast">
+        <h2>${esc(t('plan.forecast'))}</h2>
+        <p class="big-line">${esc(plan.forecast.highest)}</p>
+        <p>${esc(plan.forecast.cause)} ${esc(plan.forecast.pattern)}</p>
+        <ol class="steps">${plan.forecast.actions.map((a) => `<li>${esc(a)}</li>`).join('')}</ol>
+        <p class="fine">${esc(plan.forecast.leaks)}</p>
+      </article>
+      ${fold(t('plan.budget'), `<ul class="final">${budgetRows}</ul>
+        <div class="advice tier-${b.tier}"><h3>${esc(plan.advice.title)}</h3><p>${esc(plan.advice.body)}</p></div>`, true)}
+      ${fold(t('plan.buffer'), `<p class="big-line">${esc(money(plan.buffer.target))}</p><p>${esc(plan.buffer.body)}</p><p>${esc(plan.buffer.save)}</p>`)}
+      ${fold(t('plan.late'), `<ol class="steps">${plan.late.map((l) => `<li>${esc(l)}</li>`).join('')}</ol>`)}
+      ${fold(t('plan.dates'), `<ul class="dates">${plan.dates.map((d) => `<li><b>${esc(d.when)}</b><span>${esc(d.what)}</span></li>`).join('')}</ul>`)}
+      ${fold(t('plan.contacts'), `<div class="contact-rows">${contacts}</div>`, true)}
+      ${rehearsed ? fold(t('plan.rehearsed'), `<ul class="rehearsed">${rehearsed}</ul>`, true) : ''}
+    </div>
+    <p class="fine center">${esc(t('footer.examples'))}</p>
+  </section>`;
 }
 
 function realitiesCard() {
@@ -475,9 +607,11 @@ function realitiesCard() {
 function renderYear() {
   const y = YEARS.find((x) => x.id === yearId) || YEARS[0];
   const { built, done } = yearProgress(y);
-  // Judges playing alone should land on First Term: it shows everything in ~10 minutes.
-  const recommended = y.id === 'first' && state.setup.status !== 'current_student' && !state.completed.includes('first_term')
-    ? 'first_term' : built.find((id) => !state.completed.includes(id));
+  // The first chapter not yet played, in order. Someone already at university
+  // has arrived, so their first year starts at First Term.
+  const arrived = state.setup.status === 'current_student' ? ['arrival'] : [];
+  const open = built.filter((id) => !state.completed.includes(id));
+  const recommended = open.find((id) => !arrived.includes(id)) || open[0];
   const cards = built.map((id) => {
     const ch = chapterOf(content, id);
     const finished = state.completed.includes(id);
@@ -540,10 +674,8 @@ function institutionOptions(query = '') {
 }
 
 function institutionPicker() {
-  const many = openDirectory(catalogue.directory).length >= SEARCH_FROM;
-  return `${many ? `<label class="income-input">${esc(t('setup.search'))}
-      <input id="inst-search" type="search" autocomplete="off" placeholder="${esc(t('setup.searchHint'))}"></label>` : ''}
-    <div id="inst-list">${institutionOptions()}</div>`;
+  return `${searchBox('inst-search', 'inst-list', t('setup.searchHint'))}
+    <div id="inst-list" aria-live="polite">${institutionOptions()}</div>`;
 }
 
 function setupStep(key) {
@@ -629,6 +761,7 @@ function renderSetup() {
     </div>
     <h1>${esc(s.title)}</h1>
     ${s.hint ? `<p class="lead">${esc(s.hint)}</p>` : ''}
+    ${reasked.includes(key) ? `<div class="nudge info" role="note">${esc(t('setup.reask', { inst: tx(content.short) }))}</div>` : ''}
     ${s.body}
     ${s.cta ? cta(s.cta) : ''}
   </section>`;
@@ -792,14 +925,14 @@ function renderNote() {
 
 // What a card is about, at a glance: an icon and a colour from its topic.
 const TOPIC_ICON = { money_shortfall: '💸', test_stress: '📚', wellbeing: '🌱', debt: '🧾', family_pressure: '👪', loneliness: '🤝', housing: '🏠', funding_risk: '📄', career: '💼' };
-const TYPE_ICON = { win: '🎉', friend_story: '💬', light: '☀️', recurring: '🔁', tests: '📝', results: '📊', friday: '💃' };
+const TYPE_ICON = { win: '🎉', friend_story: '💬', what_if: '🤔', light: '☀️', recurring: '🔁', tests: '📝', results: '📊', friday: '💃' };
 
 function cardTopic(ev) {
   return ev.type === 'win' ? 'win' : ev.forecast_tags?.[0] || (TYPE_ICON[ev.type] ? ev.type : 'core');
 }
 
 function cardTop(ev, tag) {
-  const icon = ev.type === 'win' ? TYPE_ICON.win : TOPIC_ICON[ev.forecast_tags?.[0]] || TYPE_ICON[ev.type] || '📌';
+  const icon = ['win', 'what_if'].includes(ev.type) ? TYPE_ICON[ev.type] : TOPIC_ICON[ev.forecast_tags?.[0]] || TYPE_ICON[ev.type] || '📌';
   return `<div class="card-top"><span class="card-art" aria-hidden="true">${icon}</span><p class="tag">${esc(tag)}</p></div>`;
 }
 
@@ -851,6 +984,7 @@ function renderEvent() {
       <p>${text}</p>
       ${ev.tradeoff ? `<p class="note">${esc(t('event.tradeoff'))}</p>` : ''}
       ${ev.type === 'friend_story' ? `<p class="note">${esc(t('card.friendNote'))}</p>` : ''}
+      ${ev.type === 'what_if' ? `<p class="note">${esc(t('card.whatIfNote'))}</p>` : ''}
     </article>
     ${soft ? `<div class="sensitive" role="note"><p>${esc(t('event.sensitive'))}</p><div class="contacts">${crisisLinks()}</div></div>` : ''}
     <div class="choices">
@@ -945,6 +1079,9 @@ function renderSheet() {
       ${campusMap(b.id)}
       <h3>${esc(t('support.directions'))}</h3>
       <p>${esc(tx(b.directions))}</p>`;
+    // A licensed campus links its own official map; the fictional demos have none to open.
+    if (content.map.url) official = `<a class="btn primary big" href="${esc(content.map.url)}" target="_blank" rel="noopener">${esc(t('link.openMap'))} ↗</a>`;
+    else if (content.status === 'demo') official = `<button class="btn primary big" data-action="no-site">${esc(t('link.openMap'))} ↗</button>`;
   } else {
     const p = content.pages[sheet.id];
     body = `<p class="tag">${esc(tx(content.short))}</p>
@@ -1242,8 +1379,9 @@ function renderPlan() {
 
     <div class="actions">
       <button class="btn primary" data-action="share-image"><span aria-hidden="true">📤</span> ${esc(t('plan.share'))}</button>
-      <button class="btn" data-action="save-image"><span aria-hidden="true">📥</span> ${esc(t('plan.saveImage'))}</button>
+      <button class="btn" data-action="plan-pdf" data-id="current"><span aria-hidden="true">📄</span> ${esc(t('plans.pdf'))}</button>
     </div>
+    <p class="fine plan-kept">✓ ${esc(t('plans.kept'))}</p>
 
     <div class="plan-grid">
       <article class="card wide plan-forecast">
@@ -1413,7 +1551,6 @@ function renderInfo() {
     ${paras(['about.p1', 'about.p2'])}
     <h2>${esc(t('about.basedTitle'))}</h2>
     <ul class="why-list">${(content.sources || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-    ${tested ? `<p class="why-everyone">${esc(t('about.tested', { n: tested }))}</p>` : ''}
     <h2>${esc(t('about.limitsTitle'))}</h2>
     ${paras(['about.independent', 'about.advice', 'about.numbers'])}
   </section>`;
@@ -1579,12 +1716,17 @@ function render() {
   if (ownContent && screen !== 'services') { content = ownContent; ownContent = null; }
   renderTopbar();
   let html;
-  if (screen === 'onboard') html = [renderWelcome, renderHow, renderWhy][obStep]();
+  if (screen === 'onboard') html = obStep === 1 ? renderHow() : renderWelcome();
+  else if (screen === 'how') html = renderHow();
+  else if (screen === 'why') html = renderWhy();
   else if (screen === 'intro') html = renderIntro();
   else if (screen === 'setup') html = renderSetup();
   else if (INFO_PAGES.includes(screen)) html = renderInfo();
   else if (screen === 'realities') html = renderRealities();
   else if (screen === 'services') html = renderServices();
+  else if (screen === 'plans') html = renderPlans();
+  else if (screen === 'plan-view' && planView) html = renderSavedPlan();
+  else if (screen === 'plan-view') { screen = 'plans'; html = renderPlans(); }
   else if (screen === 'summary' && state) html = renderSummary();
   else if (screen === 'year' && state) html = renderYear();
   else if (screen === 'game' && state?.chapter && state.phase !== 'map') {
@@ -1673,10 +1815,10 @@ function syncPack() {
 
 // ---------- sharing ----------
 
-async function shareImage(download) {
+async function shareImage() {
   const blob = await planImageBlob(buildPlan(content, state));
   const file = new File([blob], 'university-survival-plan.png', { type: 'image/png' });
-  if (!download && navigator.canShare && navigator.canShare({ files: [file] })) {
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
     try {
       await navigator.share({ files: [file], title: t('plan.title'), text: `${t('app.title')}: ${t('plan.title')}` });
       return;
@@ -1684,13 +1826,44 @@ async function shareImage(download) {
       if (e.name === 'AbortError') return;
     }
   }
+  saveFile(blob, file.name);
+  toast(t('plan.imageSaved'));
+}
+
+function saveFile(blob, name) {
   const url = URL.createObjectURL(blob);
-  const a = Object.assign(document.createElement('a'), { href: url, download: file.name });
+  const a = Object.assign(document.createElement('a'), { href: url, download: name });
   document.body.appendChild(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  toast(t('plan.imageSaved'));
+}
+
+// A saved plan needs its own university's content, which may not be the one loaded now.
+async function openSavedPlan(id) {
+  const entry = savedPlans().find((p) => p.id === id);
+  if (!entry) return null;
+  try { await loadInstitution(catalogue, entry.institution); } catch { toast(t('setup.needOnline')); return null; }
+  const c = contentFor(entry.institution, entry.campus);
+  try { return { entry, content: c, plan: buildPlan(c, entry.state) }; } catch { toast(t('plans.broken')); return null; }
+}
+
+// The whole plan as a PDF with pages, drawn on the phone, in the plan's university colours.
+async function downloadPdf(id) {
+  const view = id === 'current'
+    ? { entry: { savedAt: new Date().toISOString() }, content, plan: buildPlan(content, state) }
+    : await openSavedPlan(id);
+  if (!view) return;
+  toast(t('plans.making'));
+  setPlanColors(view.content.brand?.colors);
+  try {
+    const blob = await planPdfBlob(view.plan, { savedOn: t('plans.savedOn', { date: savedDate(view.entry.savedAt) }) });
+    const slug = view.plan.chapter.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    saveFile(blob, `survival-plan-${slug || 'chapter'}.pdf`);
+    toast(t('plans.pdfSaved'));
+  } finally {
+    setPlanColors(content.brand?.colors);
+  }
 }
 
 // Text goes to the phone's share sheet; without one, to WhatsApp, or the clipboard when offline.
@@ -1737,6 +1910,7 @@ function startSetup(prefill) {
   if (draft.institution) content = contentFor(draft.institution, draft.campus);
   step = prefill ? STEPS.indexOf('review') : 0;
   fromReview = false;
+  reasked = [];
   screen = 'setup';
   render();
 }
@@ -1817,7 +1991,7 @@ document.addEventListener('click', async (e) => {
       navMode = 'push';
       break;
     case 'erase':
-      try { localStorage.removeItem(SAVE_KEY); localStorage.removeItem(PREFS_KEY); } catch { /* ignore */ }
+      try { [SAVE_KEY, PREFS_KEY, PLANS_KEY].forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }
       state = null;
       screen = 'home';
       render();
@@ -1835,6 +2009,8 @@ document.addEventListener('click', async (e) => {
       break;
     case 'home':
     case 'to-map':
+      // Leaving setup unsaved: the player's own university comes back.
+      if (screen === 'setup' && state) content = contentFor(state.setup.institution, state.setup.campus);
       overlay = null;
       cr = { topic: null, step: 0, picked: null };
       if (state && action === 'to-map' && ['forecast', 'plan'].includes(state.phase)) state = backToMap(state);
@@ -1854,13 +2030,8 @@ document.addEventListener('click', async (e) => {
       render();
       break;
     case 'why':
-      obStep = 2;
-      screen = 'onboard';
-      render();
-      break;
     case 'how':
-      obStep = 1;
-      screen = 'onboard';
+      screen = action;
       render();
       break;
     case 'ob-next':
@@ -1895,7 +2066,16 @@ document.addEventListener('click', async (e) => {
 
     // setup
     case 'setup-back':
-      if (step === 0) { screen = 'home'; render(); } else { step -= skipStep(step - 1) ? 2 : 1; fromReview = false; render(); }
+      // Back goes where the player came from: home from the first step or from a
+      // character opened to change, the summary from a step opened with "Change".
+      if (fromReview && firstMissing() < 0 && STEPS[step] !== 'review') step = STEPS.indexOf('review');
+      else if (step === 0 || (state && STEPS[step] === 'review')) {
+        // Nothing was saved, so the player's own university comes back.
+        if (state) content = contentFor(state.setup.institution, state.setup.campus);
+        screen = 'home';
+      } else step -= skipStep(step - 1) ? 2 : 1;
+      fromReview = false;
+      render();
       break;
     case 'pick': {
       const { key, value } = el.dataset;
@@ -1911,8 +2091,14 @@ document.addEventListener('click', async (e) => {
       draft[key] = value;
       if (key === 'institution') { delete draft.campus; content = contentFor(value); }
       if (key === 'campus') content = contentFor(draft.institution, value);
-      // A course that isn't taught on the chosen campus is asked again.
-      if (draft.course && !findById(content.courses, draft.course)) delete draft.course;
+      if (key === 'institution' || key === 'campus') {
+        // Answers the new university or campus doesn't offer (a course it doesn't
+        // teach, a residence it doesn't have) are asked again, saying why.
+        const gone = setupGaps(content, draft).filter((k) => k !== 'campus' && draft[k] !== undefined);
+        for (const k of gone) delete draft[k];
+        if (gone.includes('housing') || gone.includes('funding')) delete draft.monthlyIncome;
+        reasked = gone;
+      }
       if (key === 'funding' || key === 'housing') delete draft.monthlyIncome;
       advanceSetup();
       break;
@@ -1933,9 +2119,12 @@ document.addEventListener('click', async (e) => {
       render();
       break;
     case 'begin': {
+      const setup = Object.fromEntries(SETUP_KEYS.map((k) => [k, draft[k]]));
       content = contentFor(draft.institution, draft.campus);
       screen = 'home';
-      update({ ...newJourney(content, Object.fromEntries(SETUP_KEYS.map((k) => [k, draft[k]]))), packVersion: content.version });
+      // Saving a character that was looked at but not changed keeps the journey.
+      if (state && SETUP_KEYS.every((k) => setup[k] === state.setup[k])) { render(); break; }
+      update({ ...newJourney(content, setup), packVersion: content.version });
       break;
     }
 
@@ -2023,6 +2212,13 @@ document.addEventListener('click', async (e) => {
     case 'no-site':
       toast(t('link.noSite', { short: tx(content.short) }));
       break;
+    case 'search-clear': {
+      const input = document.getElementById(id);
+      input.value = '';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.focus();
+      break;
+    }
     case 'coach-done':
       coachDone(id);
       render();
@@ -2051,11 +2247,31 @@ document.addEventListener('click', async (e) => {
       save();
       refreshBudgetCard();
       break;
-    case 'share-image':
-      shareImage(false);
+    case 'plans':
+      planView = null;
+      screen = 'plans';
+      render();
       break;
-    case 'save-image':
-      shareImage(true);
+    case 'open-plan': {
+      const view = await openSavedPlan(id);
+      if (!view) break;
+      planView = view;
+      screen = 'plan-view';
+      render();
+      break;
+    }
+    case 'plan-pdf':
+      if (el.disabled) break;
+      el.disabled = true;
+      try { await downloadPdf(id); } finally { el.disabled = false; }
+      break;
+    case 'delete-plan':
+      store.set(PLANS_KEY, savedPlans().filter((p) => p.id !== id));
+      render();
+      toast(t('plans.deleted'));
+      break;
+    case 'share-image':
+      shareImage();
       break;
     case 'send-feedback': {
       const box = document.getElementById('feedback');
@@ -2090,6 +2306,7 @@ document.addEventListener('click', chartHover);
 document.addEventListener('input', (e) => {
   if (e.target.id === 'inst-search') document.getElementById('inst-list').innerHTML = institutionOptions(e.target.value);
   if (e.target.id === 'svc-search') document.getElementById('svc-list').innerHTML = serviceOptions(e.target.value);
+  if (e.target.closest?.('.search')) e.target.parentElement.querySelector('.search-clear').hidden = !e.target.value;
   if (e.target.id === 'income') {
     const amount = Math.max(0, Number(e.target.value) || 0);
     document.getElementById('income-preview').innerHTML = incomePreview(amount);
@@ -2234,7 +2451,6 @@ async function boot() {
   registerSW();
   caps = await serverCapabilities();
   flushStats();
-  if (caps.stats) tested = (await fetchStats())?.students || null;
   // A newer pack from the server replaces the bundled one, but never mid-card.
   const own = ownContent || content;
   const newer = await fetchNewerPack(catalogue, own.id, caps.versions[own.id]);
