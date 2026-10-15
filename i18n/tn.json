@@ -601,5 +601,14 @@
   "fc.act.moneyOk": "Beela madi mangwe kwa thoko {when}: ditshenyegelo tsa go gakgamatsa di bonolo go di duela ntle le go adima.",
   "fc.act.familyTalk": "Bua le kwa gae pele ga {chapter} e simolola ka se ba se solofetseng mo go wena, le se o ka se laolang.",
   "card.whatIf": "Go tweng fa...",
-  "card.whatIfNote": "Go ikatisa: se ga se a go diragalela, ka jalo ga se fetole madi a gago, maduo kgotsa boitekanelo. Go a diragalela baithuti bangwe ngwaga le ngwaga."
+  "card.whatIfNote": "Go ikatisa: o tla bona gore karabo ya gago e ne e tla dira eng, morago ga moo sengwe le sengwe se boele morago. Go a diragalela baithuti bangwe ngwaga le ngwaga.",
+  "whatif.real": "Fa seno e ka bo e le sa mmatota",
+  "whatif.lost": "O tla bo o setse ka {left} go simolola ngwaga.",
+  "whatif.owe": "Mme o ne o tla bo o sa ntse o kolota {short}.",
+  "whatif.hard": "E ka bo e le tshimologo e e thata ya ngwaga.",
+  "whatif.good": "Mogala o montle. Se ke se o tshwanetseng go se dira fa go ka go diragalela.",
+  "whatif.back": "Go boela kwa loetong lwa mmatota",
+  "whatif.restoredTitle": "E ne e le go ikatisa fela",
+  "whatif.restored": "Ga go na sepe sa seo se se diragetseng tota: madi a gago le boitekanelo di boetse. Gakologelwa se o ka se dirang fa e ka dira jalo. Leeto la gago la mmatota le simolola jaanong.",
+  "plans.short": "Dithulaganyo tsa me"
 }

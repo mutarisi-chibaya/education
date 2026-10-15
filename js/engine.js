@@ -674,6 +674,19 @@ export function choose(content, state, choiceId) {
 
   const effects = { ...(event.effects || {}), ...choice.effects };
   effects.money = (event.effects?.money || 0) + resolveMoney(choice.effects?.money, event, s);
+  // A "what if" shows what the answer would have done, so the player feels it,
+  // then it is undone: a scam deposit takes every rand you have, up to its cost.
+  let whatIf = null;
+  if (event.type === 'what_if') {
+    const cost = Math.max(0, -(effects.money || 0));
+    const have = Math.max(0, s.money);
+    whatIf = {
+      money: cost ? -Math.min(cost, have) : effects.money || 0,
+      short: Math.max(0, cost - have),
+      marks: effects.marks || 0,
+      wellbeing: effects.wellbeing || 0,
+    };
+  }
   // Friend's-story and "what if" cards are never scored on the meters: they didn't happen to you.
   if (UNSCORED.includes(event.type)) for (const m of METERS) delete effects[m];
   const tags = choice.tags || [];
@@ -720,7 +733,7 @@ export function choose(content, state, choiceId) {
   const support = [...(event.support || []), ...(choice.support || [])];
   addSupport(s, support);
   s.history.push({ chapter: s.chapter, week: s.week, eventId: event.id, choiceId, tags: UNSCORED.includes(event.type) ? [] : tags });
-  s.last = { eventId: event.id, choiceId, deltas, support, buffer, bufferSaved };
+  s.last = { eventId: event.id, choiceId, deltas, support, buffer, bufferSaved, whatIf };
   s.phase = 'outcome';
   return s;
 }

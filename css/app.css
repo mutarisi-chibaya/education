@@ -1183,3 +1183,40 @@ button.contact { font: inherit; cursor: pointer; }
 /* Saved plans */
 .plan-btns { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; margin: 10px 0 0; }
 .plan-kept { margin: -4px 0 14px; color: var(--good); font-weight: 600; }
+
+/* "What if" outcomes: the would-be hit, then back to the real journey */
+.whatif-panel { margin: 14px 0 4px; padding: 14px 16px; border-radius: 12px; border-left: 5px solid var(--bad); background: var(--warn-bg); }
+.whatif-panel strong { display: block; margin-bottom: 4px; }
+.whatif-panel p { margin: 0; }
+.whatif-panel.good { border-left-color: var(--good); background: var(--help-bg); }
+.whatif-panel.restored { border-left-color: var(--help); background: var(--help-bg); animation: whatif-in 0.35s ease-out; }
+.deltas.struck .delta { text-decoration: line-through; opacity: 0.55; }
+#hud.whatif .meters { outline: 2px dashed var(--bad); outline-offset: 4px; border-radius: 10px; }
+#hud.whatif .week { color: var(--bad); }
+@keyframes whatif-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .whatif-panel.restored { animation: none; } }
+
+/* Saved plans: a button beside the "Your journey" heading */
+.home-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.home-head h1 { margin: 0; }
+.plans-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  padding: 6px 16px 6px 6px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.plans-btn:hover { border-color: var(--brand); transform: translateY(-1px); }
+.plans-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--brand) 40%, transparent); outline-offset: 2px; }
+.plans-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; color: var(--brand-ink); background: var(--brand); }
+.plans-icon svg { width: 21px; height: 21px; }
+@media (max-width: 380px) { .plans-label { display: none; } .plans-btn { padding: 6px; } }

@@ -601,5 +601,14 @@
   "fc.act.moneyOk": "Beha chelete e 'ngoe ka thoko {when}: ho lefa habonolo litšenyehelo tsa tšohanyetso ntle le ho alima.",
   "fc.act.familyTalk": "Buisana le hae pele {chapter} a qala ka seo ba se lebeletseng ho uena, le seo u ka se laolang.",
   "card.whatIf": "Haeba…",
-  "card.whatIfNote": "Boitlhakiso: sena ha sea etsahala ho uena, kahoo ha se fetole chelete ea hau, matšoao kapa bophelo bo botle. E etsahala ho baithuti ba bang selemo se seng le se seng."
+  "card.whatIfNote": "Boikoetliso: u tla bona hore na karabo ea hau e tla etsa eng, ebe tsohle li khutlela morao. E etsahala ho baithuti ba bang selemo se seng le se seng.",
+  "whatif.real": "Haeba sena e ne e le 'nete",
+  "whatif.lost": "U saletsoe ke {left} hore u qale selemo.",
+  "whatif.owe": "Mme o ntse o tla kolota {short}.",
+  "whatif.hard": "E ka be e bile qalo e boima ea selemo.",
+  "whatif.good": "Pitso e ntle. Sena ke seo u lokelang ho se etsa haeba se ka etsahala ho uena.",
+  "whatif.back": "Khutlela leetong la sebele",
+  "whatif.restoredTitle": "E ne e le boitlhakiso feela",
+  "whatif.restored": "Ha ho le e 'ngoe ea tseo e hlileng e etsahetseng: chelete ea hau le boiketlo ba hau li khutlile. Hopola seo u neng u tla se etsa haeba se etsahala. Leeto la hau la 'nete le qala hona joale.",
+  "plans.short": "Merero eaka"
 }

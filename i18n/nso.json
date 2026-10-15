@@ -601,5 +601,14 @@
   "fc.act.moneyOk": "Beela tšhelete ye nngwe ka thoko {when}: ditshenyagalelo tša go makatša di bonolo go di lefa ntle le go adima.",
   "fc.act.familyTalk": "Bolela le gae pele {chapter} e thoma ka seo ba se lebeletšego go wena, le seo o ka se laolago.",
   "card.whatIf": "Go thwe’ng ge e ba...",
-  "card.whatIfNote": "A rehearsal: se ga se sa go diragalela, ka fao ga se fetole tšhelete ya gago, meputso goba bophelo bjo bobotse. E tloga e diragalela barutwana ba bangwe ngwaga le ngwaga."
+  "card.whatIfNote": "A rehearsal: o tla bona gore karabo ya gago e be e tla dira eng, ke moka dilo ka moka di boela morago. E tloga e diragalela barutwana ba bangwe ngwaga le ngwaga.",
+  "whatif.real": "Ge nkabe se e bile sa kgonthe",
+  "whatif.lost": "O be o tla ba o šetše {left} go thoma ngwaga.",
+  "whatif.owe": "Gomme o be o tla no kolota {short}.",
+  "whatif.hard": "E be e tla ba mathomo a thata a ngwaga.",
+  "whatif.good": "Mogala o mobotse. Se ke seo o swanetšego go se dira ge e ba se ka tsoga se go diragalela.",
+  "whatif.back": "Go boela morago leetong la kgonthe",
+  "whatif.restoredTitle": "E be e le feela go itlwaetša",
+  "whatif.restored": "Ga go le se tee sa tšeo seo se diregilego e le ka kgonthe: tšhelete ya gago le bophelo bjo bobotse di boile. Gopola seo o bego o tla se dira ge e ba e ka tsoga e dirile. Leeto la gago la nnete le thoma bjale.",
+  "plans.short": "Merero ya ka"
 }

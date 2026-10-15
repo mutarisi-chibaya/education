@@ -62,6 +62,7 @@ let caps = { stats: false, versions: {} };
 // Campus Realities: kept in memory only. Nothing about what was viewed is saved or sent.
 let cr = { topic: null, step: 0, picked: null };
 let undo = null;        // the state before the last choice, so an answer can be changed
+let restoredFor = null; // a "what if" outcome whose money has been given back (keyed by history length)
 let lastView = null;    // the page only jumps to the top when the view changes
 let lastNav = null;     // the browser-history entry for the current screen
 let navMode = 'push';   // 'replace' while restoring a history entry or leaving a sensitive card
@@ -241,26 +242,39 @@ function updateHud() {
 
   const ch = currentChapter(content, state);
   const scale = monthlyEssentials(content, state.setup) || 2000;
+  const now = shownMeters();
   const meters = {
-    money: { pct: (state.money / scale) * 100, label: money(state.money), low: state.money < 150 },
-    marks: { pct: state.marks, label: `${state.marks}%`, low: state.marks < 50 },
-    wellbeing: { pct: state.wellbeing, label: `${state.wellbeing}%`, low: state.wellbeing < 35 },
+    money: { pct: (now.money / scale) * 100, label: money(now.money), low: now.money < 150 },
+    marks: { pct: now.marks, label: `${now.marks}%`, low: now.marks < 50 },
+    wellbeing: { pct: now.wellbeing, label: `${now.wellbeing}%`, low: now.wellbeing < 35 },
   };
+  hud.classList.toggle('whatif', now !== state);
   for (const [kind, m] of Object.entries(meters)) {
     const el = hud.querySelector(`[data-meter="${kind}"]`);
     el.querySelector('.fill').style.width = `${Math.max(0, Math.min(100, m.pct))}%`;
     el.querySelector('.val').textContent = m.label;
     el.querySelector('.name').textContent = t(`meter.${kind}`);
     el.classList.toggle('low', m.low);
-    const diff = lastMeters ? state[kind] - lastMeters[kind] : 0;
+    const diff = lastMeters ? now[kind] - lastMeters[kind] : 0;
     if (diff) popMeter(el, diff, kind);
   }
-  lastMeters = { money: state.money, marks: state.marks, wellbeing: state.wellbeing };
+  lastMeters = { money: now.money, marks: now.marks, wellbeing: now.wellbeing };
 
-  hud.querySelector('.week').textContent = unitLabel(state.week);
+  hud.querySelector('.week').textContent = now !== state ? t('card.whatIf') : unitLabel(state.week);
   hud.querySelector('.inst').textContent = tx(ch.title);
   hud.querySelector('.dots').innerHTML = Array.from({ length: ch.weeks }, (_, i) =>
     `<span class="dot ${i + 1 < state.week ? 'done' : i + 1 === state.week ? 'now' : ''}"></span>`).join('');
+}
+
+// While a "what if" outcome is on screen, the meters show what the answer would
+// have done; going back to the real journey puts the real numbers back.
+const rehearsing = () => screen === 'game' && state?.phase === 'outcome' && state.last?.whatIf && restoredFor !== state.history.length;
+
+function shownMeters() {
+  if (!rehearsing()) return state;
+  const w = state.last.whatIf;
+  const clamp = (n) => Math.max(0, Math.min(100, n));
+  return { money: state.money + w.money, marks: clamp(state.marks + w.marks), wellbeing: clamp(state.wellbeing + w.wellbeing) };
 }
 
 // ---------- intro slides ----------
@@ -407,10 +421,13 @@ function renderHome() {
   };
   return `<section class="home screen">
     <p class="tag">${esc(t('app.title'))}</p>
-    <h1>${esc(t('home.cardsTitle'))}</h1>
+    <div class="home-head">
+      <h1>${esc(t('home.cardsTitle'))}</h1>
+      ${plansButton()}
+    </div>
     <p class="lead">${esc(t('home.cardsLead'))}</p>
     ${coach(state ? 'homeYears' : 'homeSetup')}
-    <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${plansCard()}${servicesCard()}${realitiesCard()}</div>
+    <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${servicesCard()}${realitiesCard()}</div>
     <div class="stack narrow">
       ${state?.completed.length ? `<button class="btn" data-action="summary">${esc(t('map.summary'))}</button>` : ''}
       ${installPrompt ? `<button class="btn ghost" data-action="install">${esc(t('home.install'))}</button>` : ''}
@@ -500,18 +517,16 @@ function serviceOptions(query = '') {
   </div>`;
 }
 
-function plansCard() {
+// Saved plans sit beside the "Your journey" heading.
+function plansButton() {
   const n = savedPlans().length;
   if (!n) return '';
-  return `<article class="year-card">
-    <div class="year-icon" aria-hidden="true">📋</div>
-    <div class="year-body">
-      <h2>${esc(t('plans.title'))}</h2>
-      <p>${esc(t('plans.cardDesc'))}</p>
-      <p class="year-meta">${esc(t('plans.meta', { n }))}</p>
-    </div>
-    <button class="btn" data-action="plans">${esc(t('home.card.open'))}</button>
-  </article>`;
+  return `<button class="plans-btn" data-action="plans" aria-label="${esc(`${t('plans.title')}: ${t('plans.meta', { n })}`)}">
+    <span class="plans-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 13.5l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <span class="plans-label">${esc(t('plans.short'))}</span>
+  </button>`;
 }
 
 const savedDate = (iso) => new Date(iso).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -1003,7 +1018,8 @@ function renderOutcome() {
   const d = state.last.deltas;
   const v = vars(ev);
   const hasSupport = state.last.support.length > 0;
-  const { buffer, bufferSaved } = state.last;
+  const { buffer, bufferSaved, whatIf } = state.last;
+  if (whatIf) return renderWhatIfOutcome(ev, choice, v, hasSupport);
   return `<section class="outcome screen">
     ${hasSupport ? coach('support') : undo ? coach('outcome') : ''}
     <article class="card t-${cardTopic(ev)}">
@@ -1020,6 +1036,33 @@ function renderOutcome() {
     ${cta(`<button class="btn primary big" data-action="${hasSupport ? 'show-support' : 'next'}">
       ${esc(hasSupport ? t('outcome.support') : nextLabel())}</button>
       ${undo ? `<button class="btn ghost" data-action="undo">← ${esc(t('outcome.undo'))}</button>` : ''}`)}
+  </section>`;
+}
+
+// A "what if" answer: first what it would have done, as if it were real, then
+// the money comes back and the card says why, before the real journey goes on.
+function renderWhatIfOutcome(ev, choice, v, hasSupport) {
+  const w = state.last.whatIf;
+  const real = !rehearsing();
+  const lost = w.money < 0;
+  const verdict = lost
+    ? `${t('whatif.lost', { left: money(state.money + w.money) })}${w.short ? ` ${t('whatif.owe', { short: money(w.short) })}` : ''}`
+    : w.wellbeing < 0 || w.marks < 0 ? t('whatif.hard') : t('whatif.good');
+  return `<section class="outcome screen">
+    <article class="card t-${cardTopic(ev)}">
+      ${cardTop(ev, t('card.whatIf'))}
+      <h1>${esc(tx(choice.label, v))}</h1>
+      <div class="deltas big ${real ? 'struck' : ''}">${delta(w.money, 'money')}${delta(w.marks, 'marks')}${delta(w.wellbeing, 'wellbeing')}</div>
+      <p>${rich(tx(choice.outcome, v))}</p>
+      ${real
+        ? `<div class="whatif-panel restored" role="status"><strong>${esc(t('whatif.restoredTitle'))}</strong><p>${esc(t('whatif.restored'))}</p></div>`
+        : `<div class="whatif-panel ${lost || w.wellbeing < 0 ? 'hit' : 'good'}"><strong>${esc(t('whatif.real'))}</strong><p>${esc(verdict)}</p></div>`}
+      ${choice.tip ? `<div class="lesson"><strong>${esc(t('outcome.tip'))}</strong> ${rich(tx(choice.tip, v))}</div>` : ''}
+    </article>
+    ${cta(real
+      ? `<button class="btn primary big" data-action="${hasSupport ? 'show-support' : 'next'}">${esc(hasSupport ? t('outcome.support') : nextLabel())}</button>`
+      : `<button class="btn primary big" data-action="whatif-back">${esc(t('whatif.back'))} →</button>
+        ${undo ? `<button class="btn ghost" data-action="undo">← ${esc(t('outcome.undo'))}</button>` : ''}`)}
   </section>`;
 }
 
@@ -2157,11 +2200,19 @@ document.addEventListener('click', async (e) => {
       el.closest('.choices')?.classList.add('choosing');
       if (motionOk()) await pause(260);
       undo = state;
+      restoredFor = null;
       update(choose(content, state, id));
       break;
     case 'undo':
       if (undo) update(undo);
       undo = null;
+      restoredFor = null;
+      break;
+    case 'whatif-back':
+      // The rehearsal is over: the real numbers come back, with the meters showing the change.
+      restoredFor = state.history.length;
+      undo = null;
+      render();
       break;
     case 'ack':
       update(acknowledge(content, state));

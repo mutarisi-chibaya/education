@@ -389,12 +389,18 @@ test('forecast advice fits the student: the food programme only when money is sh
 });
 
 test('older students with responsibilities meet their own cards, not the school-leaver ones', () => {
-  const older = { ...base, age_role: 'older_with_responsibilities' };
+  // Caring for someone at home: older students who live at home and commute.
+  const older = { ...base, age_role: 'older_with_responsibilities', housing: 'commuting' };
   const arr = playChapter(up, newJourney(up, older), 'arrival', helpful);
   assert.ok(arr.seen.includes('ARR-08') && !arr.seen.includes('ARR-07'));
   assert.match(resolveEvent(up, arr.s, 'ARR-02').text.en, /mature and part-time students/);
   const ft = playChapter(up, backToMap(arr.s), 'first_term', helpful);
   assert.ok(ft.seen.includes('FT-OLD'));
+  // Older and living away: no care card, and the "arrived alone" card is worded for them.
+  const away = playChapter(up, newJourney(up, { ...older, housing: 'private_rental' }), 'arrival', helpful);
+  assert.ok(away.seen.includes('ARR-07') && !away.seen.includes('ARR-08'));
+  assert.equal(resolveEvent(up, away.s, 'ARR-07').title.en, "You don't know anyone here");
+  assert.ok(!playChapter(up, backToMap(away.s), 'first_term', helpful).seen.includes('FT-OLD'));
   const young = playChapter(up, newJourney(up, base), 'arrival', helpful);
   assert.ok(young.seen.includes('ARR-07') && !young.seen.includes('ARR-08'));
   assert.doesNotMatch(resolveEvent(up, young.s, 'ARR-02').text.en, /mature/);
@@ -413,6 +419,8 @@ test('res overbooking is a "what if" before the first night in res, and never co
   assert.deepEqual(affordableChoices(s, eventForWeek(up, s)), ['take', 'check', 'ask'], 'every answer is open, whatever you have');
   const after = choose(up, s, 'take');
   assert.equal(after.money, s.money);
+  // What it would have done, for the outcome screen: every rand you had, and the rest owed.
+  assert.deepEqual(after.last.whatIf, { money: -800, short: 700, marks: 0, wellbeing: -10 });
   assert.ok(!after.flags.includes('scammed') && after.trackers.debt === s.trackers.debt);
 });
 

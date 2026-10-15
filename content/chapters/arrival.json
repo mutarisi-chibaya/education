@@ -66,7 +66,8 @@
           },
           "support": [
             "verify_accom"
-          ]
+          ],
+          "takesAll": true
         },
         {
           "id": "check",
@@ -690,15 +691,95 @@
       ]
     },
     {
+      "id": "ARR-08",
+      "type": "situational",
+      "week": 3,
+      "conditions": {
+        "age_role": [
+          "older_with_responsibilities"
+        ],
+        "housing": [
+          "commuting"
+        ]
+      },
+      "title": {
+        "en": "Arranging care for someone at home",
+        "zu": "Ukuhlela ukunakekelwa komuntu osekhaya"
+      },
+      "text": {
+        "en": "You look after someone at home, and your timetable has early lectures four days a week.",
+        "zu": "Unakekela othile ekhaya, futhi uhlelo lwakho lwezifundo lunezifundo zasekuseni izinsuku ezine ngesonto."
+      },
+      "forecast_tags": [
+        "family_pressure",
+        "wellbeing"
+      ],
+      "research": "Understanding Students Issue 1: older students",
+      "choices": [
+        {
+          "id": "commute",
+          "tags": [
+            "self_sacrificer"
+          ],
+          "label": {
+            "en": "Do it all and commute daily",
+            "zu": "Kwenze konke bese ugibela nsuku zonke"
+          },
+          "effects": {
+            "wellbeing": -10
+          },
+          "outcome": {
+            "en": "You manage, but you're up at 4:30 every day.",
+            "zu": "Uyakwazi, kodwa uvuka ngo-4:30 nsuku zonke."
+          }
+        },
+        {
+          "id": "family",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Arrange help from family",
+            "zu": "Hlela usizo emndenini"
+          },
+          "effects": {
+            "wellbeing": 5,
+            "family_obligation": 1
+          },
+          "outcome": {
+            "en": "A relative takes over three mornings a week. You'll owe them a favour, and that's okay.",
+            "zu": "Isihlobo sithatha izikhathi zasekuseni ezintathu ngesonto. Uzobakweleta umusa, futhi lokho kulungile."
+          }
+        },
+        {
+          "id": "support",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Ask about flexible support",
+            "zu": "Buza ngosizo oluvumelana nezimo"
+          },
+          "effects": {
+            "wellbeing": 5
+          },
+          "support": [
+            "advisor"
+          ],
+          "outcome": {
+            "en": "An advisor helps you choose class groups that fit around your mornings.",
+            "zu": "Umeluleki ukusiza ukhethe amaqembu ezifundo ahambisana nezikhathi zakho zasekuseni."
+          }
+        }
+      ]
+    },
+    {
       "id": "ARR-07",
       "type": "situational",
       "week": 3,
       "conditions": {
         "notFlags": [
           "came_with_friend"
-        ],
-        "age_role": [
-          "straight_from_school"
         ]
       },
       "title": {
@@ -788,84 +869,21 @@
             "zu": "Imidlalo iyahlekisa kancane, okusizayo. Uhamba neqembu lokuxoxa labantu abayishumi."
           }
         }
-      ]
-    },
-    {
-      "id": "ARR-08",
-      "type": "situational",
-      "week": 3,
-      "conditions": {
-        "age_role": [
-          "older_with_responsibilities"
-        ]
-      },
-      "title": {
-        "en": "Arranging care for someone at home",
-        "zu": "Ukuhlela ukunakekelwa komuntu osekhaya"
-      },
-      "text": {
-        "en": "You look after someone at home, and your timetable has early lectures four days a week.",
-        "zu": "Unakekela othile ekhaya, futhi uhlelo lwakho lwezifundo lunezifundo zasekuseni izinsuku ezine ngesonto."
-      },
-      "forecast_tags": [
-        "family_pressure",
-        "wellbeing"
       ],
-      "research": "Understanding Students Issue 1: older students",
-      "choices": [
+      "variants": [
         {
-          "id": "commute",
-          "tags": [
-            "self_sacrificer"
-          ],
-          "label": {
-            "en": "Do it all and commute daily",
-            "zu": "Kwenze konke bese ugibela nsuku zonke"
+          "conditions": {
+            "age_role": [
+              "older_with_responsibilities"
+            ]
           },
-          "effects": {
-            "wellbeing": -10
+          "title": {
+            "en": "You don't know anyone here",
+            "zu": "Awazi muntu lapha"
           },
-          "outcome": {
-            "en": "You manage, but you're up at 4:30 every day.",
-            "zu": "Uyakwazi, kodwa uvuka ngo-4:30 nsuku zonke."
-          }
-        },
-        {
-          "id": "family",
-          "tags": [
-            "connector"
-          ],
-          "label": {
-            "en": "Arrange help from family",
-            "zu": "Hlela usizo emndenini"
-          },
-          "effects": {
-            "wellbeing": 5,
-            "family_obligation": 1
-          },
-          "outcome": {
-            "en": "A relative takes over three mornings a week. You'll owe them a favour, and that's okay.",
-            "zu": "Isihlobo sithatha izikhathi zasekuseni ezintathu ngesonto. Uzobakweleta umusa, futhi lokho kulungile."
-          }
-        },
-        {
-          "id": "support",
-          "tags": [
-            "help_seeker"
-          ],
-          "label": {
-            "en": "Ask about flexible support",
-            "zu": "Buza ngosizo oluvumelana nezimo"
-          },
-          "effects": {
-            "wellbeing": 5
-          },
-          "support": [
-            "advisor"
-          ],
-          "outcome": {
-            "en": "An advisor helps you choose class groups that fit around your mornings.",
-            "zu": "Umeluleki ukusiza ukhethe amaqembu ezifundo ahambisana nezikhathi zakho zasekuseni."
+          "text": {
+            "en": "Most first-years arrived straight from school, some in groups. You're older, and you don't know anyone yet.",
+            "zu": "Iningi labafundi bonyaka wokuqala lifike liqhamuka esikoleni, abanye ngamaqembu. Wena umdala, futhi awukamazi muntu okwamanje."
           }
         }
       ]

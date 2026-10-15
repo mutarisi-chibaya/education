@@ -601,5 +601,14 @@
   "fc.act.moneyOk": "Beka imali eceleni {when}: izindleko ezingalindelekile kulula ukuzikhokha ngaphandle kokuboleka.",
   "fc.act.familyTalk": "Khuluma nasekhaya ngaphambi kokuqala kwe-{chapter} ngalokho abakulindele kuwe, nalokho ongakwazi ukukwenza.",
   "card.whatIf": "Kuthiwani uma…",
-  "card.whatIfNote": "Ukuzilolonga: lokhu akwenzekanga kuwe, ngakho akushintshi imali yakho, amamaki noma inhlalakahle. Kodwa kwenzeka kwabanye abafundi minyaka yonke."
+  "card.whatIfNote": "Ukuzilolonga: uzobona ukuthi impendulo yakho ingenzani, bese konke kubuyela. Kwenzeka kwabanye abafundi minyaka yonke.",
+  "whatif.real": "Ukube lokhu bekungokwangempela",
+  "whatif.lost": "Ubuzosala no-{left} ukuqala unyaka.",
+  "whatif.owe": "Futhi ubuzobe usakweleta u-{short}.",
+  "whatif.hard": "Bekuzoba ukuqala okunzima konyaka.",
+  "whatif.good": "Ukukhetha okuhle. Yilokhu okufanele ukwenze uma kwenzeka kuwe.",
+  "whatif.back": "Buyela ohambweni lwangempela",
+  "whatif.restoredTitle": "Bekuwukuzilolonga nje",
+  "whatif.restored": "Akukho kulokho okwenzeke ngempela: imali yakho nenhlalakahle yakho kubuyile. Khumbula ukuthi ungenzani uma kwenzeka. Uhambo lwakho lwangempela luqala manje.",
+  "plans.short": "Izinhlelo zami"
 }

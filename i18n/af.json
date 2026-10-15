@@ -601,5 +601,14 @@
   "fc.act.moneyOk": "Sit 'n bietjie geld opsy {when}: verrassingskoste is makliker om te betaal sonder om te leen.",
   "fc.act.familyTalk": "Praat met die huis voor {chapter} begin oor wat hulle van jou verwag, en wat jy kan bestuur.",
   "card.whatIf": "Wat as …",
-  "card.whatIfNote": "'n Repetisie: dit het nie met jou gebeur nie, so dit verander nie jou geld, punte of welstand nie. Dit gebeur wel elke jaar met sommige studente."
+  "card.whatIfNote": "’n Repetisie: jy sal sien wat jou antwoord sou doen, dan gaan alles terug. Dit gebeur wel elke jaar met sommige studente.",
+  "whatif.real": "As dit werklik was",
+  "whatif.lost": "Jy het {left} oor om die jaar te begin.",
+  "whatif.owe": "En jy sal steeds {short} skuld.",
+  "whatif.hard": "Dit sou 'n moeilike begin van die jaar gewees het.",
+  "whatif.good": "Goeie oproep. Dit is wat om te doen as dit ooit met jou gebeur.",
+  "whatif.back": "Terug na die regte reis",
+  "whatif.restoredTitle": "Dit was net 'n repetisie",
+  "whatif.restored": "Niks hiervan het regtig gebeur nie: jou geld en welstand is terug. Onthou wat jy sou doen as dit ooit gebeur. Jou regte reis begin nou.",
+  "plans.short": "My planne"
 }

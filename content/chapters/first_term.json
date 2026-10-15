@@ -654,6 +654,9 @@
       "conditions": {
         "age_role": [
           "older_with_responsibilities"
+        ],
+        "housing": [
+          "commuting"
         ]
       },
       "title": {
