@@ -178,10 +178,11 @@ const SEND = `Press <strong>Save draft</strong> (top right), then send it for re
 function tabGuide() {
   const role = S.me.role;
   const admin = role === 'admin';
-  const canReview = role !== 'editor';
+  const canReview = role === 'reviewer' || role === 'admin';
   const roleText = {
     editor: 'You are an <strong>editor</strong>. You can change your institution\'s draft, run the check and submit it for review. A reviewer has to approve it.',
     reviewer: 'You are a <strong>reviewer</strong>. You can do everything an editor can, and you approve or send back changes that someone else submitted. You can also publish an earlier version again.',
+    viewer: 'You have a <strong>read-only demo account</strong>. You can open every tab, look at the draft, run the check and read the history, but nothing you do can change what students see. To try editing and approving, ask for an editor and a reviewer account.',
     admin: 'You are a <strong>platform admin</strong> on the University Simulator team. You can work on every institution, create institutions and accounts, set licences, and write an institution\'s own story cards.',
   }[role];
   return `<section class="card"><h2>How the portal works</h2>
@@ -338,6 +339,7 @@ function header() {
     ${S.dirty ? '<span class="muted small">Unsaved changes</span>' : ''}
     <button class="primary" data-action="save" ${d.can.edit && S.dirty ? '' : 'disabled'}>Save draft</button>
   </div>
+  ${d.can.viewOnly ? '<div class="note">Read-only demo account: you can look at everything, but nothing can be saved, submitted or published.</div>' : ''}
   ${d.state === 'submitted' ? `<div class="note">Submitted by ${esc(d.submittedBy || 'someone')}. It cannot be edited until it is approved or sent back.</div>` : ''}
   ${d.reviewNote ? `<div class="note bad"><strong>Sent back by the reviewer:</strong> ${esc(d.reviewNote)}</div>` : ''}
   <nav class="tabs">${[...TABS, ...(S.me.role === 'admin' ? [['admin', 'Platform admin']] : [])].map(([id, label]) => `<button class="${S.tab === id ? 'on' : ''}" data-action="tab" data-id="${id}">${esc(label)}</button>`).join('')}</nav>`;
@@ -559,7 +561,7 @@ function tabReview() {
     <p>Submitted by ${esc(d.submittedBy || 'someone')}.</p>
     ${d.can.review ? `<form data-form="review"><label>Note to the editor <span class="hint">needed if you send it back</span><textarea name="note"></textarea></label>
         <div class="row"><button class="primary" name="decision" value="approve">Approve and publish</button><button class="danger" name="decision" value="reject">Send back</button></div></form>`
-    : `<p class="muted">${d.can.ownSubmission ? 'You submitted this, so a second person has to review it.' : 'Only a reviewer can approve this.'}</p>`}
+    : `<p class="muted">${d.can.ownSubmission ? 'You submitted this, so a second person has to review it.' : d.can.viewOnly ? 'A reviewer at this institution approves it or sends it back. A demo account can only watch.' : 'Only a reviewer can approve this.'}</p>`}
   </section>` : ''}`;
 }
 
@@ -615,7 +617,7 @@ function tabAdmin() {
   <section class="card"><h2>Accounts</h2>
     <form data-form="user-add" class="grid">
       <label>Email<input name="email" type="email" required></label><label>Name<input name="name" required></label>
-      <label>Role<select name="role"><option value="editor">Editor</option><option value="reviewer">Reviewer</option><option value="admin">Platform admin</option></select></label>
+      <label>Role<select name="role"><option value="editor">Editor</option><option value="reviewer">Reviewer</option><option value="viewer">Viewer (read-only)</option><option value="admin">Platform admin</option></select></label>
       <label>Institution<select name="institution">${S.institutions.map((i) => `<option value="${esc(i.id)}" ${i.id === S.inst ? 'selected' : ''}>${esc(en(i.name) || i.id)}</option>`).join('')}</select></label>
       <div><button class="primary">Create account</button></div>
     </form>

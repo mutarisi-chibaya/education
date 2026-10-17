@@ -1,7 +1,7 @@
 import {
   newJourney, startChapter, backToMap, eventForWeek, choose, acknowledge, nextWeek, advance, setPhase, openEvent,
   skipEvent, seekHelp, canSeekHelp, fridayDue, friday, fridayTemptation, fridayAmount, setHabit, activeSubscriptions, resolveEvent,
-  computeTests, computeResults, findById, monthlyEssentials, chapterOf, currentChapter, TAGS, currentMini, answerMini,
+  computeTests, computeResults, findById, monthlyEssentials, chapterOf, currentChapter, TAGS, currentMini, answerMini, miniChoicesOpen,
   affordableChoices, canAffordTreat, setupGaps,
 } from './engine.js';
 import { loadCatalogue, loadInstitution, openDirectory, searchDirectory, mergeContent, fetchNewerPack } from './content.js';
@@ -899,10 +899,11 @@ function miniBlock() {
   if (!mini) return '';
   const v = vars();
   if (state.mini.choice === null) {
+    const open = miniChoicesOpen(state, mini);
     return `<article class="card mini" role="group" aria-label="${esc(t('mini.label'))}">
       <p class="tag">${esc(t('mini.label'))}</p>
       <p>${rich(tx(mini.text, v))}</p>
-      <div class="choices">${mini.choices.map((c, i) => `<button class="choice" data-action="mini" data-id="${i}">
+      <div class="choices">${mini.choices.map((c, i) => `<button class="choice" data-action="mini" data-id="${i}" ${open.includes(i) ? '' : `disabled title="${esc(t('event.cantAfford', { money: money(state.money) }))}"`}>
         <span class="choice-text">${esc(tx(c.label, v))}</span></button>`).join('')}</div>
     </article>`;
   }
@@ -910,6 +911,7 @@ function miniBlock() {
   return `<article class="card mini done" role="status">
     <p class="tag">${esc(t('mini.label'))}</p>
     <p><strong>${esc(tx(picked.label, v))}.</strong> ${rich(tx(picked.outcome, v))}</p>
+    ${picked.effects?.money ? `<div class="deltas">${delta(picked.effects.money, 'money')}</div>` : ''}
   </article>`;
 }
 

@@ -93,6 +93,29 @@ MIGRATIONS = [
         PRIMARY KEY (user_id, code_hash)
     );
     """,
+    # 5: a read-only viewer role, for judges and demos. SQLite can't change a CHECK, so the
+    #    table is rebuilt (with foreign keys off, see migrate) and every row is kept.
+    """
+    CREATE TABLE users_new (
+        id INTEGER PRIMARY KEY,
+        email TEXT NOT NULL UNIQUE,
+        name TEXT NOT NULL,
+        role TEXT NOT NULL CHECK (role IN ('admin', 'editor', 'reviewer', 'viewer')),
+        institution_id TEXT,
+        pw_hash TEXT NOT NULL,
+        pw_salt TEXT NOT NULL,
+        must_change INTEGER NOT NULL DEFAULT 1,
+        totp_secret TEXT,
+        totp_enabled INTEGER NOT NULL DEFAULT 0,
+        failed INTEGER NOT NULL DEFAULT 0,
+        disabled INTEGER NOT NULL DEFAULT 0,
+        created_at REAL NOT NULL
+    );
+    INSERT INTO users_new (id, email, name, role, institution_id, pw_hash, pw_salt, must_change, totp_secret, totp_enabled, failed, disabled, created_at)
+        SELECT id, email, name, role, institution_id, pw_hash, pw_salt, must_change, totp_secret, totp_enabled, failed, disabled, created_at FROM users;
+    DROP TABLE users;
+    ALTER TABLE users_new RENAME TO users;
+    """,
 ]
 
 
@@ -109,8 +132,14 @@ def migrate(path):
     con = connect(path)
     try:
         done = con.execute("PRAGMA user_version").fetchone()[0]
+        # A migration may rebuild a table others point to: with foreign keys on, dropping
+        # the old table would delete every session and code that refers to it.
+        con.execute("PRAGMA foreign_keys = OFF")
         for number, sql in enumerate(MIGRATIONS, start=1):
             if number > done:
                 con.executescript(f"BEGIN; {sql} PRAGMA user_version = {number}; COMMIT;")
+        broken = con.execute("PRAGMA foreign_key_check").fetchall()
+        if broken:
+            raise RuntimeError(f"database migration left {len(broken)} broken references")
     finally:
         con.close()

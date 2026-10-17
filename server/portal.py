@@ -34,6 +34,9 @@ EMAIL = re.compile(r"^[^@\s]{1,64}@[^@\s]{1,190}\.[a-z]{2,}$", re.I)
 # What institution staff may edit. Everything else in a pack is set by the platform.
 EDITABLE = {"name", "short", "campus", "city", "area", "province", "costs", "courses", "courseList", "housing",
             "brand", "map", "support", "pages", "cards", "campuses"}
+# A viewer sees everything their institution's staff see and changes nothing: for judges
+# and demos, so a look around can't change what students get or what someone else is doing.
+ROLES = ("admin", "editor", "reviewer", "viewer")
 PROTECTED = {"id", "version", "status", "type", "licence", "signedOff", "costIndex"}
 SECTION_NAMES = {"name": "Name", "short": "Name", "campus": "Tagline", "city": "Location", "area": "Location", "province": "Location",
                  "costs": "Costs", "courses": "Courses", "courseList": "Courses", "housing": "Housing options", "brand": "Branding",
@@ -143,12 +146,12 @@ class Portal:
         email = (email or "").strip().lower()
         if not EMAIL.match(email) or not (name or "").strip():
             raise PortalError(400, "A name and a valid email address are needed.")
-        if role not in ("admin", "editor", "reviewer"):
-            raise PortalError(400, "Role must be admin, editor or reviewer.")
+        if role not in ROLES:
+            raise PortalError(400, "Role must be admin, editor, reviewer or viewer.")
         if role == "admin":
             institution_id = None
         elif not institution_id or self.published(institution_id) is None and not self._has_draft(institution_id):
-            raise PortalError(400, "Editors and reviewers belong to an existing institution.")
+            raise PortalError(400, "Editors, reviewers and viewers belong to an existing institution.")
         password = auth.new_password()
         digest, salt = auth.hash_password(password)
         con = self._con()
@@ -467,6 +470,7 @@ class Portal:
                 draft = json.loads(row["draft"])
                 live = self.published(institution_id)
                 submitted_by_me = row["submitted_by"] == user["id"]
+                viewer = user["role"] == "viewer"
                 return {
                     "pack": draft, "rev": row["rev"], "state": row["state"],
                     "publishedVersion": (live or {}).get("version", 0),
@@ -474,11 +478,12 @@ class Portal:
                     "changes": self.changes(live, draft),
                     "diff": self.diff(live, draft),
                     "can": {
-                        "edit": row["state"] == "draft",
+                        "edit": row["state"] == "draft" and not viewer,
                         "addCards": row["state"] == "draft" and user["role"] == "admin",
-                        "submit": row["state"] == "draft" and bool(self.changes(live, draft)),
+                        "submit": row["state"] == "draft" and not viewer and bool(self.changes(live, draft)),
                         "review": row["state"] == "submitted" and user["role"] in ("reviewer", "admin") and not submitted_by_me,
                         "ownSubmission": row["state"] == "submitted" and submitted_by_me,
+                        "viewOnly": viewer,
                         "rollback": user["role"] in ("reviewer", "admin"),
                     },
                 }

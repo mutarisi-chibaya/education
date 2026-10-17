@@ -4,13 +4,13 @@ import { readFileSync } from 'node:fs';
 import {
   newJourney, startChapter, backToMap, eventForWeek, openEvent, skipEvent, choose, acknowledge, advance, friday,
   nextWeek, setPhase, seekHelp, canSeekHelp, computeTests, resolveEvent, monthlyEssentials, eventAmount, condOk, TAGS,
-  setHabit, activeSubscriptions, fridayTemptation, currentMini, answerMini, TRACKERS, affordableChoices, CASH_FLOOR, MARKS_MAX, setupGaps,
+  setHabit, activeSubscriptions, fridayTemptation, currentMini, answerMini, miniChoicesOpen, TRACKERS, affordableChoices, CASH_FLOOR, MARKS_MAX, setupGaps,
 } from '../js/engine.js';
 import { mergeContent, openDirectory, searchDirectory } from '../js/content.js';
 import { checkPack } from '../tools/pack-check.mjs';
 import { parseCsv } from '../tools/pack-lib.mjs';
 import { MACHINE_LANGS, cardTexts, placeholders } from '../tools/translate.mjs';
-import { LANGS } from '../js/i18n.js';
+import { LANGS, tx } from '../js/i18n.js';
 import { computeBudget, incomeTier, suggestedIncome } from '../js/budget.js';
 import { termIndex, linkTerms } from '../js/glossary.js';
 import { serviceText, cardVars } from '../js/plan.js';
@@ -55,7 +55,11 @@ function playChapter(content, state, chapterId, pick, { fri = (step) => (step ==
   while (s.phase !== 'forecast') {
     assert.ok(guard++ < 400, `${chapterId} did not finish`);
     if (s.phase === 'dashboard') {
-      if (currentMini(content, s) && s.mini.choice === null) s = answerMini(content, s, mini);
+      if (currentMini(content, s) && s.mini.choice === null) {
+        // Like the UI: an answer you can't pay for can't be picked.
+        const open = miniChoicesOpen(s, currentMini(content, s));
+        s = answerMini(content, s, open.includes(mini) ? mini : open[0]);
+      }
       if (seek && s.money < 150 && canSeekHelp(content, s, 'food')) s = seekHelp(content, s, 'food');
       s = eventForWeek(content, s) ? openEvent(content, s) : advance(content, s);
     } else if (s.phase === 'note') {
@@ -165,7 +169,7 @@ test('First Term follows the spec spine, plus the textbook card, and four minis'
   for (const pool of ['ft_sit', 'surprise', 'ft_friend']) assert.ok(extras.has(pool), `${pool} never drawn`);
 });
 
-test('minis: one tap, two options, and never the three meters', () => {
+test('minis: one tap, two options, never marks or wellbeing, and a small spend costs what it says', () => {
   let s = setPhase(startChapter(up, newJourney(up, base), 'first_term'), 'dashboard');
   s = { ...s, mini: { id: 'MM-8AM', choice: null } };
   const skipped = answerMini(up, s, 1);
@@ -174,11 +178,21 @@ test('minis: one tap, two options, and never the three meters', () => {
   assert.equal(answerMini(up, skipped, 0), skipped, 'a mini is answered once');
   for (const m of Object.values(up.miniIndex)) {
     for (const [i, c] of m.choices.entries()) {
-      assert.ok(!('money' in c.effects) && !('marks' in c.effects) && !('wellbeing' in c.effects) && !c.leak, `${m.id} touches a meter`);
-      const after = answerMini(up, { ...s, mini: { id: m.id, choice: null } }, i);
-      assert.deepEqual([after.money, after.marks, after.wellbeing], [s.money, s.marks, s.wellbeing]);
+      assert.ok(!('marks' in c.effects) && !('wellbeing' in c.effects) && (c.effects.money || 0) <= 0, `${m.id} touches a meter`);
+      if (c.effects.money) assert.match(m.text.en, /\{money\}/, `${m.id} says what you have`);
+      const after = answerMini(up, { ...s, money: 2000, mini: { id: m.id, choice: null } }, i);
+      assert.deepEqual([after.money, after.marks, after.wellbeing], [2000 + (c.effects.money || 0), s.marks, s.wellbeing]);
     }
   }
+  // KFC: R90 when you have it, a leak in the forecast, and greyed out when you don't.
+  const kfc = { ...s, money: 500, mini: { id: 'MM-KFC', choice: null } };
+  const went = answerMini(up, kfc, 0);
+  assert.equal(went.money, 410);
+  assert.ok(went.leaks.some((l) => l.kind === 'takeaways' && l.amount === 90));
+  assert.ok(went.ledger.some((l) => l.money === -90));
+  const broke = { ...kfc, money: 100 };
+  assert.deepEqual(miniChoicesOpen(broke, up.miniIndex['MM-KFC']), [1]);
+  assert.equal(answerMini(up, broke, 0), broke, 'you cannot pick what you cannot pay for');
   assert.ok(up.miniIndex['MM-SAFE'].conditions.habit, 'the safety mini follows a night out');
   for (const t of ['confidence', 'bunk_count']) assert.ok(TRACKERS.includes(t));
 });
@@ -269,6 +283,15 @@ test('money follows the story: going back to Arrival after First Term starts fre
   // Replaying First Term from the map also restarts from the end of Arrival, not from where the term ended.
   const again = startChapter(up, backToMap(playChapter(up, arrived, 'first_term', helpful).s), 'first_term');
   assert.equal(again.chapterStart.first_term.money, Math.max(0, arrived.money));
+});
+
+test('cards can name a service the way the university does', () => {
+  const vac = up.chapters.middle_years.minis.find((m) => m.id === 'MM-VAC');
+  for (const [c, name] of [[up, 'Sizwe Career Centre'], [contentFor('karoo-coast'), 'Careers Desk']]) {
+    assert.match(tx(vac.choices[0].outcome, cardVars(c, newJourney(c, base), null)), new RegExp(`^Yours needs it before final year\. ${name},`));
+  }
+  // Sending money home is advice, not a service: it has no support card.
+  for (const id of ['FT-04', 'MY-05']) assert.ok(!up.eventIndex[id].support, id);
 });
 
 test('the marks meter matches the module marks after tests', () => {
@@ -500,8 +523,14 @@ test('adaptive cards: connection, debt and help-seeking change what you meet', (
   assert.ok(lonely.seen.includes('FT-06') && !lonely.seen.includes('FT-06B'), 'low connection → loneliness card');
   assert.ok(lonely.seen.includes('FT-05T'), 'never asked for help → tutor check-in');
 
-  const broke = playChapter(up, newJourney(up, { ...base, monthlyIncome: 800 }, { seed: 2 }), 'first_term', avoidant);
-  assert.ok(broke.seen.includes('FT-04L'), 'went without food and never asked for help → loan offer');
+  // Skipping meals while the allowance is late: the loan shark comes straight after, before pay day.
+  const skip = (ev) => (ev.id === 'FT-03' ? ev.choices.find((c) => c.id === 'skip') : avoidant(ev));
+  const broke = playChapter(up, newJourney(up, { ...base, monthlyIncome: 800 }, { seed: 2 }), 'first_term', skip);
+  assert.equal(broke.seen[broke.seen.indexOf('FT-03') + 1], 'FT-04L', 'skipped meals → loan offer, the same week');
+  assert.ok(broke.s.history.find((h) => h.eventId === 'FT-04L').week < up.funding.find((f) => f.id === 'nsfas').lateWeeks + 1, 'before the back pay lands');
+  // No family request: the data runs out in week 2, while money is tightest.
+  const noHome = playChapter(up, newJourney(up, { ...base, family_needs: 'no' }, { seed: 2 }), 'first_term', helpful);
+  assert.equal(noHome.s.history.find((h) => h.eventId === 'FT-04D').week, 2);
   const helped = playChapter(up, newJourney(up, base, { seed: 2 }), 'first_term', helpful);
   assert.ok(helped.seen.includes('FT-04') && !helped.seen.includes('FT-04L'), 'demo path keeps the family request');
 });

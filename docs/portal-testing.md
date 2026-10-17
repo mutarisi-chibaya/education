@@ -31,7 +31,7 @@ Remove-Item data\portal.db* -ErrorAction SilentlyContinue   # removes all portal
 python -m server.admin demo
 ```
 
-The last command prints five accounts, each with a temporary password. **Copy them now:**
+The last command prints seven accounts, each with a temporary password. **Copy them now:**
 they are shown once.
 
 | Role | Email |
@@ -41,6 +41,8 @@ they are shown once.
 | Sizwe reviewer | `reviewer@sizwe.example` |
 | Karoo Coast editor | `editor@karoocoast.example` |
 | Karoo Coast reviewer | `reviewer@karoocoast.example` |
+| Sizwe viewer (read-only) | `viewer@sizwe.example` |
+| Karoo Coast viewer (read-only) | `viewer@karoocoast.example` |
 
 Each account must choose a new password of at least 12 characters at first sign-in. For
 testing, one passphrase for all of them is fine, for example `portal-test-2026`.
@@ -107,7 +109,7 @@ You should see `Staff portal: http://localhost:8080/portal/ (two-step login OFF:
 | # | Do this | You should see |
 |---|---|---|
 | 5.1 | Sign out, then sign in as `admin@unisim.example` and choose a password | A box at the top left for choosing the institution, and an extra tab, **Platform admin** |
-| 5.2 | Open **Platform admin** | The licence form, "Add an institution", and an **Accounts** table listing the five accounts |
+| 5.2 | Open **Platform admin** | The licence form, "Add an institution", and an **Accounts** table listing the seven accounts |
 | 5.3 | Choose **Karoo Coast University** at the top left and open **Story cards** | Under "Your own cards", the card is now editable and there is an "Add a card" form |
 
 If all five sections behave as described, the portal is working. [Clean up](#cleaning-up)

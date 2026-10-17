@@ -59,6 +59,8 @@ export function cardVars(content, s, event) {
     best: sum ? tx(sum.best.name) : '',
     bestScore: sum ? sum.best.score : '',
     memory: s ? memoryLine(content, s) : '',
+    // A service by this university's own name: {svc_careers} is "Sizwe Career Centre".
+    ...Object.fromEntries(Object.entries(content.support || {}).map(([id, x]) => [`svc_${id}`, tx(x.name)])),
   };
 }
 

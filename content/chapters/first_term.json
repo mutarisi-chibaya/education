@@ -738,6 +738,99 @@
       ]
     },
     {
+      "id": "FT-04D",
+      "type": "core",
+      "week": 2,
+      "conditions": {
+        "family_needs": [
+          "no"
+        ]
+      },
+      "title": {
+        "en": "Your data runs out mid-assignment",
+        "zu": "Idatha yakho iphela phakathi komsebenzi"
+      },
+      "text": {
+        "en": "It's Wednesday night and your {mod1} quiz closes at midnight. The Wi-Fi at your place isn't working, and your data has just run out. A 1 GB bundle costs R149. You have {money}.",
+        "zu": "NgoLwesithathu ebusuku futhi isivivinyo sakho se-{mod1} sivala phakathi kwamabili. I-Wi-Fi yasendaweni yakho ayisebenzi, futhi idatha yakho isanda kuphela. I-bundle ye-1 GB ibiza u-R149. Uno-{money}."
+      },
+      "choices": [
+        {
+          "id": "buy",
+          "label": {
+            "en": "Buy a bundle",
+            "zu": "Thenga i-bundle"
+          },
+          "effects": {
+            "money": -149
+          },
+          "flags": [
+            "bought_data"
+          ],
+          "outcome": {
+            "en": "You finish the quiz. Data is now one of your biggest weekly costs.",
+            "zu": "Uqeda isivivinyo. Idatha manje ingenye yezindleko zakho ezinkulu zamasonto onke."
+          },
+          "tip": {
+            "en": "Data adds up fast. Know where free Wi-Fi is before you need it.",
+            "zu": "Idatha iyanqwabelana ngokushesha. Yazi ukuthi i-Wi-Fi yamahhala ikuphi ngaphambi kokuthi uyidinge."
+          }
+        },
+        {
+          "id": "friend",
+          "tags": [
+            "connector"
+          ],
+          "label": {
+            "en": "Share a friend's hotspot",
+            "zu": "Sebenzisa i-hotspot yomngane"
+          },
+          "effects": {
+            "wellbeing": -1
+          },
+          "outcome": {
+            "en": "Your friend shares data and you submit with two minutes to spare.",
+            "zu": "Umngane wakho wabelana ngedatha futhi uhambisa kusele imizuzu emibili."
+          },
+          "tip": {
+            "en": "Friends help. A plan for data helps more.",
+            "zu": "Abangane bayasiza. Uhlelo lwedatha lusiza nakakhulu."
+          }
+        },
+        {
+          "id": "help",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Use a campus lab or Wi-Fi",
+            "zu": "Sebenzisa ilebhu noma i-Wi-Fi yasekhampasi"
+          },
+          "effects": {
+            "marks": 2,
+            "wellbeing": -1
+          },
+          "flags": [
+            "used_labs"
+          ],
+          "outcome": {
+            "en": "A lab is open late. You finish the quiz and learn that campus Wi-Fi is free for students.",
+            "zu": "Igumbi lamakhompyutha livulekile kuze kube sebusuku. Uqeda isivivinyo futhi ufunda ukuthi i-Wi-Fi yasekhampasi imahhala kubafundi."
+          },
+          "tip": {
+            "en": "Campus Wi-Fi and computer labs can save you hundreds a month on data.",
+            "zu": "I-Wi-Fi yasekhampasi namagumbi amakhompyutha angakongela amakhulu ngenyanga kudatha."
+          },
+          "support": [
+            "devices"
+          ]
+        }
+      ],
+      "forecast_tags": [
+        "money_shortfall"
+      ]
+    },
+    {
       "id": "FT-W2",
       "type": "win",
       "week": 3,
@@ -833,7 +926,11 @@
                 "zu": "Ukweqa ukudla kukufinyelele"
               }
             }
-          ]
+          ],
+          "followUp": {
+            "in": 0,
+            "event": "FT-04L"
+          }
         },
         {
           "id": "help",
@@ -918,141 +1015,6 @@
       ]
     },
     {
-      "id": "FT-04L",
-      "type": "situational",
-      "week": 4,
-      "slot": "spine",
-      "conditions": {
-        "flags": [
-          "went_without"
-        ],
-        "notFlags": [
-          "used_food_support"
-        ]
-      },
-      "title": {
-        "en": "A loan shark offers quick cash",
-        "zu": "Umashonisa ukunikeza imali esheshayo"
-      },
-      "text": {
-        "en": "You're in the red with weeks to go. Someone in your area lends money \"no questions asked\": R600 now, R900 back at month-end. You have {money}.",
-        "zu": "Usesikweletini kusasele amasonto. Othile endaweni yakho uboleka imali \"ngaphandle kwemibuzo\": u-R600 manje, u-R900 ubuyiselwa ekupheleni kwenyanga. Uno-{money}."
-      },
-      "choices": [
-        {
-          "id": "take",
-          "tags": [
-            "borrower"
-          ],
-          "label": {
-            "en": "Take the R600",
-            "zu": "Thatha u-R600"
-          },
-          "effects": {
-            "money": 600,
-            "wellbeing": 2,
-            "debt": 1
-          },
-          "flags": [
-            "took_loan"
-          ],
-          "outcome": {
-            "en": "The cash helps today. In two weeks R900 leaves your pocket: R300 extra for a two-week loan.",
-            "zu": "Imali iyasiza namuhla. Emasontweni amabili u-R900 uphuma ephaketheni lakho: u-R300 owengeziwe ngemalimboleko yamasonto amabili."
-          },
-          "tip": {
-            "en": "Informal loans can cost far more than they look. Always ask what the total repayment is.",
-            "zu": "Imalimboleko engekho emthethweni ingabiza kakhulu kunalokho ebukeka kukho. Njalo buza ukuthi isamba sokubuyisela singakanani."
-          },
-          "later": [
-            {
-              "in": 2,
-              "effects": {
-                "money": -900,
-                "wellbeing": -6
-              },
-              "label": {
-                "en": "Paid back the loan shark: R900",
-                "zu": "Ubuyisele umashonisa: u-R900"
-              }
-            }
-          ]
-        },
-        {
-          "id": "family",
-          "tags": [
-            "borrower",
-            "connector"
-          ],
-          "label": {
-            "en": "Borrow a little from family",
-            "zu": "Boleka okuncane emndenini"
-          },
-          "effects": {
-            "money": 300,
-            "wellbeing": -2,
-            "debt": 1
-          },
-          "flags": [
-            "borrowed"
-          ],
-          "outcome": {
-            "en": "It's an awkward call, but they help with R300 and no interest.",
-            "zu": "Kuwucingo olunzima, kodwa bayasiza ngo-R300 ngaphandle kwenzalo."
-          },
-          "tip": {
-            "en": "Borrowing from people you trust is cheaper and safer than a loan shark.",
-            "zu": "Ukuboleka kubantu obathembayo kushibhile futhi kuphephile kunomashonisa."
-          },
-          "later": [
-            {
-              "in": 2,
-              "effects": {
-                "money": -300
-              },
-              "label": {
-                "en": "Paid back your loan from home",
-                "zu": "Ubuyisele imalimboleko yasekhaya"
-              }
-            }
-          ]
-        },
-        {
-          "id": "help",
-          "tags": [
-            "help_seeker"
-          ],
-          "label": {
-            "en": "Ask about emergency student funds",
-            "zu": "Buza ngezimali zosizo oluphuthumayo lwabafundi"
-          },
-          "effects": {
-            "money": 300,
-            "wellbeing": 5
-          },
-          "flags": [
-            "used_food_support"
-          ],
-          "outcome": {
-            "en": "The financial aid office checks whether you qualify for emergency support, and campus food support covers the rest of the month.",
-            "zu": "Ihhovisi losizo lwezimali lihlola ukuthi uyafaneleka yini osizweni oluphuthumayo, futhi usizo lokudla lwasekhampasi lukhava yonke inyanga."
-          },
-          "tip": {
-            "en": "Universities have emergency support for exactly this. Ask before you borrow.",
-            "zu": "Amanyuvesi anosizo oluphuthumayo lwalokhu ngqo. Buza ngaphambi kokuboleka."
-          },
-          "support": [
-            "financial_aid_office",
-            "food_programme"
-          ]
-        }
-      ],
-      "forecast_tags": [
-        "money_shortfall",
-        "debt"
-      ]
-    },
-    {
       "id": "FT-04",
       "type": "situational",
       "week": 4,
@@ -1076,9 +1038,6 @@
         "round": 50
       },
       "tradeoff": true,
-      "support": [
-        "family_budget"
-      ],
       "choices": [
         {
           "id": "send",
@@ -1150,95 +1109,6 @@
       ],
       "forecast_tags": [
         "family_pressure"
-      ]
-    },
-    {
-      "id": "FT-04D",
-      "type": "core",
-      "week": 4,
-      "slot": "spine",
-      "title": {
-        "en": "Your data runs out mid-assignment",
-        "zu": "Idatha yakho iphela phakathi komsebenzi"
-      },
-      "text": {
-        "en": "It's Wednesday night and your {mod1} quiz closes at midnight. The Wi-Fi at your place isn't working, and your data has just run out. A 1 GB bundle costs R149. You have {money}.",
-        "zu": "NgoLwesithathu ebusuku futhi isivivinyo sakho se-{mod1} sivala phakathi kwamabili. I-Wi-Fi yasendaweni yakho ayisebenzi, futhi idatha yakho isanda kuphela. I-bundle ye-1 GB ibiza u-R149. Uno-{money}."
-      },
-      "choices": [
-        {
-          "id": "buy",
-          "label": {
-            "en": "Buy a bundle",
-            "zu": "Thenga i-bundle"
-          },
-          "effects": {
-            "money": -149
-          },
-          "flags": [
-            "bought_data"
-          ],
-          "outcome": {
-            "en": "You finish the quiz. Data is now one of your biggest weekly costs.",
-            "zu": "Uqeda isivivinyo. Idatha manje ingenye yezindleko zakho ezinkulu zamasonto onke."
-          },
-          "tip": {
-            "en": "Data adds up fast. Know where free Wi-Fi is before you need it.",
-            "zu": "Idatha iyanqwabelana ngokushesha. Yazi ukuthi i-Wi-Fi yamahhala ikuphi ngaphambi kokuthi uyidinge."
-          }
-        },
-        {
-          "id": "friend",
-          "tags": [
-            "connector"
-          ],
-          "label": {
-            "en": "Share a friend's hotspot",
-            "zu": "Sebenzisa i-hotspot yomngane"
-          },
-          "effects": {
-            "wellbeing": -1
-          },
-          "outcome": {
-            "en": "Your friend shares data and you submit with two minutes to spare.",
-            "zu": "Umngane wakho wabelana ngedatha futhi uhambisa kusele imizuzu emibili."
-          },
-          "tip": {
-            "en": "Friends help. A plan for data helps more.",
-            "zu": "Abangane bayasiza. Uhlelo lwedatha lusiza nakakhulu."
-          }
-        },
-        {
-          "id": "help",
-          "tags": [
-            "help_seeker"
-          ],
-          "label": {
-            "en": "Use a campus lab or Wi-Fi",
-            "zu": "Sebenzisa ilebhu noma i-Wi-Fi yasekhampasi"
-          },
-          "effects": {
-            "marks": 2,
-            "wellbeing": -1
-          },
-          "flags": [
-            "used_labs"
-          ],
-          "outcome": {
-            "en": "A lab is open late. You finish the quiz and learn that campus Wi-Fi is free for students.",
-            "zu": "Igumbi lamakhompyutha livulekile kuze kube sebusuku. Uqeda isivivinyo futhi ufunda ukuthi i-Wi-Fi yasekhampasi imahhala kubafundi."
-          },
-          "tip": {
-            "en": "Campus Wi-Fi and computer labs can save you hundreds a month on data.",
-            "zu": "I-Wi-Fi yasekhampasi namagumbi amakhompyutha angakongela amakhulu ngenyanga kudatha."
-          },
-          "support": [
-            "devices"
-          ]
-        }
-      ],
-      "forecast_tags": [
-        "money_shortfall"
       ]
     },
     {
@@ -2952,6 +2822,131 @@
         "wellbeing": 5,
         "connection": 1
       }
+    },
+    {
+      "id": "FT-04L",
+      "type": "situational",
+      "title": {
+        "en": "A loan shark offers quick cash",
+        "zu": "Umashonisa ukunikeza imali esheshayo"
+      },
+      "text": {
+        "en": "You have skipped meals for days, and the allowance still hasn't come. Someone in your area lends money \"no questions asked\": R600 now, R900 back at month-end. You have {money}.",
+        "zu": "Uneqe ukudla izinsuku, futhi imali isengakafiki. Othile endaweni yakho uboleka imali \"ngaphandle kwemibuzo\": u-R600 manje, u-R900 ubuyiselwa ekupheleni kwenyanga. Uno-{money}."
+      },
+      "choices": [
+        {
+          "id": "take",
+          "tags": [
+            "borrower"
+          ],
+          "label": {
+            "en": "Take the R600",
+            "zu": "Thatha u-R600"
+          },
+          "effects": {
+            "money": 600,
+            "wellbeing": 2,
+            "debt": 1
+          },
+          "flags": [
+            "took_loan"
+          ],
+          "outcome": {
+            "en": "The cash helps today. In two weeks R900 leaves your pocket: R300 extra for a two-week loan.",
+            "zu": "Imali iyasiza namuhla. Emasontweni amabili u-R900 uphuma ephaketheni lakho: u-R300 owengeziwe ngemalimboleko yamasonto amabili."
+          },
+          "tip": {
+            "en": "Informal loans can cost far more than they look. Always ask what the total repayment is.",
+            "zu": "Imalimboleko engekho emthethweni ingabiza kakhulu kunalokho ebukeka kukho. Njalo buza ukuthi isamba sokubuyisela singakanani."
+          },
+          "later": [
+            {
+              "in": 2,
+              "effects": {
+                "money": -900,
+                "wellbeing": -6
+              },
+              "label": {
+                "en": "Paid back the loan shark: R900",
+                "zu": "Ubuyisele umashonisa: u-R900"
+              }
+            }
+          ]
+        },
+        {
+          "id": "family",
+          "tags": [
+            "borrower",
+            "connector"
+          ],
+          "label": {
+            "en": "Borrow a little from family",
+            "zu": "Boleka okuncane emndenini"
+          },
+          "effects": {
+            "money": 300,
+            "wellbeing": -2,
+            "debt": 1
+          },
+          "flags": [
+            "borrowed"
+          ],
+          "outcome": {
+            "en": "It's an awkward call, but they help with R300 and no interest.",
+            "zu": "Kuwucingo olunzima, kodwa bayasiza ngo-R300 ngaphandle kwenzalo."
+          },
+          "tip": {
+            "en": "Borrowing from people you trust is cheaper and safer than a loan shark.",
+            "zu": "Ukuboleka kubantu obathembayo kushibhile futhi kuphephile kunomashonisa."
+          },
+          "later": [
+            {
+              "in": 2,
+              "effects": {
+                "money": -300
+              },
+              "label": {
+                "en": "Paid back your loan from home",
+                "zu": "Ubuyisele imalimboleko yasekhaya"
+              }
+            }
+          ]
+        },
+        {
+          "id": "help",
+          "tags": [
+            "help_seeker"
+          ],
+          "label": {
+            "en": "Ask about emergency student funds",
+            "zu": "Buza ngezimali zosizo oluphuthumayo lwabafundi"
+          },
+          "effects": {
+            "money": 300,
+            "wellbeing": 5
+          },
+          "flags": [
+            "used_food_support"
+          ],
+          "outcome": {
+            "en": "The financial aid office checks whether you qualify for emergency support, and campus food support covers the rest of the month.",
+            "zu": "Ihhovisi losizo lwezimali lihlola ukuthi uyafaneleka yini osizweni oluphuthumayo, futhi usizo lokudla lwasekhampasi lukhava yonke inyanga."
+          },
+          "tip": {
+            "en": "Universities have emergency support for exactly this. Ask before you borrow.",
+            "zu": "Amanyuvesi anosizo oluphuthumayo lwalokhu ngqo. Buza ngaphambi kokuboleka."
+          },
+          "support": [
+            "financial_aid_office",
+            "food_programme"
+          ]
+        }
+      ],
+      "forecast_tags": [
+        "money_shortfall",
+        "debt"
+      ]
     }
   ],
   "fridayWeeks": [
@@ -3002,8 +2997,8 @@
       "id": "MM-KFC",
       "type": "mini",
       "text": {
-        "en": "Your friends are heading to KFC. That's R90 you hadn't planned for this week.",
-        "zu": "Abangane bakho baya e-KFC. Lokho ngu-R90 obungawuhlelile kuleli sonto."
+        "en": "Your friends are heading to KFC. That's R90 you hadn't planned for this week. You have {money}.",
+        "zu": "Abangane bakho baya e-KFC. Lokho ngu-R90 obungawuhlelile kuleli sonto. Uno-{money}."
       },
       "research": "Student interviews (October 2026): social spending",
       "choices": [
@@ -3013,12 +3008,14 @@
             "zu": "Hamba ukhokhe noma kunjalo"
           },
           "effects": {
+            "money": -90,
             "connection": 1
           },
           "outcome": {
             "en": "Fun night. Thin week.",
             "zu": "Ubusuku obumnandi. Isonto elinzima."
-          }
+          },
+          "leak": "takeaways"
         },
         {
           "label": {
@@ -3148,8 +3145,8 @@
       "id": "MM-TAKE",
       "type": "mini",
       "text": {
-        "en": "It's late, you're tired, and the fridge has eggs and bread. Order takeaways for R85?",
-        "zu": "Sekwephuzile, ukhathele, futhi efrijini kunamaqanda nesinkwa. Uoda ukudla okuthathwayo ngo-R85?"
+        "en": "It's late, you're tired, and the fridge has eggs and bread. Order takeaways for R85? You have {money}.",
+        "zu": "Sekwephuzile, ukhathele, futhi efrijini kunamaqanda nesinkwa. Uoda ukudla okuthathwayo ngo-R85? Uno-{money}."
       },
       "choices": [
         {
@@ -3157,11 +3154,14 @@
             "en": "Order",
             "zu": "Oda"
           },
-          "effects": {},
+          "effects": {
+            "money": -85
+          },
           "outcome": {
             "en": "Hot food in twenty minutes. That was a day of groceries.",
             "zu": "Ukudla okushisayo ngemizuzu engamashumi amabili. Lokho bekungukudla kosuku."
-          }
+          },
+          "leak": "takeaways"
         },
         {
           "label": {

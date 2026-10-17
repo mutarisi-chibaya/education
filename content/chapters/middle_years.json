@@ -592,9 +592,6 @@
         "family_pressure"
       ],
       "tradeoff": true,
-      "support": [
-        "family_budget"
-      ],
       "choices": [
         {
           "id": "send",
@@ -628,6 +625,10 @@
           "outcome": {
             "en": "You agree on half, every month, on payday. Everyone knows what to expect.",
             "zu": "Nivumelana ngesigamu, nyanga zonke, ngosuku lokuholela. Wonke umuntu uyazi ukuthi angalindelani."
+          },
+          "tip": {
+            "en": "Decide upfront what share of your money you can send each month, and tell home when your money arrives so they can plan too.",
+            "zu": "Nquma kusenesikhathi ukuthi ingakanani ingxenye yemali yakho ongayithumela nyanga zonke, futhi utshele ekhaya uma imali yakho ifika ukuze nabo bahlele."
           }
         },
         {
@@ -1045,8 +1046,8 @@
             "confidence": 1
           },
           "outcome": {
-            "en": "Yours needs it before final year. Career services, and your faculty's placement office if it has one, help students find a place.",
-            "zu": "Ezakho ziyawudinga ngaphambi konyaka wokugcina. Izinsizakalo zemisebenzi, nehhovisi lefakhalthi yakho lokubeka abafundi uma likhona, zisiza abafundi bathole indawo."
+            "en": "Yours needs it before final year. {svc_careers}, and your faculty's placement office if it has one, help students find a place.",
+            "zu": "Ezakho ziyawudinga ngaphambi konyaka wokugcina. {svc_careers}, nehhovisi lefakhalthi yakho lokubeka abafundi uma likhona, kusiza abafundi bathole indawo."
           }
         },
         {
@@ -1056,8 +1057,8 @@
           },
           "effects": {},
           "outcome": {
-            "en": "Placements fill early. When you are ready, start with career services or your faculty office.",
-            "zu": "Izindawo zigcwala kusenesikhathi. Uma usulungile, qala ngezinsizakalo zemisebenzi noma ihhovisi lefakhalthi yakho."
+            "en": "Placements fill early. When you are ready, start with {svc_careers} or your faculty office.",
+            "zu": "Izindawo zigcwala kusenesikhathi. Uma usulungile, qala nge-{svc_careers} noma ihhovisi lefakhalthi yakho."
           }
         }
       ]

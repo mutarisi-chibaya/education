@@ -263,7 +263,7 @@ export const FAIR_FACTORS = [
   { id: 'laptop', when: (s) => s.setup.laptop === 'no', supports: ['devices'] },
   { id: 'commute', when: (s) => s.setup.housing === 'commuting', supports: ['commuters'] },
   { id: 'private', when: (s) => s.setup.housing === 'private_rental', supports: ['verify_accom'] },
-  { id: 'family', when: (s) => s.setup.family_needs === 'yes', supports: ['family_budget'] },
+  { id: 'family', when: (s) => s.setup.family_needs === 'yes', supports: [] },
   { id: 'carer', when: (s) => s.setup.age_role === 'older_with_responsibilities', supports: ['advisor'] },
 ];
 export const FAIR_ADVANTAGES = [

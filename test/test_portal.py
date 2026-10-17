@@ -206,6 +206,56 @@ class Isolation(PortalCase):
         self.assertEqual(pack["short"], "Sizwe U")
 
 
+class Viewer(PortalCase):
+    """A read-only demo account, for judges: it sees everything and changes nothing."""
+
+    def test_a_viewer_reads_but_cannot_save_submit_review_or_roll_back(self):
+        viewer = self.account("viewer@sizwe.example", "Sizwe Viewer", "viewer", "sizwe")
+        state = self.portal.get_pack(viewer, "sizwe")
+        self.assertTrue(state["can"]["viewOnly"])
+        self.assertFalse(any(state["can"][k] for k in ("edit", "addCards", "submit", "review", "rollback")))
+        self.portal.run_check(viewer, "sizwe")
+        self.portal.history(viewer, "sizwe")
+        with self.assertRaises(PortalError) as e:
+            self.edit(viewer, short="Judged")
+        self.assertEqual(e.exception.status, 403)
+        with self.assertRaises(PortalError):
+            self.portal.submit(viewer, "sizwe")
+        # Watching someone else's submission: still no way to approve it.
+        self.edit(self.editor, short="Sizwe U")
+        self.portal.submit(self.editor, "sizwe")
+        self.assertFalse(self.portal.get_pack(viewer, "sizwe")["can"]["review"])
+        for call in (lambda: self.portal.review(viewer, "sizwe", "approve"), lambda: self.portal.rollback(viewer, "sizwe", 1)):
+            with self.assertRaises(PortalError) as e:
+                call()
+            self.assertEqual(e.exception.status, 403)
+        self.assertEqual(self.live()["short"], "Sizwe")
+        # Only their own institution, like any staff account.
+        with self.assertRaises(PortalError):
+            self.portal.get_pack(viewer, "karoo-coast")
+
+    def test_an_older_database_gains_the_role_and_keeps_every_account_and_sign_in(self):
+        from server import db
+        path = self.tmp / "data" / "old.db"
+        con = db.connect(path)
+        con.executescript("".join(db.MIGRATIONS[:4]) + " PRAGMA user_version = 4;")
+        con.execute("INSERT INTO users (id, email, name, role, institution_id, pw_hash, pw_salt, created_at) VALUES (1, 'e@x.example', 'E', 'editor', 'sizwe', 'h', 's', 0)")
+        con.execute("INSERT INTO sessions (token_hash, user_id, csrf, created_at, expires_at) VALUES ('t', 1, 'c', 0, 1)")
+        con.execute("INSERT INTO recovery_codes (user_id, code_hash) VALUES (1, 'r')")
+        con.commit()
+        con.close()
+        db.migrate(path)
+        con = db.connect(path)
+        self.assertEqual(con.execute("PRAGMA user_version").fetchone()[0], len(db.MIGRATIONS))
+        self.assertEqual(con.execute("SELECT email FROM users").fetchall()[0][0], "e@x.example")
+        self.assertEqual(con.execute("SELECT COUNT(*) FROM sessions").fetchone()[0], 1, "sign-ins survive the rebuild")
+        self.assertEqual(con.execute("SELECT COUNT(*) FROM recovery_codes").fetchone()[0], 1)
+        con.execute("INSERT INTO users (email, name, role, institution_id, pw_hash, pw_salt, created_at) VALUES ('v@x.example', 'V', 'viewer', 'sizwe', 'h', 's', 0)")
+        with self.assertRaises(sqlite3.IntegrityError):
+            con.execute("INSERT INTO users (email, name, role, pw_hash, pw_salt, created_at) VALUES ('z@x.example', 'Z', 'owner', 'h', 's', 0)")
+        con.close()
+
+
 class Workflow(PortalCase):
     def test_draft_submit_review_publish(self):
         before = self.live()["version"]

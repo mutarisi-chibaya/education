@@ -2050,8 +2050,8 @@
       "id": "MM-DATA",
       "type": "mini",
       "text": {
-        "en": "Group project call tonight. Your data is nearly finished.",
-        "zu": "Ucingo lweqembu lomsebenzi namhlanje ebusuku. Idatha yakho isizophela."
+        "en": "Group project call tonight. Your data is nearly finished. You have {money}.",
+        "zu": "Ucingo lweqembu lomsebenzi namhlanje ebusuku. Idatha yakho isizophela. Uno-{money}."
       },
       "choices": [
         {
@@ -2059,11 +2059,14 @@
             "en": "Buy a R29 bundle",
             "zu": "Thenga i-bundle ka-R29"
           },
-          "effects": {},
+          "effects": {
+            "money": -29
+          },
           "outcome": {
             "en": "The call drops twice, but your part is done.",
             "zu": "Ucingo lunqamuka kabili, kodwa ingxenye yakho yenziwe."
-          }
+          },
+          "leak": "data"
         },
         {
           "label": {
@@ -2082,8 +2085,8 @@
       "id": "MM-BDAY",
       "type": "mini",
       "text": {
-        "en": "It's a friend's birthday. Everyone is putting in R60 for cake and drinks.",
-        "zu": "Usuku lokuzalwa lomngane. Wonke umuntu ukhipha u-R60 wekhekhe neziphuzo."
+        "en": "It's a friend's birthday. Everyone is putting in R60 for cake and drinks. You have {money}.",
+        "zu": "Usuku lokuzalwa lomngane. Wonke umuntu ukhipha u-R60 wekhekhe neziphuzo. Uno-{money}."
       },
       "choices": [
         {
@@ -2092,6 +2095,7 @@
             "zu": "Khipha u-R60"
           },
           "effects": {
+            "money": -60,
             "connection": 1
           },
           "outcome": {
@@ -2116,47 +2120,11 @@
       ]
     },
     {
-      "id": "MM-CONSULT",
-      "type": "mini",
-      "text": {
-        "en": "Your lecturer's consultation hour starts in ten minutes. You have one question.",
-        "zu": "Ihora lokubonisana lomfundisi wakho liqala emizuzwini eyishumi. Unombuzo owodwa."
-      },
-      "choices": [
-        {
-          "label": {
-            "en": "Go and ask",
-            "zu": "Hamba uyobuza"
-          },
-          "effects": {
-            "confidence": 1
-          },
-          "outcome": {
-            "en": "Five minutes, and the whole section makes sense.",
-            "zu": "Imizuzu emihlanu, bese yonke ingxenye iyezwakala."
-          }
-        },
-        {
-          "label": {
-            "en": "Leave it",
-            "zu": "Kuyeke"
-          },
-          "effects": {
-            "confidence": -1
-          },
-          "outcome": {
-            "en": "The question is still there at midnight.",
-            "zu": "Umbuzo usekhona phakathi kwamabili."
-          }
-        }
-      ]
-    },
-    {
       "id": "MM-SALE",
       "type": "mini",
       "text": {
-        "en": "Month-end sale: a jacket you like is R250.",
-        "zu": "Indali yokuphela kwenyanga: ijakhethi oyithandayo ingu-R250."
+        "en": "Month-end sale: a jacket you like is R250. You have {money}.",
+        "zu": "Indali yokuphela kwenyanga: ijakhethi oyithandayo ingu-R250. Uno-{money}."
       },
       "choices": [
         {
@@ -2164,11 +2132,14 @@
             "en": "Buy it",
             "zu": "Yithenge"
           },
-          "effects": {},
+          "effects": {
+            "money": -250
+          },
           "outcome": {
             "en": "You look great. Groceries will be tight.",
             "zu": "Ubukeka kahle. Ukudla kuzoshoda."
-          }
+          },
+          "leak": "clothes"
         },
         {
           "label": {

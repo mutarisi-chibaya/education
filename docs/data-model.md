@@ -96,7 +96,7 @@ erDiagram
         int id PK
         text email UK
         text name
-        text role "admin, editor, reviewer"
+        text role "admin, editor, reviewer, viewer"
         text institution_id "null for admin"
         text pw_hash "scrypt"
         text pw_salt

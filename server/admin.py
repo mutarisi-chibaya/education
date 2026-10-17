@@ -2,6 +2,7 @@
 
     python -m server.admin create-admin <email> "<name>"      the first platform admin
     python -m server.admin demo                               demo accounts for the two demo universities
+                                                              (an editor, a reviewer and a read-only viewer each)
     python -m server.admin audit [institution]                print the audit log
     python -m server.admin backup                             copy the databases to data/backups/
 
@@ -43,6 +44,7 @@ def main(argv):
         for inst, label in (("sizwe", "Sizwe"), ("karoo-coast", "Karoo Coast")):
             create(p, f"editor@{inst.replace('-', '')}.example", f"{label} Editor", "editor", inst)
             create(p, f"reviewer@{inst.replace('-', '')}.example", f"{label} Reviewer", "reviewer", inst)
+            create(p, f"viewer@{inst.replace('-', '')}.example", f"{label} Viewer", "viewer", inst)
     elif argv[:1] == ["audit"]:
         portal()
         con = db.connect(DB)

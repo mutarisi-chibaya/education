@@ -91,7 +91,9 @@ friend's story, light), at most one a week, in a weighted random order.
 
 **Minis** show on the week dashboard: one tap, exactly two options, a one-line result. A
 chapter uses its own `minis` first, then the shared ones in [core.json](content/core.json).
-Minis only move hidden trackers (`confidence`, `connection`, `bunk_count`), which feed the forecast.
+Minis move hidden trackers (`confidence`, `connection`, `bunk_count`), which feed the forecast. A
+mini about a small spend (KFC with friends, a jacket on sale) also costs what it says, as a
+spending leak, and its paid answer is disabled when the player can't afford it.
 
 Each week: dashboard (and mini) → that week's cards → next week. **Friday nights are a
 habit**: the first Friday asks how often you go out; after that the cost comes off every week
@@ -103,7 +105,7 @@ weeks offer one **small spend**. Every chapter ends with the **Semester Forecast
 take the last R50, so money never reaches zero. A choice the player cannot pay for is shown but
 disabled. When more than a month of basics is in hand, half the spare goes on "everyday extras"
 at the end of the week, and part-time income ends with its chapter, so money does not pile up.
-Minis never change money, marks or wellbeing. After tests, the marks meter is set to the average
+Minis never change marks or wellbeing. After tests, the marks meter is set to the average
 of the module marks. On the outcome screen, "Change my answer" undoes the last choice.
 
 Shared random pools live in [core.json](content/core.json) (`events`): **surprise expenses**
@@ -245,7 +247,7 @@ To remove a university, delete its file from `content/institutions/` and run
 ## The staff portal (stage 2)
 
 Institutions edit their own pack at `/portal/`: staff accounts with two-step login, roles
-(editor, reviewer, platform admin), a draft that a second person must approve, the pack check
+(editor, reviewer, read-only viewer, platform admin), a draft that a second person must approve, the pack check
 on the server before anything is submitted or published, version history with rollback, and
 an audit log that cannot be altered. [PORTAL.md](PORTAL.md) covers how to run it, the security
 measures and what a national rollout still needs.

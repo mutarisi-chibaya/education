@@ -17,6 +17,7 @@ follow [docs/portal-testing.md](docs/portal-testing.md).
 |---|---|---|
 | **Editor** | One institution | Edit the draft, run the check, submit for review |
 | **Reviewer** | One institution | Everything an editor can, plus approve or send back someone else's submission, and publish an earlier version again |
+| **Viewer** | One institution | Open every tab, read the draft and history, and run the check. Nothing can be saved, submitted or published. For judges and demos |
 | **Platform admin** | Us | Everything, for every institution. Creates institutions and accounts, and sets status, type and licence |
 
 Staff only ever see their own institution. To them, the others do not exist.
@@ -85,7 +86,7 @@ file and the link is also shown on screen, which is how the demo works. Set `SMT
 For a demo on your own machine:
 
 ```
-python -m server.admin demo            # an admin, plus an editor and a reviewer for each demo university
+python -m server.admin demo            # an admin, plus an editor, a reviewer and a viewer for each demo university
 set PORTAL_MFA=off                     # PowerShell: $env:PORTAL_MFA="off"
 python serve.py
 ```
@@ -100,12 +101,18 @@ accredited accommodation, open **Story cards** to see its own card ("The last sh
 town") and its two reworded cards, change something, and open **Review and publish** to see
 the before-and-after table. Then sign in as its reviewer to approve it.
 
+**For judges**, hand out the viewer accounts. A viewer sees the same screens, the draft and
+the before-and-after table, but cannot save or publish. So several judges can look around
+at once without changing what students get, and without restarting the chapter of someone
+playing the app with that university (the app restarts an unfinished chapter when its
+university publishes a new version).
+
 Node.js must be installed on the server, because the pack check is the same program the
 build tools use. If it cannot run, nothing can be submitted or published.
 
 ## Signing in for the first time, step by step
 
-**1. Get the accounts.** `python -m server.admin demo` creates these five and prints a
+**1. Get the accounts.** `python -m server.admin demo` creates these seven and prints a
 temporary password for each, once. Copy them when they appear.
 
 | Role | Email |
@@ -115,9 +122,12 @@ temporary password for each, once. Copy them when they appear.
 | Sizwe reviewer | `reviewer@sizwe.example` |
 | Karoo Coast editor | `editor@karoocoast.example` |
 | Karoo Coast reviewer | `reviewer@karoocoast.example` |
+| Sizwe viewer (read-only) | `viewer@sizwe.example` |
+| Karoo Coast viewer (read-only) | `viewer@karoocoast.example` |
 
 Running the command again does not print the passwords again; it reports that the accounts
-already exist. If a password is lost, use "Forgot your password?" (step 5).
+already exist, and creates any that are missing (the viewers, on a database made before
+they existed). If a password is lost, use "Forgot your password?" (step 5).
 
 **2. Start the server and open the portal.** Run `python serve.py`, then open
 `http://localhost:8080/portal/`.

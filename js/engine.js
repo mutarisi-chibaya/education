@@ -547,13 +547,27 @@ export function currentMini(content, s) {
   return s.mini ? content.miniIndex[s.mini.id] || null : null;
 }
 
+// A mini's answers you have the money for, by index. Like a card, if none is
+// affordable the cheapest stays open, so a mini is never a dead end.
+export function miniChoicesOpen(s, mini) {
+  const costs = mini.choices.map((c) => Math.max(0, -(c.effects?.money || 0)));
+  const ok = costs.flatMap((cost, i) => (cost === 0 || cost <= s.money - CASH_FLOOR ? [i] : []));
+  return ok.length ? ok : [costs.indexOf(Math.min(...costs))];
+}
+
 export function answerMini(content, state, index) {
   const mini = currentMini(content, state);
   const picked = mini?.choices[index];
-  if (!picked || state.mini.choice !== null) return state;
+  if (!picked || state.mini.choice !== null || !miniChoicesOpen(state, mini).includes(index)) return state;
   const s = clone(state);
-  // Minis are not the main story: they move the hidden trackers, never the meters.
+  // Minis are not the main story: they move the hidden trackers, never marks or
+  // wellbeing. A small spend (KFC with friends, a jacket on sale) costs what it says.
   applyEffects(s, Object.fromEntries(Object.entries(picked.effects || {}).filter(([k]) => TRACKERS.includes(k))));
+  const spend = picked.effects?.money || 0;
+  if (spend) {
+    addLedger(s, { label: picked.label }, { money: spend });
+    addLeak(s, picked.leak, -spend);
+  }
   addFlags(s, picked.flags);
   s.mini = { ...s.mini, choice: index };
   if (!s.minisSeen.includes(mini.id)) s.minisSeen.push(mini.id);
