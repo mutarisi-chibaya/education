@@ -79,6 +79,35 @@ class StaticFiles(ServerCase):
         finally:
             probe.unlink()
 
+    def test_folders_are_not_listed_and_the_server_does_not_name_its_software(self):
+        for path in ("/content/", "/js/", "/portal/../content/lang/"):
+            status, raw = self.request("GET", path)
+            self.assertEqual(status, 404, path)
+            self.assertNotIn(b"Directory listing", raw)
+        con = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
+        con.request("GET", "/")
+        res = con.getresponse(); res.read(); con.close()
+        self.assertNotIn("Python", res.getheader("Server") or "")
+
+    def test_no_page_can_be_framed_by_another_site(self):
+        for path in ("/", "/index.html", "/portal/"):
+            con = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
+            con.request("GET", path)
+            res = con.getresponse(); res.read(); con.close()
+            self.assertEqual(res.getheader("X-Frame-Options"), "DENY", path)
+            self.assertIn("frame-ancestors 'none'", res.getheader("Content-Security-Policy") or "", path)
+
+    def test_a_broken_content_length_is_refused_at_once(self):
+        import socket
+        for length in (b"-5", b"abc"):
+            for path in (b"/stats", b"/portal/api/login"):
+                s = socket.create_connection(("127.0.0.1", self.port), timeout=5)
+                # No body: the server answers from the header alone, without waiting for one.
+                s.sendall(b"POST " + path + b" HTTP/1.1\r\nHost: x\r\nContent-Type: application/json\r\nContent-Length: " + length + b"\r\n\r\n")
+                answer = s.recv(200)
+                s.close()
+                self.assertRegex(answer, rb"^HTTP/1\.\d 4\d\d", (path, length))
+
 
 class PublicApi(ServerCase):
     def test_institutions_lists_each_one_with_its_version(self):

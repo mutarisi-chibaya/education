@@ -580,6 +580,8 @@ class Portal:
         """Take only what staff may edit from the incoming pack; keep everything else as it was."""
         if not isinstance(incoming, dict):
             raise PortalError(400, "The pack must be an object.")
+        if self._unsafe_key(incoming):
+            raise PortalError(400, "The pack contains a name that is not allowed.")
         merged = {k: v for k, v in current.items() if k in PROTECTED}
         for key in EDITABLE:
             if key in incoming and incoming[key] is not None:
@@ -587,6 +589,17 @@ class Portal:
         if len(json.dumps(merged, ensure_ascii=False).encode("utf-8")) > MAX_PACK_BYTES:
             raise PortalError(413, "The pack is too large.")
         return merged
+
+    @staticmethod
+    def _unsafe_key(node, depth=0):
+        """Keys that would reach an object's prototype in the JavaScript that reads packs, at any depth."""
+        if depth > 40:
+            return True
+        if isinstance(node, dict):
+            return any(k in ("__proto__", "constructor", "prototype") or Portal._unsafe_key(v, depth + 1) for k, v in node.items())
+        if isinstance(node, list):
+            return any(Portal._unsafe_key(v, depth + 1) for v in node)
+        return False
 
     @staticmethod
     def _own_cards(pack):

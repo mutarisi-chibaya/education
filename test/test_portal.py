@@ -255,6 +255,12 @@ class Isolation(PortalCase):
         self.assertNotIn("licence", pack)
         self.assertEqual(pack["short"], "Sizwe U")
 
+    def test_names_that_reach_a_prototype_are_refused_at_any_depth(self):
+        for hostile in ({"__proto__": {"polluted": True}}, {"constructor": {"prototype": {"x": 1}}}):
+            with self.assertRaises(PortalError) as e:
+                self.edit(self.editor, support={"health": {"contacts": [hostile]}})
+            self.assertEqual(e.exception.status, 400)
+
 
 class Viewer(PortalCase):
     """A read-only demo account, for judges: it sees everything and changes nothing."""
@@ -590,6 +596,11 @@ class Web(PortalCase):
         self.assertEqual(self.call("POST", "pack/sizwe/submit", cookie=jar, csrf=info["csrf"])[0], 400, "nothing to submit")
         self.assertEqual(self.call("GET", "users", cookie=jar)[0], 403)
         self.assertEqual(self.call("GET", "nonsense", cookie=jar)[0], 404)
+
+    def test_a_list_or_object_where_text_belongs_is_refused_cleanly(self):
+        for data in ({"email": ["editor@sizwe.example"], "password": PASSWORD}, {"email": {"$ne": 1}, "password": {"$ne": 1}},
+                     {"email": "editor@sizwe.example", "password": 123456789012}):
+            self.assertEqual(self.call("POST", "login", data)[0], 400, data)
 
     def test_setup_steps_come_before_any_work(self):
         temp = self.portal.create_user(self.admin, "new@sizwe.example", "New", "editor", "sizwe")["temporaryPassword"]

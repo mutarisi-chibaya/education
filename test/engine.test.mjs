@@ -387,6 +387,25 @@ test('pack check: bundled packs pass, and unsafe packs are refused', () => {
   assert.equal(licensed(() => {}), '');
   assert.match(licensed((p) => { p.support.health.contacts = phone; p.support.health.verified = false; }), /not marked verified/);
   assert.equal(licensed((p) => { p.support.health.contacts = phone; p.support.health.verified = true; p.support.health.last_checked = '2026-10-01'; }), '');
+  assert.match(licensed((p) => { p.support.health.contacts = phone; p.support.health.verified = true; p.support.health.last_checked = '2099-01-01'; }), /in the future/);
+});
+
+test('pack check: what staff type is kept to sensible values', () => {
+  const kc = institutions.find((i) => i.id === 'karoo-coast');
+  const broken = (change) => { const p = JSON.parse(JSON.stringify(kc)); change(p); return checkPack('karoo-coast', p).errors.join(' | '); };
+  for (const rent of [-500, 0, 2800.5, 99999999, '2800']) assert.match(broken((p) => { p.costs.rent_private = rent; }), /rent_private must be a whole amount/, String(rent));
+  assert.match(broken((p) => { p.costs.taxi_week = 5; }), /taxi_week must be a whole amount in rand from 20/);
+  assert.match(broken((p) => { p.campuses = [{ id: 'north', name: { en: 'North' }, courses: ['bsc'], costs: { rent_private: -1 } }]; }), /campus north: costs.rent_private/);
+  assert.match(broken((p) => { p.campuses = [{ id: 'North Campus', name: { en: 'North' }, courses: ['bsc'] }]; }), /id must be lower-case/);
+  assert.match(broken((p) => { p.support.health.room = { en: 'x'.repeat(2001) }; }), /over 2000 characters/);
+  assert.match(broken((p) => { p.short = 'A short name that is far too long for the top bar'; }), /short is over 40/);
+  assert.match(broken((p) => { p.cards.add.first_term[0].choices[0].effects = { money: -900000 }; }), /money must be a whole number from -5000/);
+  assert.match(broken((p) => { p.cards.add.first_term[0].choices[0].effects = { marks: 2.5 }; }), /marks must be a whole number/);
+  assert.match(broken((p) => { p.cards.add.first_term[0].choices[0].effects = { teleport: 1 }; }), /not an effect a card can have/);
+  // A name that would reach an object's prototype, as JSON.parse keeps it.
+  const proto = JSON.parse(JSON.stringify(kc).replace('"support":{', '"support":{"__proto__":{"polluted":true},'));
+  assert.match(checkPack('karoo-coast', proto).errors.join(' | '), /"__proto__" is not an allowed name/);
+  assert.equal({}.polluted, undefined, 'nothing reached Object.prototype');
 });
 
 test('scale: a directory of hundreds, searched and grouped, with one pack per phone', () => {

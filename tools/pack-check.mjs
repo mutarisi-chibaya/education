@@ -26,6 +26,13 @@ const words = (s) => s.trim().split(/\s+/).length;
 const sentences = (s) => (s.match(/[.!?]+(?=\s|$|")/g) || []).length;
 const HEX = /^#[0-9a-f]{6}$/i;
 const EMAIL = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
+// What staff type is kept to sensible values, so a slip of the keyboard (a minus sign, an
+// extra zero) is caught before students see it.
+const COSTS = { rent_private: [300, 30000], taxi_week: [20, 3000] }; // whole rand
+const TRACKERS = ['connection', 'buffer', 'help_seeking', 'family_obligation', 'confidence', 'debt', 'bunk_count'];
+const ID = /^[a-z][a-z0-9_]{1,24}$/;
+const MAX_TEXT = 2000;
+const UNSAFE_KEYS = ['__proto__', 'constructor', 'prototype'];
 
 // WCAG contrast ratio between two hex colours.
 function contrast(a, b) {
@@ -98,7 +105,26 @@ export function checkPack(id, pack) {
   if (!inst.short) err('short name is missing');
   if (!['demo', 'licensed'].includes(inst.status)) err(`status must be "demo" or "licensed", not "${inst.status}"`);
   if (!Number.isInteger(inst.version) || inst.version < 1) err('version must be a whole number, raised with every change');
-  for (const k of ['rent_private', 'taxi_week']) if (!(inst.costs?.[k] > 0)) err(`costs.${k} must be a positive amount in rand`);
+  const checkCosts = (costs, where, required) => {
+    for (const [k, [lo, hi]] of Object.entries(COSTS)) {
+      const v = costs?.[k];
+      if (v === undefined && !required) continue;
+      if (!Number.isInteger(v) || v < lo || v > hi) err(`${where}costs.${k} must be a whole amount in rand from ${lo} to ${hi}`);
+    }
+  };
+  checkCosts(inst.costs, '', true);
+  for (const c of inst.campuses || []) checkCosts(c.costs, `campus ${c.id}: `, false);
+  // Every text a student reads has a sensible length, and no name reaches an object's prototype.
+  (function walk(node, at, depth) {
+    if (!node || typeof node !== 'object' || depth > 40) return;
+    for (const [k, v] of Object.entries(node)) {
+      if (UNSAFE_KEYS.includes(k)) err(`${at}: "${k}" is not an allowed name`);
+      if (typeof v === 'string' && v.length > MAX_TEXT) err(`${at}.${k}: text is over ${MAX_TEXT} characters`);
+      else walk(v, `${at}.${k}`, depth + 1);
+    }
+  })(inst, 'pack', 0);
+  for (const [k, max] of [['short', 40], ['area', 60], ['province', 40]]) if (typeof inst[k] === 'string' && inst[k].length > max) err(`${k} is over ${max} characters`);
+  if (inst.brand?.name && inst.brand.name.length > 40) err('brand.name is over 40 characters');
   if (!demo && !(inst.signedOff?.by && /^\d{4}-\d{2}-\d{2}$/.test(inst.signedOff?.date || ''))) err('a licensed pack needs signedOff.by and signedOff.date from Student Affairs');
   // An institution can bring its own courses (a college's programmes, for example).
   const knownCourses = new Set([...core.courses, ...(inst.courseList || [])].map((x) => x.id));
@@ -130,6 +156,7 @@ export function checkPack(id, pack) {
   for (const campus of campuses) {
     const where = campus ? `campus ${campus.id}` : 'university';
     if (campus) {
+      if (!ID.test(campus.id || '')) err(`${where}: the id must be lower-case letters, digits and _`);
       if (seenCampus.has(campus.id)) err(`${where}: duplicate campus id`);
       seenCampus.add(campus.id);
       needText(campus.name, `${where}: name`);
@@ -144,6 +171,7 @@ export function checkPack(id, pack) {
     if (!content.map?.url && !buildings.length && inst.status === 'licensed') warn(`${where}: no campus map; add the link to your official campus map`);
     const ids = new Set();
     for (const b of buildings) {
+      if (!ID.test(b.id || '')) err(`${where}: building id "${b.id}" must be lower-case letters, digits and _`);
       if (ids.has(b.id)) err(`${where}: building "${b.id}" appears twice`);
       ids.add(b.id);
       needText(b.name, `${where}: building ${b.id} name`);
@@ -165,12 +193,14 @@ export function checkPack(id, pack) {
           if (demo) err(`${at}: a fictional pack must not carry phone numbers`);
           if (!/^\+?\d{5,13}$/.test(c.tel)) err(`${at}: phone "${c.tel}" must be digits only`);
           if (!(s.verified && /^\d{4}-\d{2}-\d{2}$/.test(s.last_checked || ''))) err(`${at}: phone ${c.label} is not marked verified with a last_checked date`);
+          else if (Date.parse(s.last_checked) > Date.now() + 864e5) err(`${at}: the phone check date ${s.last_checked} is in the future`);
           else if (Date.now() - Date.parse(s.last_checked) > 366 * 864e5) warn(`${at}: phone was last checked on ${s.last_checked}, over a year ago`);
         }
         if (c.url && !/^https:\/\//.test(c.url)) err(`${at}: link "${c.url}" must start with https://`);
       }
     }
     for (const [pid, p] of Object.entries(content.pages)) {
+      if (!ID.test(pid)) err(`${where}: list id "${pid}" must be lower-case letters, digits and _`);
       needText(p.title, `${where}: page ${pid} title`);
       if (!p.items?.length) err(`${where}: page ${pid} has no items`);
       if (p.url && !/^https:\/\//.test(p.url)) err(`${where}: page ${pid} link must start with https://`);
@@ -208,7 +238,11 @@ export function checkPack(id, pack) {
         needText(c.label, `${at}/${c.id} label`);
         needText(c.outcome, `${at}/${c.id} outcome`);
         for (const t of c.tags || []) if (!TAGS.includes(t)) err(`${at}/${c.id}: unknown tag "${t}"`);
-        for (const [k, v] of Object.entries(c.effects || {})) if (typeof v !== 'number' || (['marks', 'wellbeing'].includes(k) && Math.abs(v) > 20)) err(`${at}/${c.id}: effect ${k} must be a number, at most 20 for marks and wellbeing`);
+        for (const [k, v] of Object.entries(c.effects || {})) {
+          const range = k === 'money' ? 5000 : ['marks', 'wellbeing'].includes(k) ? 20 : TRACKERS.includes(k) ? 2 : null;
+          if (range === null) err(`${at}/${c.id}: "${k}" is not an effect a card can have`);
+          else if (!Number.isInteger(v) || Math.abs(v) > range) err(`${at}/${c.id}: effect ${k} must be a whole number from -${range} to ${range}`);
+        }
       }
     }
     // Writing rules and support references, on the cards as this campus will show them.

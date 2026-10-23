@@ -97,6 +97,34 @@ These need a decision by someone with legal responsibility, not only an engineer
 - A retention period for `stats.db`.
 - Who the responsible party is when an institution's staff enter incorrect information.
 
+## Tested against common web attacks (23 October 2026)
+
+A copy of the server, with two-step login on and the judges' accounts, was attacked with a
+script of 82 requests and a browser run, following the PortSwigger Web Security Academy
+topics that apply to this app. It was an internal test, not an independent audit.
+
+| Topic | What was tried | Result |
+|---|---|---|
+| SQL injection | Quotes and `OR 1=1` in sign-in, the stats filter and request text | Refused or stored as plain text; every query passes values as parameters |
+| Authentication | Account enumeration, brute force, weak passwords, forged and old sessions | Same answer for every failure; lock after 8 wrong attempts; sign-ins rate limited; logout ends the session |
+| Path traversal | `..`, encoded `..`, other capitals, `/data/portal.db`, `/.git/config` | 404 for everything outside the app's own folders |
+| Command injection | Shell characters in the institution id that reaches the pack check | Refused by the id pattern; the check runs without a shell |
+| Business logic | Editors changing status, version, licence or type; negative, fractional and huge costs; stale saves | Protected fields are kept from the published pack; the check refuses out-of-range values; stale saves are refused |
+| Access control | One institution's staff reading another's pack, history, requests or numbers; editors managing accounts | 404 or 403 every time |
+| Race conditions | Five approvals of the same submission at once | Exactly one version is published |
+| Information disclosure | Folder listings, the `Server` header, error bodies | **Fixed:** folders were listed and the header named Python's version |
+| API testing | Lists or objects in place of text (`{"$ne": 1}`), broken `Content-Length`, huge bodies, odd methods | **Fixed:** these crashed the request or left it waiting; now a short 400, 413 or 404 |
+| XSS (stored and DOM) | `<img onerror>` in service text, the short name and a card request, then published; scripts and `__proto__` in share links | Shown as text in the portal and the app; nothing ran |
+| CSRF and CORS | Writes without the token or from another origin | Refused; no cross-origin access is granted |
+| Clickjacking | Framing the app and the portal | **Fixed:** the app could be framed; now both send `X-Frame-Options: DENY` and a content security policy |
+| Prototype pollution | `__proto__` and `constructor` keys anywhere in a pack | **Fixed:** they were ignored; now the save and the pack check refuse them |
+| Web cache deception | `/portal/api/me.css` | Not served; portal answers are `no-store` |
+
+Not applicable, because the app has none of these: file uploads, XML, NoSQL, GraphQL,
+WebSockets, server-side templates, deserialisation of anything but JSON, OAuth, JWT, server
+requests to other sites, and AI models. Request smuggling and cache poisoning depend on the
+hosting proxy and were not tested.
+
 ## Secrets and configuration
 
 | Variable | Secret | Purpose |

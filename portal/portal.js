@@ -75,17 +75,30 @@ function setPath(obj, path, value) {
 const val = (path) => esc(getPath(S.pack, path) ?? '');
 const locked = () => (S.data?.can.edit ? '' : 'disabled');
 
-function field(label, path, { type = 'text', hint = '', placeholder = '', number = false } = {}) {
+// Limits match tools/pack-check.mjs, which the server runs: the form only warns early.
+const LIMITS = { rent: { min: 300, max: 30000 }, taxi: { min: 20, max: 3000 } };
+
+function field(label, path, { type = 'text', hint = '', placeholder = '', number = false, min, max, maxlength = 200, required = false } = {}) {
+  const limits = type === 'number' ? `min="${min ?? 0}" ${max !== undefined ? `max="${max}"` : ''} step="1" ${required ? 'required' : ''}`
+    : type === 'date' ? `max="${new Date().toISOString().slice(0, 10)}"` : `maxlength="${maxlength}"`;
   return `<label>${esc(label)} ${hint ? `<span class="hint">${esc(hint)}</span>` : ''}
-    <input type="${type}" data-path="${path}" ${number ? 'data-number' : ''} value="${val(path)}" placeholder="${esc(placeholder)}" ${locked()}></label>`;
+    <input type="${type}" data-path="${path}" ${number ? 'data-number' : ''} value="${val(path)}" placeholder="${esc(placeholder)}" ${type === 'color' ? '' : limits} ${locked()}><span class="err" aria-live="polite"></span></label>`;
+}
+
+// Says at once, under the box, what is wrong with what was typed (a minus sign, a fraction, too long).
+function showValidity(el) {
+  const msg = el.closest('label')?.querySelector('.err');
+  const bad = !el.checkValidity();
+  el.toggleAttribute('aria-invalid', bad);
+  if (msg) msg.textContent = bad ? el.validationMessage : '';
 }
 
 // Text students read. Staff write it in English only; the other languages are
 // translated from the English, so a changed English text never shows an old translation.
 function textBox(label, path, { area = false, placeholder = {} } = {}) {
   return area
-    ? `<label>${esc(label)}<textarea data-path="${path}.en" placeholder="${esc(placeholder.en || '')}" ${locked()}>${val(`${path}.en`)}</textarea></label>`
-    : `<label>${esc(label)}<input data-path="${path}.en" value="${val(`${path}.en`)}" placeholder="${esc(placeholder.en || '')}" ${locked()}></label>`;
+    ? `<label>${esc(label)}<textarea data-path="${path}.en" maxlength="2000" placeholder="${esc(placeholder.en || '')}" ${locked()}>${val(`${path}.en`)}</textarea><span class="err" aria-live="polite"></span></label>`
+    : `<label>${esc(label)}<input data-path="${path}.en" maxlength="300" value="${val(`${path}.en`)}" placeholder="${esc(placeholder.en || '')}" ${locked()}><span class="err" aria-live="polite"></span></label>`;
 }
 
 function checks(label, path, options, all) {
@@ -366,18 +379,18 @@ function tabDetails() {
     ${field('Highlight colour', `${prefix}.accent`, { type: 'color' })}${field('Highlight colour for text', `${prefix}.accentInk`, { type: 'color' })}</div>`;
   return `${foldCard('details:name', 'Name', `
       ${textBox('Full name', 'name')}
-      <div class="grid">${field('Short name', 'short', { hint: 'what students call it' })}${field('Province', 'province')}${field('Area name', 'area', { hint: 'used in some card text' })}</div>
+      <div class="grid">${field('Short name', 'short', { hint: 'what students call it', maxlength: 40 })}${field('Province', 'province', { maxlength: 40 })}${field('Area name', 'area', { hint: 'used in some card text', maxlength: 60 })}</div>
       ${textBox('One line shown under the name', 'campus')}
       ${textBox('City, as it reads in a sentence', 'city', { placeholder: { en: 'the city' } })}`)}
     ${foldCard('details:costs', 'Local costs', `<div class="grid">
-      ${field('Monthly rent for a private room (rand)', 'costs.rent_private', { type: 'number', number: true })}
-      ${field('A week of taxi fares (rand)', 'costs.taxi_week', { type: 'number', number: true })}</div>`)}
+      ${field('Monthly rent for a private room (rand)', 'costs.rent_private', { type: 'number', number: true, required: true, ...LIMITS.rent })}
+      ${field('A week of taxi fares (rand)', 'costs.taxi_week', { type: 'number', number: true, required: true, ...LIMITS.taxi })}</div>`)}
     ${foldCard('details:offer', 'What you offer', `
       ${(S.pack.campuses || []).length ? '<p class="muted">Courses are set per campus, on the Campuses tab.</p>' : checks('Courses', 'courses', [...c.courses, ...own], c.courses.map((x) => x.id))}
       ${checks('Housing options', 'housing', c.housing, c.housing.map((x) => x.id))}
       <p class="muted small">Cards about a kind of housing you do not offer are switched off for you on ${goTo('cards', 'Story cards')}, and switched back on when you add it.</p>`)}
     ${foldCard('details:look', 'Look', `
-      <div class="grid">${field('Name in the top bar', 'brand.name')}${field('Monogram', 'brand.logo', { hint: 'up to 3 letters' })}</div>
+      <div class="grid">${field('Name in the top bar', 'brand.name', { maxlength: 40 })}${field('Monogram', 'brand.logo', { hint: 'up to 3 letters', maxlength: 3 })}</div>
       ${colours('brand.colors', 'Colours')}
       <p><span class="preview" id="preview"><span class="mono">${esc(S.pack.brand?.logo || 'AB')}</span><span class="btnp">A button</span><span class="acc">Highlight</span></span></p>
       ${colours('brand.colorsDark', 'Colours for dark mode (leave unchanged to keep the standard dark colours)')}`)}`;
@@ -388,14 +401,14 @@ function tabCampuses() {
   const c = S.catalogue;
   const own = (S.pack.courseList || []).map((x) => ({ id: x.id, label: x.label }));
   return `<section class="card"><h2>Campuses</h2>
-    <p class="muted">Add campuses only if you have more than one. Each campus can have its own map, service locations and costs. Anything a campus does not set comes from the whole university.</p>
+    <p class="muted">Add campuses only if you have more than one. Each campus can have its own map, service locations and costs. Anything a campus does not set comes from the whole university. When you add your first, your existing campus is listed too, so students can still choose it.</p>
     ${list.map((campus, i) => `<details class="item" ${fold(`campus:${campus.id}`)}><summary>${esc(en(campus.name) || campus.id)} <span class="tag">${esc(campus.id)}</span></summary>
       ${textBox('Name', `campuses.${i}.name`)}${textBox('Description', `campuses.${i}.desc`, { area: true })}
       ${checks('Courses taught here', `campuses.${i}.courses`, [...c.courses, ...own], [])}
-      <div class="grid">${field('Monthly rent near this campus (rand)', `campuses.${i}.costs.rent_private`, { type: 'number', number: true })}
-      ${field('A week of taxi fares (rand)', `campuses.${i}.costs.taxi_week`, { type: 'number', number: true })}</div>
+      <div class="grid">${field('Monthly rent near this campus (rand)', `campuses.${i}.costs.rent_private`, { type: 'number', number: true, ...LIMITS.rent })}
+      ${field('A week of taxi fares (rand)', `campuses.${i}.costs.taxi_week`, { type: 'number', number: true, ...LIMITS.taxi })}</div>
       <button class="danger" data-action="campus-remove" data-id="${esc(campus.id)}" ${locked()}>Remove this campus</button>
-    </details>`).join('') || '<p>This university has one campus.</p>'}
+    </details>`).join('') || `<p>This university has one campus: ${esc(en(S.pack.name))}. Its courses, services and map are on the other tabs.</p>`}
     <form data-form="campus-add" class="row"><label>New campus id <span class="hint">lower-case, no spaces, e.g. "north"</span><input name="id" pattern="[a-z][a-z0-9_]{1,20}" required ${locked()}></label>
       <button ${locked()}>Add campus</button></form>
   </section>`;
@@ -526,7 +539,7 @@ function ownCards() {
       </details>`).join('') || '<p>You have no cards of your own yet.</p>'}
     </section>`;
   }
-  const num = (label, path) => `<label>${label}<input type="number" data-number data-path="${path}" value="${val(path)}" ${locked()}></label>`;
+  const num = (label, path, limit) => `<label>${label}<input type="number" data-number data-path="${path}" value="${val(path)}" min="-${limit}" max="${limit}" step="1" ${locked()}><span class="err" aria-live="polite"></span></label>`;
   return `<section class="card"><h2>Your own cards</h2>
     <p class="muted">A situation that is particular to your institution. It needs a short title, a situation of at most 40 words, and two or three answers of at most six words each. At least one answer must cost no money.</p>
     ${cardRequests()}
@@ -538,7 +551,7 @@ function ownCards() {
         <label>Drawn together with<select data-path="${b}.pool" ${locked()}>${(ch?.pools || []).map((p) => `<option value="${esc(p)}" ${card.pool === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select></label>
         ${(card.choices || []).map((c, j) => `<h3>Answer ${j + 1}</h3>
           ${textBox('Answer', `${b}.choices.${j}.label`)}${textBox('What happens', `${b}.choices.${j}.outcome`, { area: true })}${textBox('Tip (optional)', `${b}.choices.${j}.tip`, { area: true })}
-          <div class="grid">${num('Money (rand, minus to spend)', `${b}.choices.${j}.effects.money`)}${num('Marks (-20 to 20)', `${b}.choices.${j}.effects.marks`)}${num('Wellbeing (-20 to 20)', `${b}.choices.${j}.effects.wellbeing`)}
+          <div class="grid">${num('Money (rand, minus to spend)', `${b}.choices.${j}.effects.money`, 5000)}${num('Marks (-20 to 20)', `${b}.choices.${j}.effects.marks`, 20)}${num('Wellbeing (-20 to 20)', `${b}.choices.${j}.effects.wellbeing`, 20)}
             <label>Coping style<select data-one="${b}.choices.${j}.tags" ${locked()}><option value="">None</option>${S.catalogue.styles.map((s) => `<option value="${s}" ${c.tags?.[0] === s ? 'selected' : ''}>${esc(STYLES[s] || s)}</option>`).join('')}</select></label>
             <label>Opens this service<select data-one="${b}.choices.${j}.support" ${locked()}><option value="">None</option>${S.catalogue.services.map((s) => `<option value="${esc(s.id)}" ${c.support?.[0] === s.id ? 'selected' : ''}>${esc(en(s.name))}</option>`).join('')}</select></label>
           </div>
@@ -835,6 +848,7 @@ document.addEventListener('input', (e) => {
     setPath(S.pack, `${el.dataset.service}.contacts`, contacts.length ? contacts : '');
   } else return;
   if (!S.dirty) { S.dirty = true; document.querySelector('[data-action="save"]')?.removeAttribute('disabled'); }
+  if (el.matches('input, textarea')) showValidity(el);
   paintPreview();
 });
 
@@ -985,6 +999,14 @@ document.addEventListener('submit', async (e) => {
   } else if (kind === 'campus-add') {
     const list = (S.pack.campuses ||= []);
     if (list.some((c) => c.id === f.id)) { toast('That campus id is already used.'); return; }
+    if (!list.length) {
+      // A one-campus university is about to have two. The campus it already has becomes the
+      // first, teaching what it teaches now; without it, its students could only pick the new one.
+      const id = f.id === 'main' ? 'main_campus' : 'main';
+      list.push({ id, name: { en: 'Main campus' }, courses: [...(S.pack.courses || S.catalogue.courses.map((c) => c.id))] });
+      keepOpen(`${S.inst}:campus:${id}`, true);
+      toast('Your existing campus is now listed too, as "Main campus". Rename it if you like.');
+    }
     list.push({ id: f.id, name: { en: '' }, courses: [] });
     keepOpen(`${S.inst}:campus:${f.id}`, true);
     S.dirty = true; render();

@@ -37,6 +37,7 @@ import sqlite3
 import sys
 import threading
 import time
+import traceback
 import urllib.parse
 from pathlib import Path
 
@@ -261,6 +262,8 @@ def rate_limited(key, limit=RATE_LIMIT):
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
+    server_version = "UniversitySimulator"   # no software or version names in the Server header
+    sys_version = ""
     # Python's defaults miss or vary for some of these, which breaks ES modules
     # and the PWA manifest on some systems (notably Windows registry MIME types).
     extensions_map = {
@@ -287,7 +290,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if "/portal/" in self.path:
             # The portal runs only its own scripts, cannot be framed, and is never cached.
             self.send_header("Content-Security-Policy", "default-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
-            self.send_header("X-Frame-Options", "DENY")
+        else:
+            # The app runs only its own scripts and talks only to this server. It sets a few inline
+            # styles, and draws its plan as an image, hence 'unsafe-inline' for styles and data/blob images.
+            self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
+                             "img-src 'self' data: blob:; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+        self.send_header("X-Frame-Options", "DENY")  # neither can be framed by another site (clickjacking)
         origin = self.headers.get("Origin")
         if APP_ORIGIN and origin == APP_ORIGIN:
             self.send_header("Access-Control-Allow-Origin", APP_ORIGIN)
@@ -319,6 +327,19 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         top = parts[0].lower()
         return top in PUBLIC_DIRS or (len(parts) == 1 and top in PUBLIC_FILES)
 
+    def list_directory(self, path):
+        # Folders are never listed: only files the app asks for by name are served.
+        self.send_json(404, {"error": "not found"})
+        return None
+
+    def content_length(self):
+        """The request's Content-Length: 0 when there is none, None when it is negative or not a number."""
+        try:
+            length = int(self.headers.get("Content-Length") or 0)
+        except ValueError:
+            return None
+        return length if length >= 0 else None
+
     def do_HEAD(self):
         if not self.public_file():
             return self.send_json(404, {"error": "not found"})
@@ -336,7 +357,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def portal_api(self, method):
         """Everything under /portal/api/: the staff portal."""
-        length = int(self.headers.get("Content-Length") or 0)
+        length = self.content_length()
+        if length is None:
+            return self.send_json(400, {"error": "bad Content-Length"})
         if length > 512 * 1024:
             return self.send_json(413, {"error": "That is too large."})
         data = {}
@@ -347,8 +370,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 return self.send_json(400, {"error": "invalid JSON"})
         if method != "GET" and self.cross_origin_blocked():
             return self.send_json(403, {"error": "origin not allowed"})
-        status, body, cookie = portal_web.handle(portal(), method, self.path.split("?")[0], self.headers, data,
-                                                 self.client_ip(), secure=PORTAL_SECURE_COOKIE, stats=stats_summary)
+        try:
+            status, body, cookie = portal_web.handle(portal(), method, self.path.split("?")[0], self.headers, data,
+                                                     self.client_ip(), secure=PORTAL_SECURE_COOKIE, stats=stats_summary)
+        except Exception:  # never show a visitor how the server failed; the log has the details
+            traceback.print_exc()
+            return self.send_json(500, {"error": "Something went wrong. Try again, or tell us if it keeps happening."})
         return self.send_json(status, body, cookie)
 
     def do_PUT(self):
@@ -367,8 +394,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         return self.client_address[0]
 
     def read_json(self):
-        length = int(self.headers.get("Content-Length") or 0)
-        if not 0 < length <= MAX_BODY:
+        length = self.content_length()
+        if not length or length > MAX_BODY:
             return None
         try:
             return json.loads(self.rfile.read(length))

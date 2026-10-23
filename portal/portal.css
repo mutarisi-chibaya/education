@@ -31,6 +31,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 
 label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; }
 label .hint { font-weight: 400; color: var(--muted); }
+label .err { display: block; color: var(--bad); font-weight: 600; font-size: 0.8rem; margin-top: 4px; }
+label .err:empty { display: none; }
+[aria-invalid] { border-color: var(--bad) !important; background: var(--bad-bg); }
 input, select, textarea { display: block; width: 100%; margin-top: 4px; padding: 8px 10px; font: inherit; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); }
 input[type="checkbox"] { display: inline-block; width: 18px; height: 18px; margin: 0 6px 0 0; vertical-align: -3px; }
 input[type="color"] { padding: 2px; height: 38px; }

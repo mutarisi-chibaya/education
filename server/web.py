@@ -47,6 +47,8 @@ ROUTES = [
     ("POST", r"users/(?P<n>\d+)/disable", "disable_user"),
     ("POST", r"users/(?P<n>\d+)/enable", "enable_user"),
 ]
+TEXT_FIELDS = {"email", "password", "code", "current", "new", "token", "text", "note", "decision", "status", "name", "role",
+               "institution", "id", "short", "type", "province", "licenceTier", "licenceExpires"}
 OPEN = {"login", "reset_request", "reset_confirm"}                    # no session needed
 SETUP = {"me", "logout", "password", "two_step_begin", "two_step_confirm"}  # allowed before setup is finished
 
@@ -83,6 +85,10 @@ def handle(portal, method, path, headers, data, ip, secure=True, stats=None):
     jar = SimpleCookie(headers.get("Cookie") or "")
     token = jar[COOKIE].value if COOKIE in jar else None
     data = data if isinstance(data, dict) else {}
+    # Fields that are always text: a list or an object in their place ({"$ne": 1}, say) is refused
+    # here, rather than reaching code that expects text.
+    if any(k in TEXT_FIELDS and v is not None and not isinstance(v, str) for k, v in data.items()):
+        return 400, {"error": "That request is not valid."}, None
     try:
         if name == "login":
             token, info = portal.login(data.get("email"), data.get("password"), data.get("code"), ip)

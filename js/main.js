@@ -1964,7 +1964,7 @@ async function openServiceLink() {
   if (state && (linked.id !== content.id || linked.campusId !== content.campusId)) ownContent = content;
   content = linked;
   screen = 'services';
-  if (content.support[id]) overlay = [id];
+  if (Object.hasOwn(content.support, id)) overlay = [id]; // own services only, never "__proto__" and the like
 }
 
 // ---------- events ----------
