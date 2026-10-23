@@ -511,12 +511,16 @@ class Portal:
                 live = self.published(institution_id)
                 submitted_by_me = row["submitted_by"] == user["id"]
                 viewer = user["role"] == "viewer"
+                # Work in progress is the editors' own until they submit it: anyone else sees what
+                # students see now (or the draft, for an institution that has never been published).
+                hidden = row["state"] == "draft" and user["role"] not in MAKERS and live is not None
+                shown = live if hidden else draft
                 return {
-                    "pack": draft, "rev": row["rev"], "state": row["state"],
+                    "pack": shown, "rev": row["rev"], "state": row["state"], "draftHidden": hidden,
                     "publishedVersion": (live or {}).get("version", 0),
                     "submittedBy": self._name_of(con, row["submitted_by"]), "reviewNote": row["review_note"],
-                    "changes": self.changes(live, draft),
-                    "diff": self.diff(live, draft),
+                    "changes": [] if hidden else self.changes(live, draft),
+                    "diff": [] if hidden else self.diff(live, draft),
                     "can": {
                         "edit": row["state"] == "draft" and user["role"] in MAKERS,
                         "addCards": row["state"] == "draft" and user["role"] == "admin",
@@ -642,9 +646,13 @@ class Portal:
         con = self._con()
         try:
             with con:
-                draft = json.loads(self._row(con, institution_id)["draft"])
+                row = self._row(con, institution_id)
+                draft = json.loads(row["draft"])
         finally:
             con.close()
+        live = self.published(institution_id)
+        if row["state"] == "draft" and user["role"] not in MAKERS and live is not None:
+            draft = live  # an unsubmitted draft is the editors' own: check what students see instead
         return self.check(institution_id, draft)
 
     def submit(self, user, institution_id, ip=""):

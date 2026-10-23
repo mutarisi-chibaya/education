@@ -357,6 +357,21 @@ class Workflow(PortalCase):
         self.portal.review(self.reviewer, "sizwe", "approve")
         self.assertEqual(self.live()["short"], "Sizwe U")
 
+    def test_a_draft_stays_with_the_editors_until_it_is_submitted(self):
+        self.edit(self.editor, short="Work in progress")
+        viewer = self.account("viewer@sizwe.example", "Viewer", "viewer", "sizwe")
+        for other in (self.reviewer, viewer):
+            state = self.portal.get_pack(other, "sizwe")
+            self.assertEqual(state["pack"]["short"], "Sizwe", "they see what students see")
+            self.assertTrue(state["draftHidden"])
+            self.assertEqual((state["changes"], state["diff"]), ([], []))
+        self.assertEqual(self.portal.get_pack(self.editor, "sizwe")["pack"]["short"], "Work in progress")
+        self.portal.submit(self.editor, "sizwe")
+        state = self.portal.get_pack(self.reviewer, "sizwe")
+        self.assertEqual(state["pack"]["short"], "Work in progress", "once submitted, the reviewer sees it")
+        self.assertFalse(state["draftHidden"])
+        self.assertTrue(state["changes"])
+
     def test_whoever_submitted_can_withdraw_it_and_nobody_else_but_an_admin(self):
         self.edit(self.editor, short="Sizwe U")
         self.portal.submit(self.editor, "sizwe")

@@ -16,15 +16,15 @@ follow [docs/portal-testing.md](docs/portal-testing.md).
 | Role | Belongs to | Can |
 |---|---|---|
 | **Editor** | One institution | Edit the draft, run the check, submit for review, and withdraw their own submission to keep editing |
-| **Reviewer** | One institution | Read everything and run the check; approve or send back a submission, and publish an earlier version again. A reviewer never makes changes, so the person who approves a change is never the one who made it |
-| **Viewer** | One institution | Open every tab, read the draft and history, and run the check. Nothing can be saved, submitted or published. For judges and demos |
+| **Reviewer** | One institution | See what students see, and each submission with its before-and-after table; run the check; approve or send back a submission, and publish an earlier version again. A reviewer never makes changes, so the person who approves a change is never the one who made it |
+| **Viewer** | One institution | Open every tab, see what students see and anything submitted for review, read the history, and run the check. Nothing can be saved, submitted or published. For judges and demos |
 | **Platform admin** | Us | Everything, for every institution. Creates institutions and accounts, and sets status, type and licence |
 
 Staff only ever see their own institution. To them, the others do not exist.
 
 ## How a change reaches students
 
-1. **Edit.** An editor changes the draft and saves it. Students still see the published version.
+1. **Edit.** An editor changes the draft and saves it. Students, reviewers and viewers still see the published version: a draft stays with the editors until they submit it.
 2. **Check.** The same pack check the build tools use runs on the server. It plays the whole
    story on every campus and refuses unverified phone numbers, services in buildings that
    are not on the map, placeholder email addresses, unreadable colours and rule changes.

@@ -209,7 +209,7 @@ function tabGuide() {
   const roleText = {
     editor: 'You are an <strong>editor</strong>. You can change your institution\'s draft, run the check and submit it for review. A reviewer has to approve it.',
     reviewer: 'You are a <strong>reviewer</strong>. You check changes and approve them or send them back; you do not make them yourself, so the person who approves a change is never the one who made it. You can also publish an earlier version again.',
-    viewer: 'You have a <strong>read-only demo account</strong>. You can open every tab, look at the draft, run the check and read the history, but nothing you do can change what students see. To try editing and approving, ask for an editor and a reviewer account.',
+    viewer: 'You have a <strong>read-only demo account</strong>. You can open every tab, see what students see and anything submitted for review, run the check and read the history, but nothing you do can change what students see. To try editing and approving, ask for an editor and a reviewer account.',
     admin: 'You are a <strong>platform admin</strong> on the University Simulator team. You can work on every institution, create institutions and accounts, set licences, and write an institution\'s own story cards.',
   }[role];
   return `<section class="card"><h2>How the portal works</h2>
@@ -355,7 +355,8 @@ function tabGuide() {
 function header() {
   const d = S.data;
   const state = d.state === 'submitted' ? '<span class="pill wait">Waiting for review</span>'
-    : d.changes.length ? '<span class="pill">Draft with changes</span>' : '<span class="pill ok">Up to date</span>';
+    : d.draftHidden ? '<span class="pill ok">Nothing waiting for review</span>'
+      : d.changes.length ? '<span class="pill">Draft with changes</span>' : '<span class="pill ok">Up to date</span>';
   return `<div class="head">
     ${S.institutions.length > 1 ? `<select data-action="institution" aria-label="Institution">${S.institutions.map((i) => `<option value="${esc(i.id)}" ${i.id === S.inst ? 'selected' : ''}>${esc(en(i.name) || i.id)}</option>`).join('')}</select>`
     : `<h1>${esc(en(S.pack.name))}</h1>`}
@@ -617,7 +618,8 @@ function tabReview() {
       <details class="item" ${fold('review:diff')}><summary>Before and after, line by line <span class="tag">${d.diff.length} change(s)</span></summary>
       <table class="diff"><tr><th>Where</th><th>Students see now</th><th>After this change</th></tr>
       ${d.diff.map((r) => `<tr><td>${esc(r.where)}</td><td class="before">${esc(r.before) || '<span class="muted">(nothing)</span>'}</td><td class="after">${esc(r.after) || '<span class="muted">(removed)</span>'}</td></tr>`).join('')}</table></details>`
-    : '<p class="muted">Nothing differs from what students see now.</p>'}
+    : d.draftHidden ? '<p class="muted">Nothing has been submitted for review. Work in progress stays with the editors until they submit it; until then you see what students see now.</p>'
+      : '<p class="muted">Nothing differs from what students see now.</p>'}
     ${S.dirty ? '<div class="note">You have unsaved changes. Save the draft first.</div>' : ''}
     <div class="row"><button data-action="check" ${S.dirty ? 'disabled' : ''}>Run the check</button>
       <button class="primary" data-action="submit" ${d.can.submit && !S.dirty ? '' : 'disabled'}>Submit for review</button></div>
