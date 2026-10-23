@@ -78,10 +78,13 @@ const locked = () => (S.data?.can.edit ? '' : 'disabled');
 // Limits match tools/pack-check.mjs, which the server runs: the form only warns early.
 const LIMITS = { rent: { min: 300, max: 30000 }, taxi: { min: 20, max: 3000 } };
 
-function field(label, path, { type = 'text', hint = '', placeholder = '', number = false, min, max, maxlength = 200, required = false } = {}) {
+// A small grey "?" beside a label. Pressing it shows what the box is for and where students see it.
+const helpTip = (text) => (text ? ` <button type="button" class="q" data-action="q" aria-label="What is this?" aria-expanded="false">?</button><span class="qtext" hidden>${text}</span>` : '');
+
+function field(label, path, { type = 'text', hint = '', placeholder = '', number = false, min, max, maxlength = 200, required = false, help = '' } = {}) {
   const limits = type === 'number' ? `min="${min ?? 0}" ${max !== undefined ? `max="${max}"` : ''} step="1" ${required ? 'required' : ''}`
     : type === 'date' ? `max="${new Date().toISOString().slice(0, 10)}"` : `maxlength="${maxlength}"`;
-  return `<label>${esc(label)} ${hint ? `<span class="hint">${esc(hint)}</span>` : ''}
+  return `<label>${esc(label)} ${hint ? `<span class="hint">${esc(hint)}</span>` : ''}${helpTip(help)}
     <input type="${type}" data-path="${path}" ${number ? 'data-number' : ''} value="${val(path)}" placeholder="${esc(placeholder)}" ${type === 'color' ? '' : limits} ${locked()}><span class="err" aria-live="polite"></span></label>`;
 }
 
@@ -95,15 +98,15 @@ function showValidity(el) {
 
 // Text students read. Staff write it in English only; the other languages are
 // translated from the English, so a changed English text never shows an old translation.
-function textBox(label, path, { area = false, placeholder = {} } = {}) {
+function textBox(label, path, { area = false, placeholder = {}, help = '' } = {}) {
   return area
-    ? `<label>${esc(label)}<textarea data-path="${path}.en" maxlength="2000" placeholder="${esc(placeholder.en || '')}" ${locked()}>${val(`${path}.en`)}</textarea><span class="err" aria-live="polite"></span></label>`
-    : `<label>${esc(label)}<input data-path="${path}.en" maxlength="300" value="${val(`${path}.en`)}" placeholder="${esc(placeholder.en || '')}" ${locked()}><span class="err" aria-live="polite"></span></label>`;
+    ? `<label>${esc(label)}${helpTip(help)}<textarea data-path="${path}.en" maxlength="2000" placeholder="${esc(placeholder.en || '')}" ${locked()}>${val(`${path}.en`)}</textarea><span class="err" aria-live="polite"></span></label>`
+    : `<label>${esc(label)}${helpTip(help)}<input data-path="${path}.en" maxlength="300" value="${val(`${path}.en`)}" placeholder="${esc(placeholder.en || '')}" ${locked()}><span class="err" aria-live="polite"></span></label>`;
 }
 
-function checks(label, path, options, all) {
+function checks(label, path, options, all, help = '') {
   const chosen = getPath(S.pack, path) || all;
-  return `<h3>${esc(label)}</h3><div class="checks">${options.map((o) => `<label><input type="checkbox" data-list="${path}" value="${esc(o.id)}" ${chosen.includes(o.id) ? 'checked' : ''} ${locked()}>${esc(en(o.label))}</label>`).join('')}</div>`;
+  return `<h3>${esc(label)}${helpTip(help)}</h3><div class="checks">${options.map((o) => `<label><input type="checkbox" data-list="${path}" value="${esc(o.id)}" ${chosen.includes(o.id) ? 'checked' : ''} ${locked()}>${esc(en(o.label))}</label>`).join('')}</div>`;
 }
 
 // The layer being edited on the buildings and services tabs: the whole university, or one campus.
@@ -377,18 +380,23 @@ function tabDetails() {
   const colours = (prefix, title) => `<h3>${title}</h3><div class="grid">
     ${field('Main colour', `${prefix}.brand`, { type: 'color' })}${field('Text on the main colour', `${prefix}.brandInk`, { type: 'color' })}
     ${field('Highlight colour', `${prefix}.accent`, { type: 'color' })}${field('Highlight colour for text', `${prefix}.accentInk`, { type: 'color' })}</div>`;
+  const hasRes = (S.pack.housing || c.housing.map((h) => h.id)).includes('residence');
   return `${foldCard('details:name', 'Name', `
-      ${textBox('Full name', 'name')}
-      <div class="grid">${field('Short name', 'short', { hint: 'what students call it', maxlength: 40 })}${field('Province', 'province', { maxlength: 40 })}${field('Area name', 'area', { hint: 'used in some card text', maxlength: 60 })}</div>
-      ${textBox('One line shown under the name', 'campus')}
-      ${textBox('City, as it reads in a sentence', 'city', { placeholder: { en: 'the city' } })}`)}
-    ${foldCard('details:costs', 'Local costs', `<div class="grid">
-      ${field('Monthly rent for a private room (rand)', 'costs.rent_private', { type: 'number', number: true, required: true, ...LIMITS.rent })}
-      ${field('A week of taxi fares (rand)', 'costs.taxi_week', { type: 'number', number: true, required: true, ...LIMITS.taxi })}</div>`)}
+      ${textBox('Full name', 'name', { help: 'Your name as students see it: in the list of universities when they set up, and at the top of the app.' })}
+      <div class="grid">${field('Short name', 'short', { maxlength: 40, help: 'What students call you, used inside sentences, for example "Ask at the Karoo Coast student centre".' })}
+      ${field('Province', 'province', { maxlength: 40, help: 'Shown next to your name in the list of universities, so students can tell similar names apart.' })}
+      ${field('Area near campus', 'area', { maxlength: 60, help: 'Where your students rent and shop, used in sentences such as "Rent from a private landlord in Observatory" and "Basics near Observatory cost about R2 400 a month".' })}</div>
+      ${textBox('Line under your name', 'campus', { help: 'The grey line under your name in the list of universities students choose from, for example "Three campuses in Gqeberha".' })}`)}
+    ${foldCard('details:costs', 'Local costs', `
+      <p class="muted">Two local prices, so the money in the game feels like your area. Food, data and other basics come from the app's own estimates.</p>
+      <div class="grid">
+      ${field('Monthly rent for a private room (rand)', 'costs.rent_private', { type: 'number', number: true, required: true, ...LIMITS.rent, help: 'A typical monthly rent for a room near campus. It appears in a story card where a student\'s rent is late ("this month\'s rent of R2 800"). It does not change anyone\'s money.' })}
+      ${field('A week of taxi fares (rand)', 'costs.taxi_week', { type: 'number', number: true, required: true, ...LIMITS.taxi, help: 'What a student living at home pays to get to campus and back for a week. Students who commute pay it from their money in the game, so it changes how quickly their money runs out.' })}</div>`)}
     ${foldCard('details:offer', 'What you offer', `
-      ${(S.pack.campuses || []).length ? '<p class="muted">Courses are set per campus, on the Campuses tab.</p>' : checks('Courses', 'courses', [...c.courses, ...own], c.courses.map((x) => x.id))}
-      ${checks('Housing options', 'housing', c.housing, c.housing.map((x) => x.id))}
-      <p class="muted small">Cards about a kind of housing you do not offer are switched off for you on ${goTo('cards', 'Story cards')}, and switched back on when you add it.</p>`)}
+      ${(S.pack.campuses || []).length ? '<p class="muted">Courses are set per campus, on the Campuses tab.</p>' : checks('Courses', 'courses', [...c.courses, ...own], c.courses.map((x) => x.id), 'The courses a student can choose when they set up. Each course has two key modules that the tests in the game are about.')}
+      <h3>Where your students live${helpTip('Students choose where they live when they set up: in a university residence, in a private room they rent, or at home and commuting. Renting and living at home are always offered, because every university has students who do both. Only residences depend on you.')}</h3>
+      <label class="tick"><input type="checkbox" data-action="residences" ${hasRes ? 'checked' : ''} ${locked()}> We have university residences</label>
+      <p class="muted small">Without residences, students cannot choose one, and the cards about residence life are switched off for you on ${goTo('cards', 'Story cards')}. Tick it again and they come back.</p>`)}
     ${foldCard('details:look', 'Look', `
       <div class="grid">${field('Name in the top bar', 'brand.name', { maxlength: 40 })}${field('Monogram', 'brand.logo', { hint: 'up to 3 letters', maxlength: 3 })}</div>
       ${colours('brand.colors', 'Colours')}
@@ -837,7 +845,6 @@ document.addEventListener('input', (e) => {
   } else if (el.dataset.list) {
     const boxes = [...document.querySelectorAll(`[data-list="${el.dataset.list}"]`)];
     setPath(S.pack, el.dataset.list, boxes.filter((b) => b.checked).map((b) => b.value));
-    if (el.dataset.list === 'housing') followHousing();
   } else if (el.dataset.contact) {
     // A service's phone and website are stored as its "contacts".
     const group = [...document.querySelectorAll(`[data-service="${el.dataset.service}"]`)];
@@ -859,6 +866,13 @@ document.addEventListener('change', async (e) => {
     if (S.dirty && !window.confirm('You have unsaved changes. Leave without saving?')) { el.value = S.inst; return; }
     S.inst = el.value; S.users = null; await loadPack();
   } else if (action === 'layer') { S.layer = el.value; render(); }
+  else if (action === 'residences') {
+    // Renting and living at home are always offered; only residences depend on the institution.
+    const all = S.catalogue.housing.map((h) => h.id);
+    S.pack.housing = el.checked ? all : all.filter((h) => h !== 'residence');
+    followHousing();
+    S.dirty = true; render();
+  }
   else if (action === 'card-toggle') {
     const cards = (S.pack.cards ||= {});
     const off = new Set(cards.off || []);
@@ -881,7 +895,12 @@ document.addEventListener('click', async (e) => {
   if (!el) return;
   const { action, id } = el.dataset;
   const ownCard = () => S.pack.cards.add[el.dataset.chapter][Number(el.dataset.index)];
-  if (action === 'tab') { S.tab = id; render(); loadTab(); }
+  if (action === 'q') {
+    const tip = el.nextElementSibling;
+    tip.hidden = !tip.hidden;
+    el.setAttribute('aria-expanded', String(!tip.hidden));
+    e.preventDefault(); // inside a label: do not also click the box
+  } else if (action === 'tab') { S.tab = id; render(); loadTab(); }
   else if (action === 'forgot') { S.step = 'forgot'; render(); }
   else if (action === 'codes-saved') { S.backupCodes = null; await start(); }
   else if (action === 'to-login') { S.step = 'login'; render(); }

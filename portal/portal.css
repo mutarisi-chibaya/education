@@ -31,6 +31,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 
 label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; }
 label .hint { font-weight: 400; color: var(--muted); }
+/* The grey "?" that explains a box, and its explanation. */
+button.q { width: 20px; height: 20px; padding: 0; border-radius: 50%; font-size: 0.75rem; line-height: 18px; color: var(--muted); background: transparent; vertical-align: 1px; margin-left: 4px; }
+button.q[aria-expanded="true"] { color: var(--brand); border-color: var(--brand); }
+.qtext { display: block; font-weight: 400; font-size: 0.85rem; color: var(--muted); background: var(--bg, #f6f3ee); border-left: 3px solid var(--line); padding: 6px 10px; margin: 6px 0; border-radius: 4px; }
+.qtext[hidden] { display: none; }
+h3 .qtext { font-size: 0.85rem; }
+label.tick { display: flex; gap: 8px; align-items: center; font-weight: 600; }
 label .err { display: block; color: var(--bad); font-weight: 600; font-size: 0.8rem; margin-top: 4px; }
 label .err:empty { display: none; }
 [aria-invalid] { border-color: var(--bad) !important; background: var(--bad-bg); }

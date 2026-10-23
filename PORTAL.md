@@ -44,9 +44,11 @@ again. That makes a new version; the history is never rewritten.
 
 On screen, without knowing any IDs:
 
-- **Details and look:** name, costs, courses, housing options, monogram and colours. Taking
-  away a kind of housing (no residences, say) switches off the cards about it, and adding it
-  back switches them on again.
+- **Details and look:** name, the area near campus, two local prices (a month's rent, which
+  appears in a story card, and a week of taxi fares, which commuting students pay in the
+  game), courses, whether there are university residences, monogram and colours. Without
+  residences, the cards about residence life are switched off, and back on when they are
+  ticked again. Each box has a "?" that says what it is for and where students see it.
 - **Campuses:** add or remove campuses, with the courses taught on each.
 - **Campus map:** a link to the campus map the institution already publishes, which is all
   most need. Optionally, a simple map that works offline: buildings and where they sit on it,
