@@ -411,7 +411,7 @@ class RealCheck(PortalCase):
     def test_a_reworded_card_goes_live_through_review(self):
         pack = self.portal.get_pack(self.outsider, "karoo-coast")["pack"]
         cards = json.loads(json.dumps(pack["cards"]))
-        cards["edit"]["FT-02"]["title"] = {"en": "Clubs and Societies Fair", "zu": "Umbukiso Wamaqembu Nezinhlangano"}
+        cards["edit"]["FT-02"]["title"] = {"en": "Clubs and Societies Fair"}
         self.edit(self.outsider, "karoo-coast", cards=cards)
         self.assertEqual(self.portal.get_pack(self.outsider, "karoo-coast")["changes"], ["Cards reworded: FT-02"])
         self.portal.submit(self.outsider, "karoo-coast")
@@ -494,7 +494,7 @@ class Reviewing(PortalCase):
         pages = json.loads(json.dumps(pack["pages"]))
         pages["accredited"]["items"].append({"name": "Harbour House", "detail": {"en": "Accredited private residence"}})
         support = json.loads(json.dumps(pack["support"]))
-        support["health"]["room"] = {"en": "First floor", "zu": "Isitezi sokuqala"}
+        support["health"]["room"] = {"en": "First floor"}
         self.edit(self.outsider, "karoo-coast", pages=pages, support=support)
         diff = {r["where"]: r for r in self.portal.get_pack(self.outsider, "karoo-coast")["diff"]}
         room = diff["support > health > room > en"]

@@ -173,8 +173,7 @@ my-university: 2 error(s). The pack was not published.
 
 Fix the sheet, save, and run the command again.
 
-Lines that start with `warning` do not stop publishing. They are things worth a look, for
-example text with no isiZulu.
+Lines that start with `warning` do not stop publishing. They are things worth a look.
 
 ## Step 4: see it in the app
 

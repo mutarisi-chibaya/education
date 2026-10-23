@@ -6,9 +6,9 @@ until your Student Affairs office has signed it off and our checks have passed.
 Start by copying the `template` folder and renaming the copy to your university. The
 `karoo-coast` folder is a complete, filled-in example for a made-up university.
 
-Every sheet opens in Excel or Google Sheets. Save each one as CSV when you are done. Columns
-ending in `_en` are English and columns ending in `_zu` are isiZulu; if you leave the isiZulu
-empty, students see the English.
+Every sheet opens in Excel or Google Sheets. Save each one as CSV when you are done. Write
+everything in English (the columns ending in `_en`): we translate it into the app's other
+languages, and students see the English until a translation is ready.
 
 ## The sheets
 

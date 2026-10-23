@@ -1,20 +1,16 @@
 {
   "id": "arrival",
   "title": {
-    "en": "Arrival",
-    "zu": "Ukufika"
+    "en": "Arrival"
   },
   "subtitle": {
-    "en": "From acceptance to your first day",
-    "zu": "Kusukela ekwamukelweni kuya osukwini lwakho lokuqala"
+    "en": "From acceptance to your first day"
   },
   "blurb": {
-    "en": "Your first night away, registration surprises, O-Week and finding your feet. About 5 minutes.",
-    "zu": "Ubusuku bakho bokuqala ungekho ekhaya, izimanga zokubhalisa, i-O-Week nokuzinza. Cishe imizuzu emi-5."
+    "en": "Your first night away, registration surprises, O-Week and finding your feet. About 5 minutes."
   },
   "unit": {
-    "en": "Step",
-    "zu": "Isinyathelo"
+    "en": "Step"
   },
   "weeks": 3,
   "economy": false,
@@ -31,12 +27,10 @@
         ]
       },
       "title": {
-        "en": "What if res is overbooked?",
-        "zu": "Kuthiwani uma i-res igcwele ngokweqile?"
+        "en": "What if res is overbooked?"
       },
       "text": {
-        "en": "Some years, res accepts more students than it has beds. Imagine you arrive and there's no room for you. Outside, people offer rooms: \"for students, pay the R1 500 deposit today\".",
-        "zu": "Eminye iminyaka, i-res yamukela abafundi abaningi kunemibhede enayo. Cabanga ufika kungekho kamelo lakho. Ngaphandle, abantu banikeza amakamelo: \"abafundi, khokhani idiphozithi engu-R1 500 namuhla\"."
+        "en": "Some years, res accepts more students than it has beds. Imagine you arrive and there's no room for you. Outside, people offer rooms: \"for students, pay the R1 500 deposit today\"."
       },
       "forecast_tags": [
         "housing"
@@ -46,8 +40,7 @@
         {
           "id": "take",
           "label": {
-            "en": "Take the first room offered",
-            "zu": "Thatha ikamelo lokuqala elinikezwayo"
+            "en": "Take the first room offered"
           },
           "effects": {
             "money": -1500,
@@ -57,12 +50,10 @@
             "saw_res_overbooked"
           ],
           "outcome": {
-            "en": "You hand over the R1 500 deposit. The \"landlord\" stops answering: it was a scam, it happens every year, and it's not your fault.",
-            "zu": "Unikeza idiphozithi engu-R1 500. \"Umnikazi wendlu\" uyeka ukuphendula: bekungumkhonyovu, kwenzeka minyaka yonke, futhi akulona iphutha lakho."
+            "en": "You hand over the R1 500 deposit. The \"landlord\" stops answering: it was a scam, it happens every year, and it's not your fault."
           },
           "tip": {
-            "en": "A real landlord lets you view the room and gives you a lease. Check the university's accredited list before paying anyone.",
-            "zu": "Umnikazi wangempela uyakuvumela ubone ikamelo futhi akunike isivumelwano. Hlola uhlu olugunyaziwe lwenyuvesi ngaphambi kokukhokhela noma ubani."
+            "en": "A real landlord lets you view the room and gives you a lease. Check the university's accredited list before paying anyone."
           },
           "support": [
             "verify_accom"
@@ -74,8 +65,7 @@
                 "moneyBelow": 1500
               },
               "outcome": {
-                "en": "You hand over every rand you have and borrow {borrowed} from a friend to make up the R1 500. The \"landlord\" stops answering: it was a scam, it happens every year, and it's not your fault.",
-                "zu": "Unikeza yonke imali onayo bese uboleka u-{borrowed} kumngane ukuze kuphelele u-R1 500. \"Umnikazi wendlu\" uyeka ukuphendula: bekungumkhonyovu, kwenzeka minyaka yonke, futhi akulona iphutha lakho."
+                "en": "You hand over every rand you have and borrow {borrowed} from a friend to make up the R1 500. The \"landlord\" stops answering: it was a scam, it happens every year, and it's not your fault."
               }
             }
           ],
@@ -87,8 +77,7 @@
             "planner"
           ],
           "label": {
-            "en": "Check it's legitimate first",
-            "zu": "Hlola kuqala ukuthi kuyiqiniso"
+            "en": "Check it's legitimate first"
           },
           "effects": {
             "wellbeing": 0
@@ -97,8 +86,7 @@
             "verify_accom"
           ],
           "outcome": {
-            "en": "The address doesn't match the photos. You walk away and keep looking on the university's accredited list.",
-            "zu": "Ikheli alihambisani nezithombe. Uyahamba bese uqhubeka ufuna ohlwini lwenyuvesi olugunyaziwe."
+            "en": "The address doesn't match the photos. You walk away and keep looking on the university's accredited list."
           },
           "flags": [
             "saw_res_overbooked"
@@ -111,8 +99,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask the university for help",
-            "zu": "Cela usizo enyuvesi"
+            "en": "Ask the university for help"
           },
           "effects": {
             "wellbeing": 5
@@ -121,8 +108,7 @@
             "residence_office"
           ],
           "outcome": {
-            "en": "The housing office finds you a temporary place and keeps you on the list. A room opens up in week two.",
-            "zu": "Ihhovisi lezindawo zokuhlala likutholela indawo yesikhashana futhi likugcine ohlwini. Ikamelo liyavuleka ngesonto lesibili."
+            "en": "The housing office finds you a temporary place and keeps you on the list. A room opens up in week two."
           },
           "flags": [
             "saw_res_overbooked"
@@ -136,12 +122,10 @@
       "type": "core",
       "week": 1,
       "title": {
-        "en": "Your first night alone",
-        "zu": "Ubusuku bakho bokuqala uwedwa"
+        "en": "Your first night alone"
       },
       "text": {
-        "en": "Your family has just left. The room is quiet, your phone is on 8%, and orientation starts tomorrow.",
-        "zu": "Umndeni wakho usanda kuhamba. Ikamelo lithule, ifoni yakho isele no-8%, futhi ukwethulwa kuqala kusasa."
+        "en": "Your family has just left. The room is quiet, your phone is on 8%, and orientation starts tomorrow."
       },
       "forecast_tags": [
         "loneliness"
@@ -154,16 +138,14 @@
             "connector"
           ],
           "label": {
-            "en": "Call home",
-            "zu": "Shayela ekhaya"
+            "en": "Call home"
           },
           "effects": {
             "money": -20,
             "wellbeing": 5
           },
           "outcome": {
-            "en": "Hearing familiar voices helps. Someone at home says the house already feels empty without you.",
-            "zu": "Ukuzwa amazwi ajwayelekile kuyasiza. Othile wasekhaya uthi indlu isivele ingenalutho ngaphandle kwakho."
+            "en": "Hearing familiar voices helps. Someone at home says the house already feels empty without you."
           }
         },
         {
@@ -172,8 +154,7 @@
             "planner"
           ],
           "label": {
-            "en": "Unpack and explore campus",
-            "zu": "Khipha izimpahla bese uhlola ikhampasi"
+            "en": "Unpack and explore campus"
           },
           "effects": {
             "wellbeing": 5,
@@ -183,8 +164,7 @@
             "explored_campus"
           ],
           "outcome": {
-            "en": "You find the library, the dining hall and a shortcut to your first lecture. Tomorrow already feels less scary.",
-            "zu": "Uthola umtapo wolwazi, ihholo lokudlela nendlela emfushane eya esifundweni sakho sokuqala. Kusasa sekuzwakala kungesabisi kangako."
+            "en": "You find the library, the dining hall and a shortcut to your first lecture. Tomorrow already feels less scary."
           }
         },
         {
@@ -193,15 +173,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Stay in your room",
-            "zu": "Hlala ekamelweni lakho"
+            "en": "Stay in your room"
           },
           "effects": {
             "wellbeing": -5
           },
           "outcome": {
-            "en": "You scroll until 2am. Feeling low on the first night is normal, and it usually lifts once you meet people.",
-            "zu": "Uskrola kuze kube ngu-2 ekuseni. Ukuzizwa uphansi ngobusuku bokuqala kuvamile, futhi kuvame ukudlula uma usuhlangana nabantu."
+            "en": "You scroll until 2am. Feeling low on the first night is normal, and it usually lifts once you meet people."
           }
         }
       ],
@@ -223,12 +201,10 @@
             ]
           },
           "title": {
-            "en": "Your first night in res",
-            "zu": "Ubusuku bakho bokuqala e-res"
+            "en": "Your first night in res"
           },
           "text": {
-            "en": "This time there was no overbooking: your room was ready. Your family has just left, the room is quiet, your phone is on 8%, and orientation starts tomorrow.",
-            "zu": "Kulokhu kwakungekho ukugcwala ngokweqile: ikamelo lakho lalilungile. Umndeni wakho usanda kuhamba, ikamelo lithule, ifoni yakho isele no-8%, futhi ukwethulwa kuqala kusasa."
+            "en": "This time there was no overbooking: your room was ready. Your family has just left, the room is quiet, your phone is on 8%, and orientation starts tomorrow."
           }
         },
         {
@@ -238,8 +214,7 @@
             ]
           },
           "title": {
-            "en": "Your first night in res",
-            "zu": "Ubusuku bakho bokuqala e-res"
+            "en": "Your first night in res"
           }
         }
       ]
@@ -250,12 +225,10 @@
       "week": 1,
       "slot": "spine",
       "title": {
-        "en": "Your first commute",
-        "zu": "Uhambo lwakho lokuqala"
+        "en": "Your first commute"
       },
       "text": {
-        "en": "It's 5:30am. Two taxis and a long walk stand between home and campus, and orientation starts at 8.",
-        "zu": "Ngu-5:30 ekuseni. Amatekisi amabili nohambo olude ngezinyawo kuphakathi kwekhaya nekhampasi, futhi ukwethulwa kuqala ngo-8."
+        "en": "It's 5:30am. Two taxis and a long walk stand between home and campus, and orientation starts at 8."
       },
       "forecast_tags": [
         "housing"
@@ -267,15 +240,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Leave at the usual time",
-            "zu": "Hamba ngesikhathi esijwayelekile"
+            "en": "Leave at the usual time"
           },
           "effects": {
             "wellbeing": -5
           },
           "outcome": {
-            "en": "The second taxi takes forty minutes to fill. You walk in at 8:40, flustered.",
-            "zu": "Itekisi lesibili lithatha imizuzu engamashumi amane ukugcwala. Ungena ngo-8:40, uphazamisekile."
+            "en": "The second taxi takes forty minutes to fill. You walk in at 8:40, flustered."
           }
         },
         {
@@ -284,15 +255,13 @@
             "planner"
           ],
           "label": {
-            "en": "Leave an hour early",
-            "zu": "Hamba ihora ngaphambili"
+            "en": "Leave an hour early"
           },
           "effects": {
             "wellbeing": 3
           },
           "outcome": {
-            "en": "You arrive at 7:30 with time to find the venue. Now you know how long the trip really takes.",
-            "zu": "Ufika ngo-7:30 unesikhathi sokuthola indawo. Manje uyazi ukuthi uhambo luthatha isikhathi esingakanani ngempela."
+            "en": "You arrive at 7:30 with time to find the venue. Now you know how long the trip really takes."
           }
         },
         {
@@ -301,19 +270,16 @@
             "connector"
           ],
           "label": {
-            "en": "Ask a neighbour who commutes",
-            "zu": "Buza umakhelwane ogibelayo"
+            "en": "Ask a neighbour who commutes"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "A second-year from your street shows you the faster rank and which taxi to avoid. You travel in together.",
-            "zu": "Umfundi wonyaka wesibili wasemgwaqweni wakho ukukhombisa irenki esheshayo nokuthi yiliphi itekisi okufanele ulibalekele. Nihamba ndawonye."
+            "en": "A second-year from your street shows you the faster rank and which taxi to avoid. You travel in together."
           },
           "tip": {
-            "en": "Ask Student Affairs about commuter or day-student groups. Many campuses have a WhatsApp group for each route, for lifts and safe travel.",
-            "zu": "Buza kuMnyango Wezindaba Zabafundi ngamaqembu abafundi abagibelayo. Amakhampasi amaningi aneqembu le-WhatsApp lomzila ngamunye, lokugibelisana nokuhamba ngokuphepha."
+            "en": "Ask Student Affairs about commuter or day-student groups. Many campuses have a WhatsApp group for each route, for lifts and safe travel."
           }
         }
       ]
@@ -328,12 +294,10 @@
         ]
       },
       "title": {
-        "en": "No laptop yet",
-        "zu": "Ayikho i-laptop okwamanje"
+        "en": "No laptop yet"
       },
       "text": {
-        "en": "Registration, your timetable and the student portal are all online, and assignments must be typed. Your phone keeps logging you out.",
-        "zu": "Ukubhalisa, uhlelo lwakho lwezifundo nephothali yabafundi konke kuku-inthanethi, futhi imisebenzi kufanele ithayiphwe. Ifoni yakho ihlala ikukhipha."
+        "en": "Registration, your timetable and the student portal are all online, and assignments must be typed. Your phone keeps logging you out."
       },
       "forecast_tags": [
         "test_stress"
@@ -345,19 +309,16 @@
             "connector"
           ],
           "label": {
-            "en": "Borrow a friend's laptop",
-            "zu": "Boleka i-laptop yomngane"
+            "en": "Borrow a friend's laptop"
           },
           "effects": {
             "wellbeing": 0
           },
           "outcome": {
-            "en": "Your neighbour lets you use theirs for an hour. It works, but you can't do this every week.",
-            "zu": "Umakhelwane wakho ukuvumela usebenzise eyakhe ihora elilodwa. Kuyasebenza, kodwa awukwazi ukwenza lokhu masonto onke."
+            "en": "Your neighbour lets you use theirs for an hour. It works, but you can't do this every week."
           },
           "tip": {
-            "en": "Borrowing works once. For every week, ask the library or IT help desk which computer labs are open late.",
-            "zu": "Ukuboleka kusebenza kanye. Okwamasonto onke, buza emtapweni noma edeskini le-IT ukuthi yimaphi amagumbi amakhompyutha avula kuze kube sebusuku."
+            "en": "Borrowing works once. For every week, ask the library or IT help desk which computer labs are open late."
           }
         },
         {
@@ -366,8 +327,7 @@
             "planner"
           ],
           "label": {
-            "en": "Find the computer labs",
-            "zu": "Thola amagumbi amakhompyutha"
+            "en": "Find the computer labs"
           },
           "effects": {
             "wellbeing": 5
@@ -379,8 +339,7 @@
             "devices"
           ],
           "outcome": {
-            "en": "You find a lab that's open late and save its hours in your phone.",
-            "zu": "Uthola igumbi elivulekile kuze kube sebusuku futhi ulondoloze amahora alo efonini yakho."
+            "en": "You find a lab that's open late and save its hours in your phone."
           }
         },
         {
@@ -389,8 +348,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask about a laptop loan",
-            "zu": "Buza ngokubolekwa i-laptop"
+            "en": "Ask about a laptop loan"
           },
           "effects": {
             "wellbeing": 5
@@ -402,12 +360,10 @@
             "devices"
           ],
           "outcome": {
-            "en": "Student Affairs shows you how to apply for a laptop loan, and which computer labs to use until yours is ready.",
-            "zu": "UMnyango Wezindaba Zabafundi ukukhombisa ukuthi ufaka kanjani isicelo sokubolekwa i-laptop, nokuthi yimaphi amagumbi amakhompyutha ozowasebenzisa kuze kube yilapho eyakho isilungile."
+            "en": "Student Affairs shows you how to apply for a laptop loan, and which computer labs to use until yours is ready."
           },
           "tip": {
-            "en": "Many universities lend laptops to students who need one, and some bursaries include money for study materials. Ask in your first week: loan laptops run out.",
-            "zu": "Amanyuvesi amaningi aboleka abafundi abayidingayo ama-laptop, futhi eminye imixhaso ifaka imali yezinto zokufunda. Buza ngesonto lakho lokuqala: ama-laptop okubolekwa ayaphela."
+            "en": "Many universities lend laptops to students who need one, and some bursaries include money for study materials. Ask in your first week: loan laptops run out."
           }
         }
       ],
@@ -418,12 +374,10 @@
       "type": "core",
       "week": 2,
       "title": {
-        "en": "An unexpected registration payment",
-        "zu": "Inkokhelo yokubhalisa engalindelekile"
+        "en": "An unexpected registration payment"
       },
       "text": {
-        "en": "The registration system says you owe R1 000 upfront, or your funding hasn't been confirmed yet. You have {money}, and the queue behind you is getting longer.",
-        "zu": "Uhlelo lokubhalisa luthi ukweleta u-R1 000 kuqala, noma uxhaso lwakho alukaqinisekiswa. Uno-{money}, futhi ulayini ngemuva kwakho uya ngokuya ude."
+        "en": "The registration system says you owe R1 000 upfront, or your funding hasn't been confirmed yet. You have {money}, and the queue behind you is getting longer."
       },
       "forecast_tags": [
         "money_shortfall",
@@ -436,8 +390,7 @@
             "borrower"
           ],
           "label": {
-            "en": "Borrow the money",
-            "zu": "Boleka imali"
+            "en": "Borrow the money"
           },
           "effects": {
             "wellbeing": -5,
@@ -447,8 +400,7 @@
             "borrowed_for_registration"
           ],
           "outcome": {
-            "en": "A relative lends you the money. You're registered, and you owe R1 000.",
-            "zu": "Isihlobo sikuboleka imali. Usubhalisile, futhi ukweleta u-R1 000."
+            "en": "A relative lends you the money. You're registered, and you owe R1 000."
           }
         },
         {
@@ -457,30 +409,26 @@
             "connector"
           ],
           "label": {
-            "en": "Ask family to pay",
-            "zu": "Cela umndeni ukhokhe"
+            "en": "Ask family to pay"
           },
           "effects": {
             "wellbeing": -5,
             "family_obligation": 1
           },
           "outcome": {
-            "en": "Your family scrapes it together. It's a real stretch for them, and you feel it.",
-            "zu": "Umndeni wakho uyayiqoqa. Kuyabanzima ngempela, futhi uyakuzwa lokho."
+            "en": "Your family scrapes it together. It's a real stretch for them, and you feel it."
           }
         },
         {
           "id": "self",
           "label": {
-            "en": "Pay it yourself",
-            "zu": "Zikhokhele wena"
+            "en": "Pay it yourself"
           },
           "effects": {
             "money": -1000
           },
           "outcome": {
-            "en": "You pay from the money you brought. You're registered, with very little left for the first weeks.",
-            "zu": "Ukhokha ngemali oze nayo. Usubhalisile, kodwa kusele okuncane kakhulu emasontweni okuqala."
+            "en": "You pay from the money you brought. You're registered, with very little left for the first weeks."
           }
         },
         {
@@ -489,8 +437,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask financial aid about options",
-            "zu": "Buza kwabosizo lwezimali ngezindlela"
+            "en": "Ask financial aid about options"
           },
           "effects": {
             "wellbeing": 5
@@ -500,8 +447,7 @@
             "fees"
           ],
           "outcome": {
-            "en": "The office explains your options: some students can register while funding is confirmed, others set up a payment arrangement. You leave registered, without new debt.",
-            "zu": "Ihhovisi likuchazela izindlela zakho: abanye abafundi bangabhalisa ngenkathi uxhaso luqinisekiswa, abanye benza isivumelwano sokukhokha. Uhamba usubhalisile, ngaphandle kwesikweletu esisha."
+            "en": "The office explains your options: some students can register while funding is confirmed, others set up a payment arrangement. You leave registered, without new debt."
           }
         }
       ]
@@ -511,12 +457,10 @@
       "type": "win",
       "week": 2,
       "title": {
-        "en": "A first friend, from the registration queue",
-        "zu": "Umngane wokuqala, emgqeni wokubhalisa"
+        "en": "A first friend, from the registration queue"
       },
       "text": {
-        "en": "Two hours in the same queue and you've swapped numbers, music and survival tips. Your first friend.",
-        "zu": "Amahora amabili emgqeni ofanayo futhi senishintshene ngezinombolo, umculo namathiphu okusinda. Umngane wakho wokuqala."
+        "en": "Two hours in the same queue and you've swapped numbers, music and survival tips. Your first friend."
       },
       "effects": {
         "wellbeing": 5,
@@ -528,12 +472,10 @@
       "type": "situational",
       "week": 2,
       "title": {
-        "en": "Lost on campus",
-        "zu": "Ulahlekile ekhampasi"
+        "en": "Lost on campus"
       },
       "text": {
-        "en": "On your first day, the campus is a maze of buildings that all look the same. Your first session starts in ten minutes, and you can't find the venue.",
-        "zu": "Ngosuku lwakho lokuqala, ikhampasi iyisixakaxaka sezakhiwo ezibukeka ziyefana. Iseshini yakho yokuqala iqala emizuzwini eyishumi, futhi awulitholi igumbi."
+        "en": "On your first day, the campus is a maze of buildings that all look the same. Your first session starts in ten minutes, and you can't find the venue."
       },
       "forecast_tags": [
         "loneliness"
@@ -545,15 +487,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Wing it",
-            "zu": "Zizamele"
+            "en": "Wing it"
           },
           "effects": {
             "wellbeing": -5
           },
           "outcome": {
-            "en": "You arrive late and sweaty, but you get there. Next time you'll leave earlier.",
-            "zu": "Ufika sekwephuzile ujuluke, kodwa uyafika. Ngokuzayo uzohamba kusenesikhathi."
+            "en": "You arrive late and sweaty, but you get there. Next time you'll leave earlier."
           }
         },
         {
@@ -562,19 +502,16 @@
             "connector"
           ],
           "label": {
-            "en": "Ask a senior for directions",
-            "zu": "Buza umfundi omdala indlela"
+            "en": "Ask a senior for directions"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "A third-year walks you to the venue and tells you which taxis go to town. You save their number.",
-            "zu": "Umfundi wonyaka wesithathu ukuhambisa egumbini futhi akutshele ukuthi yimaphi amatekisi aya edolobheni. Ulondoloza inombolo yakhe."
+            "en": "A third-year walks you to the venue and tells you which taxis go to town. You save their number."
           },
           "tip": {
-            "en": "Orientation leaders, mentors and house committee members wear name tags in the first weeks. They expect questions.",
-            "zu": "Abaholi bokwethulwa, abeluleki namalungu ekomidi lendlu bafaka amagama abo emasontweni okuqala. Balindele imibuzo."
+            "en": "Orientation leaders, mentors and house committee members wear name tags in the first weeks. They expect questions."
           }
         },
         {
@@ -583,8 +520,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Join the campus orientation tour",
-            "zu": "Joyina uhambo lokwethulwa ekhampasi"
+            "en": "Join the campus orientation tour"
           },
           "effects": {
             "wellbeing": 5
@@ -597,8 +533,7 @@
             "campus_safety"
           ],
           "outcome": {
-            "en": "The tour shows you lecture halls, the library, the clinic and where to get help. You meet two other first-years.",
-            "zu": "Uhambo lukukhombisa amahholo ezifundo, umtapo wolwazi, umtholampilo nalapho ungathola khona usizo. Uhlangana nabanye abafundi ababili bonyaka wokuqala."
+            "en": "The tour shows you lecture halls, the library, the clinic and where to get help. You meet two other first-years."
           }
         }
       ]
@@ -608,12 +543,10 @@
       "type": "core",
       "week": 3,
       "title": {
-        "en": "O-Week",
-        "zu": "I-O-Week"
+        "en": "O-Week"
       },
       "text": {
-        "en": "Orientation week: campus tours, res events, a faculty welcome and a party every night. Seniors say this is where most first friends are made.",
-        "zu": "Isonto lokwethulwa: uhambo lwekhampasi, imicimbi ye-res, ukwamukelwa kwefakhalthi nephathi njalo ebusuku. Abafundi abadala bathi yilapho kwakheka khona abangane abaningi bokuqala."
+        "en": "Orientation week: campus tours, res events, a faculty welcome and a party every night. Seniors say this is where most first friends are made."
       },
       "forecast_tags": [
         "loneliness"
@@ -626,8 +559,7 @@
             "connector"
           ],
           "label": {
-            "en": "Go to everything",
-            "zu": "Yiya kukho konke"
+            "en": "Go to everything"
           },
           "effects": {
             "money": -150,
@@ -638,8 +570,7 @@
             "went_to_oweek"
           ],
           "outcome": {
-            "en": "You're exhausted and a little broke, but you know people in every queue now.",
-            "zu": "Ukhathele futhi imali iyashoda kancane, kodwa manje wazi abantu kuwo wonke umugqa."
+            "en": "You're exhausted and a little broke, but you know people in every queue now."
           }
         },
         {
@@ -648,8 +579,7 @@
             "planner"
           ],
           "label": {
-            "en": "Go to some of it",
-            "zu": "Yiya kokunye"
+            "en": "Go to some of it"
           },
           "effects": {
             "wellbeing": 5,
@@ -662,12 +592,10 @@
             "orientation"
           ],
           "outcome": {
-            "en": "You pick the campus tour and your faculty welcome. You leave with two numbers and a map in your head.",
-            "zu": "Ukhetha uhambo lwekhampasi nokwamukelwa kwefakhalthi yakho. Uhamba nezinombolo ezimbili nebalazwe ekhanda."
+            "en": "You pick the campus tour and your faculty welcome. You leave with two numbers and a map in your head."
           },
           "tip": {
-            "en": "You don't need every event. The campus tour and your faculty welcome matter most.",
-            "zu": "Awudingi yonke imicimbi. Uhambo lwekhampasi nokwamukelwa kwefakhalthi yikho okubaluleke kakhulu."
+            "en": "You don't need every event. The campus tour and your faculty welcome matter most."
           }
         },
         {
@@ -676,15 +604,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Skip it",
-            "zu": "Yeqa"
+            "en": "Skip it"
           },
           "effects": {
             "wellbeing": -5
           },
           "outcome": {
-            "en": "You save money and energy. On Monday, everyone else seems to know each other.",
-            "zu": "Wonga imali namandla. NgoMsombuluko, bonke abanye babonakala bazana."
+            "en": "You save money and energy. On Monday, everyone else seems to know each other."
           }
         }
       ],
@@ -696,8 +622,7 @@
             ]
           },
           "text": {
-            "en": "Orientation week: campus tours, a faculty welcome and a party every night. Most first-years are 18. There is also a welcome for mature and part-time students on Tuesday afternoon.",
-            "zu": "Isonto lokwamukela: ukuvakashela ikhampasi, ukwamukelwa yifakhalthi nephathi njalo ebusuku. Iningi labafundi bonyaka wokuqala lineminyaka engu-18. Kukhona nokwamukelwa kwabafundi abadala nabafunda isikhashana ngoLwesibili ntambama."
+            "en": "Orientation week: campus tours, a faculty welcome and a party every night. Most first-years are 18. There is also a welcome for mature and part-time students on Tuesday afternoon."
           }
         }
       ]
@@ -715,12 +640,10 @@
         ]
       },
       "title": {
-        "en": "Arranging care for someone at home",
-        "zu": "Ukuhlela ukunakekelwa komuntu osekhaya"
+        "en": "Arranging care for someone at home"
       },
       "text": {
-        "en": "You look after someone at home, and your timetable has early lectures four days a week.",
-        "zu": "Unakekela othile ekhaya, futhi uhlelo lwakho lwezifundo lunezifundo zasekuseni izinsuku ezine ngesonto."
+        "en": "You look after someone at home, and your timetable has early lectures four days a week."
       },
       "forecast_tags": [
         "family_pressure",
@@ -734,15 +657,13 @@
             "self_sacrificer"
           ],
           "label": {
-            "en": "Do it all and commute daily",
-            "zu": "Kwenze konke bese ugibela nsuku zonke"
+            "en": "Do it all and commute daily"
           },
           "effects": {
             "wellbeing": -10
           },
           "outcome": {
-            "en": "You manage, but you're up at 4:30 every day.",
-            "zu": "Uyakwazi, kodwa uvuka ngo-4:30 nsuku zonke."
+            "en": "You manage, but you're up at 4:30 every day."
           }
         },
         {
@@ -751,16 +672,14 @@
             "connector"
           ],
           "label": {
-            "en": "Arrange help from family",
-            "zu": "Hlela usizo emndenini"
+            "en": "Arrange help from family"
           },
           "effects": {
             "wellbeing": 5,
             "family_obligation": 1
           },
           "outcome": {
-            "en": "A relative takes over three mornings a week. You'll owe them a favour, and that's okay.",
-            "zu": "Isihlobo sithatha izikhathi zasekuseni ezintathu ngesonto. Uzobakweleta umusa, futhi lokho kulungile."
+            "en": "A relative takes over three mornings a week. You'll owe them a favour, and that's okay."
           }
         },
         {
@@ -769,8 +688,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask about flexible support",
-            "zu": "Buza ngosizo oluvumelana nezimo"
+            "en": "Ask about flexible support"
           },
           "effects": {
             "wellbeing": 5
@@ -779,8 +697,7 @@
             "advisor"
           ],
           "outcome": {
-            "en": "An advisor helps you choose class groups that fit around your mornings.",
-            "zu": "Umeluleki ukusiza ukhethe amaqembu ezifundo ahambisana nezikhathi zakho zasekuseni."
+            "en": "An advisor helps you choose class groups that fit around your mornings."
           }
         }
       ]
@@ -795,12 +712,10 @@
         ]
       },
       "title": {
-        "en": "None of your friends came here",
-        "zu": "Akekho kubangane bakho oze lapha"
+        "en": "None of your friends came here"
       },
       "text": {
-        "en": "Your school friends went to other universities or started working. Everyone here seems to know someone already.",
-        "zu": "Abangane bakho besikole baya kwamanye amanyuvesi noma baqala ukusebenza. Wonke umuntu lapha ubonakala esazi othile."
+        "en": "Your school friends went to other universities or started working. Everyone here seems to know someone already."
       },
       "forecast_tags": [
         "loneliness"
@@ -813,15 +728,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Keep to yourself for now",
-            "zu": "Zigcine wedwa okwamanje"
+            "en": "Keep to yourself for now"
           },
           "effects": {
             "wellbeing": -5
           },
           "outcome": {
-            "en": "It's quieter, but the weekend feels long.",
-            "zu": "Kuthule kakhulu, kodwa impelasonto izwakala inde."
+            "en": "It's quieter, but the weekend feels long."
           }
         },
         {
@@ -830,15 +743,13 @@
             "connector"
           ],
           "label": {
-            "en": "Talk to someone sitting nearby",
-            "zu": "Khuluma nomuntu ohlezi eduze"
+            "en": "Talk to someone sitting nearby"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "At the welcome session, the person next to you is also new and also nervous. You walk to the next event together.",
-            "zu": "Eseshinini yokwamukela, umuntu oseduze kwakho naye musha futhi naye uyesaba. Nihamba ndawonye niye emcimbini olandelayo."
+            "en": "At the welcome session, the person next to you is also new and also nervous. You walk to the next event together."
           },
           "variants": [
             {
@@ -849,12 +760,10 @@
                 ]
               },
               "label": {
-                "en": "Knock on your neighbour's door",
-                "zu": "Ngqongqoza emnyango kamakhelwane"
+                "en": "Knock on your neighbour's door"
               },
               "outcome": {
-                "en": "The person in the room next to yours is also new and also nervous. You walk to the welcome event together.",
-                "zu": "Umuntu osekamelweni eliseduze kwelakho naye musha futhi naye uyesaba. Nihamba ndawonye niye emcimbini wokwamukela."
+                "en": "The person in the room next to yours is also new and also nervous. You walk to the welcome event together."
               }
             }
           ]
@@ -865,8 +774,7 @@
             "connector"
           ],
           "label": {
-            "en": "Join orientation activities",
-            "zu": "Joyina imisebenzi yokwethulwa"
+            "en": "Join orientation activities"
           },
           "effects": {
             "wellbeing": 5,
@@ -877,8 +785,7 @@
             "societies"
           ],
           "outcome": {
-            "en": "The games are a bit silly, which helps. You leave with a group chat of ten people.",
-            "zu": "Imidlalo iyahlekisa kancane, okusizayo. Uhamba neqembu lokuxoxa labantu abayishumi."
+            "en": "The games are a bit silly, which helps. You leave with a group chat of ten people."
           }
         }
       ],
@@ -890,12 +797,10 @@
             ]
           },
           "title": {
-            "en": "You don't know anyone here",
-            "zu": "Awazi muntu lapha"
+            "en": "You don't know anyone here"
           },
           "text": {
-            "en": "Most first-years arrived straight from school, some in groups. You're older, and you don't know anyone yet.",
-            "zu": "Iningi labafundi bonyaka wokuqala lifike liqhamuka esikoleni, abanye ngamaqembu. Wena umdala, futhi awukamazi muntu okwamanje."
+            "en": "Most first-years arrived straight from school, some in groups. You're older, and you don't know anyone yet."
           }
         }
       ]
@@ -910,32 +815,27 @@
       "id": "MM-COOK",
       "type": "mini",
       "text": {
-        "en": "You're on your own now. Supper is up to you.",
-        "zu": "Usuzimele manje. Isidlo sakusihlwa sikuwe."
+        "en": "You're on your own now. Supper is up to you."
       },
       "choices": [
         {
           "label": {
-            "en": "Cook your own food",
-            "zu": "Ziphekele ukudla kwakho"
+            "en": "Cook your own food"
           },
           "effects": {
             "confidence": 1
           },
           "outcome": {
-            "en": "Slightly burnt, completely yours.",
-            "zu": "Kushe kancane, kodwa ngokwakho ngokuphelele."
+            "en": "Slightly burnt, completely yours."
           }
         },
         {
           "label": {
-            "en": "Buy takeaways",
-            "zu": "Thenga ukudla okuthathwayo"
+            "en": "Buy takeaways"
           },
           "effects": {},
           "outcome": {
-            "en": "Third night in a row. Your wallet has noticed.",
-            "zu": "Ubusuku besithathu bulandelana. Isikhwama sakho sesibonile."
+            "en": "Third night in a row. Your wallet has noticed."
           }
         }
       ]
@@ -944,30 +844,25 @@
       "id": "MM-WAKE",
       "type": "mini",
       "text": {
-        "en": "Nobody is going to wake you tomorrow. The first session is at 8am.",
-        "zu": "Akekho ozokuvusa kusasa. Iseshini yokuqala ingo-8 ekuseni."
+        "en": "Nobody is going to wake you tomorrow. The first session is at 8am."
       },
       "choices": [
         {
           "label": {
-            "en": "Set three alarms",
-            "zu": "Setha ama-alamu amathathu"
+            "en": "Set three alarms"
           },
           "effects": {},
           "outcome": {
-            "en": "You're early, with time for tea.",
-            "zu": "Ufika kusenesikhathi, unesikhathi setiye."
+            "en": "You're early, with time for tea."
           }
         },
         {
           "label": {
-            "en": "Trust yourself",
-            "zu": "Zethembe"
+            "en": "Trust yourself"
           },
           "effects": {},
           "outcome": {
-            "en": "You wake at 9:40. The session started at 8.",
-            "zu": "Uvuka ngo-9:40. Iseshini iqale ngo-8."
+            "en": "You wake at 9:40. The session started at 8."
           }
         }
       ]
@@ -976,32 +871,27 @@
       "id": "MM-TIME",
       "type": "mini",
       "text": {
-        "en": "No bells, no teacher checking. Your week is a blank page.",
-        "zu": "Azikho izinsimbi, akekho uthisha ohlolayo. Isonto lakho liyikhasi elingenalutho."
+        "en": "No bells, no teacher checking. Your week is a blank page."
       },
       "choices": [
         {
           "label": {
-            "en": "Write a weekly timetable",
-            "zu": "Bhala uhlelo lwesonto"
+            "en": "Write a weekly timetable"
           },
           "effects": {
             "confidence": 1
           },
           "outcome": {
-            "en": "Lectures, meals, laundry, rest. It fits on one page.",
-            "zu": "Izifundo, ukudla, ukuwasha, ukuphumula. Kungena ekhasini elilodwa."
+            "en": "Lectures, meals, laundry, rest. It fits on one page."
           }
         },
         {
           "label": {
-            "en": "See how it goes",
-            "zu": "Bona ukuthi kuhamba kanjani"
+            "en": "See how it goes"
           },
           "effects": {},
           "outcome": {
-            "en": "By Thursday you're not sure where the week went.",
-            "zu": "NgoLwesine awusazi ukuthi isonto liye kuphi."
+            "en": "By Thursday you're not sure where the week went."
           }
         }
       ]
@@ -1010,30 +900,25 @@
       "id": "MM-CARD",
       "type": "mini",
       "text": {
-        "en": "The student card queue is two hours long, and you need the card for the library and the labs.",
-        "zu": "Umugqa wamakhadi abafundi uthatha amahora amabili, futhi udinga ikhadi lomtapo namagumbi amakhompyutha."
+        "en": "The student card queue is two hours long, and you need the card for the library and the labs."
       },
       "choices": [
         {
           "label": {
-            "en": "Queue now",
-            "zu": "Ma emgqeni manje"
+            "en": "Queue now"
           },
           "effects": {},
           "outcome": {
-            "en": "Two hours, one new friend, and a card photo you'll regret for years.",
-            "zu": "Amahora amabili, umngane oyedwa omusha, nesithombe sekhadi ozozisola ngaso iminyaka."
+            "en": "Two hours, one new friend, and a card photo you'll regret for years."
           }
         },
         {
           "label": {
-            "en": "Come back at 8am tomorrow",
-            "zu": "Buya ngo-8 ekuseni kusasa"
+            "en": "Come back at 8am tomorrow"
           },
           "effects": {},
           "outcome": {
-            "en": "Twenty minutes. Bring your ID and proof of registration, or you queue twice.",
-            "zu": "Imizuzu engamashumi amabili. Letha umazisi wakho nobufakazi bokubhalisa, kungenjalo uma emgqeni kabili."
+            "en": "Twenty minutes. Bring your ID and proof of registration, or you queue twice."
           }
         }
       ]

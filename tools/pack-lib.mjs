@@ -41,10 +41,10 @@ export function readCsv(path) {
 
 export const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
 
-// { en, zu } from columns "<key>_en" and "<key>_zu"; undefined when the English is empty.
+// { en } from the column "<key>_en"; undefined when it is empty. Sheets are filled in
+// English only: the other languages are translated from it.
 export function text(row, key) {
-  if (!row[`${key}_en`]) return undefined;
-  return { en: row[`${key}_en`], ...(row[`${key}_zu`] ? { zu: row[`${key}_zu`] } : {}) };
+  return row[`${key}_en`] ? { en: row[`${key}_en`] } : undefined;
 }
 
 // The directory the app downloads first: one short entry per institution.

@@ -2,13 +2,11 @@
   {
     "id": "sizwe",
     "name": {
-      "en": "Sizwe University (fictional)",
-      "zu": "iNyuvesi yaseSizwe (eqanjiwe)"
+      "en": "Sizwe University (fictional)"
     },
     "short": "Sizwe",
     "tagline": {
-      "en": "Fictional demo university, three campuses",
-      "zu": "Inyuvesi yokubonisa eqanjiwe, amakhampasi amathathu"
+      "en": "Fictional demo university, three campuses"
     },
     "type": "university",
     "province": null,
@@ -18,13 +16,11 @@
   {
     "id": "karoo-coast",
     "name": {
-      "en": "Karoo Coast University (fictional)",
-      "zu": "iNyuvesi yaseKaroo Coast (eqanjiwe)"
+      "en": "Karoo Coast University (fictional)"
     },
     "short": "Karoo Coast",
     "tagline": {
-      "en": "Fictional demo university: one campus, no residences, its own colours",
-      "zu": "Inyuvesi yokubonisa eqanjiwe: ikhampasi eyodwa, azikho izindawo zokuhlala, imibala yayo"
+      "en": "Fictional demo university: one campus, no residences, its own colours"
     },
     "type": "university",
     "province": null,

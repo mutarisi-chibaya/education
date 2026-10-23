@@ -1,14 +1,14 @@
-campus_id,page_id,name,detail_en,detail_zu
-,accredited,Seagull House,Accredited private residence · 8 minutes' walk · NSFAS-accredited,Indawo ezimele egunyaziwe · imizuzu eyi-8 ngezinyawo · igunyazwe yi-NSFAS
-,accredited,Dune Court,Accredited private residence · on the town shuttle route · NSFAS-accredited,Indawo ezimele egunyaziwe · isendleleni ye-shuttle yedolobha · igunyazwe yi-NSFAS
-,accredited,Lighthouse Lodge,Accredited private residence · 15 minutes' walk · self-catering,Indawo ezimele egunyaziwe · imizuzu eyi-15 ngezinyawo · uziphekela
-,result_codes,SUP · Supplementary exam,You narrowly missed the pass mark and may write again. Confirm by the deadline.,Uphuthelwe kancane amamaki okuphasa futhi ungabhala futhi. Qinisekisa ngaphambi kosuku lokuvala.
-,result_codes,DEF · Sick (deferred) exam,You were ill and handed in a medical certificate. You write on a later date.,Ubugula futhi wafaka isitifiketi sikadokotela. Uzobhala ngolunye usuku.
-,result_codes,ABS · Absent,You did not write and gave no accepted reason. See your faculty office at once.,Awubhalanga futhi awunikanga isizathu esamukelekayo. Bona ihhovisi lefakhalthi yakho ngokushesha.
-,result_codes,NAD · Not admitted to the exam,Your semester mark was too low to write. Ask an advisor about repeating the module.,Amamaki akho esemesta abephansi kakhulu ukuthi ubhale. Buza umeluleki ngokuphinda isifundo.
-,result_codes,OUT · Result outstanding,"Your mark is not captured yet, or is held back for unpaid fees. Ask before you worry.","Amamaki akho awakafakwa, noma abanjiwe ngenxa yemali yokufunda engakhokhiwe. Buza ngaphambi kokukhathazeka."
-,apply,1 · Check the requirements,Each course lists the subjects and marks it needs. Check before you pay a fee.,Isifundo ngasinye sibala izifundo namamaki esiwadingayo. Hlola ngaphambi kokukhokha imali.
-,apply,"2 · Apply online, yourself","Use your own email address and phone number, so the replies come to you.","Sebenzisa ikheli lakho le-imeyili nenombolo yakho yocingo, ukuze izimpendulo zize kuwe."
-,apply,3 · Upload your documents,A certified copy of your ID and your latest school results.,Ikhophi eqinisekisiwe kamazisi wakho nemiphumela yakho yakamuva yesikole.
-,apply,4 · Keep your reference number,Use it to track your application and to answer every message before its deadline.,Yisebenzise ukulandelela isicelo sakho nokuphendula yonke imiyalezo ngaphambi kosuku lwayo lokuvala.
-,apply,Applications open and close,Example dates: 1 April to 30 September. Residence applications close earlier.,Izinsuku eziyisibonelo: 1 Ephreli kuya ku-30 Septhemba. Izicelo zezindawo zokuhlala zivalwa ngaphambili.
+campus_id,page_id,name,detail_en
+,accredited,Seagull House,Accredited private residence · 8 minutes' walk · NSFAS-accredited
+,accredited,Dune Court,Accredited private residence · on the town shuttle route · NSFAS-accredited
+,accredited,Lighthouse Lodge,Accredited private residence · 15 minutes' walk · self-catering
+,result_codes,SUP · Supplementary exam,You narrowly missed the pass mark and may write again. Confirm by the deadline.
+,result_codes,DEF · Sick (deferred) exam,You were ill and handed in a medical certificate. You write on a later date.
+,result_codes,ABS · Absent,You did not write and gave no accepted reason. See your faculty office at once.
+,result_codes,NAD · Not admitted to the exam,Your semester mark was too low to write. Ask an advisor about repeating the module.
+,result_codes,OUT · Result outstanding,"Your mark is not captured yet, or is held back for unpaid fees. Ask before you worry."
+,apply,1 · Check the requirements,Each course lists the subjects and marks it needs. Check before you pay a fee.
+,apply,"2 · Apply online, yourself","Use your own email address and phone number, so the replies come to you."
+,apply,3 · Upload your documents,A certified copy of your ID and your latest school results.
+,apply,4 · Keep your reference number,Use it to track your application and to answer every message before its deadline.
+,apply,Applications open and close,Example dates: 1 April to 30 September. Residence applications close earlier.

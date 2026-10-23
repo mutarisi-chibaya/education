@@ -4,63 +4,55 @@
     "y": 25,
     "w": 90,
     "h": 60,
-    "en": "From the gate, walk straight up to the main road and turn left. It is the last building on your right.",
-    "zu": "Usuka esangweni, hamba uqonde uye emgwaqweni omkhulu bese ujikela kwesobunxele. Yisakhiwo sokugcina ngakwesokudla sakho."
+    "en": "From the gate, walk straight up to the main road and turn left. It is the last building on your right."
   },
   "n": {
     "x": 115,
     "y": 25,
     "w": 90,
     "h": 60,
-    "en": "From the gate, walk straight up and cross the main road. It is directly ahead.",
-    "zu": "Usuka esangweni, hamba uqonde bese uwela umgwaqo omkhulu. Siphambi kwakho ngqo."
+    "en": "From the gate, walk straight up and cross the main road. It is directly ahead."
   },
   "ne": {
     "x": 215,
     "y": 25,
     "w": 90,
     "h": 60,
-    "en": "From the gate, walk straight up to the main road and turn right. It is the last building on your left.",
-    "zu": "Usuka esangweni, hamba uqonde uye emgwaqweni omkhulu bese ujikela kwesokudla. Yisakhiwo sokugcina ngakwesobunxele sakho."
+    "en": "From the gate, walk straight up to the main road and turn right. It is the last building on your left."
   },
   "w": {
     "x": 15,
     "y": 125,
     "w": 65,
     "h": 60,
-    "en": "From the gate, take the first path on your left and walk to the end.",
-    "zu": "Usuka esangweni, thatha indlela yokuqala ngakwesobunxele uhambe uze ufike ekugcineni."
+    "en": "From the gate, take the first path on your left and walk to the end."
   },
   "cw": {
     "x": 85,
     "y": 125,
     "w": 65,
     "h": 60,
-    "en": "From the gate, walk straight up. It is the first building on your left.",
-    "zu": "Usuka esangweni, hamba uqonde. Yisakhiwo sokuqala ngakwesobunxele sakho."
+    "en": "From the gate, walk straight up. It is the first building on your left."
   },
   "ce": {
     "x": 170,
     "y": 125,
     "w": 65,
     "h": 60,
-    "en": "From the gate, walk straight up. It is the first building on your right.",
-    "zu": "Usuka esangweni, hamba uqonde. Yisakhiwo sokuqala ngakwesokudla sakho."
+    "en": "From the gate, walk straight up. It is the first building on your right."
   },
   "e": {
     "x": 240,
     "y": 125,
     "w": 65,
     "h": 60,
-    "en": "From the gate, take the first path on your right and walk to the end.",
-    "zu": "Usuka esangweni, thatha indlela yokuqala ngakwesokudla uhambe uze ufike ekugcineni."
+    "en": "From the gate, take the first path on your right and walk to the end."
   },
   "gate": {
     "x": 175,
     "y": 195,
     "w": 70,
     "h": 26,
-    "en": "Right next to the gate, on your right as you come in.",
-    "zu": "Eduze kwesango, ngakwesokudla uma ungena."
+    "en": "Right next to the gate, on your right as you come in."
   }
 }

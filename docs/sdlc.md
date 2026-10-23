@@ -99,7 +99,7 @@ A change is done when all of these hold:
 - [ ] It meets the acceptance criteria in its issue
 - [ ] `npm test` and `npm run test:portal` pass
 - [ ] New behaviour has a test; a bug fix has a test that failed before the fix
-- [ ] New or changed text has English and isiZulu, and passes the writing rules
+- [ ] New or changed text is in English, passes the writing rules, and `node tools/translate.mjs` has been run
 - [ ] The right version numbers are bumped
 - [ ] Affected documents are updated in the same pull request
 - [ ] It was played once in a browser, including offline, if it touches the app

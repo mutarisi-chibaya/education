@@ -1,12 +1,9 @@
 key,value
 id,karoo-coast
 name_en,Karoo Coast University (fictional)
-name_zu,iNyuvesi yaseKaroo Coast (eqanjiwe)
 short,Karoo Coast
 tagline_en,"Fictional demo university: one campus, no residences, its own colours"
-tagline_zu,"Inyuvesi yokubonisa eqanjiwe: ikhampasi eyodwa, azikho izindawo zokuhlala, imibala yayo"
 city_en,the town
-city_zu,edolobheni
 area,Karoo Coast
 status,demo
 courses,bsc;bcom;ba

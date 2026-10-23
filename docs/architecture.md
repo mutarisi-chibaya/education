@@ -278,7 +278,7 @@ Each part a rollout would replace sits behind one named place in the code. The t
 |---|---|
 | Offline | Cache-first service worker; bundled packs; every server call fails quietly |
 | Privacy | No account; progress in `localStorage`; statistics carry a random device id only; Campus Realities state is in memory and never saved or sent |
-| Internationalisation | UI strings in `i18n/<lang>.json`; content carries `{ en, zu }`; anything missing falls back to English |
+| Internationalisation | UI strings in `i18n/<lang>.json`; content is English only, with translations in `content/lang/<lang>.json` keyed by the English; anything missing falls back to English |
 | Output safety | All content and pack text is escaped before it reaches the page |
 | Determinism | A journey has a seed; card and mini selection is reproducible from it |
 | Versioning | Four independent version numbers; see [data-model.md](data-model.md#version-numbers) |

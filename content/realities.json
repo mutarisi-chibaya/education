@@ -27,8 +27,7 @@
     {
       "id": "xenophobia",
       "title": {
-        "en": "Xenophobia",
-        "zu": "Ukucwasa abokufika"
+        "en": "Xenophobia"
       },
       "summary": {
         "en": "Being targeted because of where you, or people think you, come from."
@@ -131,8 +130,7 @@
     {
       "id": "sexual_assault",
       "title": {
-        "en": "Sexual assault and rape",
-        "zu": "Ukuhlukunyezwa ngokocansi nokudlwengulwa"
+        "en": "Sexual assault and rape"
       },
       "summary": {
         "en": "Any sexual act without consent. It is never the fault of the person it happened to."
@@ -242,8 +240,7 @@
     {
       "id": "drink_spiking",
       "title": {
-        "en": "Drink spiking and party safety",
-        "zu": "Ukufakelwa izidakamizwa esiphuzweni nokuphepha emaphathini"
+        "en": "Drink spiking and party safety"
       },
       "summary": {
         "en": "Drugs or extra alcohol added to a drink without the person knowing."
@@ -347,8 +344,7 @@
     {
       "id": "racism",
       "title": {
-        "en": "Racism and discrimination",
-        "zu": "Ubuhlanga nokucwasa"
+        "en": "Racism and discrimination"
       },
       "summary": {
         "en": "Being treated worse, or shut out, because of your race, language, religion or background."
@@ -442,8 +438,7 @@
     {
       "id": "sexual_harassment",
       "title": {
-        "en": "Sexual harassment, including by people in power",
-        "zu": "Ukuhlukunyezwa ngokocansi, kuhlanganise nabanamandla"
+        "en": "Sexual harassment, including by people in power"
       },
       "summary": {
         "en": "Unwanted sexual attention, including from a lecturer, tutor, supervisor or residence leader."
@@ -541,8 +536,7 @@
     {
       "id": "relationship_abuse",
       "title": {
-        "en": "Abuse in relationships",
-        "zu": "Ukuhlukunyezwa ebudlelwaneni"
+        "en": "Abuse in relationships"
       },
       "summary": {
         "en": "Control, threats or violence from a partner or ex-partner. It is not only physical."
@@ -643,8 +637,7 @@
     {
       "id": "homophobia_transphobia",
       "title": {
-        "en": "Homophobia and transphobia",
-        "zu": "Ukucwasa abathandana nobulili obufanayo nabashintshe ubulili"
+        "en": "Homophobia and transphobia"
       },
       "summary": {
         "en": "Being targeted or shut out because of who you love or your gender identity."
@@ -742,8 +735,7 @@
     {
       "id": "disability_exclusion",
       "title": {
-        "en": "Exclusion of students with disabilities",
-        "zu": "Ukukhishwa inyumbazane kwabafundi abakhubazekile"
+        "en": "Exclusion of students with disabilities"
       },
       "summary": {
         "en": "Being left out because campus, teaching or people don't make room for your disability or health condition."
@@ -840,8 +832,7 @@
     {
       "id": "hazing",
       "title": {
-        "en": "Residence initiations and hazing",
-        "zu": "Ukungeniswa nokuhlukunyezwa ezindaweni zokuhlala"
+        "en": "Residence initiations and hazing"
       },
       "summary": {
         "en": "\"Traditions\" that humiliate, hurt or endanger new students, and pressure to go along with them."
@@ -939,8 +930,7 @@
     {
       "id": "online_abuse",
       "title": {
-        "en": "Online abuse, including sharing intimate images",
-        "zu": "Ukuhlukunyezwa ku-inthanethi, kuhlanganise nokwabelana ngezithombe eziyimfihlo"
+        "en": "Online abuse, including sharing intimate images"
       },
       "summary": {
         "en": "Harassment, threats or humiliation through phones and social media."

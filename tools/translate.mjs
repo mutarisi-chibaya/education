@@ -1,11 +1,12 @@
-// Machine-translates the app into the languages that are not written by hand.
+// Machine-translates the app from English, its only source language.
 //
 //   node tools/translate.mjs              every language below, only what is missing
 //   node tools/translate.mjs xh af        just these
 //   node tools/translate.mjs --redo xh    translate everything again
 //
-// English and isiZulu are written by hand and live in the content itself.
-// For the other languages this writes two files each:
+// Content is written in English. isiZulu was written by hand, so for isiZulu this
+// only fills gaps (new or reworded English) and --redo is refused.
+// For each language this writes two files:
 //   i18n/<lang>.json          menus, buttons and pages (kept strings are not touched)
 //   content/lang/<lang>.json  card text: { "English text": "translation" }
 // Run it again after adding or rewording cards: only new text is sent.
@@ -19,6 +20,8 @@ import { dirname, resolve } from 'node:path';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const MACHINE_LANGS = ['xh', 'af', 'nso', 'tn', 'st'];
+export const HAND_LANGS = ['zu'];                       // written by hand; the tool only fills gaps
+export const TRANSLATED_LANGS = [...HAND_LANGS, ...MACHINE_LANGS];
 const BATCH = 3200;
 const read = (p) => JSON.parse(readFileSync(resolve(ROOT, p), 'utf8'));
 const write = (p, v) => writeFileSync(resolve(ROOT, p), `${JSON.stringify(v, null, 2)}\n`);
@@ -145,8 +148,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const args = process.argv.slice(2);
   const redo = args.includes('--redo');
   const langs = args.filter((a) => !a.startsWith('--'));
-  for (const lang of langs.length ? langs : MACHINE_LANGS) {
-    if (!MACHINE_LANGS.includes(lang)) { console.error(`"${lang}" is not one of ${MACHINE_LANGS.join(', ')}`); process.exit(2); }
+  for (const lang of langs.length ? langs : redo ? MACHINE_LANGS : TRANSLATED_LANGS) {
+    if (!TRANSLATED_LANGS.includes(lang)) { console.error(`"${lang}" is not one of ${TRANSLATED_LANGS.join(', ')}`); process.exit(2); }
+    if (redo && HAND_LANGS.includes(lang)) { console.error(`"${lang}" is written by hand: --redo would replace it. Run it without --redo to fill gaps.`); process.exit(2); }
     await run(lang, redo);
   }
 }

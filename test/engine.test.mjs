@@ -9,7 +9,7 @@ import {
 import { mergeContent, openDirectory, searchDirectory } from '../js/content.js';
 import { checkPack } from '../tools/pack-check.mjs';
 import { parseCsv } from '../tools/pack-lib.mjs';
-import { MACHINE_LANGS, cardTexts, placeholders } from '../tools/translate.mjs';
+import { MACHINE_LANGS, TRANSLATED_LANGS, cardTexts, placeholders } from '../tools/translate.mjs';
 import { LANGS, tx } from '../js/i18n.js';
 import { computeBudget, incomeTier, suggestedIncome } from '../js/budget.js';
 import { termIndex, linkTerms } from '../js/glossary.js';
@@ -414,7 +414,7 @@ test('scale: a directory of hundreds, searched and grouped, with one pack per ph
 test('an institution can bring its own courses, and stale phone numbers are hidden', () => {
   const kc = JSON.parse(JSON.stringify(institutions.find((i) => i.id === 'karoo-coast')));
   kc.type = 'tvet';
-  kc.courseList = [{ id: 'n4_eng', label: { en: 'N4 Engineering Studies', zu: 'N4 Izifundo Zobunjiniyela' }, modules: [{ en: 'Mathematics N4', zu: 'iZibalo N4' }, { en: 'Engineering Science N4', zu: 'Isayensi Yobunjiniyela N4' }] }];
+  kc.courseList = [{ id: 'n4_eng', label: { en: 'N4 Engineering Studies' }, modules: [{ en: 'Mathematics N4' }, { en: 'Engineering Science N4' }] }];
   kc.courses = ['n4_eng'];
   assert.deepEqual(checkPack('karoo-coast', kc).errors, []);
   const c = mergeContent(core, kc, chapterIndex, chapterFiles);
@@ -763,11 +763,14 @@ test('Campus Realities: at least three topics, each with all five parts', () => 
   }
 });
 
-test('content: every text has English and isiZulu', () => {
-  const missing = [];
+test('content: written in English only, with every translation kept apart in content/lang', () => {
+  // A translation stored beside its English goes out of date when the English is edited;
+  // one looked up by the English cannot.
+  const inline = [];
+  const others = LANGS.map((l) => l.id).filter((id) => id !== 'en');
   const walk = (node, path) => {
-    if (node && typeof node === 'object' && !Array.isArray(node) && 'en' in node) {
-      if (!node.zu) missing.push(path);
+    if (node && typeof node === 'object' && !Array.isArray(node) && typeof node.en === 'string') {
+      if (others.some((id) => id in node)) inline.push(path);
       return;
     }
     if (node && typeof node === 'object') for (const [k, v] of Object.entries(node)) walk(v, `${path}.${k}`);
@@ -775,9 +778,9 @@ test('content: every text has English and isiZulu', () => {
   walk(core, 'core');
   chapterFiles.forEach((c) => walk(c, c.id));
   chapterIndex.forEach((c) => walk(c, `index.${c.id}`));
-  realities.topics.forEach((x) => walk(x.title, `realities.${x.id}`)); // body text is English until reviewed
+  walk(realities, 'realities');
   institutions.forEach((inst) => walk(inst, inst.id));
-  assert.deepEqual(missing, []);
+  assert.deepEqual(inline, []);
   assert.deepEqual(Object.keys(en).filter((k) => !(k in zu)), []);
 });
 
@@ -922,11 +925,12 @@ test('First Exams results: everyone meets a supp code on a third module, and the
   for (const id of ['options', 'advisor']) assert.match(up.eventIndex['EX-05'].choices.find((c) => c.id === id).outcome.en, /blocks.*fund.*repeat/s);
 });
 
-test('languages: every language has the whole interface, and the machine-translated ones have the card text', () => {
+test('languages: every language has the whole interface and the card text', () => {
   assert.deepEqual(LANGS.filter((l) => l.machine).map((l) => l.id), MACHINE_LANGS);
+  assert.deepEqual(LANGS.map((l) => l.id).filter((id) => id !== 'en').sort(), [...TRANSLATED_LANGS].sort());
   assert.ok(LANGS.every((l) => !l.beta), 'no language is marked beta');
   const texts = cardTexts();
-  for (const lang of MACHINE_LANGS) {
+  for (const lang of TRANSLATED_LANGS) {
     const ui = read(`../i18n/${lang}.json`);
     assert.deepEqual(Object.keys(en).filter((k) => !ui[k]), [], `${lang}: interface strings`);
     for (const k of Object.keys(en)) assert.equal(placeholders(ui[k]), placeholders(en[k]), `${lang}: ${k}`);

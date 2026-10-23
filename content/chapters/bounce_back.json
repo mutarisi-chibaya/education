@@ -1,20 +1,16 @@
 {
   "id": "bounce_back",
   "title": {
-    "en": "Bounce Back",
-    "zu": "Ukubuyela Esimweni"
+    "en": "Bounce Back"
   },
   "subtitle": {
-    "en": "Second semester: recovering and recommitting",
-    "zu": "Isemesta yesibili: ukululama nokuzibophezela kabusha"
+    "en": "Second semester: recovering and recommitting"
   },
   "blurb": {
-    "en": "Warning letters, repeats, doubts about your course, and the friends who carry you. About 6 minutes.",
-    "zu": "Izincwadi zesixwayiso, ukuphinda, ukungabaza isifundo sakho, nabangane abakuphathayo. Cishe imizuzu emi-6."
+    "en": "Warning letters, repeats, doubts about your course, and the friends who carry you. About 6 minutes."
   },
   "unit": {
-    "en": "Week",
-    "zu": "Isonto"
+    "en": "Week"
   },
   "weeks": 6,
   "economy": true,
@@ -22,12 +18,10 @@
   "tests": {
     "week": 5,
     "title": {
-      "en": "Semester tests",
-      "zu": "Izivivinyo zesemesta"
+      "en": "Semester tests"
     },
     "text": {
-      "en": "Second-semester tests, including any module you're repeating.",
-      "zu": "Izivivinyo zesemesta yesibili, kuhlanganise nanoma yisiphi isifundo osiphindayo."
+      "en": "Second-semester tests, including any module you're repeating."
     },
     "passMark": 50,
     "wellbeingWeight": 0.15,
@@ -37,72 +31,63 @@
         "flag": "advisor_plan",
         "value": 6,
         "label": {
-          "en": "A plan made with an advisor",
-          "zu": "Uhlelo olwenziwe nomeluleki"
+          "en": "A plan made with an advisor"
         }
       },
       {
         "flag": "lecturer_consult",
         "value": 5,
         "label": {
-          "en": "Went to consultation hours",
-          "zu": "Uye emahoreni okubonisana"
+          "en": "Went to consultation hours"
         }
       },
       {
         "flag": "lecturer_email",
         "value": 2,
         "label": {
-          "en": "Emailed your lecturer",
-          "zu": "Uthumele i-imeyili kumfundisi"
+          "en": "Emailed your lecturer"
         }
       },
       {
         "flag": "overload",
         "value": -6,
         "label": {
-          "en": "Overloaded timetable",
-          "zu": "Uhlelo lwezifundo olugcwele ngokweqile"
+          "en": "Overloaded timetable"
         }
       },
       {
         "flag": "dropped_elective",
         "value": 3,
         "label": {
-          "en": "Made room for the repeat",
-          "zu": "Wenze isikhala sokuphinda"
+          "en": "Made room for the repeat"
         }
       },
       {
         "flag": "took_job",
         "value": -4,
         "label": {
-          "en": "Long shifts at work",
-          "zu": "Amashifu amade emsebenzini"
+          "en": "Long shifts at work"
         }
       },
       {
         "flag": "job_fewer_hours",
         "value": -1,
         "label": {
-          "en": "A few work shifts",
-          "zu": "Amashifu ambalwa omsebenzi"
+          "en": "A few work shifts"
         }
       },
       {
         "flag": "careers_talk",
         "value": 2,
         "label": {
-          "en": "Clearer about your course",
-          "zu": "Ucacelwa kangcono ngesifundo sakho"
+          "en": "Clearer about your course"
         }
       },
       {
         "flag": "free_help",
         "value": 3,
         "label": {
-          "en": "The tutorial habit",
-          "zu": "Umkhuba wamathuthorial"
+          "en": "The tutorial habit"
         }
       }
     ]
@@ -153,12 +138,10 @@
         ]
       },
       "title": {
-        "en": "A failed module blocks your registration",
-        "zu": "Isifundo owehluleke kuso sivimba ukubhalisa kwakho"
+        "en": "A failed module blocks your registration"
       },
       "text": {
-        "en": "You registered your modules for the whole year in January. The one you failed is a prerequisite for a second-semester module, and the system is about to block it.",
-        "zu": "Ubhalise izifundo zakho zonyaka wonke ngoJanuwari. Leso owehluleke kuso siyadingeka ngaphambi kwesifundo sesemesta yesibili, futhi uhlelo seluzosivimba."
+        "en": "You registered your modules for the whole year in January. The one you failed is a prerequisite for a second-semester module, and the system is about to block it."
       },
       "forecast_tags": [
         "funding_risk",
@@ -171,16 +154,14 @@
             "avoider"
           ],
           "label": {
-            "en": "Leave it and hope",
-            "zu": "Kuyeke bese uyathemba"
+            "en": "Leave it and hope"
           },
           "effects": {
             "wellbeing": -5,
             "marks": -2
           },
           "outcome": {
-            "en": "Three weeks in, the system removes you from the blocked module. The time you put into it is gone.",
-            "zu": "Emasontweni amathathu, uhlelo lukukhipha esifundweni esivinjiwe. Isikhathi osichithe kuso sihambile."
+            "en": "Three weeks in, the system removes you from the blocked module. The time you put into it is gone."
           }
         },
         {
@@ -189,19 +170,16 @@
             "planner"
           ],
           "label": {
-            "en": "Look for a substitute module",
-            "zu": "Funa isifundo esingena esikhundleni"
+            "en": "Look for a substitute module"
           },
           "effects": {
             "wellbeing": 3
           },
           "outcome": {
-            "en": "The faculty handbook lists a module you can take instead this semester. You swap before the deadline.",
-            "zu": "Incwadi yefakhalthi ibala isifundo ongasithatha esikhundleni kule semesta. Ushintsha ngaphambi komnqamulajuqu."
+            "en": "The faculty handbook lists a module you can take instead this semester. You swap before the deadline."
           },
           "tip": {
-            "en": "The faculty handbook on the university website lists the prerequisites and alternatives for every module.",
-            "zu": "Incwadi yefakhalthi kuwebhusayithi yenyuvesi ibala izidingo nezinye izindlela zesifundo ngasinye."
+            "en": "The faculty handbook on the university website lists the prerequisites and alternatives for every module."
           }
         },
         {
@@ -210,8 +188,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Fix registration with an advisor",
-            "zu": "Lungisa ukubhalisa nomeluleki"
+            "en": "Fix registration with an advisor"
           },
           "effects": {
             "wellbeing": 10
@@ -223,12 +200,10 @@
             "advisor"
           ],
           "outcome": {
-            "en": "The advisor finds a substitute where one exists and deregisters the module that's blocked. Your timetable works again.",
-            "zu": "Umeluleki uthola isifundo esingena esikhundleni lapho sikhona futhi akhiphe isifundo esivinjiwe. Uhlelo lwakho lwezifundo luyasebenza futhi."
+            "en": "The advisor finds a substitute where one exists and deregisters the module that's blocked. Your timetable works again."
           },
           "tip": {
-            "en": "After every results release, check which modules your failed module blocks, before registration closes.",
-            "zu": "Emva kwayo yonke imiphumela, hlola ukuthi isifundo owehluleke kuso sivimba ziphi, ngaphambi kokuvalwa kokubhalisa."
+            "en": "After every results release, check which modules your failed module blocks, before registration closes."
           }
         }
       ]
@@ -239,12 +214,10 @@
       "week": 1,
       "slot": "spine",
       "title": {
-        "en": "You passed, but not by enough",
-        "zu": "Uphasile, kodwa hhayi ngokwanele"
+        "en": "You passed, but not by enough"
       },
       "text": {
-        "en": "You registered for the whole year in January. You passed {mod1}, but your mark is below what the second-semester module you chose requires.",
-        "zu": "Ubhalisele unyaka wonke ngoJanuwari. Uphase i-{mod1}, kodwa amamaki akho angaphansi kwalokho okudingwa yisifundo sesemesta yesibili osikhethile."
+        "en": "You registered for the whole year in January. You passed {mod1}, but your mark is below what the second-semester module you chose requires."
       },
       "forecast_tags": [
         "test_stress",
@@ -257,16 +230,14 @@
             "avoider"
           ],
           "label": {
-            "en": "Leave it and hope",
-            "zu": "Kuyeke bese uyathemba"
+            "en": "Leave it and hope"
           },
           "effects": {
             "wellbeing": -5,
             "marks": -2
           },
           "outcome": {
-            "en": "Two weeks in, the system removes you from the module. You join the other version late and have to catch up.",
-            "zu": "Emasontweni amabili, uhlelo lukukhipha esifundweni. Ujoyina enye inguqulo sekwephuzile futhi kufanele ufice."
+            "en": "Two weeks in, the system removes you from the module. You join the other version late and have to catch up."
           }
         },
         {
@@ -275,19 +246,16 @@
             "planner"
           ],
           "label": {
-            "en": "Switch to the other version",
-            "zu": "Shintshela enguqulweni oyifanelekelayo"
+            "en": "Switch to the other version"
           },
           "effects": {
             "wellbeing": 3
           },
           "outcome": {
-            "en": "You change to the version of the module your mark allows, before the deadline. You start it on day one.",
-            "zu": "Ushintshela enguqulweni yesifundo evunyelwa amamaki akho, ngaphambi komnqamulajuqu. Uyiqala ngosuku lokuqala."
+            "en": "You change to the version of the module your mark allows, before the deadline. You start it on day one."
           },
           "tip": {
-            "en": "Module changes are made on the student portal or at your faculty office, before the published deadline.",
-            "zu": "Ukushintsha izifundo kwenziwa kuphothali yabafundi noma ehhovisi lefakhalthi yakho, ngaphambi komnqamulajuqu oshicilelwe."
+            "en": "Module changes are made on the student portal or at your faculty office, before the published deadline."
           }
         },
         {
@@ -296,8 +264,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask an advisor what it changes",
-            "zu": "Buza umeluleki ukuthi kushintshani"
+            "en": "Ask an advisor what it changes"
           },
           "effects": {
             "wellbeing": 5
@@ -309,12 +276,10 @@
             "advisor"
           ],
           "outcome": {
-            "en": "The advisor shows you which version still leads to the second-year modules you want, and fixes your registration.",
-            "zu": "Umeluleki ukukhombisa ukuthi yiyiphi inguqulo esaholela ezifundweni zonyaka wesibili ozifunayo, futhi alungise ukubhalisa kwakho."
+            "en": "The advisor shows you which version still leads to the second-year modules you want, and fixes your registration."
           },
           "tip": {
-            "en": "After results, check the entry marks for your next modules before the change deadline.",
-            "zu": "Emva kwemiphumela, hlola amamaki okungena ezifundweni zakho ezilandelayo ngaphambi komnqamulajuqu wokushintsha."
+            "en": "After results, check the entry marks for your next modules before the change deadline."
           }
         }
       ]
@@ -324,12 +289,10 @@
       "type": "core",
       "week": 4,
       "title": {
-        "en": "Going to see your lecturer",
-        "zu": "Ukuya kumfundisi wakho"
+        "en": "Going to see your lecturer"
       },
       "text": {
-        "en": "Tests are next week and one {mod1} topic still doesn't make sense. Your lecturer has consultation hours on Tuesdays, but you've never been.",
-        "zu": "Izivivinyo zingesonto elizayo futhi isihloko esisodwa se-{mod1} asikezwakali. Umfundisi wakho unamahora okubonisana ngoLwesibili, kodwa awukaze uye."
+        "en": "Tests are next week and one {mod1} topic still doesn't make sense. Your lecturer has consultation hours on Tuesdays, but you've never been."
       },
       "forecast_tags": [
         "test_stress"
@@ -342,15 +305,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Avoid it",
-            "zu": "Kugweme"
+            "en": "Avoid it"
           },
           "effects": {
             "wellbeing": 0
           },
           "outcome": {
-            "en": "It feels easier not to go. The same mistakes show up in your next assignment.",
-            "zu": "Kuzwakala kulula ukungayi. Amaphutha afanayo avela emsebenzini wakho olandelayo."
+            "en": "It feels easier not to go. The same mistakes show up in your next assignment."
           }
         },
         {
@@ -359,8 +320,7 @@
             "planner"
           ],
           "label": {
-            "en": "Send an email",
-            "zu": "Thumela i-imeyili"
+            "en": "Send an email"
           },
           "effects": {
             "marks": 2
@@ -369,12 +329,10 @@
             "lecturer_email"
           ],
           "outcome": {
-            "en": "They reply with two tips and a link to past papers.",
-            "zu": "Baphendula ngamathiphu amabili nesixhumanisi samaphepha angaphambili."
+            "en": "They reply with two tips and a link to past papers."
           },
           "tip": {
-            "en": "Lecturers' email addresses and consultation times are in the module guide. Write from your student email and give your student number.",
-            "zu": "Amakheli e-imeyili abafundisi nezikhathi zokubonisana kusemhlahlandleleni wesifundo. Bhala nge-imeyili yakho yomfundi futhi unikeze inombolo yakho yomfundi."
+            "en": "Lecturers' email addresses and consultation times are in the module guide. Write from your student email and give your student number."
           }
         },
         {
@@ -383,8 +341,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Go to consultation hours",
-            "zu": "Yiya emahoreni okubonisana"
+            "en": "Go to consultation hours"
           },
           "effects": {
             "marks": 5
@@ -396,8 +353,7 @@
             "lecturer"
           ],
           "outcome": {
-            "en": "Ten minutes, and they remember your name afterwards. You finally get the topic that kept tripping you up.",
-            "zu": "Imizuzu eyishumi, futhi bayalikhumbula igama lakho emva kwalokho. Ekugcineni uqonda isihloko ebesilokhu sikuphazamisa."
+            "en": "Ten minutes, and they remember your name afterwards. You finally get the topic that kept tripping you up."
           }
         }
       ]
@@ -413,12 +369,10 @@
         ]
       },
       "title": {
-        "en": "Repeating a module alongside new ones",
-        "zu": "Ukuphinda isifundo kanye nezintsha"
+        "en": "Repeating a module alongside new ones"
       },
       "text": {
-        "en": "Your timetable now has the module you failed plus a full new load. Two lectures clash on Wednesdays.",
-        "zu": "Uhlelo lwakho lwezifundo manje lunesifundo owehluleka kuso kanye nomthwalo omusha ogcwele. Izifundo ezimbili ziyangqubuzana ngoLwesithathu."
+        "en": "Your timetable now has the module you failed plus a full new load. Two lectures clash on Wednesdays."
       },
       "forecast_tags": [
         "test_stress"
@@ -430,8 +384,7 @@
             "self_sacrificer"
           ],
           "label": {
-            "en": "Take everything on",
-            "zu": "Thatha konke"
+            "en": "Take everything on"
           },
           "effects": {
             "wellbeing": -10
@@ -441,8 +394,7 @@
             "overload"
           ],
           "outcome": {
-            "en": "You're in every lecture you can make, and exhausted by Thursday.",
-            "zu": "Ukhona kuzo zonke izifundo ongakwazi ukuya kuzo, futhi ukhathele ngoLwesine."
+            "en": "You're in every lecture you can make, and exhausted by Thursday."
           }
         },
         {
@@ -451,8 +403,7 @@
             "planner"
           ],
           "label": {
-            "en": "Drop an elective",
-            "zu": "Shiya isifundo sokuzikhethela"
+            "en": "Drop an elective"
           },
           "effects": {
             "wellbeing": 5
@@ -462,8 +413,7 @@
             "dropped_elective"
           ],
           "outcome": {
-            "en": "One elective moves to next year. The repeat gets the time it needs.",
-            "zu": "Isifundo esisodwa sokuzikhethela sithuthela onyakeni ozayo. Ukuphinda kuthola isikhathi esikudingayo."
+            "en": "One elective moves to next year. The repeat gets the time it needs."
           }
         },
         {
@@ -472,8 +422,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Plan it with an advisor",
-            "zu": "Kuhlele nomeluleki"
+            "en": "Plan it with an advisor"
           },
           "effects": {
             "wellbeing": 5
@@ -486,8 +435,7 @@
             "advisor"
           ],
           "outcome": {
-            "en": "The advisor finds a class group without the clash. Your semester suddenly fits.",
-            "zu": "Umeluleki uthola iqembu lekilasi elingangqubuzani. Isemesta yakho ngokungazelele iyalingana."
+            "en": "The advisor finds a class group without the clash. Your semester suddenly fits."
           }
         }
       ]
@@ -498,12 +446,10 @@
       "week": 2,
       "slot": "spine",
       "title": {
-        "en": "A part-time job offer",
-        "zu": "Isicelo somsebenzi wesikhashana"
+        "en": "A part-time job offer"
       },
       "text": {
-        "en": "A shop near campus offers you weekend and evening shifts: about R300 a week.",
-        "zu": "Isitolo eduze nekhampasi sikunikeza amashifu ezimpelasonto nakusihlwa: cishe u-R300 ngesonto."
+        "en": "A shop near campus offers you weekend and evening shifts: about R300 a week."
       },
       "forecast_tags": [
         "money_shortfall",
@@ -516,8 +462,7 @@
             "planner"
           ],
           "label": {
-            "en": "Take all the shifts",
-            "zu": "Thatha wonke amashifu"
+            "en": "Take all the shifts"
           },
           "effects": {
             "wellbeing": -5
@@ -530,13 +475,11 @@
               "money": 600
             },
             "label": {
-              "en": "Part-time wages",
-              "zu": "Iholo lomsebenzi wesikhashana"
+              "en": "Part-time wages"
             }
           },
           "outcome": {
-            "en": "Money stops being a daily worry. Study time shrinks.",
-            "zu": "Imali iyayeka ukuba yinkathazo yansuku zonke. Isikhathi sokufunda siyancipha."
+            "en": "Money stops being a daily worry. Study time shrinks."
           }
         },
         {
@@ -545,15 +488,13 @@
             "planner"
           ],
           "label": {
-            "en": "Decline for now",
-            "zu": "Yenqaba okwamanje"
+            "en": "Decline for now"
           },
           "effects": {
             "wellbeing": 0
           },
           "outcome": {
-            "en": "You keep your evenings for study and ask them to keep your CV.",
-            "zu": "Ugcina izikhathi zakho zakusihlwa zokufunda futhi ubacele bagcine i-CV yakho."
+            "en": "You keep your evenings for study and ask them to keep your CV."
           }
         },
         {
@@ -562,8 +503,7 @@
             "planner"
           ],
           "label": {
-            "en": "Take fewer hours",
-            "zu": "Thatha amahora ambalwa"
+            "en": "Take fewer hours"
           },
           "effects": {
             "wellbeing": 0
@@ -576,13 +516,11 @@
               "money": 300
             },
             "label": {
-              "en": "Part-time wages",
-              "zu": "Iholo lomsebenzi wesikhashana"
+              "en": "Part-time wages"
             }
           },
           "outcome": {
-            "en": "One weekend shift. A little money, without losing your week.",
-            "zu": "Ishifu elilodwa lempelasonto. Imali encane, ngaphandle kokulahlekelwa yisonto lakho."
+            "en": "One weekend shift. A little money, without losing your week."
           }
         }
       ]
@@ -592,12 +530,10 @@
       "type": "core",
       "week": 3,
       "title": {
-        "en": "\"Am I in the wrong course?\"",
-        "zu": "\"Ngabe ngisesifundweni esingesiso?\""
+        "en": "\"Am I in the wrong course?\""
       },
       "text": {
-        "en": "Everyone else seems to love {course}. You're not sure you even like it.",
-        "zu": "Wonke umuntu ubonakala eyithanda i-{course}. Awuqiniseki ukuthi uyayithanda nawe."
+        "en": "Everyone else seems to love {course}. You're not sure you even like it."
       },
       "forecast_tags": [
         "wellbeing"
@@ -609,15 +545,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Quit",
-            "zu": "Yeka"
+            "en": "Quit"
           },
           "effects": {
             "wellbeing": -5
           },
           "outcome": {
-            "en": "You fill in the form, then stop at the last line. Leaving is a real option, but you want to decide it with facts, not on a bad week.",
-            "zu": "Ugcwalisa ifomu, bese ume emugqeni wokugcina. Ukuhamba kuyindlela yangempela, kodwa ufuna ukunquma ngamaqiniso, hhayi ngesonto elibi."
+            "en": "You fill in the form, then stop at the last line. Leaving is a real option, but you want to decide it with facts, not on a bad week."
           }
         },
         {
@@ -626,16 +560,14 @@
             "self_sacrificer"
           ],
           "label": {
-            "en": "Push through it",
-            "zu": "Qhubeka noma kunjalo"
+            "en": "Push through it"
           },
           "effects": {
             "wellbeing": -3,
             "marks": 1
           },
           "outcome": {
-            "en": "You keep your head down and the doubt stays. It may pass, but it's worth talking through before next year's registration.",
-            "zu": "Uqhubeka ngokuzithoba kodwa ukungabaza kuyahlala. Kungase kudlule, kodwa kufanele kuxoxwe ngakho ngaphambi kokubhalisa konyaka ozayo."
+            "en": "You keep your head down and the doubt stays. It may pass, but it's worth talking through before next year's registration."
           }
         },
         {
@@ -644,19 +576,16 @@
             "planner"
           ],
           "label": {
-            "en": "Look into changing course",
-            "zu": "Hlola ukushintsha isifundo"
+            "en": "Look into changing course"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "You find out which credits would carry over. Knowing the options calms you down.",
-            "zu": "Uthola ukuthi yimaphi amakhredithi angadluliselwa. Ukwazi izindlela kuyakuthulisa."
+            "en": "You find out which credits would carry over. Knowing the options calms you down."
           },
           "tip": {
-            "en": "Your faculty office handles course changes. Ask which credits transfer, and when internal transfer applications close.",
-            "zu": "Ihhovisi lefakhalthi yakho liphatha ukushintsha izifundo. Buza ukuthi yimaphi amakhredithi adluliswayo, nokuthi izicelo zokudlulisela zivalwa nini."
+            "en": "Your faculty office handles course changes. Ask which credits transfer, and when internal transfer applications close."
           }
         },
         {
@@ -665,8 +594,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Talk to a careers advisor",
-            "zu": "Khuluma nomeluleki wemisebenzi"
+            "en": "Talk to a careers advisor"
           },
           "effects": {
             "wellbeing": 10
@@ -678,8 +606,7 @@
             "careers"
           ],
           "outcome": {
-            "en": "The careers advisor shows you jobs your degree leads to that you'd never heard of. One of them sounds like you.",
-            "zu": "Umeluleki wemisebenzi ukukhombisa imisebenzi iziqu zakho eziholela kuyo obungakaze uyizwe. Omunye wayo uzwakala ufana nawe."
+            "en": "The careers advisor shows you jobs your degree leads to that you'd never heard of. One of them sounds like you."
           }
         }
       ]
@@ -689,12 +616,10 @@
       "type": "recurring",
       "week": 4,
       "title": {
-        "en": "A close friend drops out",
-        "zu": "Umngane osondelene nawe uyayeka"
+        "en": "A close friend drops out"
       },
       "text": {
-        "en": "A close friend leaves university, and loneliness comes back. {memory}",
-        "zu": "Umngane osondelene nawe ushiya inyuvesi, futhi isizungu siyabuya. {memory}"
+        "en": "A close friend leaves university, and loneliness comes back. {memory}"
       },
       "forecast_tags": [
         "loneliness"
@@ -706,16 +631,14 @@
             "avoider"
           ],
           "label": {
-            "en": "Withdraw",
-            "zu": "Zihoxise"
+            "en": "Withdraw"
           },
           "effects": {
             "wellbeing": -10,
             "connection": -1
           },
           "outcome": {
-            "en": "You eat alone and skip the group chat. The weeks get longer.",
-            "zu": "Udla wedwa futhi weqe iqembu lokuxoxa. Amasonto aba made."
+            "en": "You eat alone and skip the group chat. The weeks get longer."
           }
         },
         {
@@ -724,15 +647,13 @@
             "connector"
           ],
           "label": {
-            "en": "Stay in touch with them",
-            "zu": "Hlala uxhumana nabo"
+            "en": "Stay in touch with them"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "You call every Sunday. They're doing okay, and so are you.",
-            "zu": "Uyabashayela njalo ngeSonto. Bayaphila, nawe uyaphila."
+            "en": "You call every Sunday. They're doing okay, and so are you."
           }
         },
         {
@@ -741,8 +662,7 @@
             "connector"
           ],
           "label": {
-            "en": "Build new connections",
-            "zu": "Yakha ubudlelwano obusha"
+            "en": "Build new connections"
           },
           "effects": {
             "wellbeing": 5,
@@ -752,8 +672,7 @@
             "societies"
           ],
           "outcome": {
-            "en": "You join a society's weekly meet-up. Slowly, a new group forms around you.",
-            "zu": "Ujoyina umhlangano wenhlangano wamasonto onke. Kancane kancane, iqembu elisha liyakheka eduze kwakho."
+            "en": "You join a society's weekly meet-up. Slowly, a new group forms around you."
           }
         }
       ],
@@ -765,12 +684,10 @@
             ]
           },
           "title": {
-            "en": "The friend you came with leaves",
-            "zu": "Umngane owafika naye uyahamba"
+            "en": "The friend you came with leaves"
           },
           "text": {
-            "en": "The friend you came to university with is leaving, and loneliness comes back. {memory}",
-            "zu": "Umngane owafika naye enyuvesi uyahamba, futhi isizungu siyabuya. {memory}"
+            "en": "The friend you came to university with is leaving, and loneliness comes back. {memory}"
           }
         }
       ]
@@ -789,12 +706,10 @@
         ]
       },
       "title": {
-        "en": "Your funding is at risk: appeal",
-        "zu": "Uxhaso lwakho lusengozini: dlulisa icala"
+        "en": "Your funding is at risk: appeal"
       },
       "text": {
-        "en": "A message from your funder: your results may not meet the rules to keep funding. You can appeal.",
-        "zu": "Umlayezo ovela kumxhasi wakho: imiphumela yakho ingase ingahlangabezani nemithetho yokugcina uxhaso. Ungadlulisa icala."
+        "en": "A message from your funder: your results may not meet the rules to keep funding. You can appeal."
       },
       "forecast_tags": [
         "funding_risk"
@@ -806,8 +721,7 @@
             "avoider"
           ],
           "label": {
-            "en": "Give up on it",
-            "zu": "Kuyeke"
+            "en": "Give up on it"
           },
           "effects": {
             "wellbeing": -10
@@ -816,8 +730,7 @@
             "funding_lost"
           ],
           "outcome": {
-            "en": "You don't appeal. Next year's funding is now a question mark.",
-            "zu": "Awudlulisi icala. Uxhaso lwangonyaka ozayo manje luwumbuzo."
+            "en": "You don't appeal. Next year's funding is now a question mark."
           }
         },
         {
@@ -826,8 +739,7 @@
             "planner"
           ],
           "label": {
-            "en": "Appeal with evidence",
-            "zu": "Dlulisa icala nobufakazi"
+            "en": "Appeal with evidence"
           },
           "effects": {
             "wellbeing": 5
@@ -836,12 +748,10 @@
             "appealed"
           ],
           "outcome": {
-            "en": "You attach your results plan and a letter explaining what happened. Now you wait.",
-            "zu": "Unamathisela uhlelo lwemiphumela yakho nencwadi echaza okwenzekile. Manje uyalinda."
+            "en": "You attach your results plan and a letter explaining what happened. Now you wait."
           },
           "tip": {
-            "en": "Appeal forms and deadlines are on your funder's portal. Attach your results, a short explanation and any proof.",
-            "zu": "Amafomu ezikhalazo nemingcele yesikhathi akuphothali yomxhasi wakho. Namathisela imiphumela yakho, incazelo emfushane nanoma yibuphi ubufakazi."
+            "en": "Appeal forms and deadlines are on your funder's portal. Attach your results, a short explanation and any proof."
           }
         },
         {
@@ -850,8 +760,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Get help writing it",
-            "zu": "Thola usizo lokuyibhala"
+            "en": "Get help writing it"
           },
           "effects": {
             "wellbeing": 10
@@ -863,8 +772,7 @@
             "financial_aid_office"
           ],
           "outcome": {
-            "en": "Financial aid has helped with dozens of appeals. Yours goes in on time, with the right documents.",
-            "zu": "Usizo lwezezimali selusize ngezicelo eziningi. Esakho sihanjiswa ngesikhathi, namadokhumenti afanele."
+            "en": "Financial aid has helped with dozens of appeals. Yours goes in on time, with the right documents."
           }
         }
       ]
@@ -879,12 +787,10 @@
         ]
       },
       "title": {
-        "en": "You passed the module you failed",
-        "zu": "Uphase isifundo owehluleka kuso"
+        "en": "You passed the module you failed"
       },
       "text": {
-        "en": "The repeat paid off. You passed it, and it doesn't feel like a scar anymore.",
-        "zu": "Ukuphinda kuye kwaba nemiphumela. Uphasile, futhi akusazwakali njengesibazi."
+        "en": "The repeat paid off. You passed it, and it doesn't feel like a scar anymore."
       },
       "effects": {
         "wellbeing": 15
@@ -902,12 +808,10 @@
         }
       },
       "title": {
-        "en": "Chosen family",
-        "zu": "Umndeni okhethiwe"
+        "en": "Chosen family"
       },
       "text": {
-        "en": "You got sick for a week. Your friends brought soup, notes from every lecture and very bad jokes.",
-        "zu": "Ugule isonto lonke. Abangane bakho baletha isobho, amanothi avela kuzo zonke izifundo namahlaya amabi kakhulu."
+        "en": "You got sick for a week. Your friends brought soup, notes from every lecture and very bad jokes."
       },
       "research": "RU Game: chosen family",
       "effects": {
@@ -919,12 +823,10 @@
       "type": "tests",
       "week": 5,
       "title": {
-        "en": "Semester tests",
-        "zu": "Izivivinyo zesemesta"
+        "en": "Semester tests"
       },
       "text": {
-        "en": "Second-semester tests, including any module you're repeating.",
-        "zu": "Izivivinyo zesemesta yesibili, kuhlanganise nanoma yisiphi isifundo osiphindayo."
+        "en": "Second-semester tests, including any module you're repeating."
       },
       "forecast_tags": [
         "test_stress"
@@ -944,12 +846,10 @@
         ]
       },
       "title": {
-        "en": "Dean's List",
-        "zu": "Uhlu lukaDini"
+        "en": "Dean's List"
       },
       "text": {
-        "en": "Your faculty emails: after a full year of results, you've made the Dean's List. Screenshot sent to the family group.",
-        "zu": "Ifakhalthi yakho ithumela i-imeyili: emva konyaka wonke wemiphumela, usohlwini lukaDini. Isithombe-skrini sithunyelwe eqenjini lomndeni."
+        "en": "Your faculty emails: after a full year of results, you've made the Dean's List. Screenshot sent to the family group."
       },
       "research": "RU Game: Dean's List",
       "effects": {
@@ -970,32 +870,27 @@
       "id": "MM-EXCL-BB",
       "type": "mini",
       "text": {
-        "en": "Do you know how many modules you must pass this year to be allowed to continue?",
-        "zu": "Uyazi ukuthi zingaki izifundo okufanele uziphase kulo nyaka ukuze uvunyelwe ukuqhubeka?"
+        "en": "Do you know how many modules you must pass this year to be allowed to continue?"
       },
       "choices": [
         {
           "label": {
-            "en": "Check the rules now",
-            "zu": "Hlola imithetho manje"
+            "en": "Check the rules now"
           },
           "effects": {
             "confidence": 1
           },
           "outcome": {
-            "en": "The faculty handbook gives the credits you must pass each year to avoid academic exclusion. Now you know where your line is.",
-            "zu": "Incwadi yefakhalthi inikeza amakhredithi okufanele uwaphase unyaka ngamunye ukuze ugweme ukukhishwa. Manje uyazi ukuthi umugqa wakho ukuphi."
+            "en": "The faculty handbook gives the credits you must pass each year to avoid academic exclusion. Now you know where your line is."
           }
         },
         {
           "label": {
-            "en": "Check only if I fail",
-            "zu": "Hlola kuphela uma ngihluleka"
+            "en": "Check only if I fail"
           },
           "effects": {},
           "outcome": {
-            "en": "Fair enough. It is under \"progression\" or \"exclusion rules\" on the university website, or ask your faculty office.",
-            "zu": "Kulungile. Kungaphansi kwe-\"progression\" noma \"exclusion rules\" kuwebhusayithi yenyuvesi, noma ubuze ehhovisi lefakhalthi yakho."
+            "en": "Fair enough. It is under \"progression\" or \"exclusion rules\" on the university website, or ask your faculty office."
           }
         }
       ]

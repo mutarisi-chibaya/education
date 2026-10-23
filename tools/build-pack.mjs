@@ -24,7 +24,7 @@ const clean = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !=
 
 // ---- university.csv: one row per setting ----
 const u = Object.fromEntries(sheet('university.csv').map((r) => [r.key, r.value]));
-const pair = (key) => (u[`${key}_en`] ? { en: u[`${key}_en`], ...(u[`${key}_zu`] ? { zu: u[`${key}_zu`] } : {}) } : undefined);
+const pair = (key) => (u[`${key}_en`] ? { en: u[`${key}_en`] } : undefined);
 const id = u.id;
 if (!id) { console.error('university.csv has no "id" row'); process.exit(2); }
 const target = resolve(ROOT, `content/institutions/${id}.json`);
@@ -41,7 +41,7 @@ for (const r of sheet('buildings.csv')) {
   if (!pos) { problems.push(`buildings.csv: ${r.building_id} has position "${r.position}"; use one of ${Object.keys(POSITIONS).join(', ')}`); continue; }
   (maps[r.campus_id || ''] ||= []).push({
     id: r.building_id, name: text(r, 'name'), x: pos.x, y: pos.y, w: pos.w, h: pos.h,
-    directions: text(r, 'directions') || { en: pos.en, zu: pos.zu },
+    directions: text(r, 'directions') || { en: pos.en },
   });
 }
 

@@ -1,20 +1,16 @@
 {
   "id": "finish_line",
   "title": {
-    "en": "Finish Line",
-    "zu": "Umugqa Wokuqeda"
+    "en": "Finish Line"
   },
   "subtitle": {
-    "en": "Final year: projects, jobs and graduation",
-    "zu": "Unyaka wokugcina: amaphrojekthi, imisebenzi nokuthweswa iziqu"
+    "en": "Final year: projects, jobs and graduation"
   },
   "blurb": {
-    "en": "Final-year pressure, applications, old debts and the walk across the stage. About 6 minutes.",
-    "zu": "Ingcindezi yonyaka wokugcina, izicelo, izikweletu ezindala nokuhamba esiteji. Cishe imizuzu emi-6."
+    "en": "Final-year pressure, applications, old debts and the walk across the stage. About 6 minutes."
   },
   "unit": {
-    "en": "Week",
-    "zu": "Isonto"
+    "en": "Week"
   },
   "weeks": 6,
   "economy": true,
@@ -52,12 +48,10 @@
       "type": "core",
       "week": 1,
       "title": {
-        "en": "Final-year project pressure",
-        "zu": "Ingcindezi yephrojekthi yonyaka wokugcina"
+        "en": "Final-year project pressure"
       },
       "text": {
-        "en": "Your final-year project counts for a big part of your degree, and the deadline is twelve weeks away.",
-        "zu": "Iphrojekthi yakho yonyaka wokugcina ibalwa njengengxenye enkulu yeziqu zakho, futhi umnqamulajuqu usemasontweni ayishumi nambili."
+        "en": "Your final-year project counts for a big part of your degree, and the deadline is twelve weeks away."
       },
       "forecast_tags": [
         "test_stress"
@@ -69,15 +63,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Leave it until later",
-            "zu": "Kushiye kuze kube kamuva"
+            "en": "Leave it until later"
           },
           "effects": {
             "marks": -5
           },
           "outcome": {
-            "en": "Twelve weeks feels like forever. Until it's six.",
-            "zu": "Amasonto ayishumi nambili azwakala engapheli. Aze abe yisithupha."
+            "en": "Twelve weeks feels like forever. Until it's six."
           }
         },
         {
@@ -86,15 +78,13 @@
             "planner"
           ],
           "label": {
-            "en": "Plan milestones, join a writing workshop",
-            "zu": "Hlela izinyathelo, ujoyine isifundisane sokubhala"
+            "en": "Plan milestones, join a writing workshop"
           },
           "effects": {
             "marks": 5
           },
           "outcome": {
-            "en": "The writing centre's research workshop helps you set a chapter every two weeks. It already feels smaller.",
-            "zu": "Isifundisane socwaningo sesikhungo sokubhala sikusiza ubeke isahluko njalo emasontweni amabili. Sekuzwakala kuncane."
+            "en": "The writing centre's research workshop helps you set a chapter every two weeks. It already feels smaller."
           },
           "support": [
             "workshops"
@@ -106,16 +96,14 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Meet your supervisor",
-            "zu": "Hlangana nomphathi wakho"
+            "en": "Meet your supervisor"
           },
           "effects": {
             "marks": 5,
             "wellbeing": 5
           },
           "outcome": {
-            "en": "Your supervisor narrows your topic in twenty minutes. Clarity is a gift.",
-            "zu": "Umphathi wakho unciphisa isihloko sakho emizuzwini engamashumi amabili. Ukucaca kuyisipho."
+            "en": "Your supervisor narrows your topic in twenty minutes. Clarity is a gift."
           }
         }
       ]
@@ -125,12 +113,10 @@
       "type": "core",
       "week": 2,
       "title": {
-        "en": "Graduate programme applications, and rejections",
-        "zu": "Izicelo zezinhlelo zabaphothule, nokwenqatshwa"
+        "en": "Graduate programme applications, and rejections"
       },
       "text": {
-        "en": "Six applications sent, four rejections back. Your classmates keep posting offers.",
-        "zu": "Izicelo eziyisithupha zithunyelwe, ezine zenqatshiwe. Abafunda nawe balokhu bethumela izithombe zemisebenzi abayitholile."
+        "en": "Six applications sent, four rejections back. Your classmates keep posting offers."
       },
       "forecast_tags": [
         "career"
@@ -142,15 +128,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Stop applying",
-            "zu": "Yeka ukufaka izicelo"
+            "en": "Stop applying"
           },
           "effects": {
             "wellbeing": -5
           },
           "outcome": {
-            "en": "It stops the sting, and also the chances.",
-            "zu": "Kuyaqeda ubuhlungu, kanye namathuba."
+            "en": "It stops the sting, and also the chances."
           }
         },
         {
@@ -159,8 +143,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask for feedback",
-            "zu": "Cela impendulo"
+            "en": "Ask for feedback"
           },
           "effects": {
             "wellbeing": 5
@@ -169,12 +152,10 @@
             "careers"
           ],
           "outcome": {
-            "en": "Career services rework your CV. The next two applications get interviews.",
-            "zu": "Izinsizakalo zemisebenzi zilungisa kabusha i-CV yakho. Izicelo ezimbili ezilandelayo zithola izingxoxo zokuqashwa."
+            "en": "Career services rework your CV. The next two applications get interviews."
           },
           "tip": {
-            "en": "University career fairs bring employers to campus, usually once or twice a year. Career services publish the dates and will check your CV beforehand.",
-            "zu": "Imibukiso yemisebenzi yenyuvesi iletha abaqashi ekhampasi, ngokuvamile kanye noma kabili ngonyaka. Izinsizakalo zemisebenzi zishicilela izinsuku futhi zizohlola i-CV yakho ngaphambili."
+            "en": "University career fairs bring employers to campus, usually once or twice a year. Career services publish the dates and will check your CV beforehand."
           }
         },
         {
@@ -183,19 +164,16 @@
             "planner"
           ],
           "label": {
-            "en": "Widen your search",
-            "zu": "Khulisa ukusesha kwakho"
+            "en": "Widen your search"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "Smaller companies, public sector and internships. More doors than you thought.",
-            "zu": "Izinkampani ezincane, umkhakha kahulumeni nezinhlelo zokuqeqeshwa. Iminyango eminingi kunalokho obukucabanga."
+            "en": "Smaller companies, public sector and internships. More doors than you thought."
           },
           "tip": {
-            "en": "Go to the university career fair with printed CVs, and check the career services portal and your department's notice board for graduate programmes and internships.",
-            "zu": "Yiya embukisweni wemisebenzi wenyuvesi nama-CV aphrintiwe, futhi uhlole iphothali yezinsizakalo zemisebenzi nebhodi lezaziso lomnyango wakho ukuthola izinhlelo zabaphothule nama-internship."
+            "en": "Go to the university career fair with printed CVs, and check the career services portal and your department's notice board for graduate programmes and internships."
           },
           "support": [
             "careers"
@@ -208,12 +186,10 @@
       "type": "recurring",
       "week": 3,
       "title": {
-        "en": "Friends finish before you",
-        "zu": "Abangane baqeda ngaphambi kwakho"
+        "en": "Friends finish before you"
       },
       "text": {
-        "en": "Your closest friends have finished or moved for work, and loneliness comes back. {memory}",
-        "zu": "Abangane bakho abasondelene nawe sebeqedile noma bathuthela emsebenzini, futhi isizungu siyabuya. {memory}"
+        "en": "Your closest friends have finished or moved for work, and loneliness comes back. {memory}"
       },
       "forecast_tags": [
         "loneliness"
@@ -226,16 +202,14 @@
             "avoider"
           ],
           "label": {
-            "en": "Isolate",
-            "zu": "Zihlukanise"
+            "en": "Isolate"
           },
           "effects": {
             "wellbeing": -10,
             "connection": -1
           },
           "outcome": {
-            "en": "You stop going to campus unless you have to.",
-            "zu": "Uyayeka ukuya ekhampasi ngaphandle uma kudingeka."
+            "en": "You stop going to campus unless you have to."
           }
         },
         {
@@ -244,15 +218,13 @@
             "connector"
           ],
           "label": {
-            "en": "Celebrate them",
-            "zu": "Bagubhe"
+            "en": "Celebrate them"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "You go to their graduation and cheer the loudest. Their win doesn't make you less.",
-            "zu": "Uya ekuthweswenikwabo iziqu futhi umemeze kakhulu. Ukunqoba kwabo akukwenzi ube mncane."
+            "en": "You go to their graduation and cheer the loudest. Their win doesn't make you less."
           }
         },
         {
@@ -261,8 +233,7 @@
             "connector"
           ],
           "label": {
-            "en": "Find your people",
-            "zu": "Thola abantu bakho"
+            "en": "Find your people"
           },
           "effects": {
             "wellbeing": 5,
@@ -272,8 +243,7 @@
             "societies"
           ],
           "outcome": {
-            "en": "You join a final-year study circle. Everyone there is also figuring it out.",
-            "zu": "Ujoyina iqembu lokufunda lonyaka wokugcina. Wonke umuntu lapho naye usazama ukukuthola."
+            "en": "You join a final-year study circle. Everyone there is also figuring it out."
           }
         }
       ]
@@ -291,12 +261,10 @@
         }
       },
       "title": {
-        "en": "Your certificate is held back until fees are paid",
-        "zu": "Isitifiketi sakho sibanjiwe kuze kukhokhwe imali"
+        "en": "Your certificate is held back until fees are paid"
       },
       "text": {
-        "en": "The debt from earlier years caught up with you: the university says your certificate stays with them until your balance is settled.",
-        "zu": "Isikweletu seminyaka edlule sikufinyelele: inyuvesi ithi isitifiketi sakho sihlala kubo kuze kukhokhwe ibhalansi yakho."
+        "en": "The debt from earlier years caught up with you: the university says your certificate stays with them until your balance is settled."
       },
       "forecast_tags": [
         "debt"
@@ -309,15 +277,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Give up on it",
-            "zu": "Kuyeke"
+            "en": "Give up on it"
           },
           "effects": {
             "wellbeing": -10
           },
           "outcome": {
-            "en": "Without the certificate, job applications stall.",
-            "zu": "Ngaphandle kwesitifiketi, izicelo zemisebenzi ziyama."
+            "en": "Without the certificate, job applications stall."
           }
         },
         {
@@ -326,8 +292,7 @@
             "planner"
           ],
           "label": {
-            "en": "Set up a payment plan",
-            "zu": "Yenza uhlelo lokukhokha"
+            "en": "Set up a payment plan"
           },
           "effects": {
             "wellbeing": 5,
@@ -337,8 +302,7 @@
             "fees"
           ],
           "outcome": {
-            "en": "A monthly plan you can afford, and a letter confirming your degree for employers in the meantime.",
-            "zu": "Uhlelo lwanyanga zonke ongalukhokha, nencwadi eqinisekisa iziqu zakho kubaqashi okwamanje."
+            "en": "A monthly plan you can afford, and a letter confirming your degree for employers in the meantime."
           }
         },
         {
@@ -347,8 +311,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Look for debt relief programmes",
-            "zu": "Funa izinhlelo zokusiza ngezikweletu"
+            "en": "Look for debt relief programmes"
           },
           "effects": {
             "wellbeing": 10,
@@ -359,8 +322,7 @@
             "financial_aid_office"
           ],
           "outcome": {
-            "en": "The fees office points you to a programme that helps clear historic student debt. You apply that week.",
-            "zu": "Ihhovisi lezimali likukhombisa uhlelo olusiza ukususa izikweletu ezindala zabafundi. Ufaka isicelo ngalelo sonto."
+            "en": "The fees office points you to a programme that helps clear historic student debt. You apply that week."
           }
         }
       ]
@@ -376,12 +338,10 @@
         ]
       },
       "title": {
-        "en": "Funding is running out because you've taken longer",
-        "zu": "Uxhaso luyaphela ngoba uthathe isikhathi eside"
+        "en": "Funding is running out because you've taken longer"
       },
       "text": {
-        "en": "The repeated module means an extra semester, and your funding only covers the minimum time plus a little.",
-        "zu": "Isifundo esiphindiwe sisho isemesta eyengeziwe, futhi uxhaso lwakho lukhava kuphela isikhathi esincane kanye nokuncane."
+        "en": "The repeated module means an extra semester, and your funding only covers the minimum time plus a little."
       },
       "forecast_tags": [
         "funding_risk",
@@ -394,15 +354,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Drop out",
-            "zu": "Yeka"
+            "en": "Drop out"
           },
           "effects": {
             "wellbeing": -10
           },
           "outcome": {
-            "en": "You stop one semester short. It's not the end of options, but it's a hard place to restart from.",
-            "zu": "Uyeka kusasele isemesta eyodwa. Akusikho ukuphela kwezindlela, kodwa kuyindawo enzima yokuqala kabusha."
+            "en": "You stop one semester short. It's not the end of options, but it's a hard place to restart from."
           }
         },
         {
@@ -411,19 +369,16 @@
             "planner"
           ],
           "label": {
-            "en": "Study part-time and work",
-            "zu": "Funda ngesikhathi esithile bese usebenza"
+            "en": "Study part-time and work"
           },
           "effects": {
             "wellbeing": 0
           },
           "outcome": {
-            "en": "Slower, but you finish.",
-            "zu": "Kuyahamba kancane, kodwa uyaqeda."
+            "en": "Slower, but you finish."
           },
           "tip": {
-            "en": "Ask your faculty office how to change to part-time registration, and ask your funder what it does to your funding.",
-            "zu": "Buza ehhovisi lefakhalthi yakho ukuthi ushintshela kanjani ekubhaliseni kwesikhashana, futhi ubuze umxhasi wakho ukuthi kwenzani oxhasweni lwakho."
+            "en": "Ask your faculty office how to change to part-time registration, and ask your funder what it does to your funding."
           }
         },
         {
@@ -432,8 +387,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Appeal, or find a bursary",
-            "zu": "Dlulisa icala, noma uthole umxhaso"
+            "en": "Appeal, or find a bursary"
           },
           "effects": {
             "wellbeing": 10
@@ -442,8 +396,7 @@
             "financial_aid_office"
           ],
           "outcome": {
-            "en": "The financial aid office helps you apply for a final-semester bursary.",
-            "zu": "Ihhovisi losizo lwezimali likusiza ufake isicelo somxhaso wesemesta yokugcina."
+            "en": "The financial aid office helps you apply for a final-semester bursary."
           }
         }
       ]
@@ -454,12 +407,10 @@
       "week": 4,
       "slot": "spine",
       "title": {
-        "en": "\"Do I actually feel job-ready?\"",
-        "zu": "\"Ngabe ngizizwa ngikulungele ngempela ukusebenza?\""
+        "en": "\"Do I actually feel job-ready?\""
       },
       "text": {
-        "en": "You're about to graduate, and you're not sure what you can actually do at work.",
-        "zu": "Usuzothweswa iziqu, futhi awuqiniseki ukuthi yini ongayenza ngempela emsebenzini."
+        "en": "You're about to graduate, and you're not sure what you can actually do at work."
       },
       "forecast_tags": [
         "career"
@@ -472,15 +423,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Hope for the best",
-            "zu": "Themba okuhle"
+            "en": "Hope for the best"
           },
           "effects": {
             "wellbeing": 0
           },
           "outcome": {
-            "en": "Maybe it will be fine. You don't check.",
-            "zu": "Mhlawumbe kuzolunga. Awuhloli."
+            "en": "Maybe it will be fine. You don't check."
           }
         },
         {
@@ -489,19 +438,16 @@
             "planner"
           ],
           "label": {
-            "en": "Build a skill this term",
-            "zu": "Yakha ikhono kule temu"
+            "en": "Build a skill this term"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "A free online course and a small project to show employers.",
-            "zu": "Isifundo samahhala ku-inthanethi nephrojekthi encane yokukhombisa abaqashi."
+            "en": "A free online course and a small project to show employers."
           },
           "tip": {
-            "en": "Your library login often gives free access to online courses. Career services can tell you which skills employers in your field ask for.",
-            "zu": "Ukungena kwakho emtapweni kuvame ukunikeza ukufinyelela kwamahhala ezifundweni ze-inthanethi. Izinsizakalo zemisebenzi zingakutshela ukuthi yimaphi amakhono afunwa abaqashi emkhakheni wakho."
+            "en": "Your library login often gives free access to online courses. Career services can tell you which skills employers in your field ask for."
           }
         },
         {
@@ -510,8 +456,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Get career support",
-            "zu": "Thola usizo lwemisebenzi"
+            "en": "Get career support"
           },
           "effects": {
             "wellbeing": 10
@@ -520,8 +465,7 @@
             "careers"
           ],
           "outcome": {
-            "en": "A mock interview shows you can explain your degree better than you thought.",
-            "zu": "Ingxoxo yokuzilolonga ikukhombisa ukuthi ungachaza iziqu zakho kangcono kunalokho obukucabanga."
+            "en": "A mock interview shows you can explain your degree better than you thought."
           }
         }
       ]
@@ -531,12 +475,10 @@
       "type": "core",
       "week": 5,
       "title": {
-        "en": "A job offer far from home",
-        "zu": "Isicelo somsebenzi kude nekhaya"
+        "en": "A job offer far from home"
       },
       "text": {
-        "en": "You're offered a job in another province. At home, everyone assumed you'd come back and help.",
-        "zu": "Unikezwa umsebenzi kwesinye isifundazwe. Ekhaya, wonke umuntu ubecabanga ukuthi uzobuya uzosiza."
+        "en": "You're offered a job in another province. At home, everyone assumed you'd come back and help."
       },
       "forecast_tags": [
         "family_pressure",
@@ -547,30 +489,26 @@
         {
           "id": "decline",
           "label": {
-            "en": "Decline and stay near home",
-            "zu": "Yenqaba bese uhlala eduze nekhaya"
+            "en": "Decline and stay near home"
           },
           "effects": {
             "wellbeing": -5,
             "family_obligation": 1
           },
           "outcome": {
-            "en": "Home is grateful. You keep looking for work closer by.",
-            "zu": "Ekhaya bayabonga. Uqhubeka ufuna umsebenzi eduze."
+            "en": "Home is grateful. You keep looking for work closer by."
           }
         },
         {
           "id": "accept",
           "label": {
-            "en": "Accept",
-            "zu": "Yamukela"
+            "en": "Accept"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "A hard conversation, then a plan: you'll send money monthly and visit in December.",
-            "zu": "Ingxoxo enzima, bese kuba nohlelo: uzothumela imali nyanga zonke futhi uvakashele ngoDisemba."
+            "en": "A hard conversation, then a plan: you'll send money monthly and visit in December."
           }
         },
         {
@@ -579,15 +517,13 @@
             "planner"
           ],
           "label": {
-            "en": "Negotiate",
-            "zu": "Xoxisana"
+            "en": "Negotiate"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "The employer agrees to a later start date, so you can help settle things at home first.",
-            "zu": "Umqashi uyavuma usuku lokuqala lwakamuva, ukuze ukwazi ukusiza ukuhlela izinto ekhaya kuqala."
+            "en": "The employer agrees to a later start date, so you can help settle things at home first."
           }
         }
       ]
@@ -597,12 +533,10 @@
       "type": "core",
       "week": 6,
       "title": {
-        "en": "Graduation costs",
-        "zu": "Izindleko zokuthweswa iziqu"
+        "en": "Graduation costs"
       },
       "text": {
-        "en": "Gown hire, photos and travel for your family add up to about R1 500. You have {money}.",
-        "zu": "Ukuqasha ingubo, izithombe nokugibela komndeni wakho kufika cishe ku-R1 500. Uno-{money}."
+        "en": "Gown hire, photos and travel for your family add up to about R1 500. You have {money}."
       },
       "forecast_tags": [
         "money_shortfall",
@@ -615,15 +549,13 @@
             "self_sacrificer"
           ],
           "label": {
-            "en": "Skip the ceremony",
-            "zu": "Yeqa umcimbi"
+            "en": "Skip the ceremony"
           },
           "effects": {
             "wellbeing": -10
           },
           "outcome": {
-            "en": "You save the money. Your family is quietly disappointed.",
-            "zu": "Uyayonga imali. Umndeni wakho udumazekile buthule."
+            "en": "You save the money. Your family is quietly disappointed."
           }
         },
         {
@@ -632,16 +564,14 @@
             "planner"
           ],
           "label": {
-            "en": "Budget for it",
-            "zu": "Kwenzele ibhajethi"
+            "en": "Budget for it"
           },
           "effects": {
             "money": -1500,
             "wellbeing": 5
           },
           "outcome": {
-            "en": "You saved a little each month. Everyone is there.",
-            "zu": "Ubonga kancane nyanga zonke. Wonke umuntu ukhona."
+            "en": "You saved a little each month. Everyone is there."
           }
         },
         {
@@ -650,8 +580,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask about help with costs",
-            "zu": "Buza ngosizo lwezindleko"
+            "en": "Ask about help with costs"
           },
           "effects": {
             "money": -500,
@@ -661,8 +590,7 @@
             "fees"
           ],
           "outcome": {
-            "en": "You borrow a gown from a graduate and share transport with another family. R500 instead of R1 500.",
-            "zu": "Uboleka ingubo kumuntu osethweswe iziqu futhi nabelane ngokugibela nomunye umndeni. U-R500 esikhundleni sika-R1 500."
+            "en": "You borrow a gown from a graduate and share transport with another family. R500 instead of R1 500."
           }
         }
       ]
@@ -672,12 +600,10 @@
       "type": "win",
       "week": 6,
       "title": {
-        "en": "Graduation day",
-        "zu": "Usuku lokuthweswa iziqu"
+        "en": "Graduation day"
       },
       "text": {
-        "en": "Your name is read out. Somewhere in the hall, someone from home is ululating. You made it.",
-        "zu": "Igama lakho liyafundwa. Endaweni ethile ehholo, othile wasekhaya uyakikiza. Ukwenzile."
+        "en": "Your name is read out. Somewhere in the hall, someone from home is ululating. You made it."
       },
       "effects": {
         "wellbeing": 20
@@ -706,32 +632,27 @@
       "id": "MM-GRAD",
       "type": "mini",
       "text": {
-        "en": "Do you know exactly which modules and credits you still need to graduate?",
-        "zu": "Uyazi kahle ukuthi yiziphi izifundo namakhredithi osawadinga ukuze uphothule?"
+        "en": "Do you know exactly which modules and credits you still need to graduate?"
       },
       "choices": [
         {
           "label": {
-            "en": "Ask for a degree audit",
-            "zu": "Cela ukuhlolwa kweziqu"
+            "en": "Ask for a degree audit"
           },
           "effects": {
             "confidence": 1
           },
           "outcome": {
-            "en": "Your faculty office checks your record against the degree rules. One missing module now is a fix; in December it is another year.",
-            "zu": "Ihhovisi lefakhalthi yakho lihlola irekhodi lakho ngokwemithetho yeziqu. Isifundo esisodwa esishodayo manje siyalungiseka; ngoDisemba kungomunye unyaka."
+            "en": "Your faculty office checks your record against the degree rules. One missing module now is a fix; in December it is another year."
           }
         },
         {
           "label": {
-            "en": "I think I'm fine",
-            "zu": "Ngicabanga ukuthi ngilungile"
+            "en": "I think I'm fine"
           },
           "effects": {},
           "outcome": {
-            "en": "You probably are. If you want to be sure, the faculty office can confirm it in a few minutes.",
-            "zu": "Cishe ulungile. Uma ufuna ukuqiniseka, ihhovisi lefakhalthi lingakuqinisekisa ngemizuzu embalwa."
+            "en": "You probably are. If you want to be sure, the faculty office can confirm it in a few minutes."
           }
         }
       ]

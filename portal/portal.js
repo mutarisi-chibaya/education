@@ -70,11 +70,12 @@ function field(label, path, { type = 'text', hint = '', placeholder = '', number
     <input type="${type}" data-path="${path}" ${number ? 'data-number' : ''} value="${val(path)}" placeholder="${esc(placeholder)}" ${locked()}></label>`;
 }
 
-function both(label, path, { area = false, placeholder = {} } = {}) {
-  const input = (lang, name) => (area
-    ? `<label>${esc(label)} <span class="hint">${name}</span><textarea data-path="${path}.${lang}" placeholder="${esc(placeholder[lang] || '')}" ${locked()}>${val(`${path}.${lang}`)}</textarea></label>`
-    : `<label>${esc(label)} <span class="hint">${name}</span><input data-path="${path}.${lang}" value="${val(`${path}.${lang}`)}" placeholder="${esc(placeholder[lang] || '')}" ${locked()}></label>`);
-  return `<div class="pair">${input('en', 'English')}${input('zu', 'isiZulu')}</div>`;
+// Text students read. Staff write it in English only; the other languages are
+// translated from the English, so a changed English text never shows an old translation.
+function textBox(label, path, { area = false, placeholder = {} } = {}) {
+  return area
+    ? `<label>${esc(label)}<textarea data-path="${path}.en" placeholder="${esc(placeholder.en || '')}" ${locked()}>${val(`${path}.en`)}</textarea></label>`
+    : `<label>${esc(label)}<input data-path="${path}.en" value="${val(`${path}.en`)}" placeholder="${esc(placeholder.en || '')}" ${locked()}></label>`;
 }
 
 function checks(label, path, options, all) {
@@ -217,7 +218,7 @@ function tabGuide() {
   <section class="card"><h2>How to…</h2>
     ${howTo("Update a service's room, hours or email address", [
       `Open ${goTo('services', 'Services')} and click the service, for example "Student counselling".`,
-      'Change the room, opening hours or email address. Each text box has an English and an isiZulu version.',
+      'Change the room, opening hours or email address. Write in English: students who use another language see it translated, or in English until it is.',
       SEND,
     ])}
     ${howTo('Add or change a phone number', [
@@ -352,10 +353,10 @@ function tabDetails() {
     ${field('Main colour', `${prefix}.brand`, { type: 'color' })}${field('Text on the main colour', `${prefix}.brandInk`, { type: 'color' })}
     ${field('Highlight colour', `${prefix}.accent`, { type: 'color' })}${field('Highlight colour for text', `${prefix}.accentInk`, { type: 'color' })}</div>`;
   return `<section class="card"><h2>Name</h2>
-      ${both('Full name', 'name')}
+      ${textBox('Full name', 'name')}
       <div class="grid">${field('Short name', 'short', { hint: 'what students call it' })}${field('Province', 'province')}${field('Area name', 'area', { hint: 'used in some card text' })}</div>
-      ${both('One line shown under the name', 'campus')}
-      ${both('City, as it reads in a sentence', 'city', { placeholder: { en: 'the city' } })}
+      ${textBox('One line shown under the name', 'campus')}
+      ${textBox('City, as it reads in a sentence', 'city', { placeholder: { en: 'the city' } })}
     </section>
     <section class="card"><h2>Local costs</h2><div class="grid">
       ${field('Monthly rent for a private room (rand)', 'costs.rent_private', { type: 'number', number: true })}
@@ -380,7 +381,7 @@ function tabCampuses() {
   return `<section class="card"><h2>Campuses</h2>
     <p class="muted">Add campuses only if you have more than one. Each campus can have its own map, service locations and costs. Anything a campus does not set comes from the whole university.</p>
     ${list.map((campus, i) => `<details class="item" ${list.length < 4 ? 'open' : ''}><summary>${esc(en(campus.name) || campus.id)} <span class="tag">${esc(campus.id)}</span></summary>
-      ${both('Name', `campuses.${i}.name`)}${both('Description', `campuses.${i}.desc`, { area: true })}
+      ${textBox('Name', `campuses.${i}.name`)}${textBox('Description', `campuses.${i}.desc`, { area: true })}
       ${checks('Courses taught here', `campuses.${i}.courses`, [...c.courses, ...own], [])}
       <div class="grid">${field('Monthly rent near this campus (rand)', `campuses.${i}.costs.rent_private`, { type: 'number', number: true })}
       ${field('A week of taxi fares (rand)', `campuses.${i}.costs.taxi_week`, { type: 'number', number: true })}</div>
@@ -411,9 +412,9 @@ function tabBuildings() {
     ${field('Your official campus map', `${base}map.url`, { type: 'url', hint: 'starting with https://; students get a button to open it' })}
     <div class="split"><div>
     ${buildings.map((b, i) => `<details class="item" open><summary>${esc(en(b.name) || b.id)} <span class="tag">${esc(b.id)}</span></summary>
-      ${both('Name on the map', `${base}map.buildings.${i}.name`)}
+      ${textBox('Name on the map', `${base}map.buildings.${i}.name`)}
       <label>Place on the map<select data-action="position" data-index="${i}" ${locked()}>${positions.map((p) => `<option value="${p}" ${taken[i] === p ? 'selected' : ''} ${taken.includes(p) && taken[i] !== p ? 'disabled' : ''}>${esc(S.catalogue.positions[p].en.replace('From the gate, ', '').replace(/^./, (x) => x.toUpperCase()))}</option>`).join('')}</select></label>
-      ${both('Walking directions from the gate', `${base}map.buildings.${i}.directions`, { area: true })}
+      ${textBox('Walking directions from the gate', `${base}map.buildings.${i}.directions`, { area: true })}
       <button class="danger" data-action="building-remove" data-index="${i}" ${locked()}>Remove</button>
     </details>`).join('') || '<p>No buildings yet for this layer.</p>'}
     ${buildings.length < positions.length ? `<form data-form="building-add" class="row"><label>New building id <span class="hint">e.g. "library"</span><input name="id" pattern="[a-z][a-z0-9_]{1,24}" required ${locked()}></label><button ${locked()}>Add building</button></form>` : ''}
@@ -434,12 +435,12 @@ function tabServices() {
       const filled = Object.keys(mine).length > 0;
       return `<details class="item"><summary>${esc(en(mine.name) || en(svc.name))} ${filled ? '<span class="changed">filled in</span>' : ''} <span class="tag">${esc(svc.id)}</span></summary>
         <div class="original"><strong>What students are told:</strong> ${esc(en(svc.offers))}</div>
-        ${both('What it is called here', `${p}.name`, { placeholder: svc.name })}
+        ${textBox('What it is called here', `${p}.name`, { placeholder: svc.name })}
         <div class="grid">
           <label>Building<select data-path="${p}.building" ${locked()}><option value="">Not set</option>${buildings.map((b) => `<option value="${esc(b.id)}" ${mine.building === b.id ? 'selected' : ''}>${esc(en(b.name) || b.id)}</option>`).join('')}</select></label>
           ${field('Email address', `${p}.email`, { type: 'email' })}
         </div>
-        ${both('Room', `${p}.room`)}${both('Opening hours', `${p}.hours`)}
+        ${textBox('Room', `${p}.room`)}${textBox('Opening hours', `${p}.hours`)}
         <div class="grid">
           <label>Phone number<input data-contact="tel" data-service="${p}" value="${esc(phone.tel || '')}" inputmode="tel" ${locked()}></label>
           <label>Phone label <span class="hint">as students see it</span><input data-contact="label" data-service="${p}" value="${esc(phone.label || '')}" ${locked()}></label>
@@ -447,8 +448,8 @@ function tabServices() {
           <label>Website <span class="hint">starting with https://</span><input data-contact="url" data-service="${p}" value="${esc(site.url || '')}" type="url" ${locked()}></label>
         </div>
         <label>List this service points students to<select data-path="${p}.page" ${locked()}><option value="">None</option>${Object.entries({ ...S.pack.pages, ...layer.pages }).map(([pid, pg]) => `<option value="${esc(pid)}" ${mine.page === pid ? 'selected' : ''}>${esc(en(pg.title) || pid)}</option>`).join('')}</select></label>
-        ${both('How to reach it, in your own words', `${p}.reach`, { area: true, placeholder: svc.reach })}
-        ${S.layer !== '' ? both('If it is on another campus, say where', `${p}.away`, { area: true }) : ''}
+        ${textBox('How to reach it, in your own words', `${p}.reach`, { area: true, placeholder: svc.reach })}
+        ${S.layer !== '' ? textBox('If it is on another campus, say where', `${p}.away`, { area: true }) : ''}
       </details>`;
     }).join('')}</section>`;
 }
@@ -459,13 +460,13 @@ function tabLists() {
   return `<section class="card">${layerPicker()}<h2>Lists</h2>
     <p class="muted">Lists that a service tells students to look at, such as accredited accommodation or a workshop calendar. Students see the list inside the app, with a button to your official page.</p>
     ${Object.entries(pages).map(([pid, page]) => `<details class="item" open><summary>${esc(en(page.title) || pid)} <span class="tag">${esc(pid)}</span> <span class="tag">${(page.items || []).length} entries</span></summary>
-      ${both('Title', `${base}.${pid}.title`)}${both('Introduction', `${base}.${pid}.intro`, { area: true })}
+      ${textBox('Title', `${base}.${pid}.title`)}${textBox('Introduction', `${base}.${pid}.intro`, { area: true })}
       ${field('Your official page for this list', `${base}.${pid}.url`, { type: 'url', hint: 'starting with https://' })}
       <h3>Entries</h3>
-      ${(page.items || []).map((item, i) => `<div class="entry">${field('Name', `${base}.${pid}.items.${i}.name`)}${both('Detail', `${base}.${pid}.items.${i}.detail`)}
+      ${(page.items || []).map((item, i) => `<div class="entry">${field('Name', `${base}.${pid}.items.${i}.name`)}${textBox('Detail', `${base}.${pid}.items.${i}.detail`)}
         <button class="danger" data-action="item-remove" data-id="${esc(pid)}" data-index="${i}" ${locked()}>Remove entry</button></div>`).join('')}
       <p><button data-action="item-add" data-id="${esc(pid)}" ${locked()}>Add an entry</button></p>
-      ${both('Note at the end', `${base}.${pid}.note`, { area: true })}
+      ${textBox('Note at the end', `${base}.${pid}.note`, { area: true })}
       <button class="danger" data-action="page-remove" data-id="${esc(pid)}" ${locked()}>Remove this list</button>
     </details>`).join('') || '<p>No lists yet for this layer.</p>'}
     <form data-form="page-add" class="row"><label>New list id <span class="hint">e.g. "accredited"</span><input name="id" pattern="[a-z][a-z0-9_]{1,24}" required ${locked()}></label><button ${locked()}>Add a list</button></form>
@@ -495,10 +496,10 @@ function ownCards() {
       const b = `cards.add.${chapter}.${i}`;
       const ch = S.catalogue.chapters.find((x) => x.id === chapter);
       return `<details class="item" open><summary>${esc(en(card.title) || card.id)} <span class="tag">${esc(card.id)}</span> <span class="tag">${esc(en(ch?.title))}</span></summary>
-        ${both('Title', `${b}.title`)}${both('Situation', `${b}.text`, { area: true })}
+        ${textBox('Title', `${b}.title`)}${textBox('Situation', `${b}.text`, { area: true })}
         <label>Drawn together with<select data-path="${b}.pool" ${locked()}>${(ch?.pools || []).map((p) => `<option value="${esc(p)}" ${card.pool === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select></label>
         ${(card.choices || []).map((c, j) => `<h3>Answer ${j + 1}</h3>
-          ${both('Answer', `${b}.choices.${j}.label`)}${both('What happens', `${b}.choices.${j}.outcome`, { area: true })}${both('Tip (optional)', `${b}.choices.${j}.tip`, { area: true })}
+          ${textBox('Answer', `${b}.choices.${j}.label`)}${textBox('What happens', `${b}.choices.${j}.outcome`, { area: true })}${textBox('Tip (optional)', `${b}.choices.${j}.tip`, { area: true })}
           <div class="grid">${num('Money (rand, minus to spend)', `${b}.choices.${j}.effects.money`)}${num('Marks (-20 to 20)', `${b}.choices.${j}.effects.marks`)}${num('Wellbeing (-20 to 20)', `${b}.choices.${j}.effects.wellbeing`)}
             <label>Coping style<select data-one="${b}.choices.${j}.tags" ${locked()}><option value="">None</option>${S.catalogue.styles.map((s) => `<option value="${s}" ${c.tags?.[0] === s ? 'selected' : ''}>${esc(STYLES[s] || s)}</option>`).join('')}</select></label>
             <label>Opens this service<select data-one="${b}.choices.${j}.support" ${locked()}><option value="">None</option>${S.catalogue.services.map((s) => `<option value="${esc(s.id)}" ${c.support?.[0] === s.id ? 'selected' : ''}>${esc(en(s.name))}</option>`).join('')}</select></label>
@@ -526,11 +527,11 @@ function tabCards() {
           ${esc(en(edits[card.id]?.title) || en(card.title))} <span class="tag">${esc(card.id)}</span>
           ${off.has(card.id) ? '<span class="off">off</span>' : ''}${edits[card.id] ? '<span class="changed">reworded</span>' : ''}</summary>
         <div class="original">${esc(en(card.text))}</div>
-        ${both('Title', `cards.edit.${card.id}.title`, { placeholder: card.title })}
-        ${both('Situation', `cards.edit.${card.id}.text`, { area: true, placeholder: card.text })}
+        ${textBox('Title', `cards.edit.${card.id}.title`, { placeholder: card.title })}
+        ${textBox('Situation', `cards.edit.${card.id}.text`, { area: true, placeholder: card.text })}
         ${card.choices.map((c) => `<h3>Answer: ${esc(en(c.label))}</h3>
-          ${both('Answer', `cards.edit.${card.id}.choices.${c.id}.label`, { placeholder: c.label })}
-          ${both('What happens', `cards.edit.${card.id}.choices.${c.id}.outcome`, { area: true, placeholder: c.outcome })}`).join('')}
+          ${textBox('Answer', `cards.edit.${card.id}.choices.${c.id}.label`, { placeholder: c.label })}
+          ${textBox('What happens', `cards.edit.${card.id}.choices.${c.id}.outcome`, { area: true, placeholder: c.outcome })}`).join('')}
       </details>`).join('')}
     </details>`).join('')}</section>`;
 }
@@ -704,15 +705,12 @@ async function loadTab() {
   if (S.tab === 'admin' && !S.users) { S.users = (await api('GET', 'users')).data; render(); }
 }
 
-// Before saving: an edit with nothing in it is not an edit, and a half-filled
-// one borrows the original wording for the language that was left empty.
+// Before saving: an edit with nothing in it, or the original wording again, is not an edit.
 function tidy(pack) {
   const originals = Object.fromEntries(S.catalogue.chapters.flatMap((ch) => ch.cards.map((c) => [c.id, c])));
   const fill = (mine, original) => {
-    if (!mine || typeof mine !== 'object') return undefined;
-    const out = { en: mine.en || original?.en, zu: mine.zu || original?.zu };
-    if (!out.zu) delete out.zu;
-    return out.en && (out.en !== original?.en || out.zu !== original?.zu) ? out : undefined;
+    if (!mine?.en || mine.en === original?.en) return undefined;
+    return { en: mine.en };
   };
   const edits = pack.cards?.edit || {};
   for (const [id, edit] of Object.entries(edits)) {
@@ -791,7 +789,7 @@ document.addEventListener('change', async (e) => {
     const old = Object.values(S.catalogue.positions).find((p) => p.x === b.x && p.y === b.y);
     const pos = S.catalogue.positions[el.value];
     // Standard directions follow the building to its new place; your own wording is kept.
-    if (!b.directions || (old && b.directions.en === old.en)) b.directions = { en: pos.en, zu: pos.zu };
+    if (!b.directions || (old && b.directions.en === old.en)) b.directions = { en: pos.en };
     Object.assign(b, { x: pos.x, y: pos.y, w: pos.w, h: pos.h });
     S.dirty = true; render();
   }
@@ -898,7 +896,7 @@ document.addEventListener('submit', async (e) => {
     const buildings = ((layer.map ||= {}).buildings ||= []);
     if (buildings.some((b) => b.id === f.id)) { toast('That building id is already used.'); return; }
     const free = Object.values(S.catalogue.positions).find((p) => !buildings.some((b) => b.x === p.x && b.y === p.y));
-    buildings.push({ id: f.id, name: { en: '' }, x: free.x, y: free.y, w: free.w, h: free.h, directions: { en: free.en, zu: free.zu } });
+    buildings.push({ id: f.id, name: { en: '' }, x: free.x, y: free.y, w: free.w, h: free.h, directions: { en: free.en } });
     S.dirty = true; render();
   } else if (kind === 'review') {
     const decision = e.submitter?.value;

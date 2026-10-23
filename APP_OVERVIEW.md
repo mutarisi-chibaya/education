@@ -139,8 +139,9 @@ screen.
 ## Languages and access
 
 - **Seven languages**: English, isiZulu, isiXhosa, Afrikaans, Sepedi, Setswana and Sesotho,
-  for menus and story cards. English and isiZulu are written by hand; the other five are
-  machine-translated.
+  for menus and story cards. Everything is written in English and translated from it, so a
+  change to the English never leaves an old translation behind. isiZulu was written by hand;
+  the other five are machine-translated.
 - **Offline.** The whole game is stored on the phone on first load. Only the chosen
   university's content is downloaded.
 - **Installable** to the home screen.

@@ -36,7 +36,7 @@ flowchart TB
 | Level | Where | Examples |
 |---|---|---|
 | Unit | [test/engine.test.mjs](../test/engine.test.mjs), [test/test_portal.py](../test/test_portal.py) | Conditions engine; cost caps; Friday habit; budget tiers; password hashing; lockout; one-time codes |
-| Content rules | [test/engine.test.mjs](../test/engine.test.mjs) | Situation at most 40 words; labels at most 6 words; 2 to 3 choices; every referenced service, flag and pool exists; every text has English and isiZulu; every UI key exists |
+| Content rules | [test/engine.test.mjs](../test/engine.test.mjs) | Situation at most 40 words; labels at most 6 words; 2 to 3 choices; every referenced service, flag and pool exists; content text is English only, with translations kept apart in `content/lang`; every UI key exists |
 | Legal and safety | [test/engine.test.mjs](../test/engine.test.mjs) | No real university names; phone numbers only on verified national services |
 | Journey | [test/engine.test.mjs](../test/engine.test.mjs), [tools/pack-check.mjs](../tools/pack-check.mjs) | Every setup plays every chapter; money never below zero; every placeholder is filled |
 | Pack | [tools/pack-check.mjs](../tools/pack-check.mjs) | Run for every bundled pack in `npm test`, and by the portal before submit and before publish |

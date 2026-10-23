@@ -85,9 +85,9 @@ export function checkPack(id, pack) {
   const cardById = Object.fromEntries(allCards.map((e) => [e.id, e]));
   const pools = new Set(allCards.map((e) => e.pool).filter(Boolean));
 
-  const needText = (t, where, { zu = true } = {}) => {
+  // Text is written in English; other languages come from content/lang, translated from it.
+  const needText = (t, where) => {
     if (!t || (typeof t === 'object' && !t.en)) return err(`${where}: missing text`);
-    if (typeof t === 'object' && zu && !t.zu) warn(`${where}: no isiZulu, English will show`);
     return undefined;
   };
 

@@ -135,7 +135,7 @@ class Portal:
     def _replace(path, data):
         """Write a file so that readers only ever see the old or the new version, never half of one."""
         tmp = path.with_suffix(path.suffix + ".tmp")
-        tmp.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        tmp.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")  # same file on every OS
         os.replace(tmp, path)
 
     # ---------------------------------------------------------------- accounts

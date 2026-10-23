@@ -48,8 +48,10 @@ worker will not run.
 - **Every string that reaches the page goes through `esc()`**, including content.
 - **Every server call from the app is optional.** It must time out and fail quietly.
 - **No new runtime dependency** without a [decision record](docs/adr/README.md).
-- **Content text** needs English and isiZulu and must pass the writing rules: situation at
-  most 40 words, labels at most 6 words, 2 to 3 choices, outcomes at most 2 sentences.
+- **Content text** is written in English only and must pass the writing rules: situation at
+  most 40 words, labels at most 6 words, 2 to 3 choices, outcomes at most 2 sentences. Other
+  languages live in `content/lang/<lang>.json`, keyed by the English: run
+  `node tools/translate.mjs` to fill in new or reworded text.
 - **Phone numbers** appear only for verified national services or verified licensed packs.
 - Match the style of the file you are in. Comments say why, not what.
 

@@ -1,7 +1,7 @@
-campus_id,building_id,name_en,name_zu,position,directions_en,directions_zu
-,main_building,Main Building,Isakhiwo Esikhulu,n,,
-,clinic,Wellness Clinic,Umtholampilo Wenhlalakahle,ne,,
-,student_services,Student Services,Izinsizakalo Zabafundi,w,,
-,library,Library,Umtapo Wolwazi,cw,,
-,lecture_block,Lecture Block,Ibhulokhi Yezifundo,ce,,
-,security,Campus Security,Ezokuphepha,gate,"The small building at the gate, on your right. Open 24 hours.","Isakhiwo esincane esangweni, ngakwesokudla sakho. Kuvulwe amahora angu-24."
+campus_id,building_id,name_en,position,directions_en
+,main_building,Main Building,n,
+,clinic,Wellness Clinic,ne,
+,student_services,Student Services,w,
+,library,Library,cw,
+,lecture_block,Lecture Block,ce,
+,security,Campus Security,gate,"The small building at the gate, on your right. Open 24 hours."

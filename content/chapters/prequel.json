@@ -1,20 +1,16 @@
 {
   "id": "prequel",
   "title": {
-    "en": "Before You Apply",
-    "zu": "Ngaphambi Kokufaka Isicelo"
+    "en": "Before You Apply"
   },
   "subtitle": {
-    "en": "Matric year: choosing courses, applications and NSFAS",
-    "zu": "Unyaka we-matric: ukukhetha izifundo, izicelo ne-NSFAS"
+    "en": "Matric year: choosing courses, applications and NSFAS"
   },
   "blurb": {
-    "en": "Choosing a course, application fees, funding forms and results day. About 5 minutes.",
-    "zu": "Ukukhetha isifundo, izimali zezicelo, amafomu oxhaso nosuku lwemiphumela. Cishe imizuzu emi-5."
+    "en": "Choosing a course, application fees, funding forms and results day. About 5 minutes."
   },
   "unit": {
-    "en": "Step",
-    "zu": "Isinyathelo"
+    "en": "Step"
   },
   "weeks": 4,
   "startMoney": 1200,
@@ -31,12 +27,10 @@
       "type": "core",
       "week": 1,
       "title": {
-        "en": "Choosing a course",
-        "zu": "Ukukhetha isifundo"
+        "en": "Choosing a course"
       },
       "text": {
-        "en": "Applications open soon. You love one subject, another course pays better, and your marks fit a third. Everyone has an opinion.",
-        "zu": "Izicelo zivulwa maduze. Uthanda isifundo esisodwa, esinye siholela kangcono, futhi amamaki akho afanele esesithathu. Wonke umuntu unombono."
+        "en": "Applications open soon. You love one subject, another course pays better, and your marks fit a third. Everyone has an opinion."
       },
       "forecast_tags": [
         "career"
@@ -45,29 +39,25 @@
         {
           "id": "passion",
           "label": {
-            "en": "Follow your passion",
-            "zu": "Landela okuthandayo"
+            "en": "Follow your passion"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "You choose the subject you'd study for free. Now check what its graduates actually do.",
-            "zu": "Ukhetha isifundo obungasifunda mahhala. Manje hlola ukuthi abaphothule kuso benzani ngempela."
+            "en": "You choose the subject you'd study for free. Now check what its graduates actually do."
           }
         },
         {
           "id": "pay",
           "label": {
-            "en": "Choose for the pay",
-            "zu": "Khetha ngenxa yeholo"
+            "en": "Choose for the pay"
           },
           "effects": {
             "wellbeing": -3
           },
           "outcome": {
-            "en": "The salary looks good on paper. Four years is a long time in a course you don't enjoy.",
-            "zu": "Iholo libukeka lilihle ephepheni. Iminyaka emine yisikhathi eside esifundweni ongasijabuleli."
+            "en": "The salary looks good on paper. Four years is a long time in a course you don't enjoy."
           }
         },
         {
@@ -76,8 +66,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask a careers advisor",
-            "zu": "Buza umeluleki wemisebenzi"
+            "en": "Ask a careers advisor"
           },
           "effects": {
             "wellbeing": 5,
@@ -87,12 +76,10 @@
             "careers"
           ],
           "outcome": {
-            "en": "The advisor shows you courses that fit your marks, your interests and the job market.",
-            "zu": "Umeluleki ukukhombisa izifundo ezifanele amamaki akho, izintshisekelo zakho nemakethe yemisebenzi."
+            "en": "The advisor shows you courses that fit your marks, your interests and the job market."
           },
           "tip": {
-            "en": "University career offices and open days answer questions from learners too.",
-            "zu": "Amahhovisi emisebenzi asenyuvesi nezinsuku ezivulekile aphendula nemibuzo yabafundi besikole."
+            "en": "University career offices and open days answer questions from learners too."
           }
         }
       ]
@@ -102,12 +89,10 @@
       "type": "core",
       "week": 2,
       "title": {
-        "en": "Your friends are all applying to one university",
-        "zu": "Abangane bakho bonke bafaka isicelo enyuvesi eyodwa"
+        "en": "Your friends are all applying to one university"
       },
       "text": {
-        "en": "Your whole group is applying to the same university. It doesn't offer your first-choice course, but you wouldn't be alone.",
-        "zu": "Iqembu lakho lonke lifaka isicelo enyuvesi efanayo. Ayinaso isifundo sakho sokuqala, kodwa ubungeke ube wedwa."
+        "en": "Your whole group is applying to the same university. It doesn't offer your first-choice course, but you wouldn't be alone."
       },
       "forecast_tags": [
         "loneliness"
@@ -119,8 +104,7 @@
             "connector"
           ],
           "label": {
-            "en": "Follow them",
-            "zu": "Balandele"
+            "en": "Follow them"
           },
           "effects": {
             "wellbeing": 3,
@@ -130,8 +114,7 @@
             "came_with_friend"
           ],
           "outcome": {
-            "en": "You apply where your friends apply. You'll arrive knowing someone, in your second-choice course.",
-            "zu": "Ufaka isicelo lapho abangane bakho befaka khona. Uzofika wazi othile, esifundweni sakho sesibili."
+            "en": "You apply where your friends apply. You'll arrive knowing someone, in your second-choice course."
           }
         },
         {
@@ -140,15 +123,13 @@
             "planner"
           ],
           "label": {
-            "en": "Compare for yourself",
-            "zu": "Ziqhathanisele wena"
+            "en": "Compare for yourself"
           },
           "effects": {
             "marks": 2
           },
           "outcome": {
-            "en": "You compare courses, costs and distance. One university fits you better than it fits your friends.",
-            "zu": "Uqhathanisa izifundo, izindleko nebanga. Inyuvesi eyodwa ikufanela kangcono kunabangane bakho."
+            "en": "You compare courses, costs and distance. One university fits you better than it fits your friends."
           }
         },
         {
@@ -157,16 +138,14 @@
             "planner"
           ],
           "label": {
-            "en": "Apply to both",
-            "zu": "Faka isicelo kuzo zombili"
+            "en": "Apply to both"
           },
           "effects": {
             "money": -200,
             "wellbeing": 2
           },
           "outcome": {
-            "en": "It costs one more application fee, and it keeps both doors open.",
-            "zu": "Kubiza imali eyodwa eyengeziwe yesicelo, futhi kugcina iminyango yomibili ivulekile."
+            "en": "It costs one more application fee, and it keeps both doors open."
           }
         }
       ]
@@ -176,12 +155,10 @@
       "type": "core",
       "week": 2,
       "title": {
-        "en": "\"I'll do your applications for you\"",
-        "zu": "\"Ngizokwenzela izicelo zakho\""
+        "en": "\"I'll do your applications for you\""
       },
       "text": {
-        "en": "Outside the internet café, a man offers to do your university and NSFAS applications for R150. He needs your ID number and a password. You have {money}.",
-        "zu": "Ngaphandle kwe-internet café, indoda ithi ingakwenzela izicelo zakho zenyuvesi ne-NSFAS ngo-R150. Idinga inombolo yakho kamazisi nephasiwedi. Uno-{money}."
+        "en": "Outside the internet café, a man offers to do your university and NSFAS applications for R150. He needs your ID number and a password. You have {money}."
       },
       "forecast_tags": [
         "money_shortfall"
@@ -190,8 +167,7 @@
         {
           "id": "pay",
           "label": {
-            "en": "Pay him, it's easier",
-            "zu": "Mkhokhele, kulula"
+            "en": "Pay him, it's easier"
           },
           "effects": {
             "money": -150,
@@ -201,12 +177,10 @@
             "application_scam"
           ],
           "outcome": {
-            "en": "He takes the R150 and your details, and nothing is ever submitted. Now a stranger has your ID number and your password.",
-            "zu": "Uthatha u-R150 nemininingwane yakho, futhi akukho okuthunyelwayo. Manje umuntu ongamazi unenombolo yakho kamazisi nephasiwedi yakho."
+            "en": "He takes the R150 and your details, and nothing is ever submitted. Now a stranger has your ID number and your password."
           },
           "tip": {
-            "en": "Applying is something you do yourself, on official websites. If this happens, change your passwords and tell your school.",
-            "zu": "Ukufaka isicelo yinto oyenza wena, kumawebhusayithi asemthethweni. Uma lokhu kwenzeka, shintsha amaphasiwedi akho futhi utshele isikole sakho."
+            "en": "Applying is something you do yourself, on official websites. If this happens, change your passwords and tell your school."
           },
           "icon": "😢"
         },
@@ -216,8 +190,7 @@
             "planner"
           ],
           "label": {
-            "en": "Apply yourself, on official sites",
-            "zu": "Zifakele wena, kumasayithi asemthethweni"
+            "en": "Apply yourself, on official sites"
           },
           "effects": {
             "wellbeing": 3
@@ -227,8 +200,7 @@
             "scams"
           ],
           "outcome": {
-            "en": "It takes an afternoon and a lot of scanning. Every reference number and password is yours alone.",
-            "zu": "Kuthatha intambama nokuskena okuningi. Yonke inombolo yereferensi nephasiwedi ngeyakho wedwa."
+            "en": "It takes an afternoon and a lot of scanning. Every reference number and password is yours alone."
           },
           "icon": "🙂"
         },
@@ -238,8 +210,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask your school for help",
-            "zu": "Cela usizo esikoleni sakho"
+            "en": "Ask your school for help"
           },
           "effects": {
             "wellbeing": 5
@@ -250,8 +221,7 @@
             "scams"
           ],
           "outcome": {
-            "en": "Your LO teacher sits with you at the school computer. You apply yourself, on the official websites, and it costs nothing.",
-            "zu": "Uthisha wakho we-LO uhlala nawe kukhompyutha yesikole. Uzifakela wena, kumawebhusayithi asemthethweni, futhi akubizi lutho."
+            "en": "Your LO teacher sits with you at the school computer. You apply yourself, on the official websites, and it costs nothing."
           },
           "icon": "🙂"
         }
@@ -268,12 +238,10 @@
         ]
       },
       "title": {
-        "en": "Your family wants you closer to home",
-        "zu": "Umndeni wakho ufuna ube seduze nekhaya"
+        "en": "Your family wants you closer to home"
       },
       "text": {
-        "en": "Your family wants you to study close to home, or to choose the course an uncle recommends. They're worried, and they're also paying attention.",
-        "zu": "Umndeni wakho ufuna ufunde eduze nekhaya, noma ukhethe isifundo esinconywa ngumalume. Bakhathazekile, futhi banakile."
+        "en": "Your family wants you to study close to home, or to choose the course an uncle recommends. They're worried, and they're also paying attention."
       },
       "forecast_tags": [
         "family_pressure"
@@ -285,16 +253,14 @@
             "self_sacrificer"
           ],
           "label": {
-            "en": "Agree with them",
-            "zu": "Vumelana nabo"
+            "en": "Agree with them"
           },
           "effects": {
             "wellbeing": -5,
             "family_obligation": 1
           },
           "outcome": {
-            "en": "Home is happier. You wonder about the course you didn't choose.",
-            "zu": "Ikhaya lijabule kakhulu. Uyazibuza ngesifundo ongasikhethanga."
+            "en": "Home is happier. You wonder about the course you didn't choose."
           }
         },
         {
@@ -303,29 +269,25 @@
             "connector"
           ],
           "label": {
-            "en": "Negotiate",
-            "zu": "Xoxisanani"
+            "en": "Negotiate"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "You show them the costs, the funding and how often you'd come home. They agree to one application further away.",
-            "zu": "Ubakhombisa izindleko, uxhaso nokuthi uzobuya kangaki ekhaya. Bavuma isicelo esisodwa esikude."
+            "en": "You show them the costs, the funding and how often you'd come home. They agree to one application further away."
           }
         },
         {
           "id": "own",
           "label": {
-            "en": "Follow your plan",
-            "zu": "Landela uhlelo lwakho"
+            "en": "Follow your plan"
           },
           "effects": {
             "wellbeing": 2
           },
           "outcome": {
-            "en": "You apply where you planned. Supper is quiet for a week, then your mother asks about res.",
-            "zu": "Ufaka isicelo lapho ubuhlele khona. Isidlo sakusihlwa sithule isonto, bese umama wakho ebuza nge-res."
+            "en": "You apply where you planned. Supper is quiet for a week, then your mother asks about res."
           }
         }
       ]
@@ -335,12 +297,10 @@
       "type": "core",
       "week": 3,
       "title": {
-        "en": "How many applications?",
-        "zu": "Zingaki izicelo?"
+        "en": "How many applications?"
       },
       "text": {
-        "en": "Each application costs about R200, and closing dates are different everywhere. You have {money}.",
-        "zu": "Isicelo ngasinye sibiza cishe u-R200, futhi izinsuku zokuvala ziyahluka yonke indawo. Uno-{money}."
+        "en": "Each application costs about R200, and closing dates are different everywhere. You have {money}."
       },
       "forecast_tags": [
         "money_shortfall"
@@ -349,8 +309,7 @@
         {
           "id": "one",
           "label": {
-            "en": "Apply to one",
-            "zu": "Faka isicelo esisodwa"
+            "en": "Apply to one"
           },
           "effects": {
             "money": -200
@@ -359,8 +318,7 @@
             "one_application"
           ],
           "outcome": {
-            "en": "One fee, one form, and everything rides on it.",
-            "zu": "Imali eyodwa, ifomu elilodwa, futhi konke kuncike kulo."
+            "en": "One fee, one form, and everything rides on it."
           }
         },
         {
@@ -369,15 +327,13 @@
             "planner"
           ],
           "label": {
-            "en": "Apply to three",
-            "zu": "Faka izicelo ezintathu"
+            "en": "Apply to three"
           },
           "effects": {
             "money": -600
           },
           "outcome": {
-            "en": "It costs R600, and you have three chances instead of one.",
-            "zu": "Kubiza u-R600, futhi unamathuba amathathu esikhundleni selilodwa."
+            "en": "It costs R600, and you have three chances instead of one."
           }
         },
         {
@@ -386,19 +342,16 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Check for fee waivers",
-            "zu": "Hlola ukuxolelwa kwezimali"
+            "en": "Check for fee waivers"
           },
           "effects": {
             "money": -200
           },
           "outcome": {
-            "en": "Some universities don't charge for online applications, and others waive the fee if you ask. You apply to three for R200.",
-            "zu": "Amanye amanyuvesi awakhokhisi ngezicelo ze-inthanethi, kanti amanye ayayixolela imali uma ucela. Ufaka izicelo ezintathu ngo-R200."
+            "en": "Some universities don't charge for online applications, and others waive the fee if you ask. You apply to three for R200."
           },
           "tip": {
-            "en": "Ask each university about application fee waivers before you pay.",
-            "zu": "Buza inyuvesi ngayinye ngokuxolelwa kwemali yesicelo ngaphambi kokukhokha."
+            "en": "Ask each university about application fee waivers before you pay."
           },
           "support": [
             "applications"
@@ -416,12 +369,10 @@
         ]
       },
       "title": {
-        "en": "Your NSFAS application",
-        "zu": "Isicelo sakho se-NSFAS"
+        "en": "Your NSFAS application"
       },
       "text": {
-        "en": "The NSFAS form wants a signed consent form from a parent, and the name on your ID doesn't match your school records.",
-        "zu": "Ifomu le-NSFAS lifuna ifomu lemvume elisayinwe ngumzali, futhi igama elisemazisini wakho alihambisani namarekhodi esikole."
+        "en": "The NSFAS form wants a signed consent form from a parent, and the name on your ID doesn't match your school records."
       },
       "forecast_tags": [
         "funding_risk"
@@ -433,8 +384,7 @@
             "avoider"
           ],
           "label": {
-            "en": "Submit it anyway",
-            "zu": "Lithumele noma kunjalo"
+            "en": "Submit it anyway"
           },
           "effects": {
             "wellbeing": -5
@@ -443,8 +393,7 @@
             "nsfas_incomplete"
           ],
           "outcome": {
-            "en": "The application sits as \"incomplete\" for weeks. You only find out in January.",
-            "zu": "Isicelo sihlala \"singaphelele\" amasonto. Uthola lokho ngoJanuwari kuphela."
+            "en": "The application sits as \"incomplete\" for weeks. You only find out in January."
           }
         },
         {
@@ -453,19 +402,16 @@
             "planner"
           ],
           "label": {
-            "en": "Fix it first",
-            "zu": "Lilungise kuqala"
+            "en": "Fix it first"
           },
           "effects": {
             "wellbeing": 3
           },
           "outcome": {
-            "en": "It takes two trips and an affidavit. Your details match, and the form goes through.",
-            "zu": "Kuthatha uhambo olubili ne-affidavit. Imininingwane yakho iyahambisana, futhi ifomu liyadlula."
+            "en": "It takes two trips and an affidavit. Your details match, and the form goes through."
           },
           "tip": {
-            "en": "A police station can commission an affidavit for free, and your school can certify copies of your documents.",
-            "zu": "Isiteshi samaphoyisa singafungisa i-affidavit mahhala, futhi isikole sakho singaqinisekisa amakhophi amadokhumenti akho."
+            "en": "A police station can commission an affidavit for free, and your school can certify copies of your documents."
           },
           "support": [
             "funding_search"
@@ -477,8 +423,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Get help at school",
-            "zu": "Thola usizo esikoleni"
+            "en": "Get help at school"
           },
           "effects": {
             "wellbeing": 5
@@ -487,12 +432,10 @@
             "funding_search"
           ],
           "outcome": {
-            "en": "Your LO teacher helps you upload the consent form and check every detail against your ID.",
-            "zu": "Uthisha wakho we-LO ukusiza ulayishe ifomu lemvume futhi uhlole yonke imininingwane nomazisi wakho."
+            "en": "Your LO teacher helps you upload the consent form and check every detail against your ID."
           },
           "tip": {
-            "en": "Missing documents are the most common reason funding applications stall. Check your status after you submit.",
-            "zu": "Amadokhumenti angekho yisizathu esivame kakhulu sokuma kwezicelo zoxhaso. Hlola isimo sakho emva kokuthumela."
+            "en": "Missing documents are the most common reason funding applications stall. Check your status after you submit."
           }
         }
       ]
@@ -508,12 +451,10 @@
         ]
       },
       "title": {
-        "en": "Finding a place to stay",
-        "zu": "Ukuthola indawo yokuhlala"
+        "en": "Finding a place to stay"
       },
       "text": {
-        "en": "While you wait for results, you look for a room. A page called \"Student Rooms Near Campus\" says spaces are almost gone: send R300 today to hold one. You have {money}.",
-        "zu": "Ngenkathi ulinde imiphumela, ufuna ikamelo. Ikhasi elibizwa ngokuthi \"Student Rooms Near Campus\" lithi izindawo sezizophela: thumela u-R300 namuhla ukuze ubambe eyodwa. Uno-{money}."
+        "en": "While you wait for results, you look for a room. A page called \"Student Rooms Near Campus\" says spaces are almost gone: send R300 today to hold one. You have {money}."
       },
       "forecast_tags": [
         "housing",
@@ -523,8 +464,7 @@
         {
           "id": "hold",
           "label": {
-            "en": "Send the R300",
-            "zu": "Thumela u-R300"
+            "en": "Send the R300"
           },
           "effects": {
             "money": -300,
@@ -534,12 +474,10 @@
             "room_fee_scam"
           ],
           "outcome": {
-            "en": "The page takes your R300 and blocks you. No real residence asks for a holding fee by message before you have seen a lease.",
-            "zu": "Ikhasi lithatha u-R300 wakho bese likuvimba. Ayikho indawo yokuhlala yangempela ecela imali yokubamba ngomlayezo ngaphambi kokuba ubone isivumelwano."
+            "en": "The page takes your R300 and blocks you. No real residence asks for a holding fee by message before you have seen a lease."
           },
           "tip": {
-            "en": "\"Pay today or lose it\" is the warning sign. Only pay into an account you can match to the university or an accredited provider.",
-            "zu": "\"Khokha namuhla noma ulahlekelwe\" yisibonakaliso sexwayiso. Khokha kuphela ku-akhawunti ongayihlanganisa nenyuvesi noma nomhlinzeki ogunyaziwe."
+            "en": "\"Pay today or lose it\" is the warning sign. Only pay into an account you can match to the university or an accredited provider."
           }
         },
         {
@@ -548,8 +486,7 @@
             "planner"
           ],
           "label": {
-            "en": "Apply for university residence",
-            "zu": "Faka isicelo se-res yenyuvesi"
+            "en": "Apply for university residence"
           },
           "effects": {
             "wellbeing": 3
@@ -558,8 +495,7 @@
             "residence_office"
           ],
           "outcome": {
-            "en": "You apply on the university's own website, before the closing date. Res applications close early, often months before classes start.",
-            "zu": "Ufaka isicelo kuwebhusayithi yenyuvesi uqobo, ngaphambi kosuku lokuvala. Izicelo ze-res zivalwa kusenesikhathi, ngokuvamile ezinyangeni ngaphambi kokuqala kwezifundo."
+            "en": "You apply on the university's own website, before the closing date. Res applications close early, often months before classes start."
           }
         },
         {
@@ -568,8 +504,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Ask for the accredited list",
-            "zu": "Cela uhlu olugunyaziwe"
+            "en": "Ask for the accredited list"
           },
           "effects": {
             "wellbeing": 5
@@ -580,12 +515,10 @@
             "scams"
           ],
           "outcome": {
-            "en": "The accommodation office sends its list of accredited private residences. The page asking for R300 is not on it.",
-            "zu": "Ihhovisi lezindawo zokuhlala lithumela uhlu lwalo lwezindawo ezizimele ezigunyaziwe. Ikhasi elicela u-R300 alikho kulo."
+            "en": "The accommodation office sends its list of accredited private residences. The page asking for R300 is not on it."
           },
           "tip": {
-            "en": "If you are on NSFAS, private accommodation must be accredited or your rent won't be paid. Check the list before you sign anything.",
-            "zu": "Uma use-NSFAS, indawo yokuhlala ezimele kufanele igunyazwe kungenjalo irenti yakho ngeke ikhokhwe. Hlola uhlu ngaphambi kokusayina noma yini."
+            "en": "If you are on NSFAS, private accommodation must be accredited or your rent won't be paid. Check the list before you sign anything."
           }
         }
       ]
@@ -595,12 +528,10 @@
       "type": "core",
       "week": 4,
       "title": {
-        "en": "Results day",
-        "zu": "Usuku lwemiphumela"
+        "en": "Results day"
       },
       "text": {
-        "en": "Your matric results are out, and they're lower than you expected. Your first-choice course needed a few more points.",
-        "zu": "Imiphumela yakho ye-matric isiphumile, futhi iphansi kunalokho obukulindele. Isifundo sakho sokuqala besidinga amaphuzu ambalwa engeziwe."
+        "en": "Your matric results are out, and they're lower than you expected. Your first-choice course needed a few more points."
       },
       "forecast_tags": [
         "wellbeing",
@@ -613,15 +544,13 @@
             "avoider"
           ],
           "label": {
-            "en": "Panic",
-            "zu": "Thuka"
+            "en": "Panic"
           },
           "effects": {
             "wellbeing": -10
           },
           "outcome": {
-            "en": "You switch off your phone for two days. When you switch it back on, the choices are still waiting for you.",
-            "zu": "Ucisha ifoni yakho izinsuku ezimbili. Uma uyivula futhi, izinqumo zisakulindile."
+            "en": "You switch off your phone for two days. When you switch it back on, the choices are still waiting for you."
           },
           "followUp": {
             "in": 0,
@@ -634,19 +563,16 @@
             "planner"
           ],
           "label": {
-            "en": "Check what you qualify for",
-            "zu": "Hlola ukuthi ufanelekela ini"
+            "en": "Check what you qualify for"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "You still qualify for your second choice, and for an extended programme in your first.",
-            "zu": "Usafanelekela ukukhetha kwakho kwesibili, nohlelo olwelulwe kokwakho kokuqala."
+            "en": "You still qualify for your second choice, and for an extended programme in your first."
           },
           "tip": {
-            "en": "Each university's website lists the minimum points for every course. Call or email the admissions office to confirm your options.",
-            "zu": "Iwebhusayithi yenyuvesi ngayinye ibala amaphuzu amancane esifundo ngasinye. Shayela noma uthumele i-imeyili ehhovisi lokwamukelwa ukuze uqinisekise izindlela zakho."
+            "en": "Each university's website lists the minimum points for every course. Call or email the admissions office to confirm your options."
           }
         },
         {
@@ -655,8 +581,7 @@
             "planner"
           ],
           "label": {
-            "en": "Rewrite, and apply again next year",
-            "zu": "Bhala kabusha, bese ufaka isicelo futhi ngonyaka ozayo"
+            "en": "Rewrite, and apply again next year"
           },
           "effects": {
             "wellbeing": 2,
@@ -666,12 +591,10 @@
             "gap_year"
           ],
           "outcome": {
-            "en": "You won't start university this year. You'll rewrite the subjects you need, and apply again next year for the course you really want.",
-            "zu": "Ngeke uqale inyuvesi kulo nyaka. Uzobhala kabusha izifundo ozidingayo, bese ufaka isicelo futhi ngonyaka ozayo sesifundo osifuna ngempela."
+            "en": "You won't start university this year. You'll rewrite the subjects you need, and apply again next year for the course you really want."
           },
           "tip": {
-            "en": "Ask your school how to register for the supplementary or Second Chance exams, and when registration closes. Then check when applications for next year open.",
-            "zu": "Buza esikoleni sakho ukuthi ubhalisela kanjani izivivinyo ezengeziwe noma ze-Second Chance, nokuthi ukubhalisa kuvalwa nini. Bese uhlola ukuthi izicelo zonyaka ozayo zivulwa nini."
+            "en": "Ask your school how to register for the supplementary or Second Chance exams, and when registration closes. Then check when applications for next year open."
           }
         }
       ]
@@ -680,12 +603,10 @@
       "id": "PRE-06P",
       "type": "core",
       "title": {
-        "en": "Two days later",
-        "zu": "Ezinsukwini ezimbili kamuva"
+        "en": "Two days later"
       },
       "text": {
-        "en": "Your phone is back on. Your first-choice course is out of reach this year, but other doors haven't closed. What now?",
-        "zu": "Ifoni yakho isivuliwe. Isifundo sakho sokuqala asifinyeleleki kulo nyaka, kodwa eminye iminyango ayivalekanga. Manje kuthiwani?"
+        "en": "Your phone is back on. Your first-choice course is out of reach this year, but other doors haven't closed. What now?"
       },
       "forecast_tags": [
         "wellbeing"
@@ -697,19 +618,16 @@
             "planner"
           ],
           "label": {
-            "en": "Take your second choice",
-            "zu": "Thatha ukukhetha kwakho kwesibili"
+            "en": "Take your second choice"
           },
           "effects": {
             "wellbeing": 3
           },
           "outcome": {
-            "en": "You check the points: you still qualify for your second choice. You accept the offer before it closes.",
-            "zu": "Uhlola amaphuzu: usafanelekela ukukhetha kwakho kwesibili. Wamukela isipho ngaphambi kokuthi sivalwe."
+            "en": "You check the points: you still qualify for your second choice. You accept the offer before it closes."
           },
           "tip": {
-            "en": "Each university lists the minimum points for every course. Call or email admissions to confirm before the offer closes.",
-            "zu": "Inyuvesi ngayinye ibala amaphuzu amancane esifundo ngasinye. Shayela noma uthumele i-imeyili ehhovisi lokwamukelwa ukuze uqinisekise ngaphambi kokuthi isipho sivalwe."
+            "en": "Each university lists the minimum points for every course. Call or email admissions to confirm before the offer closes."
           }
         },
         {
@@ -718,8 +636,7 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Look for something that fits better",
-            "zu": "Funa okukufanela kangcono"
+            "en": "Look for something that fits better"
           },
           "effects": {
             "wellbeing": 5
@@ -728,12 +645,10 @@
             "applications"
           ],
           "outcome": {
-            "en": "Admissions points you to an extended programme in your first-choice course: one extra year, and the same degree at the end.",
-            "zu": "Ihhovisi lokwamukelwa likukhombisa uhlelo olwelulwe esifundweni sakho sokuqala: unyaka owodwa owengeziwe, neziqu ezifanayo ekugcineni."
+            "en": "Admissions points you to an extended programme in your first-choice course: one extra year, and the same degree at the end."
           },
           "tip": {
-            "en": "Extended programmes add a foundation year for students who were a few points short. Ask admissions whether you qualify.",
-            "zu": "Izinhlelo ezelulwe zengeza unyaka wesisekelo kubafundi abasweleke amaphuzu ambalwa. Buza ehhovisi lokwamukelwa ukuthi uyafanelekela yini."
+            "en": "Extended programmes add a foundation year for students who were a few points short. Ask admissions whether you qualify."
           }
         },
         {
@@ -742,8 +657,7 @@
             "planner"
           ],
           "label": {
-            "en": "Rewrite, and apply again next year",
-            "zu": "Bhala kabusha, bese ufaka isicelo futhi ngonyaka ozayo"
+            "en": "Rewrite, and apply again next year"
           },
           "effects": {
             "wellbeing": 2,
@@ -753,12 +667,10 @@
             "gap_year"
           ],
           "outcome": {
-            "en": "You won't start university this year. You'll rewrite the subjects you need, and apply again next year for the course you really want.",
-            "zu": "Ngeke uqale inyuvesi kulo nyaka. Uzobhala kabusha izifundo ozidingayo, bese ufaka isicelo futhi ngonyaka ozayo sesifundo osifuna ngempela."
+            "en": "You won't start university this year. You'll rewrite the subjects you need, and apply again next year for the course you really want."
           },
           "tip": {
-            "en": "Ask your school how to register for the supplementary or Second Chance exams, and when registration closes. Then check when applications for next year open.",
-            "zu": "Buza esikoleni sakho ukuthi ubhalisela kanjani izivivinyo ezengeziwe noma ze-Second Chance, nokuthi ukubhalisa kuvalwa nini. Bese uhlola ukuthi izicelo zonyaka ozayo zivulwa nini."
+            "en": "Ask your school how to register for the supplementary or Second Chance exams, and when registration closes. Then check when applications for next year open."
           }
         }
       ]
@@ -776,12 +688,10 @@
         ]
       },
       "title": {
-        "en": "Waitlisted",
-        "zu": "Usohlwini lokulinda"
+        "en": "Waitlisted"
       },
       "text": {
-        "en": "The one university you applied to has put you on a waiting list. Classes start in five weeks.",
-        "zu": "Inyuvesi eyodwa ofake kuyo isicelo ikubeke ohlwini lokulinda. Izifundo ziqala emasontweni amahlanu."
+        "en": "The one university you applied to has put you on a waiting list. Classes start in five weeks."
       },
       "forecast_tags": [
         "wellbeing"
@@ -790,15 +700,13 @@
         {
           "id": "wait",
           "label": {
-            "en": "Wait a year",
-            "zu": "Linda unyaka"
+            "en": "Wait a year"
           },
           "effects": {
             "wellbeing": -3
           },
           "outcome": {
-            "en": "You plan a year of work and reapplying. A gap year with a plan is not a failure.",
-            "zu": "Uhlela unyaka wokusebenza nokufaka isicelo futhi. Unyaka wokuphumula onohlelo awukona ukwehluleka."
+            "en": "You plan a year of work and reapplying. A gap year with a plan is not a failure."
           },
           "flags": [
             "gap_year"
@@ -810,19 +718,16 @@
             "planner"
           ],
           "label": {
-            "en": "Look at a TVET college",
-            "zu": "Bheka ikolishi le-TVET"
+            "en": "Look at a TVET college"
           },
           "effects": {
             "wellbeing": 3
           },
           "outcome": {
-            "en": "A TVET college near you offers a related qualification, with funding. It's a real route, not a consolation prize.",
-            "zu": "Ikolishi le-TVET eliseduze linikeza iziqu ezihlobene, ezinoxhaso. Kuyindlela yangempela, hhayi umklomelo wokududuza."
+            "en": "A TVET college near you offers a related qualification, with funding. It's a real route, not a consolation prize."
           },
           "tip": {
-            "en": "TVET colleges take applications on their websites or at the campus, and NSFAS funds TVET students too.",
-            "zu": "Amakolishi e-TVET amukela izicelo kumawebhusayithi awo noma ekhampasi, futhi i-NSFAS ixhasa nabafundi be-TVET."
+            "en": "TVET colleges take applications on their websites or at the campus, and NSFAS funds TVET students too."
           }
         },
         {
@@ -831,19 +736,16 @@
             "help_seeker"
           ],
           "label": {
-            "en": "Try for late placement",
-            "zu": "Zama ukubekwa sekwephuzile"
+            "en": "Try for late placement"
           },
           "effects": {
             "wellbeing": 5
           },
           "outcome": {
-            "en": "You register with the national clearing house for late applications and call the faculty. A space opens.",
-            "zu": "Ubhalisa nesikhungo sikazwelonke sezicelo eziphuzile futhi ushayela ifakhalthi. Kuvuleka isikhala."
+            "en": "You register with the national clearing house for late applications and call the faculty. A space opens."
           },
           "tip": {
-            "en": "Ask your school or the higher education department about the clearing house for applicants without a place.",
-            "zu": "Buza esikoleni sakho noma emnyangweni wemfundo ephakeme ngesikhungo sabafake izicelo abangenandawo."
+            "en": "Ask your school or the higher education department about the clearing house for applicants without a place."
           }
         }
       ]
@@ -858,12 +760,10 @@
         ]
       },
       "title": {
-        "en": "The acceptance letter",
-        "zu": "Incwadi yokwamukelwa"
+        "en": "The acceptance letter"
       },
       "text": {
-        "en": "\"We are pleased to offer you a place.\" You read it four times, then send a screenshot to everyone you know.",
-        "zu": "\"Siyajabula ukukunikeza indawo.\" Uyifunda kane, bese uthumela isithombe-skrini kuwo wonke umuntu omaziyo."
+        "en": "\"We are pleased to offer you a place.\" You read it four times, then send a screenshot to everyone you know."
       },
       "effects": {
         "wellbeing": 10
@@ -875,32 +775,27 @@
       "id": "MM-TRY",
       "type": "mini",
       "text": {
-        "en": "A university has an online \"day in the life\" you can try before you choose.",
-        "zu": "Inyuvesi ine-\"usuku empilweni\" ku-inthanethi ongaluzama ngaphambi kokukhetha."
+        "en": "A university has an online \"day in the life\" you can try before you choose."
       },
       "choices": [
         {
           "label": {
-            "en": "Try it tonight",
-            "zu": "Luzame namhlanje ebusuku"
+            "en": "Try it tonight"
           },
           "effects": {
             "confidence": 1
           },
           "outcome": {
-            "en": "Now you know which questions to ask at the open day.",
-            "zu": "Manje uyazi ukuthi yimiphi imibuzo ozoyibuza ngosuku oluvulekile."
+            "en": "Now you know which questions to ask at the open day."
           }
         },
         {
           "label": {
-            "en": "Maybe later",
-            "zu": "Mhlawumbe kamuva"
+            "en": "Maybe later"
           },
           "effects": {},
           "outcome": {
-            "en": "It stays in your tabs. Applications close in three weeks.",
-            "zu": "Kuhlala kumathebhu akho. Izicelo zivalwa emasontweni amathathu."
+            "en": "It stays in your tabs. Applications close in three weeks."
           }
         }
       ]
@@ -909,32 +804,27 @@
       "id": "MM-COST",
       "type": "mini",
       "text": {
-        "en": "A parent asks how much university will really cost. You're not sure.",
-        "zu": "Umzali ubuza ukuthi inyuvesi izobiza malini ngempela. Awuqiniseki."
+        "en": "A parent asks how much university will really cost. You're not sure."
       },
       "choices": [
         {
           "label": {
-            "en": "Work it out together",
-            "zu": "Kubaleni ndawonye"
+            "en": "Work it out together"
           },
           "effects": {
             "confidence": 1
           },
           "outcome": {
-            "en": "Fees, rent, food, transport: seeing the total makes the plan real.",
-            "zu": "Izimali, irenti, ukudla, ukugibela: ukubona isamba kwenza uhlelo lube ngokoqobo."
+            "en": "Fees, rent, food, transport: seeing the total makes the plan real."
           }
         },
         {
           "label": {
-            "en": "Say you'll manage",
-            "zu": "Yithi uzokwazi"
+            "en": "Say you'll manage"
           },
           "effects": {},
           "outcome": {
-            "en": "They nod, but they're still worried. So are you.",
-            "zu": "Bayavuma ngekhanda, kodwa basakhathazekile. Nawe ngokunjalo."
+            "en": "They nod, but they're still worried. So are you."
           }
         }
       ]
@@ -949,32 +839,27 @@
         ]
       },
       "text": {
-        "en": "You'll be living away from home. Do you know what the room comes with, and what you must bring?",
-        "zu": "Uzohlala kude nekhaya. Uyazi ukuthi ikamelo liza nani, nokuthi yini okufanele uyilethe?"
+        "en": "You'll be living away from home. Do you know what the room comes with, and what you must bring?"
       },
       "choices": [
         {
           "label": {
-            "en": "Ask for the list",
-            "zu": "Cela uhlu"
+            "en": "Ask for the list"
           },
           "effects": {
             "confidence": 1
           },
           "outcome": {
-            "en": "The residence office, or your landlord, sends it: bring bedding, a lock, plates and a pot. It also says which appliances aren't allowed.",
-            "zu": "Ihhovisi lezindawo zokuhlala, noma umnikazi wendlu, bayaluthumela: letha izingubo zokulala, ingidi, amapuleti nebhodwe. Lusho nokuthi yiziphi izinto zikagesi ezingavunyelwe."
+            "en": "The residence office, or your landlord, sends it: bring bedding, a lock, plates and a pot. It also says which appliances aren't allowed."
           }
         },
         {
           "label": {
-            "en": "Pack and hope",
-            "zu": "Pakisha bese uyathemba"
+            "en": "Pack and hope"
           },
           "effects": {},
           "outcome": {
-            "en": "You arrive with a kettle you can't use and no bedding. Res WhatsApp groups sell second-hand basics cheaply.",
-            "zu": "Ufika neketela ongeke ulisebenzise futhi ungenazo izingubo zokulala. Amaqembu e-WhatsApp e-res athengisa izinto ezisetshenzisiwe ngentengo ephansi."
+            "en": "You arrive with a kettle you can't use and no bedding. Res WhatsApp groups sell second-hand basics cheaply."
           }
         }
       ]

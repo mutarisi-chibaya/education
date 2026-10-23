@@ -1,10 +1,11 @@
-// Translations. UI strings live in i18n/<lang>.json; game content carries
-// its own { en, zu } objects. Anything missing falls back to English.
+// Translations. UI strings live in i18n/<lang>.json. Game content is written in
+// English only; each other language has one file of card text, content/lang/<id>.json,
+// keyed by the English, and only the chosen language is downloaded. When English
+// text changes, its old translation no longer matches, so the new English shows
+// until it is translated: a student never sees an out-of-date translation.
 
-// English and isiZulu card text is written by hand, inside the content. The
-// `machine` languages are machine-translated (tools/translate.mjs): their card
-// text is one file per language, content/lang/<id>.json, keyed by the English,
-// and only the chosen language is downloaded.
+// isiZulu was written by hand, and tools/translate.mjs fills its gaps. The
+// `machine` languages are machine-translated.
 export const LANGS = [
   { id: 'en', label: 'English', code: 'EN' },
   { id: 'zu', label: 'isiZulu', code: 'ZU' },
@@ -31,7 +32,7 @@ export async function loadLang(id) {
   if (!Object.keys(fallback).length) fallback = await fetchJson('i18n/en.json');
   strings = id === 'en' ? fallback : await fetchJson(`i18n/${id}.json`);
   // Without its card file (first use while offline) a language shows the cards in English.
-  cards = LANGS.find((l) => l.id === id).machine ? await fetchJson(`content/lang/${id}.json`).catch(() => ({})) : {};
+  cards = id === 'en' ? {} : await fetchJson(`content/lang/${id}.json`).catch(() => ({}));
   lang = id;
   document.documentElement.lang = id;
 }
@@ -47,7 +48,8 @@ export function t(key, vars) {
   return fill(strings[key] ?? fallback[key] ?? key, vars);
 }
 
-// Content text: a plain string or a { en, zu } object.
+// Content text: a plain string or an { en } object. A pack saved on the phone
+// before translations moved out may still carry its own { zu }.
 export function tx(obj, vars) {
   if (obj == null) return '';
   if (typeof obj === 'string') return fill(obj, vars);

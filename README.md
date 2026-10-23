@@ -118,7 +118,7 @@ Shared random pools live in [core.json](content/core.json) (`events`): **surpris
 {
   "id": "FT-03", "type": "core", "week": 3,
   "conditions": { "funding": ["nsfas", "bursary"] },
-  "title": { "en": "...", "zu": "..." }, "text": { "en": "...", "zu": "..." },
+  "title": { "en": "..." }, "text": { "en": "..." },
   "choices": [
     { "id": "help", "label": {...}, "tags": ["help_seeker"],
       "effects": { "money": 400, "wellbeing": 4 },
