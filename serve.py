@@ -45,7 +45,7 @@ from server import web as portal_web
 from server.portal import Portal, node_check
 
 ROOT = Path(__file__).resolve().parent
-PORT = int(sys.argv[1]) if __name__ == "__main__" and len(sys.argv) > 1 else 8080
+PORT = int(sys.argv[1]) if __name__ == "__main__" and len(sys.argv) > 1 else int(os.environ.get("PORT", "8080"))
 CONTENT = ROOT / "content"
 STATS_DB = ROOT / "data" / "stats.db"
 MAX_BODY = 16 * 1024
@@ -68,6 +68,12 @@ FEEDBACK = {"realistic": {"yes", "partly", "no"}, "learned": {"yes", "no"}, "rec
 # cookie is marked Secure unless PORTAL_INSECURE_COOKIE=1 (plain http on a LAN).
 PORTAL_MFA = os.environ.get("PORTAL_MFA", "on") != "off"
 PORTAL_SECURE_COOKIE = os.environ.get("PORTAL_INSECURE_COOKIE") != "1"
+TRUST_PROXY = os.environ.get("TRUST_PROXY") == "1"
+# With PORTAL_JUDGE_PASSWORD set, the judges' shared Karoo Coast accounts are created (or reset
+# to it) on every start. They skip two-step login and their password cannot be changed.
+JUDGE_PASSWORD = os.environ.get("PORTAL_JUDGE_PASSWORD", "")
+JUDGE_ACCOUNTS = [(f"{role}@karoocoast.example", f"Karoo Coast {role.title()} (judges)", role, "karoo-coast")
+                  for role in ("editor", "reviewer", "viewer")]
 _portal = None
 
 
@@ -77,6 +83,9 @@ def portal():
         # Email goes through SMTP when SMTP_HOST is set; otherwise to data/outbox/ (see server/mailer.py).
         _portal = Portal(ROOT / "data" / "portal.db", CONTENT, node_check(ROOT), mfa=PORTAL_MFA,
                          mailer=portal_mailer.from_env(ROOT), base_url=os.environ.get("PORTAL_URL", f"http://localhost:{PORT}"))
+        if JUDGE_PASSWORD:
+            for email, name, role, institution in JUDGE_ACCOUNTS:
+                _portal.shared_account(email, name, role, institution, JUDGE_PASSWORD)
     return _portal
 
 
@@ -339,13 +348,23 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if method != "GET" and self.cross_origin_blocked():
             return self.send_json(403, {"error": "origin not allowed"})
         status, body, cookie = portal_web.handle(portal(), method, self.path.split("?")[0], self.headers, data,
-                                                 self.client_address[0], secure=PORTAL_SECURE_COOKIE, stats=stats_summary)
+                                                 self.client_ip(), secure=PORTAL_SECURE_COOKIE, stats=stats_summary)
         return self.send_json(status, body, cookie)
 
     def do_PUT(self):
         if "/portal/api/" in self.path:
             return self.portal_api("PUT")
         return self.send_json(404, {"error": "not found"})
+
+    def client_ip(self):
+        """The visitor's address. Behind a hosting proxy (TRUST_PROXY=1) every request comes from the
+        proxy, so the address it forwards is used instead; otherwise that header is ignored, as anyone
+        can send it. Rate limits use this; the account lock after repeated failures does not depend on it."""
+        if TRUST_PROXY:
+            forwarded = (self.headers.get("X-Forwarded-For") or "").split(",")[0].strip()
+            if forwarded:
+                return forwarded[:64]
+        return self.client_address[0]
 
     def read_json(self):
         length = int(self.headers.get("Content-Length") or 0)
@@ -387,7 +406,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self.send_json(404, {"error": "not found"})
         if self.cross_origin_blocked():
             return self.send_json(403, {"error": "origin not allowed"})
-        if rate_limited(self.client_address[0]):
+        if rate_limited(self.client_ip()):
             return self.send_json(429, {"error": "too many requests"})
         data = self.read_json()
         if data is None or not isinstance(data, dict):
@@ -420,11 +439,15 @@ def open_server(port, tries=10):
 
 if __name__ == "__main__":
     server, port = open_server(PORT)
+    if JUDGE_PASSWORD:
+        portal()  # create the judges' accounts now, not on the first portal request
     with server as httpd:
         print(f"University Simulator -> http://localhost:{port}  (Ctrl+C to stop)")
         print(f"  Completion stats: http://localhost:{port}/stats")
         print(f"  Staff portal:     http://localhost:{port}/portal/  (two-step login {'on' if PORTAL_MFA else 'OFF: demo only'})")
         print(f"  Portal email:     {'SMTP via ' + os.environ['SMTP_HOST'] if os.environ.get('SMTP_HOST') else 'data/outbox/ (no mail server set; links are shown on screen)'}")
+        if JUDGE_PASSWORD:
+            print(f"  Judge accounts:   {', '.join(a[0] for a in JUDGE_ACCOUNTS)} (shared, no two-step login)")
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:

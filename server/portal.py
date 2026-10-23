@@ -72,6 +72,7 @@ class Portal:
         self.content = Path(content_dir)
         self.check = check
         self.mfa = mfa
+        self.shared = set()             # shared demo accounts (for judges): fixed password, no two-step login
         self.clock = clock
         Path(db_path).parent.mkdir(parents=True, exist_ok=True)
         db.migrate(self.db_path)
@@ -173,6 +174,38 @@ class Portal:
         finally:
             con.close()
 
+    def shared_account(self, email, name, role, institution_id, password):
+        """A demo account several people sign in to, such as the judges' accounts. It is created,
+        or reset to this password, on every start. Its password cannot be changed from the portal
+        and it skips two-step login, so one person cannot lock the others out."""
+        problem = auth.password_problem(password or "")
+        if problem:
+            raise PortalError(400, f"Shared account password: {problem}")
+        if role not in ROLES or role == "admin":
+            raise PortalError(400, "A shared account is an editor, reviewer or viewer.")
+        if self.published(institution_id) is None:
+            raise PortalError(400, "A shared account belongs to a published institution.")
+        email = email.strip().lower()
+        digest, salt = auth.hash_password(password)
+        con = self._con()
+        try:
+            with con:
+                row = con.execute("SELECT id FROM users WHERE email = ?", (email,)).fetchone()
+                if row:
+                    con.execute("""UPDATE users SET name = ?, role = ?, institution_id = ?, pw_hash = ?, pw_salt = ?, must_change = 0,
+                                   totp_secret = NULL, totp_enabled = 0, failed = 0, disabled = 0 WHERE id = ?""",
+                                (name, role, institution_id, digest, salt, row["id"]))
+                else:
+                    con.execute("""INSERT INTO users (email, name, role, institution_id, pw_hash, pw_salt, must_change, created_at)
+                                   VALUES (?, ?, ?, ?, ?, ?, 0, ?)""", (email, name, role, institution_id, digest, salt, self.clock()))
+                self._log(con, "system", "user.shared", institution_id, f"{email} as {role}")
+        finally:
+            con.close()
+        self.shared.add(email)
+
+    def _two_step(self, user):
+        return self.mfa and user["email"] not in self.shared
+
     # ---------------------------------------------- invitation and reset links
 
     def _send_link(self, con, user, purpose, locked=False):
@@ -211,7 +244,7 @@ class Portal:
         try:
             with con:
                 user = con.execute("SELECT * FROM users WHERE email = ? AND disabled = 0", (email,)).fetchone()
-                if user:
+                if user and email not in self.shared:
                     link = self._send_link(con, user, "reset")
                     self._log(con, email, "password.reset_requested", user["institution_id"], "", ip)
                     if self.mailer.reveals_links:
@@ -315,9 +348,9 @@ class Portal:
                 if not auth.verify_password(password or "", user["pw_hash"], user["pw_salt"]):
                     self._failed(con, user, "", ip)
                     return None, bad
-                mfa_ok = 0 if self.mfa else 1
+                mfa_ok = 0 if self._two_step(user) else 1
                 backup_left = None  # set when a backup code was used in place of the authenticator
-                if self.mfa and user["totp_enabled"]:
+                if self._two_step(user) and user["totp_enabled"]:
                     if not code:
                         return None, PortalError(401, "Enter the 6-digit code from your authenticator app.", need="code")
                     if not auth.verify_totp(user["totp_secret"], code, self.clock()):
@@ -342,8 +375,8 @@ class Portal:
             con.close()
 
     def _me(self, user, csrf, mfa_ok):
-        step = "password" if user["must_change"] else "two-step" if (self.mfa and not mfa_ok) else "ready"
-        return {"user": self._public(user), "csrf": csrf, "step": step, "twoStepRequired": self.mfa}
+        step = "password" if user["must_change"] else "two-step" if (self._two_step(user) and not mfa_ok) else "ready"
+        return {"user": self._public(user), "csrf": csrf, "step": step, "twoStepRequired": self._two_step(user)}
 
     def session(self, token):
         """The signed-in user for a session token, or None."""
@@ -364,7 +397,7 @@ class Portal:
         """Past the temporary password and two-step setup: allowed to do real work."""
         if user["must_change"]:
             raise PortalError(403, "Choose your own password first.", step="password")
-        if self.mfa and not user["mfa_ok"]:
+        if self._two_step(user) and not user["mfa_ok"]:
             raise PortalError(403, "Set up two-step login first.", step="two-step")
 
     def logout(self, token):
@@ -376,6 +409,8 @@ class Portal:
             con.close()
 
     def change_password(self, user, current, new, ip=""):
+        if user["email"] in self.shared:
+            raise PortalError(403, "This is a shared demo account, so its password cannot be changed.")
         if not auth.verify_password(current or "", user["pw_hash"], user["pw_salt"]):
             raise PortalError(400, "Your current password is not right.")
         problem = auth.password_problem(new or "")

@@ -1,0 +1,16 @@
+# Render Blueprint. The free plan's disk is temporary: accounts, drafts and anything published
+# through the portal are lost on every restart or deploy. That suits the judges' demo, which
+# starts clean each time; a real rollout needs a hosted database (see PORTAL.md).
+services:
+  - type: web
+    name: university-simulator
+    runtime: docker
+    plan: free
+    healthCheckPath: /institutions
+    envVars:
+      - key: TRUST_PROXY
+        value: "1"
+      - key: PORTAL_JUDGE_PASSWORD   # the judges' shared password: set it in the Render dashboard
+        sync: false
+      - key: PORTAL_URL              # the service's https address, used in emailed links
+        sync: false

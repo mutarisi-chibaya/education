@@ -182,6 +182,56 @@ class TwoStep(PortalCase):
         self.assertEqual(auth.totp("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", 59), "287082")
 
 
+class SharedAccounts(PortalCase):
+    """The judges' accounts: one known password, no two-step login, and nobody can lock the others out."""
+    mfa = True
+    with_mail = True
+    JUDGES = "judges' shared passphrase"
+
+    def setUp(self):
+        super().setUp()
+        # The Karoo Coast editor already exists (from PortalCase): sharing it resets it.
+        for role in ("editor", "reviewer"):
+            self.portal.shared_account(f"{role}@karoocoast.example", f"Karoo {role}", role, "karoo-coast", self.JUDGES)
+
+    def test_judges_sign_in_with_the_shared_password_and_skip_two_step(self):
+        token, info = self.portal.login("Editor@KarooCoast.example", self.JUDGES)
+        self.assertEqual(info["step"], "ready")
+        self.assertFalse(info["twoStepRequired"])
+        self.portal.ready(self.portal.session(token))
+        self.assertIsNone(self.portal.login("editor@karoocoast.example", PASSWORD)[0], "the old password no longer works")
+        # Everyone else still needs two-step login.
+        self.assertEqual(self.portal.login("editor@sizwe.example", PASSWORD)[1]["step"], "two-step")
+
+    def test_judges_review_each_others_changes_as_two_people(self):
+        editor = self.portal.session(self.portal.login("editor@karoocoast.example", self.JUDGES)[0])
+        reviewer = self.portal.session(self.portal.login("reviewer@karoocoast.example", self.JUDGES)[0])
+        self.edit(editor, "karoo-coast", short="Karoo")
+        self.portal.submit(editor, "karoo-coast")
+        self.portal.review(reviewer, "karoo-coast", "approve")
+        self.assertEqual(self.live("karoo-coast")["short"], "Karoo")
+
+    def test_nobody_can_change_reset_or_lock_the_shared_password(self):
+        user = self.portal.session(self.portal.login("editor@karoocoast.example", self.JUDGES)[0])
+        with self.assertRaises(PortalError) as e:
+            self.portal.change_password(user, self.JUDGES, "a different passphrase")
+        self.assertEqual(e.exception.status, 403)
+        sent = len(self.mail.sent)
+        self.portal.request_reset("editor@karoocoast.example")
+        self.assertEqual(len(self.mail.sent), sent, "no reset link for a shared account")
+        for _ in range(8):
+            self.portal.login("editor@karoocoast.example", "wrong passphrase!")
+        self.assertIsNone(self.portal.login("editor@karoocoast.example", self.JUDGES)[0], "locked like any account")
+        self.portal.shared_account("editor@karoocoast.example", "Karoo editor", "editor", "karoo-coast", self.JUDGES)
+        self.assertTrue(self.portal.login("editor@karoocoast.example", self.JUDGES)[0], "and unlocked by the next start")
+
+    def test_a_shared_account_needs_a_strong_password_and_is_never_an_admin(self):
+        with self.assertRaises(PortalError):
+            self.portal.shared_account("viewer@karoocoast.example", "Viewer", "viewer", "karoo-coast", "short")
+        with self.assertRaises(PortalError):
+            self.portal.shared_account("boss@unisim.example", "Boss", "admin", None, self.JUDGES)
+
+
 class Isolation(PortalCase):
     def test_staff_only_see_and_change_their_own_institution(self):
         self.assertEqual([i["id"] for i in self.portal.institutions(self.editor)], ["sizwe"])

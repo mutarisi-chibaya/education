@@ -101,11 +101,22 @@ accredited accommodation, open **Story cards** to see its own card ("The last sh
 town") and its two reworded cards, change something, and open **Review and publish** to see
 the before-and-after table. Then sign in as its reviewer to approve it.
 
-**For judges**, hand out the viewer accounts. A viewer sees the same screens, the draft and
-the before-and-after table, but cannot save or publish. So several judges can look around
-at once without changing what students get, and without restarting the chapter of someone
-playing the app with that university (the app restarts an unfinished chapter when its
-university publishes a new version).
+**For judges**, the hosted demo has shared Karoo Coast accounts so they can try the whole
+change process: `editor@karoocoast.example` makes a change and submits it, and
+`reviewer@karoocoast.example` approves it, which shows that nobody approves their own work.
+`viewer@karoocoast.example` can look around without changing anything. Set
+`PORTAL_JUDGE_PASSWORD` and the server creates the three on every start, or resets them to
+that password. They skip two-step login, and their password cannot be changed, reset or
+emailed from the portal, so one judge cannot lock the others out. Every other account still
+needs two-step login. Judges never get the platform admin or a Sizwe account: Sizwe is the
+university in the demo videos, and publishing restarts an unfinished chapter for anyone
+playing with that university.
+
+On Render, [render.yaml](render.yaml) runs the server from the [Dockerfile](Dockerfile)
+(Python and Node) with `TRUST_PROXY=1`, so rate limits see each visitor's own address rather
+than Render's proxy. The free plan's disk is temporary: accounts, drafts and published
+changes are lost on each restart, and the demo starts clean. Do not create a platform admin
+there without a mail server: with none, a reset link appears on screen to whoever asks.
 
 Node.js must be installed on the server, because the pack check is the same program the
 build tools use. If it cannot run, nothing can be submitted or published.
