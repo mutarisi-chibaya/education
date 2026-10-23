@@ -409,6 +409,8 @@ class Workflow(PortalCase):
             self.portal.create_institution(self.admin, {"id": "sizwe", "name": "Again"})
         staff = self.account("editor@newcollege.example", "College Editor", "editor", "new-college")
         self.assertEqual(self.portal.get_pack(staff, "new-college")["publishedVersion"], 0)
+        listed = {i["id"]: i["name"] for i in self.portal.institutions(self.admin)}
+        self.assertEqual(listed["new-college"], {"en": "New College"}, "listed by its name before it is published")
 
 
 class RealCheck(PortalCase):

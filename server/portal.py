@@ -467,8 +467,9 @@ class Portal:
         index = json.loads((folder / "index.json").read_text(encoding="utf-8")) if (folder / "index.json").exists() else []
         con = self._con()
         try:
-            states = {r["institution_id"]: r["state"] for r in con.execute("SELECT institution_id, state FROM packs")}
-            drafts = [r["institution_id"] for r in con.execute("SELECT institution_id FROM packs")]
+            rows = con.execute("SELECT institution_id, state, draft FROM packs").fetchall()
+            states = {r["institution_id"]: r["state"] for r in rows}
+            drafts = {r["institution_id"]: r["draft"] for r in rows}
         finally:
             con.close()
         known = {d["id"]: d for d in index}
@@ -476,7 +477,8 @@ class Portal:
         for inst_id in list(known) + [d for d in drafts if d not in known]:
             if user["role"] != "admin" and user["institution_id"] != inst_id:
                 continue
-            entry = known.get(inst_id, {"id": inst_id, "name": None, "version": 0})
+            # Not published yet: its name is in its draft.
+            entry = known.get(inst_id) or {"id": inst_id, "name": json.loads(drafts[inst_id]).get("name"), "version": 0}
             out.append({"id": inst_id, "name": entry.get("name"), "version": entry.get("version", 0), "status": entry.get("status"),
                         "licence": entry.get("licence"), "state": states.get(inst_id, "draft")})
         return out
