@@ -53,6 +53,20 @@ textarea { min-height: 64px; resize: vertical; }
 details.item { border: 1px solid var(--line); border-radius: 10px; padding: 0 14px; margin-bottom: 8px; background: var(--surface); }
 details.item > summary { cursor: pointer; padding: 12px 0; font-weight: 600; display: flex; gap: 10px; align-items: center; }
 details.item[open] { padding-bottom: 12px; }
+/* A section that folds: closed until opened, with an arrow that turns when it opens. */
+details.card.fold { padding-top: 0; padding-bottom: 0; }
+details.card.fold[open] { padding-bottom: 18px; }
+details.card.fold > summary { cursor: pointer; padding: 16px 0; display: flex; gap: 12px; align-items: center; }
+details.card.fold > summary h2 { margin: 0; }
+details.item > summary, details.card.fold > summary { list-style: none; }
+details.item > summary::-webkit-details-marker, details.card.fold > summary::-webkit-details-marker { display: none; }
+details.item > summary::before, details.card.fold > summary::before {
+  content: ""; flex: none; width: 7px; height: 7px; margin: 0 2px 2px 2px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform 0.15s;
+}
+details.item[open] > summary::before, details.card.fold[open] > summary::before { transform: rotate(45deg); margin-bottom: 4px; }
+@media (prefers-reduced-motion: reduce) { details.item > summary::before, details.card.fold > summary::before { transition: none; } }
 details.item ol { margin: 0 0 8px; padding-left: 22px; }
 details.item li { margin-bottom: 4px; }
 .tag { font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }

@@ -13,10 +13,20 @@ const S = {
   data: null,          // what the server last sent: { pack, rev, state, can, changes, ... }
   pack: null,          // the working copy being edited
   dirty: false, tab: 'details', layer: '',
-  check: null, history: null, stats: null, users: null, notice: null,
+  check: null, history: null, stats: null, users: null, requests: null, notice: null,
 };
-const TABS = [['guide', 'Guide'], ['details', 'Details and look'], ['campuses', 'Campuses'], ['buildings', 'Buildings and map'], ['services', 'Services'],
+const TABS = [['guide', 'Guide'], ['details', 'Details and look'], ['campuses', 'Campuses'], ['buildings', 'Campus map'], ['services', 'Services'],
   ['lists', 'Lists'], ['cards', 'Story cards'], ['review', 'Review and publish'], ['history', 'History'], ['numbers', 'Numbers']];
+
+// Folding sections start closed. Which ones are open is remembered (for this browser tab)
+// so they stay as they were when you switch tabs, save, or reload.
+const OPEN_KEY = 'portal-open';
+const opened = new Set((() => { try { return JSON.parse(sessionStorage.getItem(OPEN_KEY)) || []; } catch { return []; } })());
+const fold = (key) => `data-fold="${esc(`${S.inst}:${key}`)}" ${opened.has(`${S.inst}:${key}`) ? 'open' : ''}`;
+function keepOpen(key, open) {
+  if (open) opened.add(key); else opened.delete(key);
+  try { sessionStorage.setItem(OPEN_KEY, JSON.stringify([...opened])); } catch { /* private mode: remembered until reload */ }
+}
 
 // ---------- small helpers ----------
 
@@ -172,7 +182,7 @@ function viewBackupCodes() {
 // time someone signs in on a browser, and is always there as the first tab.
 const GUIDE_SEEN = 'fys-portal-guide-seen';
 const goTo = (tab, label) => `<button class="link" data-action="tab" data-id="${tab}">${esc(label)}</button>`;
-const howTo = (title, steps, note = '') => `<details class="item"><summary>${esc(title)}</summary>
+const howTo = (title, steps, note = '') => `<details class="item" ${fold(`guide:${title}`)}><summary>${esc(title)}</summary>
   <ol>${steps.map((s) => `<li>${s}</li>`).join('')}</ol>${note ? `<p class="muted small">${note}</p>` : ''}</details>`;
 const SEND = `Press <strong>Save draft</strong> (top right), then send it for review (see "Send your changes for review").`;
 
@@ -203,7 +213,7 @@ function tabGuide() {
     <ul>
       <li>${goTo('details', 'Details and look')}: your name, local costs, the courses and housing you offer, your monogram and colours.</li>
       <li>${goTo('campuses', 'Campuses')}: add campuses if you have more than one, with the courses taught on each.</li>
-      <li>${goTo('buildings', 'Buildings and map')}: the buildings your services are in, and where each sits on the campus map.</li>
+      <li>${goTo('buildings', 'Campus map')}: a link to the campus map you already publish, and, if you like, a simple map that works offline.</li>
       <li>${goTo('services', 'Services')}: for each support service, what you call it, its building, room, hours, email, phone and website.</li>
       <li>${goTo('lists', 'Lists')}: lists a service points students to, such as accredited accommodation.</li>
       <li>${goTo('cards', 'Story cards')}: switch off a situation that does not fit your institution, or reword it.</li>
@@ -212,7 +222,7 @@ function tabGuide() {
       <li>${goTo('numbers', 'Numbers')}: how many of your students finished each chapter, and their feedback. Anonymous.</li>
       ${admin ? `<li>${goTo('admin', 'Platform admin')}: licences, new institutions and staff accounts.</li>` : ''}
     </ul>
-    <p class="muted">If you have more than one campus, the Buildings, Services and Lists tabs start with an <strong>Editing</strong> box. Choose "Whole university" for what is the same everywhere, or one campus for what differs there.</p>
+    <p class="muted">If you have more than one campus, the Campus map, Services and Lists tabs start with an <strong>Editing</strong> box. Choose "Whole university" for what is the same everywhere, or one campus for what differs there.</p>
   </section>
 
   <section class="card"><h2>How to…</h2>
@@ -227,12 +237,11 @@ function tabGuide() {
       'Fill in <strong>Phone checked by</strong> with the name of the person who phoned the number, and <strong>Date checked</strong>.',
       SEND,
     ], 'A phone number without a name and a date is refused by the check. A fictional demo institution cannot show phone numbers at all.')}
-    ${howTo('Add a building and put a service in it', [
-      `Open ${goTo('buildings', 'Buildings and map')}. Type a short id such as "library" and press <strong>Add building</strong>.`,
-      'Give it a name, choose its place on the map (there are eight places), and write walking directions from the gate. The preview on the right updates as you go.',
-      `Open ${goTo('services', 'Services')}, click a service and choose the building in its <strong>Building</strong> box.`,
+    ${howTo('Show students where your services are', [
+      `Open ${goTo('buildings', 'Campus map')} and paste the link to the campus map you already publish.`,
+      `Open ${goTo('services', 'Services')}, click a service and write its building and room, for example "Student Centre, Room G12", and its opening hours.`,
       SEND,
-    ], 'A service placed in a building that is not on the map is refused by the check.')}
+    ], 'Students see the building, room and hours, with a button to your campus map. If you also want a simple map that works offline, open "Optional: a simple map that works offline" on the Campus map tab and add your main buildings.')}
     ${howTo('Add a list, such as accredited accommodation', [
       `Open ${goTo('lists', 'Lists')}. Type a short id such as "accredited" and press <strong>Add a list</strong>.`,
       'Give it a title and an introduction, then press <strong>Add an entry</strong> for each line.',
@@ -252,8 +261,8 @@ function tabGuide() {
       'Save the draft and submit it. The institution\'s reviewer approves it before students see it.',
     ], 'Only platform admins can add or change these cards. Institution staff can read them and switch them off.')
     : howTo('Get a story card of your own', [
-      'Tell the University Simulator team about the situation: what happens, and the two or three things a student might do.',
-      'We write the card and add it to your draft.',
+      `Open ${goTo('cards', 'Story cards')}. Under <strong>Your own cards</strong>, describe the situation and press <strong>Send to the University Simulator team</strong>. It reaches us in the portal: no email needed.`,
+      'We write the card with you and add it to your draft. Your request then shows as written.',
       `It appears under <strong>Your own cards</strong> on ${goTo('cards', 'Story cards')}, and comes to your reviewer for approval like any other change.`,
     ], 'You can read your own cards and switch them off, but only our team can write or change them.')}
     ${howTo('Change your name, monogram or colours', [
@@ -264,7 +273,7 @@ function tabGuide() {
     ${howTo('Add a campus', [
       `Open ${goTo('campuses', 'Campuses')}. Type a short id such as "north" and press <strong>Add campus</strong>.`,
       'Give it a name and a description, and tick the courses taught there.',
-      'On the Buildings, Services and Lists tabs, choose the campus in the <strong>Editing</strong> box to set what is different there.',
+      'On the Campus map, Services and Lists tabs, choose the campus in the <strong>Editing</strong> box to set what is different there.',
       SEND,
     ])}
     ${howTo('Send your changes for review', [
@@ -346,32 +355,32 @@ function header() {
   <nav class="tabs">${[...TABS, ...(S.me.role === 'admin' ? [['admin', 'Platform admin']] : [])].map(([id, label]) => `<button class="${S.tab === id ? 'on' : ''}" data-action="tab" data-id="${id}">${esc(label)}</button>`).join('')}</nav>`;
 }
 
+// A whole section that folds, closed until opened.
+const foldCard = (key, title, body) => `<details class="card fold" ${fold(key)}><summary><h2>${esc(title)}</h2></summary>${body}</details>`;
+
 function tabDetails() {
   const c = S.catalogue;
   const own = (S.pack.courseList || []).map((x) => ({ id: x.id, label: x.label }));
   const colours = (prefix, title) => `<h3>${title}</h3><div class="grid">
     ${field('Main colour', `${prefix}.brand`, { type: 'color' })}${field('Text on the main colour', `${prefix}.brandInk`, { type: 'color' })}
     ${field('Highlight colour', `${prefix}.accent`, { type: 'color' })}${field('Highlight colour for text', `${prefix}.accentInk`, { type: 'color' })}</div>`;
-  return `<section class="card"><h2>Name</h2>
+  return `${foldCard('details:name', 'Name', `
       ${textBox('Full name', 'name')}
       <div class="grid">${field('Short name', 'short', { hint: 'what students call it' })}${field('Province', 'province')}${field('Area name', 'area', { hint: 'used in some card text' })}</div>
       ${textBox('One line shown under the name', 'campus')}
-      ${textBox('City, as it reads in a sentence', 'city', { placeholder: { en: 'the city' } })}
-    </section>
-    <section class="card"><h2>Local costs</h2><div class="grid">
+      ${textBox('City, as it reads in a sentence', 'city', { placeholder: { en: 'the city' } })}`)}
+    ${foldCard('details:costs', 'Local costs', `<div class="grid">
       ${field('Monthly rent for a private room (rand)', 'costs.rent_private', { type: 'number', number: true })}
-      ${field('A week of taxi fares (rand)', 'costs.taxi_week', { type: 'number', number: true })}</div>
-    </section>
-    <section class="card"><h2>What you offer</h2>
+      ${field('A week of taxi fares (rand)', 'costs.taxi_week', { type: 'number', number: true })}</div>`)}
+    ${foldCard('details:offer', 'What you offer', `
       ${(S.pack.campuses || []).length ? '<p class="muted">Courses are set per campus, on the Campuses tab.</p>' : checks('Courses', 'courses', [...c.courses, ...own], c.courses.map((x) => x.id))}
       ${checks('Housing options', 'housing', c.housing, c.housing.map((x) => x.id))}
-    </section>
-    <section class="card"><h2>Look</h2>
+      <p class="muted small">Cards about a kind of housing you do not offer are switched off for you on ${goTo('cards', 'Story cards')}, and switched back on when you add it.</p>`)}
+    ${foldCard('details:look', 'Look', `
       <div class="grid">${field('Name in the top bar', 'brand.name')}${field('Monogram', 'brand.logo', { hint: 'up to 3 letters' })}</div>
       ${colours('brand.colors', 'Colours')}
       <p><span class="preview" id="preview"><span class="mono">${esc(S.pack.brand?.logo || 'AB')}</span><span class="btnp">A button</span><span class="acc">Highlight</span></span></p>
-      ${colours('brand.colorsDark', 'Colours for dark mode (leave unchanged to keep the standard dark colours)')}
-    </section>`;
+      ${colours('brand.colorsDark', 'Colours for dark mode (leave unchanged to keep the standard dark colours)')}`)}`;
 }
 
 function tabCampuses() {
@@ -380,7 +389,7 @@ function tabCampuses() {
   const own = (S.pack.courseList || []).map((x) => ({ id: x.id, label: x.label }));
   return `<section class="card"><h2>Campuses</h2>
     <p class="muted">Add campuses only if you have more than one. Each campus can have its own map, service locations and costs. Anything a campus does not set comes from the whole university.</p>
-    ${list.map((campus, i) => `<details class="item" ${list.length < 4 ? 'open' : ''}><summary>${esc(en(campus.name) || campus.id)} <span class="tag">${esc(campus.id)}</span></summary>
+    ${list.map((campus, i) => `<details class="item" ${fold(`campus:${campus.id}`)}><summary>${esc(en(campus.name) || campus.id)} <span class="tag">${esc(campus.id)}</span></summary>
       ${textBox('Name', `campuses.${i}.name`)}${textBox('Description', `campuses.${i}.desc`, { area: true })}
       ${checks('Courses taught here', `campuses.${i}.courses`, [...c.courses, ...own], [])}
       <div class="grid">${field('Monthly rent near this campus (rand)', `campuses.${i}.costs.rent_private`, { type: 'number', number: true })}
@@ -402,23 +411,28 @@ function mapSvg(buildings) {
   </svg>`;
 }
 
+// Most universities already publish a campus map: a link to it is all that is needed.
+// The simple drawn map is optional, for students who are offline.
 function tabBuildings() {
   const base = layerPath();
   const buildings = layerObj().map?.buildings || [];
   const positions = Object.keys(S.catalogue.positions);
   const taken = buildings.map((b) => positions.find((p) => S.catalogue.positions[p].x === b.x && S.catalogue.positions[p].y === b.y));
-  return `<section class="card">${layerPicker()}<h2>Buildings and map</h2>
-    <p class="muted">These are the buildings your services are in. Students see them on a simple map with walking directions from the gate. There are eight places on the map.</p>
-    ${field('Your official campus map', `${base}map.url`, { type: 'url', hint: 'starting with https://; students get a button to open it' })}
+  return `<section class="card">${layerPicker()}<h2>Campus map</h2>
+    <p class="muted">Paste a link to the campus map you already publish. Every service then gets a <strong>Campus map</strong> button for students, beside the room and hours you give on ${goTo('services', 'Services')}. Write the building in the Room box, for example "Student Centre, Room G12". For most universities, that is all.</p>
+    ${field('Your official campus map', `${base}map.url`, { type: 'url', hint: 'starting with https://' })}
+  </section>
+  ${foldCard(`map:simple:${S.layer}`, 'Optional: a simple map that works offline', `
+    <p class="muted">Your official map needs a connection. If you also place your main buildings here, students see where a service is on a simple map, with walking directions from the gate, even offline. There are eight places on the map.</p>
     <div class="split"><div>
-    ${buildings.map((b, i) => `<details class="item" open><summary>${esc(en(b.name) || b.id)} <span class="tag">${esc(b.id)}</span></summary>
+    ${buildings.map((b, i) => `<details class="item" ${fold(`building:${S.layer}:${b.id}`)}><summary>${esc(en(b.name) || b.id)} <span class="tag">${esc(b.id)}</span></summary>
       ${textBox('Name on the map', `${base}map.buildings.${i}.name`)}
       <label>Place on the map<select data-action="position" data-index="${i}" ${locked()}>${positions.map((p) => `<option value="${p}" ${taken[i] === p ? 'selected' : ''} ${taken.includes(p) && taken[i] !== p ? 'disabled' : ''}>${esc(S.catalogue.positions[p].en.replace('From the gate, ', '').replace(/^./, (x) => x.toUpperCase()))}</option>`).join('')}</select></label>
       ${textBox('Walking directions from the gate', `${base}map.buildings.${i}.directions`, { area: true })}
       <button class="danger" data-action="building-remove" data-index="${i}" ${locked()}>Remove</button>
-    </details>`).join('') || '<p>No buildings yet for this layer.</p>'}
+    </details>`).join('') || '<p>No buildings on the simple map yet.</p>'}
     ${buildings.length < positions.length ? `<form data-form="building-add" class="row"><label>New building id <span class="hint">e.g. "library"</span><input name="id" pattern="[a-z][a-z0-9_]{1,24}" required ${locked()}></label><button ${locked()}>Add building</button></form>` : ''}
-    </div><div>${mapSvg(buildings)}</div></div></section>`;
+    </div><div>${mapSvg(buildings)}</div></div>`)}`;
 }
 
 function tabServices() {
@@ -433,14 +447,14 @@ function tabServices() {
       const phone = (mine.contacts || []).find((c) => c.tel) || {};
       const site = (mine.contacts || []).find((c) => c.url) || {};
       const filled = Object.keys(mine).length > 0;
-      return `<details class="item"><summary>${esc(en(mine.name) || en(svc.name))} ${filled ? '<span class="changed">filled in</span>' : ''} <span class="tag">${esc(svc.id)}</span></summary>
+      return `<details class="item" ${fold(`service:${S.layer}:${svc.id}`)}><summary>${esc(en(mine.name) || en(svc.name))} ${filled ? '<span class="changed">filled in</span>' : ''} <span class="tag">${esc(svc.id)}</span></summary>
         <div class="original"><strong>What students are told:</strong> ${esc(en(svc.offers))}</div>
         ${textBox('What it is called here', `${p}.name`, { placeholder: svc.name })}
         <div class="grid">
-          <label>Building<select data-path="${p}.building" ${locked()}><option value="">Not set</option>${buildings.map((b) => `<option value="${esc(b.id)}" ${mine.building === b.id ? 'selected' : ''}>${esc(en(b.name) || b.id)}</option>`).join('')}</select></label>
+          ${buildings.length ? `<label>Building on the simple map <span class="hint">optional</span><select data-path="${p}.building" ${locked()}><option value="">Not on it</option>${buildings.map((b) => `<option value="${esc(b.id)}" ${mine.building === b.id ? 'selected' : ''}>${esc(en(b.name) || b.id)}</option>`).join('')}</select></label>` : ''}
           ${field('Email address', `${p}.email`, { type: 'email' })}
         </div>
-        ${textBox('Room', `${p}.room`)}${textBox('Opening hours', `${p}.hours`)}
+        ${buildings.length ? textBox('Room', `${p}.room`) : textBox('Building and room', `${p}.room`, { placeholder: { en: 'e.g. Student Centre, Room G12' } })}${textBox('Opening hours', `${p}.hours`)}
         <div class="grid">
           <label>Phone number<input data-contact="tel" data-service="${p}" value="${esc(phone.tel || '')}" inputmode="tel" ${locked()}></label>
           <label>Phone label <span class="hint">as students see it</span><input data-contact="label" data-service="${p}" value="${esc(phone.label || '')}" ${locked()}></label>
@@ -459,7 +473,7 @@ function tabLists() {
   const pages = layerObj().pages || {};
   return `<section class="card">${layerPicker()}<h2>Lists</h2>
     <p class="muted">Lists that a service tells students to look at, such as accredited accommodation or a workshop calendar. Students see the list inside the app, with a button to your official page.</p>
-    ${Object.entries(pages).map(([pid, page]) => `<details class="item" open><summary>${esc(en(page.title) || pid)} <span class="tag">${esc(pid)}</span> <span class="tag">${(page.items || []).length} entries</span></summary>
+    ${Object.entries(pages).map(([pid, page]) => `<details class="item" ${fold(`list:${S.layer}:${pid}`)}><summary>${esc(en(page.title) || pid)} <span class="tag">${esc(pid)}</span> <span class="tag">${(page.items || []).length} entries</span></summary>
       ${textBox('Title', `${base}.${pid}.title`)}${textBox('Introduction', `${base}.${pid}.intro`, { area: true })}
       ${field('Your official page for this list', `${base}.${pid}.url`, { type: 'url', hint: 'starting with https://' })}
       <h3>Entries</h3>
@@ -476,14 +490,37 @@ function tabLists() {
 // The institution's own story cards. Unlike rewording, these do set what a
 // choice does, so only our team writes them (the server refuses anyone else).
 // Institution staff see them here and approve them in review.
+// Asking our team for a card, and the answers. Staff send a request; a platform admin marks it done
+// once the card is in the draft (it then goes through review like any change) or declined.
+function cardRequests() {
+  const admin = S.data.can.addCards;
+  const status = { open: '<span class="pill wait">Waiting for our team</span>', done: '<span class="pill ok">Written: in your draft for review</span>', declined: '<span class="pill">Declined</span>' };
+  const list = S.requests === null ? '<p class="muted">Loading…</p>'
+    : S.requests.map((r) => `<div class="entry"><p class="small muted">${esc(when(r.at))} · ${esc(r.by)} ${status[r.status]}</p><p>${esc(r.text)}</p>
+        ${admin && r.status === 'open' ? `<div class="row"><button data-action="request-status" data-id="${r.id}" data-status="done">Mark done: the card is in the draft</button><button class="danger" data-action="request-status" data-id="${r.id}" data-status="declined">Decline</button></div>` : ''}</div>`).join('');
+  if (admin) return `<h3>Requests from this institution</h3>${list || '<p class="muted">No requests.</p>'}`;
+  const form = S.data.can.viewOnly
+    ? '<p class="muted">A read-only account cannot send requests.</p>'
+    : `<form data-form="card-request"><label>Describe the situation <span class="hint">what happens, to whom, and which of your services helps</span>
+        <textarea name="text" minlength="20" maxlength="2000" required placeholder="For example: the last shuttle to town leaves at 18:00, so students in late labs are stranded. Campus security runs an escort service."></textarea></label>
+        <button class="primary">Send to the University Simulator team</button></form>`;
+  return `<h3>How to get one</h3>
+    <ol><li>Describe the situation below and send it. It reaches our team here, in the portal: no email needed.</li>
+      <li>We write the card with you and add it to your draft.</li>
+      <li>It appears in ${goTo('review', 'Review and publish')}. Your reviewer approves it like any other change before students see it.</li></ol>
+    ${form}${list ? `<h3>Your requests</h3>${list}` : ''}`;
+}
+
 function ownCards() {
   const add = S.pack.cards?.add || {};
   const chapters = S.catalogue.chapters.filter((ch) => ch.pools.length);
   const cards = Object.entries(add).flatMap(([chapter, list]) => list.map((card, i) => ({ chapter, card, i })));
   if (!S.data.can.addCards) {
     return `<section class="card"><h2>Your own cards</h2>
-      <p class="muted">Situations particular to your institution. The University Simulator team writes these with you: ask us for one, and it comes to you for review before students see it.</p>
-      ${cards.map(({ chapter, card }) => `<details class="item"><summary>${esc(en(card.title) || card.id)} <span class="tag">${esc(en(S.catalogue.chapters.find((x) => x.id === chapter)?.title))}</span></summary>
+      <p class="muted">Situations particular to your institution. Only the University Simulator team writes them, because a card sets what each answer does to money, marks and wellbeing.</p>
+      ${cardRequests()}
+      <h3>Your cards</h3>
+      ${cards.map(({ chapter, card }) => `<details class="item" ${fold(`owncard:${card.id}`)}><summary>${esc(en(card.title) || card.id)} <span class="tag">${esc(en(S.catalogue.chapters.find((x) => x.id === chapter)?.title))}</span></summary>
         <p>${esc(en(card.text))}</p>
         <ul>${(card.choices || []).map((c) => `<li><b>${esc(en(c.label))}</b>: ${esc(en(c.outcome))}</li>`).join('')}</ul>
       </details>`).join('') || '<p>You have no cards of your own yet.</p>'}
@@ -492,10 +529,11 @@ function ownCards() {
   const num = (label, path) => `<label>${label}<input type="number" data-number data-path="${path}" value="${val(path)}" ${locked()}></label>`;
   return `<section class="card"><h2>Your own cards</h2>
     <p class="muted">A situation that is particular to your institution. It needs a short title, a situation of at most 40 words, and two or three answers of at most six words each. At least one answer must cost no money.</p>
+    ${cardRequests()}
     ${cards.map(({ chapter, card, i }) => {
       const b = `cards.add.${chapter}.${i}`;
       const ch = S.catalogue.chapters.find((x) => x.id === chapter);
-      return `<details class="item" open><summary>${esc(en(card.title) || card.id)} <span class="tag">${esc(card.id)}</span> <span class="tag">${esc(en(ch?.title))}</span></summary>
+      return `<details class="item" ${fold(`owncard:${card.id}`)}><summary>${esc(en(card.title) || card.id)} <span class="tag">${esc(card.id)}</span> <span class="tag">${esc(en(ch?.title))}</span></summary>
         ${textBox('Title', `${b}.title`)}${textBox('Situation', `${b}.text`, { area: true })}
         <label>Drawn together with<select data-path="${b}.pool" ${locked()}>${(ch?.pools || []).map((p) => `<option value="${esc(p)}" ${card.pool === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select></label>
         ${(card.choices || []).map((c, j) => `<h3>Answer ${j + 1}</h3>
@@ -521,9 +559,9 @@ function tabCards() {
   const edits = S.pack.cards?.edit || {};
   return `${ownCards()}<section class="card"><h2>Story cards</h2>
     <p class="muted">Switch off a card that does not fit your institution, or reword it. You can change wording only: what a choice does to money, marks and wellbeing is the same on every campus. Leave a box empty to keep the original wording.</p>
-    ${S.catalogue.chapters.map((ch) => `<details class="item"><summary>${esc(en(ch.title))} <span class="tag">${ch.cards.length} cards</span>
+    ${S.catalogue.chapters.map((ch) => `<details class="item" ${fold(`chapter:${ch.id}`)}><summary>${esc(en(ch.title))} <span class="tag">${ch.cards.length} cards</span>
         ${ch.cards.some((c) => off.has(c.id)) ? '<span class="off">some off</span>' : ''}${ch.cards.some((c) => edits[c.id]) ? '<span class="changed">some reworded</span>' : ''}</summary>
-      ${ch.cards.map((card) => `<details class="item"><summary><input type="checkbox" data-action="card-toggle" data-id="${esc(card.id)}" ${off.has(card.id) ? '' : 'checked'} ${locked()} aria-label="Card is on">
+      ${ch.cards.map((card) => `<details class="item" ${fold(`card:${card.id}`)}><summary><input type="checkbox" data-action="card-toggle" data-id="${esc(card.id)}" ${off.has(card.id) ? '' : 'checked'} ${locked()} aria-label="Card is on">
           ${esc(en(edits[card.id]?.title) || en(card.title))} <span class="tag">${esc(card.id)}</span>
           ${off.has(card.id) ? '<span class="off">off</span>' : ''}${edits[card.id] ? '<span class="changed">reworded</span>' : ''}</summary>
         <div class="original">${esc(en(card.text))}</div>
@@ -548,7 +586,7 @@ function tabReview() {
   const d = S.data;
   return `<section class="card"><h2>What has changed</h2>
     ${d.changes.length ? `<ul>${d.changes.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-      <details class="item" ${d.state === 'submitted' ? 'open' : ''}><summary>Before and after, line by line <span class="tag">${d.diff.length} change(s)</span></summary>
+      <details class="item" ${fold('review:diff')}><summary>Before and after, line by line <span class="tag">${d.diff.length} change(s)</span></summary>
       <table class="diff"><tr><th>Where</th><th>Students see now</th><th>After this change</th></tr>
       ${d.diff.map((r) => `<tr><td>${esc(r.where)}</td><td class="before">${esc(r.before) || '<span class="muted">(nothing)</span>'}</td><td class="after">${esc(r.after) || '<span class="muted">(removed)</span>'}</td></tr>`).join('')}</table></details>`
     : '<p class="muted">Nothing differs from what students see now.</p>'}
@@ -694,6 +732,7 @@ async function loadPack() {
   S.check = null;
   S.history = null;
   S.stats = null;
+  S.requests = null;
   if (S.layer && !(S.pack.campuses || []).some((c) => c.id === S.layer)) S.layer = '';
   render();
   loadTab();
@@ -703,6 +742,7 @@ async function loadTab() {
   if (S.tab === 'history' && !S.history) { S.history = (await api('GET', `pack/${S.inst}/history`)).data; render(); }
   if (S.tab === 'numbers' && !S.stats) { S.stats = (await api('GET', `pack/${S.inst}/stats`)).data; render(); }
   if (S.tab === 'admin' && !S.users) { S.users = (await api('GET', 'users')).data; render(); }
+  if (S.tab === 'cards' && !S.requests) { S.requests = (await api('GET', `pack/${S.inst}/card-requests`)).data || []; render(); }
 }
 
 // Before saving: an edit with nothing in it, or the original wording again, is not an edit.
@@ -746,7 +786,33 @@ async function save() {
   return true;
 }
 
+// Cards about a kind of housing only show to students who have it. When the institution
+// stops offering it (no residences, say), those cards are switched off, and back on when
+// it is offered again.
+function followHousing() {
+  const offered = new Set(S.pack.housing || S.catalogue.housing.map((h) => h.id));
+  const cards = (S.pack.cards ||= {});
+  const off = new Set(cards.off || []);
+  const on = [];
+  const offNow = [];
+  for (const card of S.catalogue.chapters.flatMap((ch) => ch.cards)) {
+    if (!card.housing) continue;
+    const fits = card.housing.some((h) => offered.has(h));
+    if (!fits && !off.has(card.id)) { off.add(card.id); offNow.push(en(card.title)); }
+    if (fits && off.has(card.id)) { off.delete(card.id); on.push(en(card.title)); }
+  }
+  cards.off = [...off];
+  const list = (titles) => titles.map((x) => `"${x}"`).join(', ');
+  if (on.length || offNow.length) {
+    toast([on.length ? `Switched on: ${list(on)}.` : '', offNow.length ? `Switched off: ${list(offNow)}.` : ''].filter(Boolean).join(' '));
+  }
+}
+
 // ---------- events ----------
+
+document.addEventListener('toggle', (e) => {
+  if (e.target.dataset?.fold) keepOpen(e.target.dataset.fold, e.target.open);
+}, true); // "toggle" does not bubble
 
 document.addEventListener('input', (e) => {
   const el = e.target;
@@ -758,6 +824,7 @@ document.addEventListener('input', (e) => {
   } else if (el.dataset.list) {
     const boxes = [...document.querySelectorAll(`[data-list="${el.dataset.list}"]`)];
     setPath(S.pack, el.dataset.list, boxes.filter((b) => b.checked).map((b) => b.value));
+    if (el.dataset.list === 'housing') followHousing();
   } else if (el.dataset.contact) {
     // A service's phone and website are stored as its "contacts".
     const group = [...document.querySelectorAll(`[data-service="${el.dataset.service}"]`)];
@@ -806,10 +873,17 @@ document.addEventListener('click', async (e) => {
   else if (action === 'to-login') { S.step = 'login'; render(); }
   else if (action === 'page-remove') { if (window.confirm('Remove this list?')) { delete layerObj().pages[id]; S.dirty = true; render(); } }
   else if (action === 'item-add') { (layerObj().pages[id].items ||= []).push({ name: '', detail: { en: '' } }); S.dirty = true; render(); }
-  else if (action === 'item-remove') { layerObj().pages[id].items.splice(Number(el.dataset.index), 1); S.dirty = true; render(); }
+  else if (action === 'item-remove') {
+    const item = layerObj().pages[id].items[Number(el.dataset.index)];
+    if (!window.confirm(`Remove "${item.name || 'this entry'}" from the list?`)) return;
+    layerObj().pages[id].items.splice(Number(el.dataset.index), 1); S.dirty = true; render();
+  }
   else if (action === 'owncard-remove') { if (window.confirm('Remove this card?')) { S.pack.cards.add[el.dataset.chapter].splice(Number(el.dataset.index), 1); S.dirty = true; render(); } }
   else if (action === 'choice-add') { ownCard().choices.push({ id: 'c', label: { en: '' }, outcome: { en: '' }, effects: {} }); S.dirty = true; render(); }
-  else if (action === 'choice-remove') { const c = ownCard().choices; c.splice(Number(id), 1); c.forEach((x, i) => { x.id = 'abc'[i]; }); S.dirty = true; render(); }
+  else if (action === 'choice-remove') {
+    if (!window.confirm(`Remove answer ${Number(id) + 1} from this card?`)) return;
+    const c = ownCard().choices; c.splice(Number(id), 1); c.forEach((x, i) => { x.id = 'abc'[i]; }); S.dirty = true; render();
+  }
   else if (action === 'save') await save();
   else if (action === 'logout') { await api('POST', 'logout'); S.me = null; S.data = null; S.step = 'login'; render(); }
   else if (action === 'two-step-begin') { const r = await api('POST', 'two-step/begin'); if (r.ok) S.twoStep = r.data; else S.notice = r.data.error; render(); }
@@ -830,9 +904,24 @@ document.addEventListener('click', async (e) => {
     if (!S.pack.campuses.length) delete S.pack.campuses;
     S.layer = ''; S.dirty = true; render();
   } else if (action === 'building-remove') {
-    layerObj().map.buildings.splice(Number(el.dataset.index), 1);
+    const layer = layerObj();
+    const b = layer.map.buildings[Number(el.dataset.index)];
+    // Services placed in it would point at a building that is gone: they come off the simple map too.
+    const inIt = Object.entries(layer.support || {}).filter(([, svc]) => svc.building === b.id);
+    const names = inIt.map(([sid, svc]) => en(svc.name) || en(S.catalogue.services.find((x) => x.id === sid)?.name) || sid);
+    if (!window.confirm(`Remove "${en(b.name) || b.id}" from the simple map?${names.length ? `
+
+These services are in it and will no longer show on the simple map: ${names.join(', ')}.` : ''}`)) return;
+    for (const [, svc] of inIt) delete svc.building;
+    layer.map.buildings.splice(Number(el.dataset.index), 1);
     S.dirty = true; render();
+  } else if (action === 'request-status') {
+    const r = await api('POST', `pack/${S.inst}/card-requests/${id}`, { status: el.dataset.status });
+    toast(r.ok ? 'Request updated.' : r.data.error);
+    S.requests = (await api('GET', `pack/${S.inst}/card-requests`)).data || []; render();
   } else if (action.startsWith('user-')) {
+    if (action === 'user-disable' && !window.confirm('Switch off this account? The person is signed out and cannot sign in until it is switched on again.')) return;
+    if (action === 'user-reset' && !window.confirm('Give this account a new temporary password? The old password stops working and two-step login is set up again.')) return;
     const r = await api('POST', `users/${id}/${action.slice(5)}`);
     if (r.ok && r.data.temporaryPassword) window.prompt('Temporary password. It is shown once: copy it now.', r.data.temporaryPassword);
     else toast(r.ok ? 'Done.' : r.data.error);
@@ -878,24 +967,33 @@ document.addEventListener('submit', async (e) => {
     const pages = (layerObj().pages ||= {});
     if (pages[f.id]) { toast('That list id is already used.'); return; }
     pages[f.id] = { title: { en: '' }, items: [] };
+    keepOpen(`${S.inst}:list:${S.layer}:${f.id}`, true);
     S.dirty = true; render();
   } else if (kind === 'owncard-add') {
     const all = [...S.catalogue.chapters.flatMap((ch) => ch.cards.map((c) => c.id)), ...Object.values(S.pack.cards?.add || {}).flat().map((c) => c.id)];
     if (all.includes(f.id)) { toast('That card id is already used.'); return; }
     const chapter = S.catalogue.chapters.find((ch) => ch.id === f.chapter);
     const blank = (cid) => ({ id: cid, label: { en: '' }, outcome: { en: '' }, effects: {} });
+    keepOpen(`${S.inst}:owncard:${f.id}`, true);
     (((S.pack.cards ||= {}).add ||= {})[f.chapter] ||= []).push({ id: f.id, type: 'situational', pool: chapter.pools[0], title: { en: '' }, text: { en: '' }, choices: [blank('a'), blank('b')] });
     S.dirty = true; render();
+  } else if (kind === 'card-request') {
+    const r = await api('POST', `pack/${S.inst}/card-requests`, f);
+    if (!r.ok) { toast(r.data.error); return; }
+    toast('Sent. Our team will write it with you; you will see it here and in Review and publish.');
+    S.requests = (await api('GET', `pack/${S.inst}/card-requests`)).data || []; render();
   } else if (kind === 'campus-add') {
     const list = (S.pack.campuses ||= []);
     if (list.some((c) => c.id === f.id)) { toast('That campus id is already used.'); return; }
     list.push({ id: f.id, name: { en: '' }, courses: [] });
+    keepOpen(`${S.inst}:campus:${f.id}`, true);
     S.dirty = true; render();
   } else if (kind === 'building-add') {
     const layer = layerObj();
     const buildings = ((layer.map ||= {}).buildings ||= []);
     if (buildings.some((b) => b.id === f.id)) { toast('That building id is already used.'); return; }
     const free = Object.values(S.catalogue.positions).find((p) => !buildings.some((b) => b.x === p.x && b.y === p.y));
+    keepOpen(`${S.inst}:building:${S.layer}:${f.id}`, true);
     buildings.push({ id: f.id, name: { en: '' }, x: free.x, y: free.y, w: free.w, h: free.h, directions: { en: free.en } });
     S.dirty = true; render();
   } else if (kind === 'review') {

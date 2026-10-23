@@ -1074,14 +1074,18 @@ function journeyStart() {
 }
 
 // Where a service is and how to reach it: building, room, hours, email, a
-// campus map and, where there is one, the page it tells you to look at.
+// campus map and, where there is one, the page it tells you to look at. A
+// university with no simple map still shows the room and hours, and links its
+// own official campus map.
 function whereParts(s) {
-  const b = content.map?.buildings.find((x) => x.id === s.building);
+  const b = content.map?.buildings?.find((x) => x.id === s.building);
   const page = content.pages?.[s.page];
-  const place = b ? [tx(b.name), tx(s.room), tx(s.hours)].filter(Boolean).join(' · ') : tx(s.away);
+  const place = s.away && !b ? tx(s.away) : [b && tx(b.name), tx(s.room), tx(s.hours)].filter(Boolean).join(' · ');
+  const official = !b && !s.away && content.map?.url;
   const links = [
     page ? `<button class="contact" data-action="sheet" data-kind="page" data-id="${esc(s.page)}"><span aria-hidden="true">📄</span> ${esc(tx(page.title))}</button>` : '',
     b ? `<button class="contact" data-action="sheet" data-kind="map" data-id="${esc(b.id)}"><span aria-hidden="true">🗺️</span> ${esc(t('support.map'))}</button>` : '',
+    official ? `<a class="contact" href="${esc(content.map.url)}" target="_blank" rel="noopener"><span aria-hidden="true">🗺️</span> ${esc(t('support.map'))} ↗</a>` : '',
     s.email ? `<a class="contact" href="mailto:${esc(s.email)}"><span aria-hidden="true">✉️</span> ${esc(s.email)}</a>` : '',
   ].join('');
   return { place: place ? `<p><strong>${esc(t('support.where'))}</strong> ${esc(place)}</p>` : '', links };

@@ -724,6 +724,52 @@ class Portal:
         finally:
             con.close()
 
+    # ------------------------------------------------------------ card requests
+
+    def card_requests(self, user, institution_id):
+        self._scope(user, institution_id)
+        con = self._con()
+        try:
+            return [{"id": r["id"], "by": r["user_email"], "text": r["text"], "at": r["at"], "status": r["status"],
+                     "answeredBy": r["answered_by"], "answeredAt": r["answered_at"]}
+                    for r in con.execute("SELECT * FROM card_requests WHERE institution_id = ? ORDER BY id DESC LIMIT 100", (institution_id,))]
+        finally:
+            con.close()
+
+    def request_card(self, user, institution_id, text, ip=""):
+        """Staff describe a situation; our team writes the card, and it comes back to them through review."""
+        self._scope(user, institution_id)
+        self._need(user, "editor", "reviewer", "admin")
+        text = (text or "").strip()
+        if not 20 <= len(text) <= 2000:
+            raise PortalError(400, "Describe the situation in 20 to 2000 characters.")
+        con = self._con()
+        try:
+            with con:
+                cur = con.execute("INSERT INTO card_requests (institution_id, user_email, text, at) VALUES (?, ?, ?, ?)",
+                                  (institution_id, user["email"], text, self.clock()))
+                self._log(con, user["email"], "card.requested", institution_id, text[:120], ip)
+        finally:
+            con.close()
+        return {"id": cur.lastrowid}
+
+    def answer_card_request(self, user, institution_id, request_id, status, ip=""):
+        """Our team marks a request done (the card is in the draft for review) or declined."""
+        self._need(user, "admin")
+        if status not in ("done", "declined", "open"):
+            raise PortalError(400, "Status must be done, declined or open.")
+        con = self._con()
+        try:
+            with con:
+                changed = con.execute("UPDATE card_requests SET status = ?, answered_by = ?, answered_at = ? WHERE id = ? AND institution_id = ?",
+                                      (status, user["email"], self.clock(), request_id, institution_id)).rowcount
+                if not changed:
+                    raise PortalError(404, "No such request.")
+                self._log(con, user["email"], f"card.request_{status}", institution_id, f"request {request_id}", ip)
+        finally:
+            con.close()
+        return {"ok": True}
+
     # ----------------------------------------------------------- platform admin
 
     def create_institution(self, actor, data, ip=""):
@@ -785,7 +831,9 @@ class Portal:
         chapters = []
         for entry in json.loads((self.content / "chapters" / "index.json").read_text(encoding="utf-8")):
             ch = json.loads((self.content / "chapters" / f"{entry['id']}.json").read_text(encoding="utf-8"))
+            # "housing": the card only shows to students with that housing, so it follows the institution's housing options.
             cards = [{"id": e["id"], "type": e["type"], "title": e.get("title"), "text": e.get("text"),
+                      "housing": (e.get("conditions") or {}).get("housing"),
                       "choices": [{"id": c["id"], "label": c["label"], "outcome": c["outcome"]} for c in e.get("choices", [])]}
                      for e in ch["events"] if e["type"] not in ("tests", "results")]
             pools = sorted({s["pool"] for s in ch.get("slots", []) if any(e.get("pool") == s["pool"] for e in ch["events"])})

@@ -191,9 +191,9 @@ check**.
 | D1 | **Details and look:** change the short name | Saved. "What has changed" on Review and publish lists `Name` |
 | D2 | **Details and look:** change "Monthly rent for a private room" | Saved. `Costs` is listed |
 | D3 | **Details and look:** set "Text on the main colour" to nearly the same colour as "Main colour". Check | A problem: "text on the brand colour is too hard to read". Put the colour back |
-| D4 | **Buildings and map:** type the id `hall` and press **Add building**. Name it and choose a free place | It appears on the map preview at the right |
-| D5 | **Services:** open a service and choose the new building in its **Building** box | Saved |
-| D6 | **Buildings and map:** remove the building from D4, leaving the service pointing at it. Check | A problem saying the building is not on this campus's map. Choose another building for the service |
+| D4 | **Campus map:** open "Optional: a simple map that works offline", type the id `hall` and press **Add building**. Name it and choose a free place | It appears on the map preview at the right |
+| D5 | **Services:** open a service and choose the new building in its **Building on the simple map** box | Saved |
+| D6 | **Campus map:** remove the building from D4 | A box asks first and names the service from D5. After removing, that service is no longer on the simple map, and the check passes |
 | D7 | **Services:** type a phone number and a label for a service. Check | A problem: "a fictional pack must not carry phone numbers". Clear the number |
 | D8 | **Services:** change an email address to end in `.co.za`. Check | A problem: a fictional pack may only use ".example" email addresses. Put it back |
 | D9 | **Lists:** type the id `clinics` and press **Add a list**. Give it a title and press **Add an entry** twice | The list shows "2 entries" |

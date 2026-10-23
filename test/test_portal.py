@@ -488,6 +488,41 @@ class EmailLinks(PortalCase):
         self.assertIsInstance(mailer.from_env(self.tmp), mailer.Outbox)
 
 
+class CardRequests(PortalCase):
+    """Staff ask our team for a card of their own in the portal; only a platform admin answers."""
+    SITUATION = "The last shuttle to town leaves at 18:00, so students in late labs are stranded."
+
+    def test_staff_send_a_request_and_see_its_answer(self):
+        with self.assertRaises(PortalError):
+            self.portal.request_card(self.editor, "sizwe", "too short")
+        self.portal.request_card(self.editor, "sizwe", self.SITUATION)
+        [req] = self.portal.card_requests(self.reviewer, "sizwe")
+        self.assertEqual((req["by"], req["status"]), ("editor@sizwe.example", "open"))
+        with self.assertRaises(PortalError):
+            self.portal.answer_card_request(self.editor, "sizwe", req["id"], "done")
+        self.portal.answer_card_request(self.admin, "sizwe", req["id"], "done")
+        self.assertEqual(self.portal.card_requests(self.editor, "sizwe")[0]["status"], "done")
+        actions = [a["action"] for a in self.portal.history(self.editor, "sizwe")["audit"]]
+        self.assertIn("card.requested", actions)
+        self.assertIn("card.request_done", actions)
+
+    def test_requests_stay_within_the_institution_and_viewers_cannot_send(self):
+        self.portal.request_card(self.editor, "sizwe", self.SITUATION)
+        with self.assertRaises(PortalError):
+            self.portal.card_requests(self.outsider, "sizwe")
+        self.assertEqual(self.portal.card_requests(self.outsider, "karoo-coast"), [])
+        viewer = self.account("viewer@sizwe.example", "Viewer", "viewer", "sizwe")
+        with self.assertRaises(PortalError):
+            self.portal.request_card(viewer, "sizwe", self.SITUATION)
+        with self.assertRaises(PortalError):
+            self.portal.answer_card_request(self.admin, "karoo-coast", self.portal.card_requests(self.admin, "sizwe")[0]["id"], "done")
+
+    def test_the_catalogue_says_which_cards_follow_housing(self):
+        cards = {c["id"]: c for ch in self.portal.catalogue()["chapters"] for c in ch["cards"]}
+        self.assertEqual(cards["ARR-03"]["housing"], ["residence"])
+        self.assertIsNone(cards["FT-01"]["housing"])
+
+
 class Reviewing(PortalCase):
     def test_the_reviewer_sees_before_and_after_for_every_changed_value(self):
         pack = self.portal.get_pack(self.outsider, "karoo-coast")["pack"]

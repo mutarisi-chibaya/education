@@ -116,6 +116,20 @@ MIGRATIONS = [
     DROP TABLE users;
     ALTER TABLE users_new RENAME TO users;
     """,
+    # 6: an institution asks our team for a card of its own (only we write cards)
+    """
+    CREATE TABLE card_requests (
+        id INTEGER PRIMARY KEY,
+        institution_id TEXT NOT NULL,
+        user_email TEXT NOT NULL,
+        text TEXT NOT NULL,
+        at REAL NOT NULL,
+        status TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'done', 'declined')),
+        answered_by TEXT,
+        answered_at REAL
+    );
+    CREATE INDEX card_requests_by_institution ON card_requests (institution_id, id);
+    """,
 ]
 
 

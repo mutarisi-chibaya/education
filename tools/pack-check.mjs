@@ -141,6 +141,7 @@ export function checkPack(id, pack) {
     try { content = mergeContent(core, inst, index, chapters, campus?.id); } catch (e) { err(`${where}: cannot be merged: ${e.message}`); continue; }
     const buildings = content.map?.buildings || [];
     if (content.map?.url && !/^https:\/\//.test(content.map.url)) err(`${where}: the campus map link must start with https://`);
+    if (!content.map?.url && !buildings.length && inst.status === 'licensed') warn(`${where}: no campus map; add the link to your official campus map`);
     const ids = new Set();
     for (const b of buildings) {
       if (ids.has(b.id)) err(`${where}: building "${b.id}" appears twice`);

@@ -44,10 +44,14 @@ again. That makes a new version; the history is never rewritten.
 
 On screen, without knowing any IDs:
 
-- **Details and look:** name, costs, courses, housing options, monogram and colours.
+- **Details and look:** name, costs, courses, housing options, monogram and colours. Taking
+  away a kind of housing (no residences, say) switches off the cards about it, and adding it
+  back switches them on again.
 - **Campuses:** add or remove campuses, with the courses taught on each.
-- **Buildings and map:** buildings and where they sit on the map, with a live preview.
-- **Services:** for each service, what it is called, the building, room, hours, email,
+- **Campus map:** a link to the campus map the institution already publishes, which is all
+  most need. Optionally, a simple map that works offline: buildings and where they sit on it,
+  with a live preview.
+- **Services:** for each service, what it is called, its building and room, hours, email,
   phone and website. A phone number needs the name of the person who checked it and the date.
 - **Lists:** lists a service points students to, such as accredited accommodation or a
   workshop calendar, with a link to the institution's official page.
@@ -55,8 +59,9 @@ On screen, without knowing any IDs:
   The original wording is shown beside each box.
 - **Their own cards:** a situation particular to the institution. Staff can read these and
   switch them off, but cannot write them: a new card sets what a choice does, which is a game
-  rule. Our team writes it on request, signed in as a platform admin, and the institution's
-  reviewer approves it like any other change.
+  rule. Staff ask for one on the Story cards tab, in the portal. Our team sees the request,
+  writes the card signed in as a platform admin, and marks the request done; the
+  institution's reviewer then approves the card like any other change.
 
 The reviewer sees a summary of what changed and a line-by-line table of what students see
 now beside what they would see after the change.
