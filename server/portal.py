@@ -693,7 +693,10 @@ class Portal:
     def _publish(self, con, institution_id, pack, submitter, approver, action, ip):
         live = self.published(institution_id) or {}
         pack = dict(pack)
-        pack["version"] = int(live.get("version") or 0) + 1
+        # Above both the live file and everything ever published, so a number is never reused even if
+        # the file was put back to an older version (phones only take a pack with a higher number).
+        newest = con.execute("SELECT MAX(version) FROM versions WHERE institution_id = ?", (institution_id,)).fetchone()[0] or 0
+        pack["version"] = max(int(live.get("version") or 0), newest) + 1
         pack["signedOff"] = {"by": approver["name"], "date": self._today()}
         result = self.check(institution_id, pack)
         if result["errors"]:

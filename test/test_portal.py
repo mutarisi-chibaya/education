@@ -376,6 +376,17 @@ class Workflow(PortalCase):
         self.assertEqual((self.live()["short"], self.live()["version"]), ("One", new))
         self.assertEqual(new, versions[0]["version"] + 1, "history is never rewritten")
 
+    def test_a_version_number_is_never_reused_even_if_the_file_goes_back(self):
+        path = self.tmp / "content" / "institutions" / "sizwe.json"
+        before = path.read_text(encoding="utf-8")
+        self.edit(self.editor, short="One")
+        self.portal.submit(self.editor, "sizwe")
+        first = self.portal.review(self.reviewer, "sizwe", "approve")["version"]
+        path.write_text(before, encoding="utf-8")  # the published file put back, say from git
+        self.edit(self.editor, short="Two")
+        self.portal.submit(self.editor, "sizwe")
+        self.assertEqual(self.portal.review(self.reviewer, "sizwe", "approve")["version"], first + 1)
+
     def test_every_action_is_in_the_audit_log_which_cannot_be_altered(self):
         self.edit(self.editor, short="Sizwe U")
         self.portal.submit(self.editor, "sizwe")
