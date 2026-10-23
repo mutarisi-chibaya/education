@@ -50,7 +50,6 @@ export function cardVars(content, s, event) {
     city: tx(content.city),
     amount: money(amount),
     borrowed: money(s?.last?.whatIf?.short || 0),
-    rent: money(content.costs?.rent_private || 0),
     half: money(Math.round(amount / 2 / 50) * 50),
     failed: failed.join(' & ') || (course ? tx(course.modules[0]) : ''),
     suppCode: content.suppCode || '',

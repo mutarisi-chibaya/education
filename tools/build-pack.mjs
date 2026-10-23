@@ -91,7 +91,7 @@ const cardsFor = (key) => (cards[key] ? clean({ off: cards[key].off, edit: Objec
 // ---- campuses.csv (optional: leave it out for a one-campus university) ----
 const campuses = sheet('campuses.csv').map((r) => clean({
   id: r.campus_id, name: text(r, 'name'), desc: text(r, 'description'), courses: list(r.courses),
-  costs: clean({ rent_private: num(r.rent_private, `${r.campus_id} rent`), taxi_week: num(r.taxi_week, `${r.campus_id} taxi`) }),
+  costs: clean({ taxi_week: num(r.taxi_week, `${r.campus_id} taxi`) }),
   map: maps[r.campus_id] ? clean({ buildings: maps[r.campus_id], url: r.map_website }) : undefined,
   support: support[r.campus_id], pages: pages[r.campus_id], cards: cardsFor(r.campus_id),
 }));
@@ -111,7 +111,7 @@ const pack = clean({
   licence: u.licence_tier || u.licence_expires ? clean({ tier: u.licence_tier, expires: u.licence_expires }) : undefined,
   courseList: sheet('courses.csv').map((r) => ({ id: r.course_id, label: text(r, 'label'), modules: [text(r, 'module1'), text(r, 'module2')], ...(text(r, 'module3') ? { otherModule: text(r, 'module3') } : {}) })),
   costIndex: 1,
-  costs: clean({ rent_private: num(u.rent_private, 'rent_private'), taxi_week: num(u.taxi_week, 'taxi_week') }),
+  costs: clean({ taxi_week: num(u.taxi_week, 'taxi_week') }),
   suppCode: u.supp_code,
   courses: list(u.courses),
   housing: list(u.housing),

@@ -28,7 +28,7 @@ const HEX = /^#[0-9a-f]{6}$/i;
 const EMAIL = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
 // What staff type is kept to sensible values, so a slip of the keyboard (a minus sign, an
 // extra zero) is caught before students see it.
-const COSTS = { rent_private: [300, 30000], taxi_week: [20, 3000] }; // whole rand
+const COSTS = { taxi_week: [20, 3000] }; // whole rand: a week of taxi fares, what commuting students pay
 const TRACKERS = ['connection', 'buffer', 'help_seeking', 'family_obligation', 'confidence', 'debt', 'bunk_count'];
 const ID = /^[a-z][a-z0-9_]{1,24}$/;
 const MAX_TEXT = 2000;

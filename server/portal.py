@@ -799,7 +799,7 @@ class Portal:
         status = data.get("status") if data.get("status") in ("demo", "licensed") else "licensed"
         pack = {"id": inst_id, "version": 0, "name": {"en": name}, "short": (data.get("short") or name).strip(), "status": status,
                 "type": data.get("type") if data.get("type") in ("university", "tvet", "private") else "university",
-                "province": (data.get("province") or None), "costIndex": 1, "costs": {"rent_private": 3500, "taxi_week": 250},
+                "province": (data.get("province") or None), "costIndex": 1, "costs": {"taxi_week": 250},
                 "campus": {"en": "New institution"}, "city": {"en": "the city"}, "area": (data.get("short") or name).strip(), "support": {}}
         if status == "licensed":
             pack["licence"] = {"tier": data.get("licenceTier") or "standard", "expires": data.get("licenceExpires") or ""}

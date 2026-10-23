@@ -44,9 +44,8 @@ again. That makes a new version; the history is never rewritten.
 
 On screen, without knowing any IDs:
 
-- **Details and look:** name, the area near campus, two local prices (a month's rent, which
-  appears in a story card, and a week of taxi fares, which commuting students pay in the
-  game), courses, whether there are university residences, monogram and colours. Without
+- **Details and look:** name, the area near campus, a week of taxi fares (which commuting
+  students pay in the game; rent is never part of a student's money), courses, whether there are university residences, monogram and colours. Without
   residences, the cards about residence life are switched off, and back on when they are
   ticked again. Each box has a "?" that says what it is for and where students see it.
 - **Campuses:** add or remove campuses, with the courses taught on each.

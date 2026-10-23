@@ -70,7 +70,7 @@ In summary a card has an `id`, a `type`, either a fixed `week` or a `pool`, opti
 | `id`, `version`, `status`, `type`, `licence`, `signedOff`, `costIndex` | No | Set by the platform or by publishing |
 | `name`, `short`, `campus`, `city`, `area`, `province` | Yes | Identity and wording |
 | `brand` | Yes | Top-bar name, monogram, light and dark colours |
-| `costs` | Yes | `rent_private`, `taxi_week` |
+| `costs` | Yes | `taxi_week` (rent is never part of a student's money in the game) |
 | `courses`, `courseList`, `housing` | Yes | What is offered; own programmes |
 | `map` | Yes | Buildings on the fixed campus grid |
 | `support` | Yes | Per-service overrides: name, building, room, hours, email, contacts, `verified`, `last_checked` |

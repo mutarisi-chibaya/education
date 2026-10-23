@@ -158,7 +158,7 @@ Shared random pools live in [core.json](content/core.json) (`events`): **surpris
   leaves out comes from the university. Setup asks "Which campus?" only when there is more than
   one, and cards can be limited to a campus with `"conditions": { "campus": [...] }`.
 - **Content pack:** [institutions/](content/institutions/) holds one file per version with
-  its `version`, `costs` (`rent_private`, `taxi_week`) and support overrides. The server
+  its `version`, `costs` (`taxi_week`) and support overrides. The server
   assembles the full pack from it, `core.json` and the chapter files.
 
 ## Semester Forecast (spec §10)

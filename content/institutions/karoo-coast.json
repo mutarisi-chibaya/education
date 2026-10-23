@@ -16,7 +16,6 @@
   "type": "university",
   "costIndex": 1,
   "costs": {
-    "rent_private": 2800,
     "taxi_week": 220
   },
   "suppCode": "SUP",

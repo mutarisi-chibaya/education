@@ -36,8 +36,9 @@ One setting per row.
 - `courses`, `housing`: what you offer, separated by semicolons. Courses: `bsc`, `bcom`, `ba`,
   `beng`, `bed`, `bhsc`. Housing: `residence`, `private_rental`, `commuting`. Leave a row empty
   to offer everything.
-- `rent_private`, `taxi_week`: typical monthly rent for a private room, and a week of taxi
-  fares, in rand.
+- `taxi_week`: a week of taxi fares to campus and back, in rand. Students who live at home
+  pay it in the game. Rent is not asked for: it is paid straight to the residence or the
+  landlord, so it is never part of a student's money in the game.
 - `supp_code`: the result code a student sees when admitted to a supplementary exam (the game
   shows `999` if you leave it empty). To explain your other codes, add a `result_codes` page in
   `pages.csv`, with its official `website`, and set it as the `page_id` of the `supp_exams` service.

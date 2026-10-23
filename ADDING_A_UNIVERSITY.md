@@ -73,8 +73,7 @@ Two columns: `key` and `value`. Fill in the `value` column.
 | `licence_tier`, `licence_expires` | Required when status is `licensed`. After the expiry date the institution drops out of the list | `standard`, `2027-12-31` |
 | `courses` | What it offers, separated by `;`. Empty means all | `bsc;bcom;ba` |
 | `housing` | Housing options, separated by `;`. Empty means all | `residence;private_rental;commuting` |
-| `rent_private` | Typical monthly rent for a private room, in rand | `3500` |
-| `taxi_week` | A week of taxi fares, in rand | `250` |
+| `taxi_week` | A week of taxi fares to campus and back, in rand. Commuting students pay it in the game | `250` |
 | `supp_code` | The result code a student sees when admitted to a supplementary exam. Empty means `999`. List all your codes on a `result_codes` page (see pages.csv) and point the `supp_exams` service at it | `999` |
 | `brand_name`, `logo_text` | Name and up to three letters for the top bar | `MyU`, `MU` |
 | `colour_brand`, `colour_brand_text` | Main colour, and the text colour on top of it | `#0b5d5e`, `#ffffff` |

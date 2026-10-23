@@ -319,7 +319,8 @@ test('campuses: each has its own map, courses, costs and service locations', () 
     const c = contentFor('sizwe', campus);
     assert.deepEqual(c.courses.map((x) => x.id), [course]);
     assert.notDeepEqual(c.map.buildings.map((b) => b.id), up.map.buildings.map((b) => b.id));
-    assert.notEqual(c.costs.rent_private, up.costs.rent_private);
+    // A campus's own taxi fares replace the university's; without its own it keeps the university's.
+    assert.equal(c.costs.taxi_week, institutions.find((i) => i.id === 'sizwe').campuses.find((x) => x.id === campus).costs?.taxi_week ?? up.costs.taxi_week);
     for (const [id, s] of Object.entries(c.support)) {
       // Every service is either in a building on this campus's map, or says where else it is.
       if (s.building) assert.ok(c.map.buildings.some((b) => b.id === s.building), `${campus}.${id}: ${s.building} is not on this campus`);
@@ -393,9 +394,8 @@ test('pack check: bundled packs pass, and unsafe packs are refused', () => {
 test('pack check: what staff type is kept to sensible values', () => {
   const kc = institutions.find((i) => i.id === 'karoo-coast');
   const broken = (change) => { const p = JSON.parse(JSON.stringify(kc)); change(p); return checkPack('karoo-coast', p).errors.join(' | '); };
-  for (const rent of [-500, 0, 2800.5, 99999999, '2800']) assert.match(broken((p) => { p.costs.rent_private = rent; }), /rent_private must be a whole amount/, String(rent));
-  assert.match(broken((p) => { p.costs.taxi_week = 5; }), /taxi_week must be a whole amount in rand from 20/);
-  assert.match(broken((p) => { p.campuses = [{ id: 'north', name: { en: 'North' }, courses: ['bsc'], costs: { rent_private: -1 } }]; }), /campus north: costs.rent_private/);
+  for (const taxi of [-500, 0, 5, 220.5, 99999999, '220']) assert.match(broken((p) => { p.costs.taxi_week = taxi; }), /taxi_week must be a whole amount in rand from 20/, String(taxi));
+  assert.match(broken((p) => { p.campuses = [{ id: 'north', name: { en: 'North' }, courses: ['bsc'], costs: { taxi_week: -1 } }]; }), /campus north: costs.taxi_week/);
   assert.match(broken((p) => { p.campuses = [{ id: 'North Campus', name: { en: 'North' }, courses: ['bsc'] }]; }), /id must be lower-case/);
   assert.match(broken((p) => { p.support.health.room = { en: 'x'.repeat(2001) }; }), /over 2000 characters/);
   assert.match(broken((p) => { p.short = 'A short name that is far too long for the top bar'; }), /short is over 40/);

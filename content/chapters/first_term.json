@@ -1552,7 +1552,7 @@
         "en": "Rent is late, and the Wi-Fi is off"
       },
       "text": {
-        "en": "Your funder hasn't paid this month's rent of {rent}. The landlord has switched off the Wi-Fi and says you have until Friday."
+        "en": "Your funder hasn't paid this month's rent. The landlord has switched off the Wi-Fi and says you have until Friday."
       },
       "forecast_tags": [
         "housing",

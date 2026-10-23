@@ -15,7 +15,6 @@
   "status": "demo",
   "costIndex": 1,
   "costs": {
-    "rent_private": 3500,
     "taxi_week": 250
   },
   "support": {
@@ -646,7 +645,6 @@
         "bed"
       ],
       "costs": {
-        "rent_private": 3200,
         "taxi_week": 280
       },
       "map": {
@@ -979,7 +977,6 @@
         "bhsc"
       ],
       "costs": {
-        "rent_private": 3800,
         "taxi_week": 250
       },
       "map": {

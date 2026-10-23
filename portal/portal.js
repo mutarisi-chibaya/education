@@ -76,7 +76,7 @@ const val = (path) => esc(getPath(S.pack, path) ?? '');
 const locked = () => (S.data?.can.edit ? '' : 'disabled');
 
 // Limits match tools/pack-check.mjs, which the server runs: the form only warns early.
-const LIMITS = { rent: { min: 300, max: 30000 }, taxi: { min: 20, max: 3000 } };
+const LIMITS = { taxi: { min: 20, max: 3000 } };
 
 // A small grey "?" beside a label. Pressing it shows what the box is for and where students see it.
 const helpTip = (text) => (text ? ` <button type="button" class="q" data-action="q" aria-label="What is this?" aria-expanded="false">?</button><span class="qtext" hidden>${text}</span>` : '');
@@ -388,9 +388,8 @@ function tabDetails() {
       ${field('Area near campus', 'area', { maxlength: 60, help: 'Where your students rent and shop, used in sentences such as "Rent from a private landlord in Observatory" and "Basics near Observatory cost about R2 400 a month".' })}</div>
       ${textBox('Line under your name', 'campus', { help: 'The grey line under your name in the list of universities students choose from, for example "Three campuses in Gqeberha".' })}`)}
     ${foldCard('details:costs', 'Local costs', `
-      <p class="muted">Two local prices, so the money in the game feels like your area. Food, data and other basics come from the app's own estimates.</p>
+      <p class="muted">A local price, so the money in the game feels like your area. Food, data and other basics come from the app's own estimates. Rent is never part of a student's money in the game: it is paid straight to the residence or the landlord.</p>
       <div class="grid">
-      ${field('Monthly rent for a private room (rand)', 'costs.rent_private', { type: 'number', number: true, required: true, ...LIMITS.rent, help: 'A typical monthly rent for a room near campus. It appears in a story card where a student\'s rent is late ("this month\'s rent of R2 800"). It does not change anyone\'s money.' })}
       ${field('A week of taxi fares (rand)', 'costs.taxi_week', { type: 'number', number: true, required: true, ...LIMITS.taxi, help: 'What a student living at home pays to get to campus and back for a week. Students who commute pay it from their money in the game, so it changes how quickly their money runs out.' })}</div>`)}
     ${foldCard('details:offer', 'What you offer', `
       ${(S.pack.campuses || []).length ? '<p class="muted">Courses are set per campus, on the Campuses tab.</p>' : checks('Courses', 'courses', [...c.courses, ...own], c.courses.map((x) => x.id), 'The courses a student can choose when they set up. Each course has two key modules that the tests in the game are about.')}
@@ -413,8 +412,7 @@ function tabCampuses() {
     ${list.map((campus, i) => `<details class="item" ${fold(`campus:${campus.id}`)}><summary>${esc(en(campus.name) || campus.id)} <span class="tag">${esc(campus.id)}</span></summary>
       ${textBox('Name', `campuses.${i}.name`)}${textBox('Description', `campuses.${i}.desc`, { area: true })}
       ${checks('Courses taught here', `campuses.${i}.courses`, [...c.courses, ...own], [])}
-      <div class="grid">${field('Monthly rent near this campus (rand)', `campuses.${i}.costs.rent_private`, { type: 'number', number: true, ...LIMITS.rent })}
-      ${field('A week of taxi fares (rand)', `campuses.${i}.costs.taxi_week`, { type: 'number', number: true, ...LIMITS.taxi })}</div>
+      <div class="grid">${field('A week of taxi fares to this campus (rand)', `campuses.${i}.costs.taxi_week`, { type: 'number', number: true, ...LIMITS.taxi, help: 'Leave it empty to use the amount for the whole university.' })}</div>
       <button class="danger" data-action="campus-remove" data-id="${esc(campus.id)}" ${locked()}>Remove this campus</button>
     </details>`).join('') || `<p>This university has one campus: ${esc(en(S.pack.name))}. Its courses, services and map are on the other tabs.</p>`}
     <form data-form="campus-add" class="row"><label>New campus id <span class="hint">lower-case, no spaces, e.g. "north"</span><input name="id" pattern="[a-z][a-z0-9_]{1,20}" required ${locked()}></label>
