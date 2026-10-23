@@ -335,13 +335,40 @@ class Workflow(PortalCase):
         directory = json.loads((self.tmp / "content" / "institutions" / "index.json").read_text(encoding="utf-8"))
         self.assertEqual(next(d for d in directory if d["id"] == "sizwe")["version"], before + 1)
 
-    def test_nobody_reviews_their_own_submission_even_a_reviewer(self):
-        self.edit(self.reviewer, short="Mine")
-        self.portal.submit(self.reviewer, "sizwe")
+    def test_nobody_reviews_their_own_submission_even_an_admin(self):
+        self.edit(self.admin, short="Mine")
+        self.portal.submit(self.admin, "sizwe")
         with self.assertRaises(PortalError):
-            self.portal.review(self.reviewer, "sizwe", "approve")
-        self.portal.review(self.admin, "sizwe", "approve")
+            self.portal.review(self.admin, "sizwe", "approve")
+        self.portal.review(self.reviewer, "sizwe", "approve")
         self.assertEqual(self.live()["short"], "Mine")
+
+    def test_reviewers_check_changes_but_never_make_them(self):
+        self.edit(self.editor, short="Sizwe U")
+        state = self.portal.get_pack(self.reviewer, "sizwe")
+        self.assertFalse(state["can"]["edit"])
+        self.assertFalse(state["can"]["submit"], "the editor's draft is the editor's to submit")
+        with self.assertRaises(PortalError) as e:
+            self.edit(self.reviewer, short="Changed by the reviewer")
+        self.assertEqual(e.exception.status, 403)
+        with self.assertRaises(PortalError):
+            self.portal.submit(self.reviewer, "sizwe")
+        self.portal.submit(self.editor, "sizwe")
+        self.portal.review(self.reviewer, "sizwe", "approve")
+        self.assertEqual(self.live()["short"], "Sizwe U")
+
+    def test_whoever_submitted_can_withdraw_it_and_nobody_else_but_an_admin(self):
+        self.edit(self.editor, short="Sizwe U")
+        self.portal.submit(self.editor, "sizwe")
+        with self.assertRaises(PortalError):
+            self.portal.withdraw(self.reviewer, "sizwe")
+        self.assertTrue(self.portal.get_pack(self.editor, "sizwe")["can"]["withdraw"])
+        self.portal.withdraw(self.editor, "sizwe")
+        self.assertEqual(self.portal.get_pack(self.editor, "sizwe")["state"], "draft")
+        self.edit(self.editor, short="Sizwe Uni")
+        self.portal.submit(self.editor, "sizwe")
+        self.portal.withdraw(self.admin, "sizwe")
+        self.assertIn("pack.withdrawn", [a["action"] for a in self.portal.history(self.editor, "sizwe")["audit"]])
 
     def test_sending_back_needs_a_note_and_reopens_the_draft(self):
         self.edit(self.editor, short="Sizwe U")
@@ -356,10 +383,11 @@ class Workflow(PortalCase):
 
     def test_two_people_editing_do_not_overwrite_each_other(self):
         first = self.portal.get_pack(self.editor, "sizwe")
-        second = self.portal.get_pack(self.reviewer, "sizwe")
+        other = self.account("editor2@sizwe.example", "Second Editor", "editor", "sizwe")
+        second = self.portal.get_pack(other, "sizwe")
         self.portal.save(self.editor, "sizwe", {**first["pack"], "short": "A"}, first["rev"])
         with self.assertRaises(PortalError) as e:
-            self.portal.save(self.reviewer, "sizwe", {**second["pack"], "short": "B"}, second["rev"])
+            self.portal.save(other, "sizwe", {**second["pack"], "short": "B"}, second["rev"])
         self.assertEqual(e.exception.status, 409)
         self.assertEqual(self.portal.get_pack(self.editor, "sizwe")["pack"]["short"], "A")
 

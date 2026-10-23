@@ -208,7 +208,7 @@ function tabGuide() {
   const canReview = role === 'reviewer' || role === 'admin';
   const roleText = {
     editor: 'You are an <strong>editor</strong>. You can change your institution\'s draft, run the check and submit it for review. A reviewer has to approve it.',
-    reviewer: 'You are a <strong>reviewer</strong>. You can do everything an editor can, and you approve or send back changes that someone else submitted. You can also publish an earlier version again.',
+    reviewer: 'You are a <strong>reviewer</strong>. You check changes and approve them or send them back; you do not make them yourself, so the person who approves a change is never the one who made it. You can also publish an earlier version again.',
     viewer: 'You have a <strong>read-only demo account</strong>. You can open every tab, look at the draft, run the check and read the history, but nothing you do can change what students see. To try editing and approving, ask for an editor and a reviewer account.',
     admin: 'You are a <strong>platform admin</strong> on the University Simulator team. You can work on every institution, create institutions and accounts, set licences, and write an institution\'s own story cards.',
   }[role];
@@ -335,8 +335,8 @@ function tabGuide() {
       'Reload the page to see their changes, then make your change again.',
     ])}
     ${howTo('I cannot edit anything', [
-      'The draft is waiting for review, so it is locked.',
-      'Ask your reviewer to approve it or send it back. Then you can edit again.',
+      'If you are a reviewer: reviewers check and approve changes but do not make them. An editor makes the change.',
+      'If you are an editor: the draft is waiting for review, so it is locked. Ask your reviewer to approve it or send it back, or, if you submitted it, withdraw it on Review and publish.',
     ])}
     ${howTo('I forgot my password, or my account is locked', [
       'On the sign-in screen, press <strong>Forgot your password?</strong> and enter your email address.',
@@ -366,6 +366,7 @@ function header() {
     <button class="primary" data-action="save" ${d.can.edit && S.dirty ? '' : 'disabled'}>Save draft</button>
   </div>
   ${d.can.viewOnly ? '<div class="note">Read-only demo account: you can look at everything, but nothing can be saved, submitted or published.</div>' : ''}
+  ${S.me.role === 'reviewer' ? `<div class="note">You are a reviewer: you check changes and approve them on ${goTo('review', 'Review and publish')}. Editors make the changes, so the boxes are locked for you.</div>` : ''}
   ${d.state === 'submitted' ? `<div class="note">Submitted by ${esc(d.submittedBy || 'someone')}. It cannot be edited until it is approved or sent back.</div>` : ''}
   ${d.reviewNote ? `<div class="note bad"><strong>Sent back by the reviewer:</strong> ${esc(d.reviewNote)}</div>` : ''}
   <nav class="tabs">${[...TABS, ...(S.me.role === 'admin' ? [['admin', 'Platform admin']] : [])].map(([id, label]) => `<button class="${S.tab === id ? 'on' : ''}" data-action="tab" data-id="${id}">${esc(label)}</button>`).join('')}</nav>`;
@@ -628,6 +629,7 @@ function tabReview() {
     ${d.can.review ? `<form data-form="review"><label>Note to the editor <span class="hint">needed if you send it back</span><textarea name="note"></textarea></label>
         <div class="row"><button class="primary" name="decision" value="approve">Approve and publish</button><button class="danger" name="decision" value="reject">Send back</button></div></form>`
     : `<p class="muted">${d.can.ownSubmission ? 'You submitted this, so a second person has to review it.' : d.can.viewOnly ? 'A reviewer at this institution approves it or sends it back. A demo account can only watch.' : 'Only a reviewer can approve this.'}</p>`}
+    ${d.can.withdraw ? '<p><button data-action="withdraw">Withdraw it to make more changes</button></p>' : ''}
   </section>` : ''}`;
 }
 
@@ -932,6 +934,11 @@ document.addEventListener('click', async (e) => {
     toast('Checking before submitting…');
     const r = await api('POST', `pack/${S.inst}/submit`);
     if (r.ok) { toast('Submitted for review.'); await loadPack(); } else { S.check = r.data.errors ? r.data : null; toast(r.data.error); render(); }
+  } else if (action === 'withdraw') {
+    if (!window.confirm('Withdraw this from review? It goes back to being a draft you can change; nothing is published.')) return;
+    const r = await api('POST', `pack/${S.inst}/withdraw`);
+    toast(r.ok ? 'Withdrawn. You can change the draft and submit it again.' : r.data.error);
+    await loadPack();
   } else if (action === 'rollback') {
     if (!window.confirm(`Publish version ${id} again? Students will see it as a new version.`)) return;
     const r = await api('POST', `pack/${S.inst}/rollback`, { version: Number(id) });

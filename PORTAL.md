@@ -15,8 +15,8 @@ follow [docs/portal-testing.md](docs/portal-testing.md).
 
 | Role | Belongs to | Can |
 |---|---|---|
-| **Editor** | One institution | Edit the draft, run the check, submit for review |
-| **Reviewer** | One institution | Everything an editor can, plus approve or send back someone else's submission, and publish an earlier version again |
+| **Editor** | One institution | Edit the draft, run the check, submit for review, and withdraw their own submission to keep editing |
+| **Reviewer** | One institution | Read everything and run the check; approve or send back a submission, and publish an earlier version again. A reviewer never makes changes, so the person who approves a change is never the one who made it |
 | **Viewer** | One institution | Open every tab, read the draft and history, and run the check. Nothing can be saved, submitted or published. For judges and demos |
 | **Platform admin** | Us | Everything, for every institution. Creates institutions and accounts, and sets status, type and licence |
 

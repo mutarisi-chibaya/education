@@ -37,6 +37,9 @@ EDITABLE = {"name", "short", "campus", "city", "area", "province", "costs", "cou
 # A viewer sees everything their institution's staff see and changes nothing: for judges
 # and demos, so a look around can't change what students get or what someone else is doing.
 ROLES = ("admin", "editor", "reviewer", "viewer")
+# Who makes changes. Reviewers check and approve them but never make them, so the person
+# who approves is never the one who changed it ("maker-checker").
+MAKERS = ("editor", "admin")
 PROTECTED = {"id", "version", "status", "type", "licence", "signedOff", "costIndex"}
 SECTION_NAMES = {"name": "Name", "short": "Name", "campus": "Tagline", "city": "Location", "area": "Location", "province": "Location",
                  "costs": "Costs", "courses": "Courses", "courseList": "Courses", "housing": "Housing options", "brand": "Branding",
@@ -515,9 +518,10 @@ class Portal:
                     "changes": self.changes(live, draft),
                     "diff": self.diff(live, draft),
                     "can": {
-                        "edit": row["state"] == "draft" and not viewer,
+                        "edit": row["state"] == "draft" and user["role"] in MAKERS,
                         "addCards": row["state"] == "draft" and user["role"] == "admin",
-                        "submit": row["state"] == "draft" and not viewer and bool(self.changes(live, draft)),
+                        "submit": row["state"] == "draft" and user["role"] in MAKERS and bool(self.changes(live, draft)),
+                        "withdraw": row["state"] == "submitted" and (submitted_by_me or user["role"] == "admin"),
                         "review": row["state"] == "submitted" and user["role"] in ("reviewer", "admin") and not submitted_by_me,
                         "ownSubmission": row["state"] == "submitted" and submitted_by_me,
                         "viewOnly": viewer,
@@ -611,7 +615,7 @@ class Portal:
 
     def save(self, user, institution_id, pack, rev, ip=""):
         self._scope(user, institution_id)
-        self._need(user, "editor", "reviewer", "admin")
+        self._need(user, *MAKERS)
         con = self._con()
         try:
             with con:
@@ -645,7 +649,7 @@ class Portal:
 
     def submit(self, user, institution_id, ip=""):
         self._scope(user, institution_id)
-        self._need(user, "editor", "reviewer", "admin")
+        self._need(user, *MAKERS)
         con = self._con()
         try:
             with con:
@@ -662,6 +666,23 @@ class Portal:
                             (user["id"], self.clock(), institution_id))
                 self._log(con, user["email"], "pack.submitted", institution_id, "; ".join(self.changes(self.published(institution_id), draft)), ip)
                 return {"state": "submitted", "warnings": result["warnings"]}
+        finally:
+            con.close()
+
+    def withdraw(self, user, institution_id, ip=""):
+        """Whoever submitted takes it back to keep editing (a platform admin can too). Nothing is published."""
+        self._scope(user, institution_id)
+        con = self._con()
+        try:
+            with con:
+                row = self._row(con, institution_id)
+                if row["state"] != "submitted":
+                    raise PortalError(409, "Nothing is waiting for review.")
+                if row["submitted_by"] != user["id"] and user["role"] != "admin":
+                    raise PortalError(403, "Only the person who submitted it can withdraw it.")
+                con.execute("UPDATE packs SET state = 'draft', submitted_by = NULL, submitted_at = NULL WHERE institution_id = ?", (institution_id,))
+                self._log(con, user["email"], "pack.withdrawn", institution_id, "", ip)
+                return {"state": "draft"}
         finally:
             con.close()
 
