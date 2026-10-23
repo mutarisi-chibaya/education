@@ -407,14 +407,22 @@ function tabCampuses() {
   const list = S.pack.campuses || [];
   const c = S.catalogue;
   const own = (S.pack.courseList || []).map((x) => ({ id: x.id, label: x.label }));
+  // A one-campus university still shows its campus, with what it offers. Its details are the
+  // university's own; it becomes a campus of its own when a second one is added.
+  const only = `<details class="item" ${fold('campus:main')}><summary>Main campus <span class="tag">main</span></summary>
+      <p class="muted">Your campus. Its map and services are on ${goTo('buildings', 'Campus map')} and ${goTo('services', 'Services')}. You can rename it once you add a second campus.</p>
+      ${checks('Courses taught here', 'courses', [...c.courses, ...own], c.courses.map((x) => x.id))}
+      <div class="grid">${field('A week of taxi fares to this campus (rand)', 'costs.taxi_week', { type: 'number', number: true, required: true, ...LIMITS.taxi })}</div>
+    </details>`;
   return `<section class="card"><h2>Campuses</h2>
-    <p class="muted">Add campuses only if you have more than one. Each campus can have its own map, service locations and costs. Anything a campus does not set comes from the whole university. When you add your first, your existing campus is listed too, so students can still choose it.</p>
+    <p class="muted">You can add more campuses here. Each can have its own map, service locations and costs; anything it does not set comes from the whole university.</p>
+    ${list.length ? '' : only}
     ${list.map((campus, i) => `<details class="item" ${fold(`campus:${campus.id}`)}><summary>${esc(en(campus.name) || campus.id)} <span class="tag">${esc(campus.id)}</span></summary>
       ${textBox('Name', `campuses.${i}.name`)}${textBox('Description', `campuses.${i}.desc`, { area: true })}
       ${checks('Courses taught here', `campuses.${i}.courses`, [...c.courses, ...own], [])}
       <div class="grid">${field('A week of taxi fares to this campus (rand)', `campuses.${i}.costs.taxi_week`, { type: 'number', number: true, ...LIMITS.taxi, help: 'Leave it empty to use the amount for the whole university.' })}</div>
       <button class="danger" data-action="campus-remove" data-id="${esc(campus.id)}" ${locked()}>Remove this campus</button>
-    </details>`).join('') || `<p>This university has one campus: ${esc(en(S.pack.name))}. Its courses, services and map are on the other tabs.</p>`}
+    </details>`).join('')}
     <form data-form="campus-add" class="row"><label>New campus id <span class="hint">lower-case, no spaces, e.g. "north"</span><input name="id" pattern="[a-z][a-z0-9_]{1,20}" required ${locked()}></label>
       <button ${locked()}>Add campus</button></form>
   </section>`;
