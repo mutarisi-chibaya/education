@@ -4,7 +4,7 @@
 // Institution packs live in their own cache: only the one a student chose is
 // ever downloaded, and it survives app updates.
 const PACKS = 'fys-packs-v1';
-const VERSION = 'fys-v59';
+const VERSION = 'fys-v60';
 const ASSETS = [
   './',
   './index.html',

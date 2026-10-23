@@ -527,19 +527,13 @@
       "id": "ARR-05",
       "type": "situational",
       "week": 2,
-      "conditions": {
-        "origin": [
-          "other_city",
-          "village_rural"
-        ]
-      },
       "title": {
         "en": "Lost on campus",
         "zu": "Ulahlekile ekhampasi"
       },
       "text": {
-        "en": "You're new to {city}, and on your first day the campus is a maze of buildings that all look the same. Your first session starts in ten minutes, and you can't find the venue.",
-        "zu": "Umusha e-{city}, futhi ngosuku lwakho lokuqala ikhampasi iyisixakaxaka sezakhiwo ezibukeka ziyefana. Iseshini yakho yokuqala iqala emizuzwini eyishumi, futhi awulitholi igumbi."
+        "en": "On your first day, the campus is a maze of buildings that all look the same. Your first session starts in ten minutes, and you can't find the venue.",
+        "zu": "Ngosuku lwakho lokuqala, ikhampasi iyisixakaxaka sezakhiwo ezibukeka ziyefana. Iseshini yakho yokuqala iqala emizuzwini eyishumi, futhi awulitholi igumbi."
       },
       "forecast_tags": [
         "loneliness"
