@@ -543,8 +543,11 @@
           "effects": {
             "wellbeing": -8
           },
+          "support": [
+            "supp_exams"
+          ],
           "outcome": {
-            "en": "You spend two days sure that you failed, and nearly miss the deadline to confirm. Code {suppCode} was never a fail."
+            "en": "You spend two days sure that you failed, and nearly miss the deadline to confirm. Then you find out that code {suppCode} was never a fail: it means you are admitted to a supplementary exam, a second chance to write."
           }
         },
         {
