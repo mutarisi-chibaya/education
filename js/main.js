@@ -64,6 +64,7 @@ let cr = { topic: null, step: 0, picked: null };
 let undo = null;        // the state before the last choice, so an answer can be changed
 let realStart = false;  // the first real card after a "what if" shows that the real journey begins
 let lastView = null;    // the page only jumps to the top when the view changes
+let homeScroll = 0;     // where the home screen was scrolled to, kept for coming back to it
 let lastNav = null;     // the browser-history entry for the current screen
 let navMode = 'push';   // 'replace' while restoring a history entry or leaving a sensitive card
 
@@ -74,6 +75,19 @@ const store = {
   set(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch { /* ignore */ } },
 };
 const prefs = () => store.get(PREFS_KEY) || {};
+
+// ---------- theme ----------
+
+// Light or dark follows the phone until the player picks one; the pick is kept.
+const phoneDark = () => Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+const isDark = () => (prefs().theme ? prefs().theme === 'dark' : phoneDark());
+
+function applyTheme() {
+  const theme = prefs().theme;
+  if (theme) document.documentElement.dataset.theme = theme;
+  else delete document.documentElement.dataset.theme;
+}
+applyTheme();
 
 // ---------- saved plans ----------
 
@@ -163,10 +177,37 @@ function coachDone(id) {
   if (!coachSeen(id)) store.set(PREFS_KEY, { ...prefs(), coach: { ...prefs().coach, [id]: true } });
 }
 
+// What each tip points at: it gets a soft ring while the tip is showing.
+const COACH_TARGETS = {
+  homeSetup: '[data-action=start]',
+  homeYears: '[data-action=year]',
+  plans: '.plans-btn',
+  meters: '#hud .meters',
+  week: '.dash .card.flat',
+  break: '[data-action=leave]',
+  mini: '.card.mini',
+  card: '.choices',
+  terms: '.event-card .term',
+  outcome: '[data-action=undo]',
+  support: '[data-action=show-support]',
+  recap: '.recap .chips',
+  forecast: '.forecast details.fold > summary',
+  budget: '.split',
+};
+
+function markCoachTargets() {
+  document.querySelectorAll('.coach-target').forEach((el) => el.classList.remove('coach-target'));
+  for (const b of app.querySelectorAll('.coach [data-action=coach-done]')) {
+    const sel = COACH_TARGETS[b.dataset.id];
+    const target = sel && document.querySelector(sel);
+    if (target) target.classList.add('coach-target');
+  }
+}
+
 function coach(id) {
   if (coachSeen(id)) return '';
   return `<div class="nudge help coach" role="note">
-    <span><span aria-hidden="true">💡</span> ${esc(t(`coach.${id}`))}</span>
+    <span><span aria-hidden="true">💡</span> ${esc(t(`coach.${id}`, { since: t('dash.since') }))}</span>
     <button class="btn small" data-action="coach-done" data-id="${id}">${esc(t('coach.ok'))}</button>
   </div>`;
 }
@@ -179,8 +220,7 @@ const BRAND_VARS = { brand: '--brand', brandInk: '--brand-ink', accent: '--accen
 
 function applyBrand() {
   const brand = content?.brand || {};
-  const dark = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
-  const colors = (dark ? brand.colorsDark : brand.colors) || {};
+  const colors = (isDark() ? brand.colorsDark : brand.colors) || {};
   for (const [key, name] of Object.entries(BRAND_VARS)) {
     if (colors[key]) document.documentElement.style.setProperty(name, colors[key]);
     else document.documentElement.style.removeProperty(name);
@@ -198,7 +238,10 @@ function brandChip() {
 function renderTopbar() {
   const cur = LANGS.find((l) => l.id === currentLang()) || LANGS[0];
   applyBrand();
-  topRight.innerHTML = `${brandChip()}<div class="lang-menu">
+  const themeLabel = t(isDark() ? 'theme.toLight' : 'theme.toDark');
+  topRight.innerHTML = `${brandChip()}<button class="theme-btn" data-action="theme-toggle" aria-label="${esc(themeLabel)}" title="${esc(themeLabel)}">
+    <span aria-hidden="true">${isDark() ? '☀️' : '🌙'}</span>
+  </button><div class="lang-menu">
     <button class="lang-btn" data-action="lang-toggle" aria-haspopup="listbox" aria-expanded="false" aria-label="${esc(t('lang.choose'))}: ${esc(cur.label)}">
       <span class="globe" aria-hidden="true">🌐</span>
       <span class="lang-cur">${esc(cur.label)}</span><span class="lang-code">${esc(cur.code)}</span>
@@ -420,13 +463,12 @@ function renderHome() {
     </article>`;
   };
   return `<section class="home screen">
-    <p class="tag">${esc(t('app.title'))}</p>
     <div class="home-head">
       <h1>${esc(t('home.cardsTitle'))}</h1>
       ${plansButton()}
     </div>
     <p class="lead">${esc(t('home.cardsLead'))}</p>
-    ${coach(state ? 'homeYears' : 'homeSetup')}
+    ${state && coachSeen('homeYears') && savedPlans().length ? coach('plans') : coach(state ? 'homeYears' : 'homeSetup')}
     <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${servicesCard()}${realitiesCard()}</div>
     <div class="stack narrow">
       ${state?.completed.length ? `<button class="btn" data-action="summary">${esc(t('map.summary'))}</button>` : ''}
@@ -640,7 +682,7 @@ function renderYear() {
         <h2>${esc(tx(ch.title))} ${badge}</h2>
         <p class="opt-desc">${esc(tx(ch.subtitle))}</p>
         <p class="fine">${esc(tx(ch.blurb))}</p>
-        <button class="btn ${inProgress || id === recommended ? 'primary' : ''} small" data-action="chapter" data-id="${id}">${esc(label)}</button>
+        <button class="btn ${inProgress || id === recommended ? 'primary' : ''} small" data-action="chapter" data-id="${esc(id)}">${esc(label)}</button>
       </div>
     </article>`;
   }).join('');
@@ -820,7 +862,7 @@ function recapBlock(ch) {
   return `${coach('recap')}<div class="card flat recap">
     <h2>${esc(t('chapter.recap'))}</h2>
     <p class="fine">${esc(t('chapter.recapLead'))}</p>
-    <div class="chips">${ids.map((id) => `<button class="chip" data-action="overlay" data-ids="${id}">${esc(tx(content.support[id].name))}</button>`).join('')}</div>
+    <div class="chips">${ids.map((id) => `<button class="chip" data-action="overlay" data-ids="${esc(id)}">${esc(tx(content.support[id].name))}</button>`).join('')}</div>
   </div>`;
 }
 
@@ -883,7 +925,7 @@ function renderDashboard() {
       <p class="lead">${esc(t(state.ledger.length ? 'dash.breakLead' : 'dash.breakQuiet'))}</p>
       ${state.ledger.length ? `<h2 class="sub">${esc(t('dash.since'))}</h2><div class="card flat">${ledgerList(state.ledger)}</div>` : ''}
       ${nudges.join('')}
-      ${coach(currentMini(content, state) && state.mini.choice === null ? 'mini' : 'break')}
+      ${coach(dashCoach())}
       ${miniBlock()}
       ${ch.economy && state.nightHabit ? habitPicker() : ''}
     </div>
@@ -891,6 +933,13 @@ function renderDashboard() {
       : `<button class="btn primary big" data-action="next">${esc(t('outcome.next'))}</button>`}
       <button class="btn ghost" data-action="leave">${esc(t('dash.leave'))}</button>`)}
   </section>`;
+}
+
+// The break screen's tip, one at a time: the meters first, then what changed.
+function dashCoach() {
+  if (!coachSeen('meters')) return 'meters';
+  if (state.ledger.length && !coachSeen('week')) return 'week';
+  return currentMini(content, state) && state.mini.choice === null ? 'mini' : 'break';
 }
 
 // A mini: one tap, two options, a one-line result.
@@ -958,6 +1007,18 @@ function cardTop(ev, tag, choice = null) {
 const motionOk = () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const pause = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// Every answer button shows which answer was picked for a moment before what
+// follows. The change starts at once; 300ms in all keeps it under the point
+// where a wait is noticed. Without motion the colour change still shows, briefly.
+// Returns false while another answer is already on its way.
+async function showPicked(el) {
+  if (el.closest('.choosing')) return false;
+  el.classList.add('picked');
+  el.closest('.choices')?.classList.add('choosing');
+  await pause(motionOk() ? 300 : 150);
+  return true;
+}
+
 // A short burst for a win card, then it clears itself away.
 function confetti() {
   const box = document.createElement('div');
@@ -1007,7 +1068,7 @@ function renderEvent() {
     </article>
     ${soft ? `<div class="sensitive" role="note"><p>${esc(t('event.sensitive'))}</p><div class="contacts">${crisisLinks()}</div></div>` : ''}
     <div class="choices">
-      ${ev.choices.map((c, i) => `<button class="choice" data-action="choose" data-id="${c.id}" ${canPay.includes(c.id) ? '' : `disabled title="${esc(t('event.cantAfford', { money: money(state.money) }))}"`}>
+      ${ev.choices.map((c, i) => `<button class="choice" data-action="choose" data-id="${esc(c.id)}" ${canPay.includes(c.id) ? '' : `disabled title="${esc(t('event.cantAfford', { money: money(state.money) }))}"`}>
         <span class="key" aria-hidden="true">${i + 1}</span>
         <span class="choice-text">${esc(tx(c.label, v))}</span>
       </button>`).join('')}
@@ -1383,6 +1444,7 @@ function renderBudgetCard() {
     : b.unallocated > 0 ? t('plan.unallocated', { n: b.unallocated }) : t('plan.over', { n: -b.unallocated });
   return `<article class="card budget-card" id="budget-card">
     <h2>${esc(t('plan.budget'))}</h2>
+    ${coach('budget')}
     <label class="income-row">${esc(t('plan.incomeLabel'))}
       <span class="rand">R<input data-income type="number" inputmode="numeric" min="0" step="50" value="${b.income}"></span>
     </label>
@@ -1644,7 +1706,7 @@ function renderRealities() {
         ${data.topics.map((x, i) => `<article class="chapter-card">
           <div class="chapter-num" aria-hidden="true">${i + 1}</div>
           <div><h2>${esc(tx(x.title))}</h2><p class="opt-desc">${esc(tx(x.summary))}</p>
-            <button class="btn small" data-action="cr-topic" data-id="${x.id}">${esc(t('cr.open'))}</button></div>
+            <button class="btn small" data-action="cr-topic" data-id="${esc(x.id)}">${esc(t('cr.open'))}</button></div>
         </article>`).join('')}
       </div>
       <p class="fine">${esc(t('cr.private'))}${data.reviewed ? ` ${esc(t('cr.reviewed'))}` : ''}</p>
@@ -1766,6 +1828,7 @@ window.addEventListener('popstate', (e) => {
 });
 
 function render() {
+  if (lastView?.startsWith('home|')) homeScroll = window.scrollY;
   // Leaving a friend's shared service card: back to the player's own university.
   if (ownContent && screen !== 'services') { content = ownContent; ownContent = null; }
   renderTopbar();
@@ -1811,8 +1874,10 @@ function render() {
   lastView = view;
   const focus = overlay || sheet ? app.querySelector('.overlay h2') : moved ? app.querySelector('h1') : null;
   if (focus) { focus.setAttribute('tabindex', '-1'); focus.focus({ preventScroll: true }); }
-  if (moved) window.scrollTo(0, 0);
+  // Back on home, the page returns to where the player left it; other screens start at the top.
+  if (moved) window.scrollTo(0, screen === 'home' ? homeScroll : 0);
   if (moved && motionOk() && app.querySelector('.event-card.win')) confetti();
+  markCoachTargets();
 }
 
 function deviceId() {
@@ -1981,6 +2046,7 @@ function startSetup(prefill) {
 
 function refreshBudgetCard() {
   document.getElementById('budget-card').outerHTML = renderBudgetCard();
+  markCoachTargets();
 }
 
 // Close the language menu on any click outside it
@@ -1993,8 +2059,14 @@ document.addEventListener('click', async (e) => {
   if (!el) return;
   const { action, id } = el.dataset;
   // The "real journey begins" line only greets the first real card.
-  if (realStart && !['coach-done', 'lang-toggle', 'lang-pick'].includes(action)) realStart = false;
+  if (realStart && !['coach-done', 'lang-toggle', 'lang-pick', 'theme-toggle'].includes(action)) realStart = false;
   switch (action) {
+    case 'theme-toggle':
+      store.set(PREFS_KEY, { ...prefs(), theme: isDark() ? 'light' : 'dark' });
+      applyTheme();
+      renderTopbar();
+      topRight.querySelector('.theme-btn')?.focus();
+      break;
     case 'lang-toggle':
       setLangMenu(el.getAttribute('aria-expanded') !== 'true');
       break;
@@ -2039,6 +2111,7 @@ document.addEventListener('click', async (e) => {
       render();
       break;
     case 'cr-pick':
+      if (!(await showPicked(el))) break;
       cr.picked = Number(id);
       cr.step = 3;
       render();
@@ -2064,6 +2137,7 @@ document.addEventListener('click', async (e) => {
       toast(t('privacy.erased'));
       break;
     case 'mini':
+      if (!(await showPicked(el))) break;
       coachDone('mini');
       update(answerMini(content, state, Number(id)));
       break;
@@ -2205,10 +2279,12 @@ document.addEventListener('click', async (e) => {
       // A chapter opens on its first step; breaks only come between steps.
       update(eventForWeek(content, state) ? openEvent(content, state) : setPhase(state, 'dashboard'));
       break;
-    case 'open-event':
-      coachDone('break');
+    case 'open-event': {
+      const shown = dashCoach();
+      coachDone(shown === 'mini' ? 'break' : shown);
       update(openEvent(content, state));
       break;
+    }
     case 'note-continue':
       update(setPhase(state, 'event'));
       break;
@@ -2216,12 +2292,8 @@ document.addEventListener('click', async (e) => {
       update(skipEvent(content, state));
       break;
     case 'choose':
-      if (el.closest('.choosing')) break; // an answer is already on its way
+      if (!(await showPicked(el))) break;
       coachDone('card');
-      // Show which answer was picked for a moment before its outcome.
-      el.classList.add('picked');
-      el.closest('.choices')?.classList.add('choosing');
-      if (motionOk()) await pause(260);
       undo = state;
       update(choose(content, state, id));
       break;
@@ -2248,6 +2320,7 @@ document.addEventListener('click', async (e) => {
       update(nextWeek(content, state));
       break;
     case 'friday':
+      if (!(await showPicked(el))) break;
       update(friday(content, state, id));
       break;
     case 'habit':
@@ -2317,6 +2390,7 @@ document.addEventListener('click', async (e) => {
       refreshBudgetCard();
       break;
     case 'plans':
+      coachDone('plans');
       planView = null;
       screen = 'plans';
       render();
@@ -2389,6 +2463,7 @@ document.addEventListener('change', async (e) => {
     const income = Math.max(0, Number(input.value) || 0);
     state = { ...state, budget: { ...state.budget, income } };
   } else if (input.dataset.pct) {
+    coachDone('budget');
     const pct = Math.max(0, Math.min(100, Math.round(Number(input.value) || 0)));
     state = { ...state, budget: { ...state.budget, pct: { ...state.budget?.pct, [input.dataset.pct]: pct } } };
   } else return;

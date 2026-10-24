@@ -3,16 +3,18 @@
    820 (tablet landscape), 960 (desktop: sidebar HUD), 1280 (wide). */
 
 :root {
-  --bg: #f7f4ee;
+  --bg: #f2eee6;
   --surface: #ffffff;
   --surface-2: #f0ebe2;
   --ink: #17202e;
-  --muted: #5a6272;
-  --line: #e2dbcf;
-  --brand: #12355b;
+  --muted: #545c6b;
+  --line: #d6ccbb;
+  --brand: #1a4a7e;
   --brand-ink: #ffffff;
   --accent: #f2a93b;
   --accent-ink: #8a5300;
+  --label: #1a4a7e;
+  --chip-bg: #e3ebf5;
   --money: #1f7a4d;
   --marks: #2f63c9;
   --wellbeing: #c2416f;
@@ -28,15 +30,16 @@
   --series-2: #d97706;
   --grid: #e6e1d8;
   --radius: 16px;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.05), 0 6px 20px rgb(18 53 91 / 0.07);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px rgb(18 53 91 / 0.10);
   --gutter: clamp(14px, 4vw, 32px);
   --content: 760px;
   --wide: 1320px;
   color-scheme: light;
 }
 
+/* Dark follows the phone unless the player picked a theme (data-theme on <html>). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0f141c;
     --surface: #18202c;
     --surface-2: #222c3a;
@@ -46,6 +49,8 @@
     --brand: #8fb8ea;
     --brand-ink: #0f141c;
     --accent-ink: #f2a93b;
+  --label: #f2a93b;
+  --chip-bg: #1b2a40;
     --money: #4cc38a;
     --marks: #7ea6f5;
     --wellbeing: #f07ea7;
@@ -62,6 +67,70 @@
     --grid: #2c3746;
     --shadow: none;
     color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0f141c;
+  --surface: #18202c;
+  --surface-2: #222c3a;
+  --ink: #eef1f6;
+  --muted: #a3acbb;
+  --line: #2c3746;
+  --brand: #8fb8ea;
+  --brand-ink: #0f141c;
+  --accent-ink: #f2a93b;
+  --label: #f2a93b;
+  --chip-bg: #1b2a40;
+  --money: #4cc38a;
+  --marks: #7ea6f5;
+  --wellbeing: #f07ea7;
+  --good: #4cc38a;
+  --bad: #ff8a80;
+  --help: #5fd4bd;
+  --on-help: #0f141c;
+  --help-bg: #12312c;
+  --care-bg: #3a1d29;
+  --warn-bg: #3a2c14;
+  --info-bg: #1b2a40;
+  --series-1: #5b8ef0;
+  --series-2: #c27614;
+  --grid: #2c3746;
+  --shadow: none;
+  color-scheme: dark;
+}
+
+/* The phone asked for more contrast: stronger secondary text, lines and signal colours. */
+@media (prefers-contrast: more) {
+  :root {
+    --muted: #3d4452;
+    --line: #8c8578;
+    --grid: #b9b2a5;
+    --accent-ink: #6b4000;
+    --money: #155c39;
+    --good: #155c39;
+    --bad: #8f1d16;
+    --help: #0a5246;
+  }
+  :root[data-theme="dark"] {
+    --muted: #d3d9e2;
+    --line: #6b7a8f;
+    --grid: #6b7a8f;
+    --money: #7fe6b4;
+    --good: #7fe6b4;
+    --bad: #ffb4ab;
+    --help: #8ae8d5;
+  }
+}
+@media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --muted: #d3d9e2;
+    --line: #6b7a8f;
+    --grid: #6b7a8f;
+    --money: #7fe6b4;
+    --good: #7fe6b4;
+    --bad: #ffb4ab;
+    --help: #8ae8d5;
   }
 }
 
@@ -117,7 +186,7 @@ a { color: var(--brand); }
   padding: 6px 4px;
   min-height: 44px;
 }
-.topbar-title { font-size: 1rem; }
+.topbar-title { font-size: 1rem; white-space: nowrap; }
 
 .shell {
   max-width: 1480px;
@@ -248,7 +317,7 @@ main[data-screen="home"], main[data-screen="event"], main[data-screen="friday"],
 .feature p { margin: 0; color: var(--muted); font-size: 0.95rem; }
 .feature-icon { font-size: 1.6rem; line-height: 1; }
 .unis { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
-.uni { background: var(--surface-2); border-radius: 999px; padding: 4px 10px; font-weight: 700; font-size: 0.85rem; }
+.uni { background: var(--chip-bg); border-radius: 999px; padding: 4px 10px; font-weight: 700; font-size: 0.85rem; }
 
 /* ---------- setup stepper ---------- */
 
@@ -351,7 +420,7 @@ main[data-screen="home"], main[data-screen="event"], main[data-screen="friday"],
 .dots { display: flex; flex: none; gap: 4px; }
 .dot { width: 14px; height: 6px; border-radius: 3px; background: var(--line); }
 .dot.done { background: var(--brand); }
-.dot.now { background: var(--accent); }
+.dot.now { width: 24px; background: var(--accent); }
 
 /* ---------- cards ---------- */
 
@@ -364,7 +433,7 @@ main[data-screen="home"], main[data-screen="event"], main[data-screen="friday"],
   border: 1px solid var(--line);
 }
 .card.flat { box-shadow: none; padding-block: 6px; }
-.tag { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 6px; }
+.tag { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--label); margin-bottom: 6px; }
 .event-card { border-top: 6px solid var(--accent); }
 .event-card.soft { border-top-color: var(--wellbeing); }
 .event-card p:last-child { margin-bottom: 0; }
@@ -552,7 +621,7 @@ details summary { cursor: pointer; font-weight: 650; color: var(--brand); min-he
 .contact-row p { font-size: 0.9rem; color: var(--muted); margin: 0; }
 .rehearsed { list-style: none; padding: 0; margin: 0; display: grid; gap: 0 24px; }
 .rehearsed li { display: grid; gap: 2px; padding: 10px 0; border-bottom: 1px solid var(--line); }
-.rehearsed .wk { font-size: 0.75rem; font-weight: 800; color: var(--accent-ink); text-transform: uppercase; }
+.rehearsed .wk { font-size: 0.75rem; font-weight: 800; color: var(--label); text-transform: uppercase; }
 .rehearsed em { color: var(--muted); font-size: 0.9rem; }
 
 /* ---------- overlay + toast ---------- */
@@ -569,13 +638,15 @@ details summary { cursor: pointer; font-weight: 650; color: var(--brand); min-he
   background: var(--ink);
   color: var(--bg);
   padding: 12px 18px;
-  border-radius: 999px;
+  border-radius: 14px;
   font-weight: 650;
   font-size: 0.9rem;
+  text-align: center;
   opacity: 0;
   transition: opacity 0.25s, transform 0.25s;
   z-index: 30;
-  max-width: calc(100% - 32px);
+  width: max-content;
+  max-width: min(480px, calc(100% - 32px));
   pointer-events: none;
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
@@ -842,7 +913,14 @@ details summary { cursor: pointer; font-weight: 650; color: var(--brand); min-he
 
 /* ---------- year screen ---------- */
 
-.back-link { padding-left: 0; text-decoration: none; }
+/* Back to the previous screen: a small button on its own line, clear of the page name below. */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: 0 0 20px; padding: 6px 14px 6px 10px; min-height: 36px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+  font-size: 0.9rem; text-decoration: none;
+}
+.back-link:hover { border-color: var(--brand); }
 .year-head { display: flex; gap: 18px; align-items: center; margin: 4px 0 18px; }
 .year-head h1 { margin-bottom: 4px; }
 .year-head .lead { margin: 0 0 4px; }
@@ -958,7 +1036,16 @@ details summary { cursor: pointer; font-weight: 650; color: var(--brand); min-he
   transition: border-color 0.15s, background 0.15s;
 }
 .lang-btn:hover, .lang-menu.open .lang-btn { border-color: var(--brand); }
-.lang-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.lang-btn:focus-visible, .theme-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.theme-btn {
+  display: inline-grid; place-items: center;
+  width: 42px; height: 42px; padding: 0;
+  border: 1.5px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--ink);
+  font-size: 1.05rem; cursor: pointer; box-shadow: var(--shadow);
+  transition: border-color 0.15s;
+}
+.theme-btn:hover { border-color: var(--brand); }
 .lang-btn .globe { font-size: 1.05rem; }
 .lang-btn .chev { color: var(--muted); transition: transform 0.2s; }
 .lang-menu.open .lang-btn .chev { transform: rotate(180deg); }
@@ -1163,9 +1250,19 @@ button.contact { font: inherit; cursor: pointer; }
 @keyframes art-in { from { opacity: 0; transform: scale(0.5) rotate(-12deg); } }
 
 .choice { transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease; }
-.choice.picked { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 16%, var(--surface)); transform: scale(1.02); }
+.choice.picked, .choice.picked * { color: var(--brand-ink); }
+.choice.picked { border-color: var(--brand); background: var(--brand); transform: scale(1.03); box-shadow: 0 8px 20px color-mix(in srgb, var(--brand) 30%, transparent); }
+.choice.picked .key { background: var(--brand-ink); color: var(--brand); }
 .choices.choosing .choice { pointer-events: none; }
-.choices.choosing .choice:not(.picked) { opacity: 0.4; }
+.choices.choosing .choice:not(.picked) { opacity: 0.35; transform: scale(0.97); }
+
+/* What a first-time tip points at: a soft pulsing ring (a still ring without motion). */
+.coach-target { position: relative; z-index: 1; box-shadow: 0 0 0 3px var(--brand); animation: coach-ring 1.8s ease-out infinite; }
+.choices.coach-target, .meters.coach-target, .split.coach-target, .chips.coach-target { border-radius: 14px; }
+@keyframes coach-ring {
+  0% { box-shadow: 0 0 0 3px var(--brand), 0 0 0 3px color-mix(in srgb, var(--brand) 45%, transparent); }
+  100% { box-shadow: 0 0 0 3px var(--brand), 0 0 0 14px transparent; }
+}
 
 .outcome > .card { animation: outcome-in 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1) both; }
 @keyframes outcome-in { from { opacity: 0; transform: translateY(18px) scale(0.97); } }
@@ -1221,3 +1318,26 @@ button.contact { font: inherit; cursor: pointer; }
 .plans-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; color: var(--brand-ink); background: var(--brand); }
 .plans-icon svg { width: 21px; height: 21px; }
 @media (max-width: 380px) { .plans-label { display: none; } .plans-btn { padding: 6px; } }
+
+/* Windows high contrast replaces every colour: keep bars, meters and marks visible. */
+@media (forced-colors: active) {
+  .meter[data-meter] .fill, .progress-bar span, .split li .split-bar span, .year-bar span, .risk-col.top .risk-bar span,
+  .dot.done, .dot.now, .intro-dots span.on, .logo span:nth-child(n) {
+    forced-color-adjust: none; background: Highlight; color: HighlightText;
+  }
+  .risk-bar span, .dot, .intro-dots span { forced-color-adjust: none; background: GrayText; opacity: 1; }
+  .meter .track, .progress-bar, .split-bar, .year-bar { border: 1px solid CanvasText; }
+  .coach-target, .choice.picked { outline: 3px solid Highlight; outline-offset: 2px; }
+}
+
+/* Narrow phones: the name, the theme button and the language button share one line.
+   Below 370px there is no room for the name, so the logo stands alone. */
+@media (max-width: 430px) {
+  .topbar { gap: 8px; }
+  .topbar-title { font-size: 0.92rem; }
+  .topbar-brand { gap: 8px; padding: 6px 2px; }
+  .topbar-right { gap: 6px; }
+  .theme-btn { width: 38px; height: 38px; }
+  .lang-btn { padding: 0 10px 0 9px; gap: 6px; }
+}
+@media (max-width: 369px) { .topbar-title { display: none; } }
