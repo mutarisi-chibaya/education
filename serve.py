@@ -372,7 +372,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self.send_json(403, {"error": "origin not allowed"})
         try:
             status, body, cookie = portal_web.handle(portal(), method, self.path.split("?")[0], self.headers, data,
-                                                     self.client_ip(), secure=PORTAL_SECURE_COOKIE, stats=stats_summary)
+                                                     self.client_ip(), secure=PORTAL_SECURE_COOKIE, stats=stats_summary,
+                                                     local=self.at_this_computer())
         except Exception:  # never show a visitor how the server failed; the log has the details
             traceback.print_exc()
             return self.send_json(500, {"error": "Something went wrong. Try again, or tell us if it keeps happening."})
@@ -386,12 +387,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def client_ip(self):
         """The visitor's address. Behind a hosting proxy (TRUST_PROXY=1) every request comes from the
         proxy, so the address it forwards is used instead; otherwise that header is ignored, as anyone
-        can send it. Rate limits use this; the account lock after repeated failures does not depend on it."""
+        can send it. The proxy adds the address it saw to the end of the list, so that last entry is
+        used: anything before it came from the visitor and could be made up to dodge a rate limit.
+        Rate limits use this; the account lock after repeated failures does not depend on it."""
         if TRUST_PROXY:
-            forwarded = (self.headers.get("X-Forwarded-For") or "").split(",")[0].strip()
+            forwarded = (self.headers.get("X-Forwarded-For") or "").split(",")[-1].strip()
             if forwarded:
                 return forwarded[:64]
         return self.client_address[0]
+
+    def at_this_computer(self):
+        """A request made on the machine running the server itself, never through a proxy."""
+        return not TRUST_PROXY and self.client_address[0] in ("127.0.0.1", "::1")
 
     def read_json(self):
         length = self.content_length()

@@ -49,7 +49,7 @@ class PortalCase(unittest.TestCase):
         """Create an account and sign it in with its own password."""
         temp = self.portal.create_user(None, email, name, role, institution)["temporaryPassword"]
         token, _ = self.portal.login(email, temp)
-        self.portal.change_password(self.portal.session(token), temp, PASSWORD)
+        self.portal.change_password(self.portal.session(token), temp, PASSWORD, token=token)
         return self.portal.session(token)
 
     def edit(self, user, institution="sizwe", **changes):
@@ -95,7 +95,7 @@ class Accounts(PortalCase):
             self.portal.ready(user)
         with self.assertRaises(PortalError):
             self.portal.change_password(user, temp, "short")
-        self.portal.change_password(user, temp, PASSWORD)
+        self.portal.change_password(user, temp, PASSWORD, token=token)
         self.portal.ready(self.portal.session(token))
 
     def test_sessions_expire_and_logout_ends_them(self):
@@ -219,11 +219,11 @@ class SharedAccounts(PortalCase):
         sent = len(self.mail.sent)
         self.portal.request_reset("editor@karoocoast.example")
         self.assertEqual(len(self.mail.sent), sent, "no reset link for a shared account")
-        for _ in range(8):
+        # Its address is handed out, so wrong guesses must not lock the judges out: the rate limit and
+        # the long password protect it instead.
+        for _ in range(12):
             self.portal.login("editor@karoocoast.example", "wrong passphrase!")
-        self.assertIsNone(self.portal.login("editor@karoocoast.example", self.JUDGES)[0], "locked like any account")
-        self.portal.shared_account("editor@karoocoast.example", "Karoo editor", "editor", "karoo-coast", self.JUDGES)
-        self.assertTrue(self.portal.login("editor@karoocoast.example", self.JUDGES)[0], "and unlocked by the next start")
+        self.assertTrue(self.portal.login("editor@karoocoast.example", self.JUDGES)[0], "never locked by someone else's guesses")
 
     def test_a_shared_account_needs_a_strong_password_and_is_never_an_admin(self):
         with self.assertRaises(PortalError):
@@ -260,6 +260,19 @@ class Isolation(PortalCase):
             with self.assertRaises(PortalError) as e:
                 self.edit(self.editor, support={"health": {"contacts": [hostile]}})
             self.assertEqual(e.exception.status, 400)
+
+    def test_names_that_are_not_plain_ids_are_refused(self):
+        # A name lands in the portal's and the app's pages: quotes or brackets could break out of them.
+        for name in ('x" autofocus data-x="', "<img>", "a.b", "", "x" * 65):
+            with self.assertRaises(PortalError) as e:
+                self.edit(self.editor, pages={name: {"items": []}})
+            self.assertEqual(e.exception.status, 400, name)
+        self.edit(self.editor, pages={"accredited_2": {"items": []}})
+
+    def test_odd_email_addresses_and_institution_ids_are_refused(self):
+        for email, inst in (("../../x@sizwe.example", "sizwe"), ("a\\b@sizwe.example", "sizwe"), ("new@sizwe.example", "../sizwe")):
+            with self.assertRaises(PortalError):
+                self.portal.create_user(self.admin, email, "Odd", "editor", inst)
 
 
 class Viewer(PortalCase):
@@ -679,6 +692,42 @@ class Web(PortalCase):
         codes = [web.handle(self.portal, "POST", "/portal/api/login", {}, {"email": "a@b.co", "password": "x"}, "10.9.9.9")[0] for _ in range(12)]
         self.assertEqual(codes[:10], [401] * 10)
         self.assertEqual(codes[-1], 429)
+
+    def test_the_pack_check_is_rate_limited_on_its_own(self):
+        # Each check starts a Node process, so it has a much lower limit than other requests.
+        web._hits.clear()
+        _, info, cookie = self.call("POST", "login", {"email": "editor@sizwe.example", "password": PASSWORD})
+        jar = cookie.split(";")[0]
+        codes = [self.call("POST", "pack/sizwe/check", {}, jar, info["csrf"])[0] for _ in range(12)]
+        self.assertEqual(codes[:10], [200] * 10)
+        self.assertEqual(codes[-1], 429)
+        self.assertEqual(self.call("GET", "pack/sizwe", cookie=jar)[0], 200, "other requests still work")
+
+    def test_a_new_password_signs_out_every_other_device(self):
+        web._hits.clear()
+        _, other, other_cookie = self.call("POST", "login", {"email": "editor@sizwe.example", "password": PASSWORD})
+        _, info, cookie = self.call("POST", "login", {"email": "editor@sizwe.example", "password": PASSWORD})
+        jar = cookie.split(";")[0]
+        self.assertEqual(self.call("POST", "password", {"current": PASSWORD, "new": "a brand new passphrase"}, jar, info["csrf"])[0], 200)
+        self.assertEqual(self.call("GET", "me", cookie=jar)[0], 200, "this device stays signed in")
+        self.assertEqual(self.call("GET", "me", cookie=other_cookie.split(";")[0])[0], 401, "the other one is signed out")
+
+
+class ResetLinksOnScreen(PortalCase):
+    """With no mail server, a reset link is written to the outbox. It may be shown on screen only on the
+    server's own computer: shown to anyone else, a stranger could reset any account they know the address of."""
+    with_mail = True
+
+    def reset(self, local):
+        web._hits.clear()
+        return web.handle(self.portal, "POST", "/portal/api/reset/request", {}, {"email": "editor@sizwe.example"}, "10.0.0.1", local=local)[1]
+
+    def test_a_reset_link_is_never_shown_to_a_visitor(self):
+        self.assertEqual(self.reset(local=False), {"ok": True})
+        self.assertIn("#set-password=", self.mail.sent[-1]["body"], "it is still written to the outbox")
+
+    def test_on_the_servers_own_computer_the_link_is_shown(self):
+        self.assertIn("#set-password=", self.reset(local=True)["link"])
 
 
 if __name__ == "__main__":

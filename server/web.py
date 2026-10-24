@@ -6,6 +6,7 @@ lives in portal.py.
 """
 
 import re
+import threading
 import time
 from http.cookies import SimpleCookie
 
@@ -14,7 +15,10 @@ from .portal import PortalError
 COOKIE = "fys_portal"
 LOGIN_LIMIT = 10      # login attempts per client per minute
 WRITE_LIMIT = 120     # other requests per client per minute
+CHECK_LIMIT = 10      # requests that run the pack check (a Node process each) per client per minute
+CHECKS = {"check", "submit", "review", "rollback"}
 _hits = {}
+_hits_lock = threading.Lock()
 
 # (method, pattern) -> handler name. <id> is an institution id, <n> a number.
 ROUTES = [
@@ -56,10 +60,14 @@ SETUP = {"me", "logout", "password", "two_step_begin", "two_step_confirm"}  # al
 
 def limited(key, limit):
     now = time.time()
-    recent = [t for t in _hits.get(key, []) if now - t < 60]
-    recent.append(now)
-    _hits[key] = recent
-    return len(recent) > limit
+    with _hits_lock:  # requests are handled on several threads at once
+        if len(_hits) > 20000:  # forget clients that have gone quiet, so the table cannot grow without end
+            for k in [k for k, times in _hits.items() if now - times[-1] >= 60]:
+                del _hits[k]
+        recent = [t for t in _hits.get(key, []) if now - t < 60]
+        recent.append(now)
+        _hits[key] = recent
+        return len(recent) > limit
 
 
 def cookie_header(token, secure, clear=False):
@@ -70,8 +78,9 @@ def cookie_header(token, secure, clear=False):
     return "; ".join(parts)
 
 
-def handle(portal, method, path, headers, data, ip, secure=True, stats=None):
-    """Returns (status, body, set_cookie or None)."""
+def handle(portal, method, path, headers, data, ip, secure=True, stats=None, local=False):
+    """Returns (status, body, set_cookie or None). `local`: the request was made on the server's own
+    computer, the only place a password-reset link may be shown on screen when no email is set up."""
     sub = path.split("/portal/api/", 1)[1].strip("/")
     for verb, pattern, name in ROUTES:
         match = re.fullmatch(pattern, sub)
@@ -82,6 +91,8 @@ def handle(portal, method, path, headers, data, ip, secure=True, stats=None):
 
     if limited((ip, name in OPEN), LOGIN_LIMIT if name in OPEN else WRITE_LIMIT):
         return 429, {"error": "Too many requests. Wait a minute and try again."}, None
+    if name in CHECKS and limited((ip, "check"), CHECK_LIMIT):
+        return 429, {"error": "The check has run many times in the last minute. Wait a minute and try again."}, None
 
     jar = SimpleCookie(headers.get("Cookie") or "")
     token = jar[COOKIE].value if COOKIE in jar else None
@@ -97,7 +108,7 @@ def handle(portal, method, path, headers, data, ip, secure=True, stats=None):
                 raise info
             return 200, info, cookie_header(token, secure)
         if name == "reset_request":
-            return 200, portal.request_reset(data.get("email"), ip), None
+            return 200, portal.request_reset(data.get("email"), ip, show_link=local), None
         if name == "reset_confirm":
             return 200, portal.redeem_link(data.get("token"), data.get("password"), ip), None
 
@@ -117,7 +128,7 @@ def handle(portal, method, path, headers, data, ip, secure=True, stats=None):
             return 200, {"ok": True}, cookie_header("", secure, clear=True)
         body = {
             "me": lambda: portal.me(user),
-            "password": lambda: portal.change_password(user, data.get("current"), data.get("new"), ip),
+            "password": lambda: portal.change_password(user, data.get("current"), data.get("new"), ip, token=token),
             "two_step_begin": lambda: portal.two_step_begin(user),
             "two_step_confirm": lambda: portal.two_step_confirm(user, data.get("code"), token, ip),
             "catalogue": portal.catalogue,

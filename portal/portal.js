@@ -85,7 +85,7 @@ function field(label, path, { type = 'text', hint = '', placeholder = '', number
   const limits = type === 'number' ? `min="${min ?? 0}" ${max !== undefined ? `max="${max}"` : ''} step="1" ${required ? 'required' : ''}`
     : type === 'date' ? `max="${new Date().toISOString().slice(0, 10)}"` : `maxlength="${maxlength}"`;
   return `<label>${esc(label)} ${hint ? `<span class="hint">${esc(hint)}</span>` : ''}${helpTip(help)}
-    <input type="${type}" data-path="${path}" ${number ? 'data-number' : ''} value="${val(path)}" placeholder="${esc(placeholder)}" ${type === 'color' ? '' : limits} ${locked()}><span class="err" aria-live="polite"></span></label>`;
+    <input type="${type}" data-path="${esc(path)}" ${number ? 'data-number' : ''} value="${val(path)}" placeholder="${esc(placeholder)}" ${type === 'color' ? '' : limits} ${locked()}><span class="err" aria-live="polite"></span></label>`;
 }
 
 // Says at once, under the box, what is wrong with what was typed (a minus sign, a fraction, too long).
@@ -100,13 +100,13 @@ function showValidity(el) {
 // translated from the English, so a changed English text never shows an old translation.
 function textBox(label, path, { area = false, placeholder = {}, help = '' } = {}) {
   return area
-    ? `<label>${esc(label)}${helpTip(help)}<textarea data-path="${path}.en" maxlength="2000" placeholder="${esc(placeholder.en || '')}" ${locked()}>${val(`${path}.en`)}</textarea><span class="err" aria-live="polite"></span></label>`
-    : `<label>${esc(label)}${helpTip(help)}<input data-path="${path}.en" maxlength="300" value="${val(`${path}.en`)}" placeholder="${esc(placeholder.en || '')}" ${locked()}><span class="err" aria-live="polite"></span></label>`;
+    ? `<label>${esc(label)}${helpTip(help)}<textarea data-path="${esc(path)}.en" maxlength="2000" placeholder="${esc(placeholder.en || '')}" ${locked()}>${val(`${path}.en`)}</textarea><span class="err" aria-live="polite"></span></label>`
+    : `<label>${esc(label)}${helpTip(help)}<input data-path="${esc(path)}.en" maxlength="300" value="${val(`${path}.en`)}" placeholder="${esc(placeholder.en || '')}" ${locked()}><span class="err" aria-live="polite"></span></label>`;
 }
 
 function checks(label, path, options, all, help = '') {
   const chosen = getPath(S.pack, path) || all;
-  return `<h3>${esc(label)}${helpTip(help)}</h3><div class="checks">${options.map((o) => `<label><input type="checkbox" data-list="${path}" value="${esc(o.id)}" ${chosen.includes(o.id) ? 'checked' : ''} ${locked()}>${esc(en(o.label))}</label>`).join('')}</div>`;
+  return `<h3>${esc(label)}${helpTip(help)}</h3><div class="checks">${options.map((o) => `<label><input type="checkbox" data-list="${esc(path)}" value="${esc(o.id)}" ${chosen.includes(o.id) ? 'checked' : ''} ${locked()}>${esc(en(o.label))}</label>`).join('')}</div>`;
 }
 
 // The layer being edited on the buildings and services tabs: the whole university, or one campus.
@@ -480,17 +480,17 @@ function tabServices() {
         <div class="original"><strong>What students are told:</strong> ${esc(en(svc.offers))}</div>
         ${textBox('What it is called here', `${p}.name`, { placeholder: svc.name })}
         <div class="grid">
-          ${buildings.length ? `<label>Building on the simple map <span class="hint">optional</span><select data-path="${p}.building" ${locked()}><option value="">Not on it</option>${buildings.map((b) => `<option value="${esc(b.id)}" ${mine.building === b.id ? 'selected' : ''}>${esc(en(b.name) || b.id)}</option>`).join('')}</select></label>` : ''}
+          ${buildings.length ? `<label>Building on the simple map <span class="hint">optional</span><select data-path="${esc(p)}.building" ${locked()}><option value="">Not on it</option>${buildings.map((b) => `<option value="${esc(b.id)}" ${mine.building === b.id ? 'selected' : ''}>${esc(en(b.name) || b.id)}</option>`).join('')}</select></label>` : ''}
           ${field('Email address', `${p}.email`, { type: 'email' })}
         </div>
         ${buildings.length ? textBox('Room', `${p}.room`) : textBox('Building and room', `${p}.room`, { placeholder: { en: 'e.g. Student Centre, Room G12' } })}${textBox('Opening hours', `${p}.hours`)}
         <div class="grid">
-          <label>Phone number<input data-contact="tel" data-service="${p}" value="${esc(phone.tel || '')}" inputmode="tel" ${locked()}></label>
-          <label>Phone label <span class="hint">as students see it</span><input data-contact="label" data-service="${p}" value="${esc(phone.label || '')}" ${locked()}></label>
+          <label>Phone number<input data-contact="tel" data-service="${esc(p)}" value="${esc(phone.tel || '')}" inputmode="tel" ${locked()}></label>
+          <label>Phone label <span class="hint">as students see it</span><input data-contact="label" data-service="${esc(p)}" value="${esc(phone.label || '')}" ${locked()}></label>
           ${field('Phone checked by', `${p}.verified_by`)}${field('Date checked', `${p}.last_checked`, { type: 'date' })}
-          <label>Website <span class="hint">starting with https://</span><input data-contact="url" data-service="${p}" value="${esc(site.url || '')}" type="url" ${locked()}></label>
+          <label>Website <span class="hint">starting with https://</span><input data-contact="url" data-service="${esc(p)}" value="${esc(site.url || '')}" type="url" ${locked()}></label>
         </div>
-        <label>List this service points students to<select data-path="${p}.page" ${locked()}><option value="">None</option>${Object.entries({ ...S.pack.pages, ...layer.pages }).map(([pid, pg]) => `<option value="${esc(pid)}" ${mine.page === pid ? 'selected' : ''}>${esc(en(pg.title) || pid)}</option>`).join('')}</select></label>
+        <label>List this service points students to<select data-path="${esc(p)}.page" ${locked()}><option value="">None</option>${Object.entries({ ...S.pack.pages, ...layer.pages }).map(([pid, pg]) => `<option value="${esc(pid)}" ${mine.page === pid ? 'selected' : ''}>${esc(en(pg.title) || pid)}</option>`).join('')}</select></label>
         ${textBox('How to reach it, in your own words', `${p}.reach`, { area: true, placeholder: svc.reach })}
         ${S.layer !== '' ? textBox('If it is on another campus, say where', `${p}.away`, { area: true }) : ''}
       </details>`;
@@ -555,7 +555,7 @@ function ownCards() {
       </details>`).join('') || '<p>You have no cards of your own yet.</p>'}
     </section>`;
   }
-  const num = (label, path, limit) => `<label>${label}<input type="number" data-number data-path="${path}" value="${val(path)}" min="-${limit}" max="${limit}" step="1" ${locked()}><span class="err" aria-live="polite"></span></label>`;
+  const num = (label, path, limit) => `<label>${label}<input type="number" data-number data-path="${esc(path)}" value="${val(path)}" min="-${limit}" max="${limit}" step="1" ${locked()}><span class="err" aria-live="polite"></span></label>`;
   return `<section class="card"><h2>Your own cards</h2>
     <p class="muted">A situation that is particular to your institution. It needs a short title, a situation of at most 40 words, and two or three answers of at most six words each. At least one answer must cost no money.</p>
     ${cardRequests()}
@@ -564,12 +564,12 @@ function ownCards() {
       const ch = S.catalogue.chapters.find((x) => x.id === chapter);
       return `<details class="item" ${fold(`owncard:${card.id}`)}><summary>${esc(en(card.title) || card.id)} <span class="tag">${esc(card.id)}</span> <span class="tag">${esc(en(ch?.title))}</span></summary>
         ${textBox('Title', `${b}.title`)}${textBox('Situation', `${b}.text`, { area: true })}
-        <label>Drawn together with<select data-path="${b}.pool" ${locked()}>${(ch?.pools || []).map((p) => `<option value="${esc(p)}" ${card.pool === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select></label>
+        <label>Drawn together with<select data-path="${esc(b)}.pool" ${locked()}>${(ch?.pools || []).map((p) => `<option value="${esc(p)}" ${card.pool === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select></label>
         ${(card.choices || []).map((c, j) => `<h3>Answer ${j + 1}</h3>
           ${textBox('Answer', `${b}.choices.${j}.label`)}${textBox('What happens', `${b}.choices.${j}.outcome`, { area: true })}${textBox('Tip (optional)', `${b}.choices.${j}.tip`, { area: true })}
           <div class="grid">${num('Money (rand, minus to spend)', `${b}.choices.${j}.effects.money`, 5000)}${num('Marks (-20 to 20)', `${b}.choices.${j}.effects.marks`, 20)}${num('Wellbeing (-20 to 20)', `${b}.choices.${j}.effects.wellbeing`, 20)}
-            <label>Coping style<select data-one="${b}.choices.${j}.tags" ${locked()}><option value="">None</option>${S.catalogue.styles.map((s) => `<option value="${s}" ${c.tags?.[0] === s ? 'selected' : ''}>${esc(STYLES[s] || s)}</option>`).join('')}</select></label>
-            <label>Opens this service<select data-one="${b}.choices.${j}.support" ${locked()}><option value="">None</option>${S.catalogue.services.map((s) => `<option value="${esc(s.id)}" ${c.support?.[0] === s.id ? 'selected' : ''}>${esc(en(s.name))}</option>`).join('')}</select></label>
+            <label>Coping style<select data-one="${esc(b)}.choices.${j}.tags" ${locked()}><option value="">None</option>${S.catalogue.styles.map((s) => `<option value="${s}" ${c.tags?.[0] === s ? 'selected' : ''}>${esc(STYLES[s] || s)}</option>`).join('')}</select></label>
+            <label>Opens this service<select data-one="${esc(b)}.choices.${j}.support" ${locked()}><option value="">None</option>${S.catalogue.services.map((s) => `<option value="${esc(s.id)}" ${c.support?.[0] === s.id ? 'selected' : ''}>${esc(en(s.name))}</option>`).join('')}</select></label>
           </div>
           ${card.choices.length > 2 ? `<button class="danger" data-action="choice-remove" data-chapter="${chapter}" data-index="${i}" data-id="${j}" ${locked()}>Remove this answer</button>` : ''}`).join('')}
         <div class="row">${card.choices.length < 3 ? `<button data-action="choice-add" data-chapter="${chapter}" data-index="${i}" ${locked()}>Add a third answer</button>` : ''}
@@ -853,11 +853,11 @@ document.addEventListener('input', (e) => {
   } else if (el.dataset.one) {
     setPath(S.pack, el.dataset.one, el.value ? [el.value] : '');
   } else if (el.dataset.list) {
-    const boxes = [...document.querySelectorAll(`[data-list="${el.dataset.list}"]`)];
+    const boxes = [...document.querySelectorAll(`[data-list="${esc(CSS.escape(el.dataset.list))}"]`)];
     setPath(S.pack, el.dataset.list, boxes.filter((b) => b.checked).map((b) => b.value));
   } else if (el.dataset.contact) {
     // A service's phone and website are stored as its "contacts".
-    const group = [...document.querySelectorAll(`[data-service="${el.dataset.service}"]`)];
+    const group = [...document.querySelectorAll(`[data-service="${esc(CSS.escape(el.dataset.service))}"]`)];
     const get = (k) => group.find((g) => g.dataset.contact === k).value.trim();
     const contacts = [];
     if (get('tel')) contacts.push({ label: get('label') || get('tel'), tel: get('tel').replace(/[^\d+]/g, '') });

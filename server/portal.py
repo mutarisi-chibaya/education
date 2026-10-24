@@ -29,7 +29,10 @@ INVITE_DAYS = 7
 RESET_HOURS = 1
 MAX_DIFF_ROWS = 300
 INSTITUTION_ID = re.compile(r"^[a-z][a-z0-9-]{1,30}$")
-EMAIL = re.compile(r"^[^@\s]{1,64}@[^@\s]{1,190}\.[a-z]{2,}$", re.I)
+EMAIL = re.compile(r"^[^@\s/\\]{1,64}@[^@\s/\\]{1,190}\.[a-z]{2,}$", re.I)
+# Every name inside a pack is an id ("en", "health", "EX-SU", "north"): it ends up in the portal's
+# and the app's pages, so anything else (quotes, angle brackets, dots) is refused at the door.
+PACK_KEY = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
 
 # What institution staff may edit. Everything else in a pack is set by the platform.
 EDITABLE = {"name", "short", "campus", "city", "area", "province", "costs", "courses", "courseList", "housing",
@@ -154,7 +157,8 @@ class Portal:
             raise PortalError(400, "Role must be admin, editor, reviewer or viewer.")
         if role == "admin":
             institution_id = None
-        elif not institution_id or self.published(institution_id) is None and not self._has_draft(institution_id):
+        elif (not isinstance(institution_id, str) or not INSTITUTION_ID.match(institution_id)
+              or self.published(institution_id) is None and not self._has_draft(institution_id)):
             raise PortalError(400, "Editors, reviewers and viewers belong to an existing institution.")
         password = auth.new_password()
         digest, salt = auth.hash_password(password)
@@ -237,8 +241,11 @@ class Portal:
         self.mailer.send(user["email"], subject, body)
         return link
 
-    def request_reset(self, email, ip=""):
-        """Always answers the same way, so nobody can find out which addresses have accounts."""
+    def request_reset(self, email, ip="", show_link=False):
+        """Always answers the same way, so nobody can find out which addresses have accounts.
+        With no mail server the link is only written to the outbox; it is also shown on screen only
+        when `show_link` says the request came from the server's own computer. Shown to anyone
+        else, it would let a stranger reset any account they know the address of."""
         email = (email or "").strip().lower()
         answer = {"ok": True}
         if not self.mailer:
@@ -250,7 +257,7 @@ class Portal:
                 if user and email not in self.shared:
                     link = self._send_link(con, user, "reset")
                     self._log(con, email, "password.reset_requested", user["institution_id"], "", ip)
-                    if self.mailer.reveals_links:
+                    if self.mailer.reveals_links and show_link:
                         answer["link"] = link
         finally:
             con.close()
@@ -323,7 +330,12 @@ class Portal:
 
     def _failed(self, con, user, detail, ip):
         """Count a wrong password or code. The last one allowed locks the account until its owner
-        sets a new password through an emailed link, or an admin resets it."""
+        sets a new password through an emailed link, or an admin resets it. A shared demo account is
+        never locked: its addresses are handed out, so anyone could lock the judges out with a few
+        wrong guesses. Its long password and the per-address rate limit protect it instead."""
+        if user["email"] in self.shared:
+            self._log(con, user["email"], "login.failed", user["institution_id"], detail, ip)
+            return
         failed = user["failed"] + 1
         locked = failed >= MAX_FAILED
         con.execute("UPDATE users SET failed = ? WHERE id = ?", (failed, user["id"]))
@@ -411,7 +423,8 @@ class Portal:
         finally:
             con.close()
 
-    def change_password(self, user, current, new, ip=""):
+    def change_password(self, user, current, new, ip="", token=None):
+        """A new password signs out every other device, in case someone else had got in."""
         if user["email"] in self.shared:
             raise PortalError(403, "This is a shared demo account, so its password cannot be changed.")
         if not auth.verify_password(current or "", user["pw_hash"], user["pw_salt"]):
@@ -426,6 +439,7 @@ class Portal:
         try:
             with con:
                 con.execute("UPDATE users SET pw_hash = ?, pw_salt = ?, must_change = 0 WHERE id = ?", (digest, salt, user["id"]))
+                con.execute("DELETE FROM sessions WHERE user_id = ? AND token_hash != ?", (user["id"], auth.token_hash(token or "")))
                 self._log(con, user["email"], "password.changed", user["institution_id"], "", ip)
         finally:
             con.close()
@@ -602,11 +616,13 @@ class Portal:
 
     @staticmethod
     def _unsafe_key(node, depth=0):
-        """Keys that would reach an object's prototype in the JavaScript that reads packs, at any depth."""
+        """Keys that would reach an object's prototype in the JavaScript that reads packs, or that are
+        not plain ids (and so could break out of the pages they are shown in), at any depth."""
         if depth > 40:
             return True
         if isinstance(node, dict):
-            return any(k in ("__proto__", "constructor", "prototype") or Portal._unsafe_key(v, depth + 1) for k, v in node.items())
+            return any(k in ("__proto__", "constructor", "prototype") or not PACK_KEY.match(k) or Portal._unsafe_key(v, depth + 1)
+                       for k, v in node.items())
         if isinstance(node, list):
             return any(Portal._unsafe_key(v, depth + 1) for v in node)
         return False
