@@ -778,7 +778,7 @@
   "A code instead of a mark": "Ikhowudi endaweni yophawu",
   "Results are in. Your key modules show marks, but next to {mod3} there is no mark, only a code: {suppCode}. Your stomach drops.": "Iziphumo zingaphakathi. Izitshixo zemodyuli zakho zibonisa amanqaku, kodwa ecaleni kwe {mod3} akukho phawu, kuphela ikhowudi: {suppCode}. Isisu sakho siyawa.",
   "Assume the worst": "Cinga eyona nto imbi",
-  "You spend two days sure that you failed, and nearly miss the deadline to confirm. Code {suppCode} was never a fail.": "Uchitha iintsuku ezimbini uqinisekile ukuba awuphumelelanga, kwaye uphantse uphose umhla wokugqibela wokuqinisekisa. Ikhowudi {suppCode} ayizange isilele.",
+  "You spend two days sure that you failed, and nearly miss the deadline to confirm. Then you find out that code {suppCode} was never a fail: it means you are admitted to a supplementary exam, a second chance to write.": "Uchitha iintsuku ezimbini uqinisekile ukuba awuphumelelanga, kwaye uphantse uphose umhla wokugqibela wokuqinisekisa. Emva koko ufumanise ukuba ikhowudi {suppCode} ayizange isilele: ithetha ukuba wamkelwa kuviwo lokuxabangela, ithuba lesibini lokubhala.",
   "Look up the code": "Jonga ikhowudi",
   "Code {suppCode} means you are admitted to a supplementary exam: a second chance to write. You note the date and confirm that you will be there.": "Ikhowudi {suppCode} ithetha ukuba wamkelwa kuviwo lokuxabangela: ithuba lesibini lokubhala. Uyawuqaphela umhla kwaye uqinisekise ukuba uya kuba lapho.",
   "A supp is a second opportunity, not a verdict on you. Plenty of graduates wrote one in first year.": "I-supp lithuba lesibini, ayisosigwebo kuwe. Uninzi lwabaphumeleleyo lubhale omnye kunyaka wokuqala.",
