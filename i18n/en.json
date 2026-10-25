@@ -526,6 +526,7 @@
   "cr.done": "Back to topics",
   "cr.onCampus": "On your campus: {inst}",
   "cr.national": "National helplines",
+  "cr.place": "Each topic shows who helps at {inst}.",
   "dash.breakTag": "Break",
   "dash.beforeFirst": "Before {unit} 1",
   "dash.before": "Between {unit} {prev} and {unit} {n}",

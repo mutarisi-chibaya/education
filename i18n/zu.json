@@ -526,6 +526,7 @@
   "cr.done": "Buyela ezihlokweni",
   "cr.onCampus": "Ekhempasini yakho: {inst}",
   "cr.national": "Izinombolo zosizo zikazwelonke",
+  "cr.place": "Isihloko ngasinye sibonisa ukuthi ubani osizayo e-{inst}.",
   "dash.breakTag": "Ikhefu",
   "dash.beforeFirst": "Ngaphambi kwe-{unit} 1",
   "dash.before": "Phakathi kwe-{unit} {prev} ne-{unit} {n}",

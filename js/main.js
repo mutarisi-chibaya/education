@@ -195,7 +195,7 @@ function coachDone(id) {
 // What each tip points at: it gets a soft ring while the tip is showing.
 const COACH_TARGETS = {
   homeSetup: '[data-action=start]',
-  homeYears: '[data-action=year]',
+  homeYears: ['.year-card.now [data-action=year]', '[data-action=year]'], // the card marked "Start here" first
   plans: '.plans-btn',
   meters: '#hud .meters',
   week: '.dash .card.flat',
@@ -213,8 +213,7 @@ const COACH_TARGETS = {
 function markCoachTargets() {
   document.querySelectorAll('.coach-target').forEach((el) => el.classList.remove('coach-target'));
   for (const b of app.querySelectorAll('.coach [data-action=coach-done]')) {
-    const sel = COACH_TARGETS[b.dataset.id];
-    const target = sel && document.querySelector(sel);
+    const target = [].concat(COACH_TARGETS[b.dataset.id] || []).map((sel) => document.querySelector(sel)).find(Boolean);
     if (target) target.classList.add('coach-target');
   }
 }
@@ -547,7 +546,7 @@ function renderServices() {
     ? `<div class="nudge info" role="note"><span>${esc(t('svc.visiting', { inst: tx(content.name) }))}</span>
         <button class="btn small" data-action="services">${esc(t('svc.mine'))}</button></div>`
     : !state ? `<div class="nudge info" role="note"><span>${esc(t('svc.place', { inst: where }))}</span>
-        <button class="btn small" data-action="pick-place">${esc(t('setup.change'))}</button></div>` : '';
+        <button class="btn small" data-action="pick-place" data-id="services">${esc(t('setup.change'))}</button></div>` : '';
   return `<section class="year screen">
     <button class="link back-link" data-action="home">← ${esc(t('year.back'))}</button>
     <div class="year-head">
@@ -1738,6 +1737,8 @@ function renderRealities() {
           <p class="fine">${esc(t('cr.meta', { n: data.topics.length }))}</p>
         </div>
       </div>
+      ${state ? '' : `<div class="nudge info" role="note"><span>${esc(t('cr.place', { inst: tx(content.name) }))}</span>
+        <button class="btn small" data-action="pick-place" data-id="realities">${esc(t('setup.change'))}</button></div>`}
       <div class="sensitive" role="note"><p>${esc(t('cr.note'))}</p>${crContacts(data.contacts.map((c) => c.label))}</div>
       <div class="chapter-cards">
         ${data.topics.map((x, i) => `<article class="chapter-card">
@@ -2150,7 +2151,7 @@ document.addEventListener('click', async (e) => {
       openWithPlace(action);
       break;
     case 'pick-place':
-      startSetup(null, 'services');
+      startSetup(null, id === 'realities' ? 'realities' : 'services');
       break;
     case 'service':
       overlay = [id];

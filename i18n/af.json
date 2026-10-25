@@ -526,6 +526,7 @@
   "cr.done": "Terug na onderwerpe",
   "cr.onCampus": "Op jou kampus: {inst}",
   "cr.national": "Nasionale hulplyne",
+  "cr.place": "Elke onderwerp wys wie by {inst} help.",
   "dash.breakTag": "Breek",
   "dash.beforeFirst": "Voor {unit} 1",
   "dash.before": "Tussen {unit} {prev} en {unit} {n}",

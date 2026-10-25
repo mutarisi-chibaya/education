@@ -526,6 +526,7 @@
   "cr.done": "Khutlela ho lihlooho",
   "cr.onCampus": "Khamphaseng ea hau: {inst}",
   "cr.national": "Mehala ea thuso ea naha",
+  "cr.place": "Sehlooho se seng le se seng se bontša hore na ke mang ea thusang ho {inst}.",
   "dash.breakTag": "Qhobotsa",
   "dash.beforeFirst": "Pele ho {unit} 1",
   "dash.before": "Pakeng tsa {unit} {prev} le {unit} {n}",

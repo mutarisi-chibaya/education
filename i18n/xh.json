@@ -526,6 +526,7 @@
   "cr.done": "Buyela kwizihloko",
   "cr.onCampus": "Kwikhampasi yakho: {inst}",
   "cr.national": "Iifowuni zoncedo zeSizwe",
+  "cr.place": "Umxholo ngamnye ubonisa ukuba ngubani oncedisayo kwi- {inst}.",
   "dash.breakTag": "Ikhefu",
   "dash.beforeFirst": "Ngaphambi kwe- {unit} 1",
   "dash.before": "Phakathi {unit} {prev} kunye {unit} {n}",

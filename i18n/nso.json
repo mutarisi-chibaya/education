@@ -526,6 +526,7 @@
   "cr.done": "Go boela morago go dihlogotaba",
   "cr.onCampus": "Khamphaseng ya gago: {inst}",
   "cr.national": "Megala ya thušo ya bosetšhaba",
+  "cr.place": "Sehlogo se sengwe le se sengwe se bontšha gore ke mang yo a thušago go {inst}.",
   "dash.breakTag": "Kgaotša",
   "dash.beforeFirst": "Pele ga {unit} 1",
   "dash.before": "Magareng ga {unit} {prev} le {unit} {n} .",
