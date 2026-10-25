@@ -242,7 +242,15 @@ function addLeak(s, kind, amount) {
   if (amount > 0) s.leaks.push({ chapter: s.chapter, week: s.week, kind, amount });
 }
 
-const addFlags = (s, flags = []) => { for (const f of flags) if (!s.flags.includes(f)) s.flags.push(f); };
+// Each flag remembers the chapters that set it, so replaying one takes back only what its last run set.
+const addFlags = (s, flags = []) => {
+  for (const f of flags) {
+    if (!s.flags.includes(f)) s.flags.push(f);
+    if (!s.chapter) continue;
+    const from = ((s.flagFrom ||= {})[f] ||= []);
+    if (!from.includes(s.chapter)) from.push(s.chapter);
+  }
+};
 const addSupport = (s, ids = []) => { for (const id of ids) if (!s.supportSeen.includes(id)) s.supportSeen.push(id); };
 
 // A pack can change after a game was saved. These are the setup answers it no
@@ -356,6 +364,14 @@ export function startChapter(content, state, chapterId) {
   delete s.results[chapterId];
   const chapterEvents = new Set(chapter.events.map((e) => e.id));
   s.used = s.used.filter((u) => !chapterEvents.has(u.id) && u.chapter !== chapterId);
+  // Its answers too: a flag stays only if another chapter set it as well. Saves
+  // from before flags were tracked keep theirs.
+  for (const [f, from] of Object.entries(s.flagFrom || {})) {
+    if (!from.includes(chapterId)) continue;
+    const rest = from.filter((c) => c !== chapterId);
+    if (rest.length) s.flagFrom[f] = rest;
+    else { delete s.flagFrom[f]; s.flags = s.flags.filter((x) => x !== f); }
+  }
 
   s.chapter = chapterId;
   s.week = 1;

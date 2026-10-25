@@ -995,3 +995,16 @@ test('applying: each demo university has its own "how to apply" page on the appl
   }
   assert.ok(up.eventIndex['PRE-03'].choices.some((x) => x.support?.includes('applications')));
 });
+
+test('replaying a chapter takes back the flags its last run set, and keeps those from other chapters', () => {
+  const answer = (id) => (ev) => (ev.id === 'FT-02' ? ev.choices.find((c) => c.id === id) : helpful(ev));
+  let s = backToMap(playChapter(up, newJourney(up, base, { seed: 2 }), 'first_term', answer('join')).s);
+  assert.ok(s.flags.includes('joined_sports'));
+  s = backToMap(playChapter(up, s, 'first_exams', helpful).s);
+  const fromExams = s.flags.filter((f) => s.flagFrom[f]?.includes('first_exams') && !s.flagFrom[f].includes('first_term'));
+  assert.ok(fromExams.length, 'First Exams set flags of its own');
+  // Replaying First Term with the gym: no teammate, and First Exams is remembered as it was.
+  const again = playChapter(up, s, 'first_term', answer('gym'));
+  assert.ok(!again.s.flags.includes('joined_sports') && !again.seen.includes('FT-W2'));
+  for (const f of fromExams) assert.ok(again.s.flags.includes(f), f);
+});
