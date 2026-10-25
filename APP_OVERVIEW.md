@@ -55,7 +55,7 @@ any order, so a matric learner and a second-year both have a place to start.
 | Middle Years | Middle Years | Old fees, moving off campus, choosing a major, part-time work, burnout | 6 weeks, about 6 min |
 | Final Year | Finish Line | Final-year projects, job applications, old debts, graduation | 6 weeks, about 6 min |
 
-Behind these are 106 situation cards and 25 one-tap mini questions. A single play-through
+Behind these are 104 situations (plus the cards that show test marks and results) and 25 one-tap mini questions. A single play-through
 shows only some of them, chosen by the student's setup and earlier choices, so two students
 get different journeys.
 

@@ -46,7 +46,7 @@ them where to go, any day of the year.
 |---|---|
 | Personal setup | The student enters their own university, campus, course, housing, funding, monthly money, laptop and family needs, so everything that follows fits their actual life |
 | Campus services | 25 needs in plain words ("I'm hungry", "My allowance is late"), each leading to the service at the student's own campus, plus national helplines that are always shown |
-| Rehearsal | Seven chapters from matric to graduation, 106 situation cards, three meters (money, marks, wellbeing). Choosing to get help introduces the same service cards students use later |
+| Rehearsal | Seven chapters from matric to graduation, 104 situations, three meters (money, marks, wellbeing). Choosing to get help introduces the same service cards students use later |
 | Forecast and plan | The riskiest weeks ahead, the week money runs short, and a survival plan to save or send to family |
 | Campus Realities | Ten untracked topics on harassment, discrimination and safety |
 | Staff portal | A university keeps its own details current; a second person approves every change |
