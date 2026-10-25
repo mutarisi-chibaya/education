@@ -125,6 +125,10 @@
       "contacts": [
         "Higher Health 0800 36 36 36",
         "Police 10111"
+      ],
+      "services": [
+        "equity",
+        "counselling"
       ]
     },
     {
@@ -235,6 +239,11 @@
         "GBV Command Centre 0800 428 428",
         "Higher Health 0800 36 36 36",
         "Police 10111"
+      ],
+      "services": [
+        "health",
+        "campus_safety",
+        "counselling"
       ]
     },
     {
@@ -339,6 +348,10 @@
         "GBV Command Centre 0800 428 428",
         "Higher Health 0800 36 36 36",
         "Police 10111"
+      ],
+      "services": [
+        "health",
+        "campus_safety"
       ]
     },
     {
@@ -433,6 +446,10 @@
       "contacts": [
         "Higher Health 0800 36 36 36",
         "SADAG 0800 567 567"
+      ],
+      "services": [
+        "equity",
+        "counselling"
       ]
     },
     {
@@ -531,6 +548,11 @@
         "GBV Command Centre 0800 428 428",
         "Higher Health 0800 36 36 36",
         "Police 10111"
+      ],
+      "services": [
+        "equity",
+        "counselling",
+        "campus_safety"
       ]
     },
     {
@@ -632,6 +654,10 @@
         "GBV Command Centre 0800 428 428",
         "Higher Health 0800 36 36 36",
         "Police 10111"
+      ],
+      "services": [
+        "counselling",
+        "campus_safety"
       ]
     },
     {
@@ -730,6 +756,10 @@
         "Higher Health 0800 36 36 36",
         "SADAG 0800 567 567",
         "Police 10111"
+      ],
+      "services": [
+        "equity",
+        "counselling"
       ]
     },
     {
@@ -827,6 +857,10 @@
       "contacts": [
         "Higher Health 0800 36 36 36",
         "SADAG 0800 567 567"
+      ],
+      "services": [
+        "equity",
+        "counselling"
       ]
     },
     {
@@ -925,6 +959,10 @@
         "Higher Health 0800 36 36 36",
         "SADAG 0800 567 567",
         "Police 10111"
+      ],
+      "services": [
+        "residence_office",
+        "equity"
       ]
     },
     {
@@ -1020,6 +1058,11 @@
         "GBV Command Centre 0800 428 428",
         "Higher Health 0800 36 36 36",
         "Police 10111"
+      ],
+      "services": [
+        "campus_safety",
+        "counselling",
+        "equity"
       ]
     }
   ]

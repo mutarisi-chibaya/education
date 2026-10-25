@@ -102,8 +102,10 @@ names how a harder starting point (no laptop, family to support) changed the odd
 
 ## Campus services
 
-A section on the home screen that makes every support service reachable at any time,
-without playing.
+The first card on the home screen. It makes every support service reachable at any time,
+without playing and without a character: the first time, it asks only which university (and
+campus), and the phone remembers the answer. A character created later starts with that
+university already chosen.
 
 - **Named by the need.** 25 entries such as "I'm hungry", "I'm stressed", "I got a result
   code", "My allowance is late", "I don't feel safe".
@@ -115,7 +117,7 @@ without playing.
   it offers and a link. It uses the phone's share sheet or WhatsApp. Nothing about the
   sender is included.
 - **The link opens the card.** A friend who taps it lands on that service card at the
-  sender's university, and is invited to create their own character.
+  sender's university, with a way back to their own.
 
 ## Words explained
 
@@ -135,6 +137,13 @@ Each topic has five parts: how to recognise it, a short scenario, what to do if 
 to you, what to do if it happens to a friend, and your rights and where to go. Nothing here
 is scored, nothing about what was opened is saved, and a quick-exit button is always on
 screen.
+
+Each topic shows **who helps on your campus** first: the student's own university's services
+for that topic (for example the equity and transformation office for racism, campus health
+and security for sexual assault, the residence office for hazing), then the national
+helplines. Which services belong to which topic is set in `content/realities.json`; the
+services themselves are the ones each university keeps up to date in the staff portal. Like
+Campus services, it opens without a character and asks only for the university.
 
 ## Languages and access
 

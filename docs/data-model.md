@@ -52,6 +52,7 @@ it is held in a module variable and lost on reload.
 | `device` | Random id sent with completion counts |
 | `coach` | Which first-time tips have been dismissed |
 | `introSeen` | Whether the intro slides were shown |
+| `place` | `{ institution, campus }` chosen to open Campus services or Campus Realities before there is a character. A character's own university takes its place once one exists |
 | `unsent` | Chapter completions the server has not taken yet: institution and chapter only. Sent when next online |
 
 ## Content pack

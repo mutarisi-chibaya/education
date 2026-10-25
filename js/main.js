@@ -52,6 +52,7 @@ let introStep = 0;
 let step = 0;           // setup step index
 let draft = {};         // setup answers in progress
 let fromReview = false;
+let pickFor = null;     // 'services' or 'realities' while only the university is asked, before any character
 let reasked = [];       // setup answers cleared because a new university doesn't offer them
 let overlay = null;     // support ids shown as an overlay
 let sheet = null;       // a campus map or demo page shown on top: { kind, id }
@@ -119,6 +120,20 @@ const findEvent = (id) => content.eventIndex[id];
 function contentFor(id, campusId) {
   const inst = catalogue.institutions.find((i) => i.id === id) || catalogue.institutions[0];
   return mergeContent(catalogue.core, inst, catalogue.chapterIndex, catalogue.chapterFiles, campusId);
+}
+
+// The student's own university: the character's, or else the one chosen to open
+// Campus services or Campus Realities without a character (kept with the preferences).
+function ownPlace() {
+  if (state) return { institution: state.setup.institution, campus: state.setup.campus };
+  const p = prefs().place;
+  return p && catalogue.institutions.some((i) => i.id === p.institution) ? p : null;
+}
+
+// Back to the student's own university after looking at or choosing another.
+function showOwnPlace() {
+  const p = ownPlace();
+  if (p) content = contentFor(p.institution, p.campus);
 }
 
 const vars = (ev) => cardVars(content, state, ev);
@@ -418,12 +433,19 @@ function renderHow() {
   const steps = [1, 2, 3, 4];
   const icons = ['🧑‍🎓', '📅', '🤝', '🔮'];
   const onboarding = screen === 'onboard';
+  // The same two parts as the home screen: help any time, then the rehearsal.
+  const help = [['🧭', 'how.help1t', 'how.help1'], ['🛟', 'how.help2t', 'how.help2']];
   return `<section class="onboard screen">${onboarding ? '' : homeLink()}
-    <p class="tag">${esc(t('how.tag'))}</p>
-    <h1>${esc(t('how.title'))}</h1>
+    <h1>${esc(t('how.tag'))}</h1>
+    <h2 class="how-part">${esc(t('home.helpTitle'))}</h2>
+    <ul class="how-steps">${help.map(([icon, title, body]) => `<li>
+      <span class="how-num" aria-hidden="true">${icon}</span>
+      <div><h3>${esc(t(title))}</h3><p>${esc(t(body))}</p></div>
+    </li>`).join('')}</ul>
+    <h2 class="how-part">${esc(t('how.title'))}</h2>
     <ol class="how-steps">${steps.map((n, i) => `<li>
       <span class="how-num">${n}</span>
-      <div><h2><span aria-hidden="true">${icons[i]}</span> ${esc(t(`how.s${n}t`))}</h2><p>${esc(t(`how.s${n}`))}</p></div>
+      <div><h3><span aria-hidden="true">${icons[i]}</span> ${esc(t(`how.s${n}t`))}</h3><p>${esc(t(`how.s${n}`))}</p></div>
     </li>`).join('')}</ol>
     <p class="fine center">${esc(t('how.note'))}</p>
     ${onboarding ? obNav(true) : ''}
@@ -462,14 +484,18 @@ function renderHome() {
       <button class="btn ${state && (!startId || startHere) ? 'primary' : ''}" data-action="year" data-id="${y.id}">${esc(state ? t('home.card.open') : t('home.card.needSetup'))}</button>
     </article>`;
   };
+  // Two parts: help, which needs only the university, then the journey that rehearses it.
   return `<section class="home screen">
-    <div class="home-head">
-      <h1>${esc(t('home.cardsTitle'))}</h1>
+    <h1>${esc(t('home.helpTitle'))}</h1>
+    <p class="lead">${esc(t('home.helpLead'))}</p>
+    <div class="year-cards">${servicesCard()}</div>
+    <div class="home-head journey-head">
+      <h2>${esc(t('home.cardsTitle'))}</h2>
       ${plansButton()}
     </div>
     <p class="lead">${esc(t('home.cardsLead'))}</p>
     ${state && coachSeen('homeYears') && savedPlans().length ? coach('plans') : coach(state ? 'homeYears' : 'homeSetup')}
-    <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${servicesCard()}${realitiesCard()}</div>
+    <div class="year-cards">${setupCard}${YEARS.map(yearCard).join('')}${realitiesCard()}</div>
     <div class="stack narrow">
       ${state?.completed.length ? `<button class="btn" data-action="summary">${esc(t('map.summary'))}</button>` : ''}
       ${installPrompt ? `<button class="btn ghost" data-action="install">${esc(t('home.install'))}</button>` : ''}
@@ -498,10 +524,9 @@ function searchBox(id, listId, hint) {
 const serviceList = () => (content.services || []).filter((x) => content.support[x.support]
   && (!x.housing || content.housing.some((h) => x.housing.includes(h.id))));
 
-// Services and contacts differ by university, so these stay closed until one is chosen.
-const lockedOpen = (action) => (state
-  ? `<button class="btn ${state.completed.length ? 'primary' : ''}" data-action="${action}">${esc(t('home.card.open'))}</button>`
-  : `<button class="btn" data-action="start">${esc(t('home.card.needSetup'))}</button>`);
+// Services and contacts differ by university, so opening these without a
+// character first asks which university (see pickFor), and nothing else.
+const openButton = (action, primary) => `<button class="btn ${primary ? 'primary' : ''}" data-action="${action}">${esc(t('home.card.open'))}</button>`;
 
 function servicesCard() {
   return `<article class="year-card">
@@ -509,9 +534,9 @@ function servicesCard() {
     <div class="year-body">
       <h2>${esc(t('svc.title'))}</h2>
       <p>${esc(t('svc.cardDesc'))}</p>
-      ${state ? `<p class="year-meta">${esc(t('svc.meta', { n: serviceList().length }))}</p>` : ''}
+      ${ownPlace() ? `<p class="year-meta">${esc(t('svc.meta', { n: serviceList().length }))}</p>` : ''}
     </div>
-    ${lockedOpen('services')}
+    ${openButton('services', true)}
   </article>`;
 }
 
@@ -521,8 +546,8 @@ function renderServices() {
   const guest = ownContent
     ? `<div class="nudge info" role="note"><span>${esc(t('svc.visiting', { inst: tx(content.name) }))}</span>
         <button class="btn small" data-action="services">${esc(t('svc.mine'))}</button></div>`
-    : !state ? `<div class="nudge info" role="note"><span>${esc(t('svc.guest', { inst: tx(content.name) }))}</span>
-        <button class="btn small" data-action="start">${esc(t('home.card.create'))}</button></div>` : '';
+    : !state ? `<div class="nudge info" role="note"><span>${esc(t('svc.place', { inst: where }))}</span>
+        <button class="btn small" data-action="pick-place">${esc(t('setup.change'))}</button></div>` : '';
   return `<section class="year screen">
     <button class="link back-link" data-action="home">← ${esc(t('year.back'))}</button>
     <div class="year-head">
@@ -657,7 +682,7 @@ function realitiesCard() {
       <p>${esc(t('cr.cardDesc'))}</p>
       <p class="year-meta">${esc(t('cr.meta', { n: catalogue.realities.topics.length }))}</p>
     </div>
-    ${lockedOpen('realities')}
+    ${openButton('realities', false)}
   </article>`;
 }
 
@@ -809,15 +834,18 @@ function setupStep(key) {
 function renderSetup() {
   const key = STEPS[step];
   const s = setupStep(key);
-  const total = STEPS.length - 1;
+  // Choosing only the university is one or two questions, not a step of the character.
+  const total = pickFor ? 2 : STEPS.length - 1;
+  const done = pickFor ? step + 1 : Math.min(step, total);
+  const hint = pickFor && key === 'institution' ? t('setup.pickHint') : s.hint;
   return `<section class="setup screen">
     <div class="progress">
       <button class="back" data-action="setup-back" aria-label="${esc(t('setup.back'))}">←</button>
-      <div class="progress-bar"><span style="width:${(Math.min(step, total) / total) * 100}%"></span></div>
-      <span class="progress-label">${key === 'review' ? '✓' : esc(t('setup.step', { n: step + 1, total }))}</span>
+      <div class="progress-bar"><span style="width:${(done / total) * 100}%"></span></div>
+      ${pickFor ? '' : `<span class="progress-label">${key === 'review' ? '✓' : esc(t('setup.step', { n: step + 1, total }))}</span>`}
     </div>
     <h1>${esc(s.title)}</h1>
-    ${s.hint ? `<p class="lead">${esc(s.hint)}</p>` : ''}
+    ${hint ? `<p class="lead">${esc(hint)}</p>` : ''}
     ${reasked.includes(key) ? `<div class="nudge info" role="note">${esc(t('setup.reask', { inst: tx(content.short) }))}</div>` : ''}
     ${s.body}
     ${s.cta ? cta(s.cta) : ''}
@@ -1688,6 +1716,15 @@ function crContacts(labels) {
   return `<div class="contacts">${labels.map((l) => all.find((c) => c.label === l)).filter(Boolean).map(contactLink).join('')}</div>`;
 }
 
+// Who helps on the student's own campus first, then the national lines.
+function crHelp(topic) {
+  const ids = (topic.services || []).filter((id) => Object.hasOwn(content.support, id));
+  const campus = ids.length ? `<h2 class="sub">${esc(t('cr.onCampus', { inst: tx(content.short) }))}</h2>
+    <div class="chips">${ids.map((id) => `<button class="chip" data-action="overlay" data-ids="${esc(id)}">${esc(tx(content.support[id].name))}</button>`).join('')}</div>
+    <h2 class="sub">${esc(t('cr.national'))}</h2>` : '';
+  return `${campus}${crContacts(topic.contacts)}`;
+}
+
 function renderRealities() {
   const data = catalogue.realities;
   const topic = data.topics.find((x) => x.id === cr.topic);
@@ -1727,7 +1764,7 @@ function renderRealities() {
         <h1>${esc(tx(topic.title))}</h1>
         <p>${esc(tx(topic.summary))}</p>
         <p>${esc(t('cr.topicNote'))}</p>
-        ${crContacts(topic.contacts)}
+        ${crHelp(topic)}
       </article>
       ${cta(`${next('cr-continue', t('note.continue'))}
         <button class="btn ghost" data-action="realities">${esc(t('cr.notNow'))}</button>`)}
@@ -1773,7 +1810,7 @@ function renderRealities() {
       <h1>${esc(t(info.title))}</h1>
       ${info.note ? `<p class="note">${esc(t(info.note))}</p>` : ''}
       ${bullets(info.items)}
-      ${last ? `${crContacts(topic.contacts)}<p class="fine">${esc(t('about.advice'))}</p>` : ''}
+      ${last ? `${crHelp(topic)}<p class="fine">${esc(t('about.advice'))}</p>` : ''}
     </article>
     ${dots}
     ${cta(last ? next('realities', t('cr.done')) : next('cr-continue', t('common.continue')))}
@@ -1808,7 +1845,8 @@ function syncHistory() {
   const n = navState();
   const key = navKey(n);
   if (key === lastNav) return;
-  if (lastNav === null || navMode === 'replace') window.history.replaceState(n, '');
+  // Choosing only the university is one history entry, so Back from it goes home.
+  if (lastNav === null || navMode === 'replace' || (pickFor && lastNav.startsWith('setup|'))) window.history.replaceState(n, '');
   else window.history.pushState(n, '');
   lastNav = key;
 }
@@ -1822,6 +1860,7 @@ window.addEventListener('popstate', (e) => {
   cr = { ...e.state.cr };
   overlay = null;
   fromReview = false;
+  if (pickFor) { pickFor = null; showOwnPlace(); }
   navMode = 'replace';
   render();
   navMode = 'push';
@@ -2026,7 +2065,7 @@ async function openServiceLink() {
   if (!openDirectory(catalogue.directory).some((d) => d.id === uni)) return;
   try { await loadInstitution(catalogue, uni); } catch { return; }
   const linked = contentFor(uni, q.get('campus'));
-  if (state && (linked.id !== content.id || linked.campusId !== content.campusId)) ownContent = content;
+  if (ownPlace() && (linked.id !== content.id || linked.campusId !== content.campusId)) ownContent = content;
   content = linked;
   screen = 'services';
   if (Object.hasOwn(content.support, id)) overlay = [id]; // own services only, never "__proto__" and the like
@@ -2034,13 +2073,36 @@ async function openServiceLink() {
 
 // ---------- events ----------
 
-function startSetup(prefill) {
+function startSetup(prefill, pick = null) {
   draft = prefill ? { ...prefill } : {};
+  pickFor = pick;
   if (draft.institution) content = contentFor(draft.institution, draft.campus);
-  step = prefill ? STEPS.indexOf('review') : 0;
-  fromReview = false;
+  // A full character opens on its review; one begun from a university already
+  // chosen skips the questions answered and still ends on the review.
+  const missing = prefill ? firstMissing() : 0;
+  step = missing < 0 ? STEPS.indexOf('review') : missing;
+  fromReview = missing > 0;
   reasked = [];
   screen = 'setup';
+  render();
+}
+
+// A new character starts from the university chosen for Campus services, if there is one.
+function startCharacter() {
+  const p = !state && ownPlace();
+  startSetup(p ? { institution: p.institution, campus: p.campus } : null);
+}
+
+// Campus services and Campus Realities need only the university. Without one,
+// it is asked first; with one, the screen opens.
+function openWithPlace(target) {
+  if (!ownPlace()) { startSetup(null, target); return; }
+  if (target === 'services') {
+    coachDone('services');
+    if (ownContent) { content = ownContent; ownContent = null; }
+  } else cr = { topic: null, step: 0, picked: null };
+  overlay = null;
+  screen = target;
   render();
 }
 
@@ -2084,16 +2146,11 @@ document.addEventListener('click', async (e) => {
       render();
       break;
     case 'realities':
-      cr = { topic: null, step: 0, picked: null };
-      screen = 'realities';
-      render();
-      break;
     case 'services':
-      coachDone('services');
-      if (ownContent) { content = ownContent; ownContent = null; }
-      overlay = null;
-      screen = 'services';
-      render();
+      openWithPlace(action);
+      break;
+    case 'pick-place':
+      startSetup(null, 'services');
       break;
     case 'service':
       overlay = [id];
@@ -2150,7 +2207,8 @@ document.addEventListener('click', async (e) => {
     case 'home':
     case 'to-map':
       // Leaving setup unsaved: the player's own university comes back.
-      if (screen === 'setup' && state) content = contentFor(state.setup.institution, state.setup.campus);
+      if (screen === 'setup') showOwnPlace();
+      pickFor = null;
       overlay = null;
       cr = { topic: null, step: 0, picked: null };
       if (state && action === 'to-map' && ['forecast', 'plan'].includes(state.phase)) state = backToMap(state);
@@ -2160,11 +2218,11 @@ document.addEventListener('click', async (e) => {
       break;
     case 'start':
       coachDone('homeSetup');
-      startSetup(null);
+      startCharacter();
       break;
     case 'year':
       coachDone('homeYears');
-      if (!state) { startSetup(null); break; }
+      if (!state) { startCharacter(); break; }
       yearId = id;
       screen = 'year';
       render();
@@ -2189,7 +2247,7 @@ document.addEventListener('click', async (e) => {
       break;
     case 'intro-done':
       store.set(PREFS_KEY, { ...prefs(), introSeen: true });
-      if (state) { screen = 'home'; render(); } else startSetup(null);
+      if (state) { screen = 'home'; render(); } else startCharacter();
       break;
     case 'change-setup':
       startSetup(state.setup);
@@ -2211,7 +2269,8 @@ document.addEventListener('click', async (e) => {
       if (fromReview && firstMissing() < 0 && STEPS[step] !== 'review') step = STEPS.indexOf('review');
       else if (step === 0 || (state && STEPS[step] === 'review')) {
         // Nothing was saved, so the player's own university comes back.
-        if (state) content = contentFor(state.setup.institution, state.setup.campus);
+        showOwnPlace();
+        pickFor = null;
         screen = 'home';
       } else step -= skipStep(step - 1) ? 2 : 1;
       fromReview = false;
@@ -2240,6 +2299,18 @@ document.addEventListener('click', async (e) => {
         reasked = gone;
       }
       if (key === 'funding' || key === 'housing') delete draft.monthlyIncome;
+      if (pickFor) {
+        // Only the university (and campus) was asked: keep it, and open what was asked for.
+        if (key === 'institution' && content.campuses.length > 1) { step = STEPS.indexOf('campus'); render(); break; }
+        store.set(PREFS_KEY, { ...prefs(), place: { institution: draft.institution, campus: draft.campus } });
+        const target = pickFor;
+        pickFor = null;
+        draft = {};
+        navMode = 'replace'; // Back from there goes home, not into the question
+        openWithPlace(target);
+        navMode = 'push';
+        break;
+      }
       advanceSetup();
       break;
     }
@@ -2578,7 +2649,11 @@ async function boot() {
     }
     screen = 'onboard';
   } else {
-    content = contentFor(first);
+    // No character, but perhaps a university chosen for Campus services.
+    const place = prefs().place;
+    const placed = place && openDirectory(catalogue.directory).some((d) => d.id === place.institution)
+      && await loadInstitution(catalogue, place.institution).then(() => true, () => false);
+    content = placed ? contentFor(place.institution, place.campus) : contentFor(first);
     screen = 'onboard';
   }
   await openServiceLink();

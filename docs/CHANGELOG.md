@@ -33,6 +33,13 @@ gets its own heading with a version number and date, as described in
 
 ### Changed
 
+- 25 October 2026: the app leads with support. The welcome screen opens with "A campus support
+  guide in every student's pocket". The home screen has two parts, "Find help, any time" with
+  Campus services, then "Your journey", and How it works explains both.
+- 25 October 2026: Campus services and Campus Realities open without a character. The first
+  time, they ask only for the university (and campus), and the phone remembers it. A character
+  created afterwards starts with that university filled in, and the review screen shows it
+  with the other answers.
 - 11 October 2026: a university's own story cards are written by our team on request.
   University staff can read them, switch them off and approve them in review, but can no
   longer add or change them in the portal.
@@ -60,6 +67,8 @@ gets its own heading with a version number and date, as described in
 
 ### Added
 
+- 25 October 2026: each Campus Realities topic shows who helps on the student's own campus
+  (for example the equity office, campus health or security), above the national helplines.
 - 11 October 2026: a Guide tab in the staff portal. It explains how a change reaches students,
   what each tab is for, and how to do each common job step by step, and it opens by itself at
   a person's first sign-in.

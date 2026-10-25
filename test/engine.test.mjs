@@ -782,6 +782,17 @@ test('Campus Realities: at least three topics, each with all five parts', () => 
   }
 });
 
+test('Campus Realities: every topic points to campus services, and each university has its own of them', () => {
+  for (const x of realities.topics) {
+    assert.ok(x.services?.length, `${x.id}: no campus services`);
+    for (const id of x.services) assert.ok(Object.hasOwn(core.support, id), `${x.id}: ${id} is not a service`);
+  }
+  // The demo universities describe these services themselves, so a topic shows the student's own campus.
+  for (const inst of institutions) {
+    for (const x of realities.topics) assert.ok(x.services.some((id) => inst.support?.[id]), `${inst.id} has none of ${x.id}'s services`);
+  }
+});
+
 test('content: written in English only, with every translation kept apart in content/lang', () => {
   // A translation stored beside its English goes out of date when the English is edited;
   // one looked up by the English cannot.
