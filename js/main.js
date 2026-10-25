@@ -681,7 +681,7 @@ function realitiesCard() {
       <p>${esc(t('cr.cardDesc'))}</p>
       <p class="year-meta">${esc(t('cr.meta', { n: catalogue.realities.topics.length }))}</p>
     </div>
-    ${openButton('realities', false)}
+    ${openButton('realities', state?.completed.length)}
   </article>`;
 }
 
