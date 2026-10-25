@@ -1,9 +1,10 @@
 # Architecture
 
-University Simulator is a static, offline-first web app (PWA) with a small optional Python
-server. Students play entirely in the browser. The server adds three things when it is
-reachable: content updates and anonymous completion counts. It also
-hosts the staff portal, where institutions edit their own content.
+University Simulator is an offline-first web app (PWA) with a small Python server. Each
+student's phone processes their own data: the game, the forecast and the survival plan all
+run in the browser. The server adds two things when it is reachable: content updates and
+anonymous completion counts. It also hosts the staff portal, where institutions edit their
+own content.
 
 The reasons behind the main choices are in the [decision records](adr/README.md).
 
