@@ -277,7 +277,7 @@ Each part a rollout would replace sits behind one named place in the code. The t
 | Concern | Approach |
 |---|---|
 | Offline | Cache-first service worker; bundled packs; every server call fails quietly |
-| Privacy | No account; progress in `localStorage`; statistics carry a random device id only; Campus Realities state is in memory and never saved or sent |
+| Privacy | No account; progress in `localStorage`; statistics carry a random device id only; Campus Realities state is in memory and never saved or sent; a university chosen for Campus services before there is a character is kept with the preferences, on the phone only |
 | Internationalisation | UI strings in `i18n/<lang>.json`; content is English only, with translations in `content/lang/<lang>.json` keyed by the English; anything missing falls back to English |
 | Output safety | All content and pack text is escaped before it reaches the page |
 | Determinism | A journey has a seed; card and mini selection is reproducible from it |
@@ -285,7 +285,63 @@ Each part a rollout would replace sits behind one named place in the code. The t
 | Accessibility | Keyboard shortcuts for choices, focus moved to the heading on each screen, live regions on the HUD and charts, contrast enforced on brand colours by the pack check |
 | Error handling | Storage and network calls are wrapped; a failed boot shows a single error message |
 
-## 8. Repository layout
+## 8. Scaling, layers and future work
+
+Nothing in this section is planned for the hackathon. It records where the design stands and
+what a rollout would change, so the work can be picked up later.
+
+### How far it scales
+
+| Part | Scales how | Limit today |
+|---|---|---|
+| Student app | With the static host or CDN. The game runs on the phone and saves on the phone, so the server does no work per student | None worth naming. A server outage does not stop play |
+| Public API (institutions, packs, stats) | One process. Packs are cached until a source file changes | Stats are written to SQLite on the same machine |
+| Staff portal | One process, one machine | Can't run as more than one instance (below). Staff traffic is small, so this is enough for a pilot |
+
+Three things tie the server to one machine:
+
+1. **SQLite** (`server/db.py`) allows one writer at a time and lives on local disk.
+2. **Published packs are files** under `content/institutions/`, written by `Portal._replace`.
+   Every instance would have to share that disk.
+3. **Rate limits and the stats lock are kept in process memory** (`server/web.py`, `serve.py`),
+   so each instance would keep its own counts (risk S4).
+
+Removing these is what lets the server run behind a load balancer: a hosted database, packs
+in object storage behind the CDN, and shared rate limits (for example Redis). Each sits behind
+one place in the code; see the table in
+[PORTAL.md](../PORTAL.md#how-it-is-built-and-where-production-parts-plug-in) and the target
+layout in [section 6](#6-deployment).
+
+### Layers
+
+The code is already layered, without framework names for the layers. We don't plan to
+rename folders to match a textbook pattern.
+
+| Layer | Server | Student app |
+|---|---|---|
+| Presentation | `serve.py`, `server/web.py`: routing, cookies, CSRF, rate limits | `main.js`: screens, events, storage |
+| Business rules | `server/portal.py` (workflow, permissions), `server/auth.py` | `engine.js`, `forecast.js`, `budget.js`, `plan.js` |
+| Data | `server/db.py`: schema, migrations, connections | `content.js` and the JSON packs |
+
+Dependencies run one way, from presentation down to data. `engine.js` depends on nothing,
+which is why the tests and the pack check can run it in Node unchanged.
+
+### Modularity: what to split next
+
+Most modules are small and do one job. Three files have grown past that and are the first
+candidates when there is time for a refactor. Each split moves code only, and the existing
+tests should pass unchanged before and after.
+
+| File | Size | Holds | Proposed split |
+|---|---|---|---|
+| `js/main.js` | ~2,600 lines | Storage, theme, saved plans, tips, top bar, and every screen from intro to plan | `storage.js` (storage, theme, saved plans), `tips.js`, and one module per screen group under `js/screens/`: home and year, setup, weekly screens (dashboard, event, outcome, note), services, plans. `main.js` keeps boot and routing only |
+| `server/portal.py` | ~900 lines | Accounts and sign-in, two-step login, drafts and diffs, review and publish, card requests, institutions and licences | `accounts.py` (users, login, links, two-step), `workflow.py` (save, check, submit, review, publish, rollback), `institutions.py` (create, licence, catalogue). `Portal` stays as the one object the web layer calls |
+| `portal/portal.js` | ~1,100 lines | Every portal tab | One module per tab, matching the server split |
+
+Content is already modular by design: core, chapters, institution and campus layers, and a new
+university is a data file, not code ([ADR 0002](adr/0002-content-as-data-in-layered-packs.md)).
+
+## 9. Repository layout
 
 | Path | Contents |
 |---|---|

@@ -4,7 +4,7 @@ A register of what could go wrong and what is known to be incomplete. An entry h
 bug report: many are deliberate trade-offs for a hackathon build. The purpose is that each
 one is a recorded decision with an owner, and is revisited before a pilot with real students.
 
-Last reviewed: 5 October 2026.
+Last reviewed: 25 October 2026.
 
 ## How to read it
 
@@ -45,6 +45,14 @@ Likelihood and impact are Low, Medium or High, judged for a public pilot, not fo
 | R4 | No continuous integration or branch protection | H | M | Planned | See [sdlc.md](sdlc.md#5-review) |
 | R5 | Four version numbers are bumped by hand; missing `VERSION` in `sw.js` strands phones on old files | M | M | Accepted | Release checklist. Could be derived from a content hash |
 | R7 | Any pack version change restarts a chapter in progress, including a change unrelated to the story | M | L | Accepted | By design: finished chapters are kept |
+| R8 | The server can't run as more than one instance: SQLite, published pack files and rate limits all live on one machine | M | M | Accepted | Students are unaffected (they play from static files). Before a rollout: hosted database, packs in object storage, shared rate limits. See [architecture.md](architecture.md#8-scaling-layers-and-future-work) |
+
+## Maintainability
+
+| # | Risk | L | I | Status | Mitigation or trigger |
+|---|---|---|---|---|---|
+| M1 | `js/main.js` (~2,600 lines) holds every screen, which makes changes harder to review and easier to break | M | L | Accepted | Not changed during the hackathon. Split by screen group; see [architecture.md](architecture.md#modularity-what-to-split-next) |
+| M2 | `server/portal.py` (~900 lines) and `portal/portal.js` (~1,100 lines) each hold the whole portal | M | L | Accepted | Same as M1: split into accounts, workflow and institutions |
 
 ## Performance and data cost
 
