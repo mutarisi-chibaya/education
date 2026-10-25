@@ -905,7 +905,6 @@
   "Societies Day": "Usuku Lwezinhlangano",
   "Campus is full of stalls. A sports team is recruiting, your friends are signing a gym contract (R300 a month by debit order), the student gym costs R80, and dozens of societies want you.": "Ikhampasi igcwele amatafula. Iqembu lezemidlalo lifuna amalungu, abangane bakho basayina isivumelwano sejimu (u-R300 ngenyanga nge-debit order), ijimu yabafundi ibiza u-R80, futhi izinhlangano eziningi ziyakufuna.",
   "Join a sports team": "Joyina iqembu lezemidlalo",
-  "You pay a small membership fee and meet people at the first practice. Your week has a new anchor.": "Ukhokha imali encane yobulungu futhi uhlangana nabantu emzilolongweni wokuqala. Isonto lakho linento entsha elibambayo.",
   "Clubs and societies are one of the cheapest ways to make friends and feel at home.": "Amaqembu nezinhlangano kungenye yezindlela ezishibhile zokuthola abangane nokuzizwa usekhaya.",
   "Sign the expensive gym contract": "Sayina isivumelwano sejimu esibizayo",
   "Training with friends feels great. R300 now leaves your account every month, whether you go or not.": "Ukuzivocavoca nabangane kumnandi. U-R300 manje uphuma ku-akhawunti yakho nyanga zonke, noma uya noma ungayi.",
@@ -1609,5 +1608,7 @@
   "Computer lab, ground floor": "Igumbi lamakhompyutha, isitezi esiphansi",
   "Study Support desk": "Ideski Losizo Lokufunda",
   "University residence · 5 minutes' walk from the Medical School · catered": "Indawo yokuhlala yenyuvesi · imizuzu emi-5 ngezinyawo ukusuka eSikoleni Sezokwelapha · inokudla",
-  "Accredited private residence · on the hospital shuttle route · NSFAS-accredited": "Indawo ezimele egunyaziwe · isendleleni ye-shuttle yesibhedlela · igunyazwe yi-NSFAS"
+  "Accredited private residence · on the hospital shuttle route · NSFAS-accredited": "Indawo ezimele egunyaziwe · isendleleni ye-shuttle yesibhedlela · igunyazwe yi-NSFAS",
+  "Sports club membership fee": "Imali yobulungu beklabhu yezemidlalo",
+  "The club lets you pay the R100 membership fee when your allowance comes in. You meet people at the first practice, and your week has a new anchor.": "Iqembu likuvumela ukuthi ukhokhe imali yobulungu engu-R100 uma kungena imali yakho. Uhlangana nabantu lapho uqala ukuzilolonga, futhi isonto lakho seliqala kabusha."
 }

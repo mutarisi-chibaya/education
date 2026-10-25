@@ -33,6 +33,9 @@ gets its own heading with a version number and date, as described in
 
 ### Changed
 
+- 25 October 2026: joining the sports team on Societies Day no longer costs money on the day;
+  the R100 membership fee is charged in week 4, when the late allowance arrives. Before, almost
+  nobody had enough money left in week 2 to choose it.
 - 25 October 2026: the app leads with support. The welcome screen opens with "A campus support
   guide in every student's pocket". The home screen has two parts, "Find help, any time" with
   Campus services, then "Your journey", and How it works explains both.

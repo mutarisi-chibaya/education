@@ -445,15 +445,25 @@
             "en": "Join a sports team"
           },
           "effects": {
-            "money": -100,
             "wellbeing": 6
           },
+          "later": [
+            {
+              "in": 2,
+              "effects": {
+                "money": -100
+              },
+              "label": {
+                "en": "Sports club membership fee"
+              }
+            }
+          ],
           "flags": [
             "joined",
             "joined_sports"
           ],
           "outcome": {
-            "en": "You pay a small membership fee and meet people at the first practice. Your week has a new anchor."
+            "en": "The club lets you pay the R100 membership fee when your allowance comes in. You meet people at the first practice, and your week has a new anchor."
           },
           "tip": {
             "en": "Clubs and societies are one of the cheapest ways to make friends and feel at home."
