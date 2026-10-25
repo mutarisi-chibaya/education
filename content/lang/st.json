@@ -851,11 +851,9 @@
   "Zero for the {mod2} assignment": "Zero bakeng sa mosebetsi oa {mod2}",
   "Tutorials and a study plan": "Lithupelo le moralo oa thuto",
   "Running on empty": "Ho matha ho se na letho",
-  "Talked it through with a friend": "E ile ea buisana ka eona le motsoalle",
   "Sleeping better after counselling": "Ho robala hantle ka mor'a tlhabollo",
   "Fell behind without telling anyone": "A wela morao ntle le ho bolella motho",
   "No laptop and no lab time": "Ha ho laptop ebile ha ho nako ea laboratori",
-  "A team or society to lean on": "Sehlopha kapa setjhaba se itshetlehileng ka sona",
   "No textbook for the assignments": "Ha ho na buka ea lithupelo bakeng sa likabelo",
   "Lecture shock": "Tšabo ea puo",
   "The lecturer says \"you did this in high school\" and moves on. You didn't, and you're embarrassed to ask in English in front of 300 people.": "Morupeli o re \"o entse sena sekolong se phahameng\" 'me o tsoela pele. Ha ua ka ua etsa joalo, 'me u hlajoa ke lihlong ho botsa ka Senyesemane ka pel'a batho ba 300.",
@@ -1265,7 +1263,6 @@
   "A counsellor helps you see the pattern and plan your load for next semester.": "Moeletsi o u thusa ho bona mohlala le ho rera mojaro oa hau bakeng sa semester e tlang.",
   "You land vacation work": "U fumana mosebetsi oa phomolo",
   "An email: you start in December. Real work experience, and money for next year.": "E-mail: u qala ka December. Boiphihlelo ba sebele ba mosebetsi, le chelete ea selemo se tlang.",
-  "Your name is on the Dean's List again. Your family shares it with everyone they know.": "Lebitso la hau le lethathamong la Dean hape. Lelapa la heno le e arolelana le bohle bao le ba tsebang.",
   "Your funding will not continue": "Chelete ea hau e ke ke ea tsoela pele",
   "An email from your funder: your funding stops at the end of this year. You missed a pass requirement, or you've used the years it covers.": "Lengolo-tsoibila le tsoang ho motšehetsi oa hau oa lichelete: chelete ea hau e tla emisa bofelong ba selemo sena. U hlolohetsoe tlhokahalo ea ho pasa, kapa u sebelisitse lilemo tseo e li akaretsang.",
   "Tell no one": "Se bolelle motho",
@@ -1683,5 +1680,8 @@
   "You check the APS points: you still qualify for your second choice. You accept the offer before it closes.": "U hlahloba lintlha tsa APS: u ntse u tšoaneleha bakeng sa khetho ea hau ea bobeli. U amohela tlhahiso pele e koaloa.",
   "Each university lists the minimum APS points for every course. Call or email admissions to confirm before the offer closes.": "Univesithi e 'ngoe le e 'ngoe e thathamisa lintlha tse tlase tsa APS bakeng sa thupelo e ngoe le e ngoe. Letsa kapa ngollano ka lengolo-tsoibila ho netefatsa pele tlhahiso e koaloa.",
   "Extended programmes add a foundation year for students who were a few APS points short. Ask admissions whether you qualify.": "Mananeo a atolositsoeng a eketsa selemo sa motheo bakeng sa liithuti tse neng li le khutšoanyane lintlha tsa APS. Botsa ho amoheloa hore na ua tšoaneleha.",
-  "Share a car with classmates": "Arolelana koloi le bana bao u kenang sekolo le bona"
+  "Share a car with classmates": "Arolelana koloi le bana bao u kenang sekolo le bona",
+  "Talked it through with family or a friend": "E buisane le ba lelapa kapa motsoalle",
+  "Regular time with a team, gym or society": "Nako le nako le sehlopha, boikoetliso kapa sechaba",
+  "Your name is on the Dean's List. Your family shares it with everyone they know.": "Lebitso la hau le lethathamong la Dean's List. Lelapa la heno le e arolelana le bohle bao le ba tsebang."
 }

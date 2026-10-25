@@ -33,6 +33,10 @@ gets its own heading with a version number and date, as described in
 
 ### Changed
 
+- 25 October 2026: rewards and results now match what the student did. Signing a gym contract
+  counts as "Regular time with a team, gym or society", not "a team or society"; calling home
+  counts as talking it through "with family or a friend"; planning around lab hours no longer
+  brings "No laptop and no lab time"; and the Middle Years Dean's List no longer says "again".
 - 25 October 2026: replaying a chapter forgets the answers from its last run. Before, choosing
   the sports team once and the gym on a replay still brought the "new friend from your team" card.
 - 25 October 2026: joining the sports team on Societies Day no longer costs money on the day;

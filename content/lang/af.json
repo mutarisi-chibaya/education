@@ -851,11 +851,9 @@
   "Zero for the {mod2} assignment": "Nul vir die {mod2}-opdrag",
   "Tutorials and a study plan": "Tutoriale en 'n studieplan",
   "Running on empty": "Loop op leeg",
-  "Talked it through with a friend": "Het dit met 'n vriend deurgepraat",
   "Sleeping better after counselling": "Slaap beter na berading",
   "Fell behind without telling anyone": "Het agter geraak sonder om vir iemand te sê",
   "No laptop and no lab time": "Geen skootrekenaar en geen laboratoriumtyd nie",
-  "A team or society to lean on": "'n Span of samelewing om op te steun",
   "No textbook for the assignments": "Geen handboek vir die opdragte nie",
   "Lecture shock": "Lesingskok",
   "The lecturer says \"you did this in high school\" and moves on. You didn't, and you're embarrassed to ask in English in front of 300 people.": "Die dosent sê \"jy het dit op hoërskool gedoen\" en gaan aan. Jy het nie, en jy is skaam om in Engels voor 300 mense te vra.",
@@ -1265,7 +1263,6 @@
   "A counsellor helps you see the pattern and plan your load for next semester.": "’n Berader help jou om die patroon te sien en jou vrag vir volgende semester te beplan.",
   "You land vacation work": "Jy land vakansie werk",
   "An email: you start in December. Real work experience, and money for next year.": "'n E-pos: jy begin in Desember. Regte werkservaring, en geld vir volgende jaar.",
-  "Your name is on the Dean's List again. Your family shares it with everyone they know.": "Jou naam is weer op die Dekaanslys. Jou gesin deel dit met almal wat hulle ken.",
   "Your funding will not continue": "Jou befondsing sal nie voortgaan nie",
   "An email from your funder: your funding stops at the end of this year. You missed a pass requirement, or you've used the years it covers.": "'n E-pos van jou befondser: jou befondsing stop aan die einde van hierdie jaar. Jy het 'n slaagvereiste gemis, of jy het die jare gebruik wat dit dek.",
   "Tell no one": "Vertel vir niemand nie",
@@ -1683,5 +1680,8 @@
   "You check the APS points: you still qualify for your second choice. You accept the offer before it closes.": "Jy gaan die APS-punte na: jy kwalifiseer steeds vir jou tweede keuse. Jy aanvaar die aanbod voor dit sluit.",
   "Each university lists the minimum APS points for every course. Call or email admissions to confirm before the offer closes.": "Elke universiteit lys die minimum TPT-punte vir elke kursus. Bel of e-pos toelatings om te bevestig voordat die aanbod sluit.",
   "Extended programmes add a foundation year for students who were a few APS points short. Ask admissions whether you qualify.": "Verlengde programme voeg 'n grondslagjaar by vir studente wat 'n paar TPT-punte kort gehad het. Vra toelatings of jy kwalifiseer.",
-  "Share a car with classmates": "Deel 'n motor met klasmaats"
+  "Share a car with classmates": "Deel 'n motor met klasmaats",
+  "Talked it through with family or a friend": "Het dit met familie of 'n vriend deurgepraat",
+  "Regular time with a team, gym or society": "Gereelde tyd saam met 'n span, gimnasium of vereniging",
+  "Your name is on the Dean's List. Your family shares it with everyone they know.": "Jou naam is op die Dekaanslys. Jou gesin deel dit met almal wat hulle ken."
 }

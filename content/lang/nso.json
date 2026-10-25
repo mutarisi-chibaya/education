@@ -851,11 +851,9 @@
   "Zero for the {mod2} assignment": "Lefela bakeng sa kabelo ya {mod2}",
   "Tutorials and a study plan": "Dithuto le leano la go ithuta",
   "Running on empty": "Matha ka lefeela",
-  "Talked it through with a friend": "O boletše ka yona le mogwera",
   "Sleeping better after counselling": "Go robala gakaone ka morago ga keletšo",
   "Fell behind without telling anyone": "O ile a wela morago ntle le go botša motho",
   "No laptop and no lab time": "Ga go na laptop ebile ga go na nako ya lab",
-  "A team or society to lean on": "Sehlopha goba setšhaba seo o swanetšego go ithekga ka sona",
   "No textbook for the assignments": "Ga go na puku ya go ithuta ya dikabelo",
   "Lecture shock": "Thuto ya go tšhoga",
   "The lecturer says \"you did this in high school\" and moves on. You didn't, and you're embarrassed to ask in English in front of 300 people.": "Mofahloši o re \"o dirile se sekolong se se phagamego\" gomme o tšwela pele. Ga se wa dira bjalo, ebile o hlabja ke dihlong go botšiša ka Seisemane pele ga batho ba 300.",
@@ -1265,7 +1263,6 @@
   "A counsellor helps you see the pattern and plan your load for next semester.": "Moeletši o go thuša go bona mohlala le go rulaganya morwalo wa gago wa semesetara se se latelago.",
   "You land vacation work": "O naha mošomo wa maikhutšo",
   "An email: you start in December. Real work experience, and money for next year.": "Imeile: o thoma ka December. Maitemogelo a nnete a mošomo, le tšhelete ya ngwaga wo o tlago.",
-  "Your name is on the Dean's List again. Your family shares it with everyone they know.": "Leina la gago le Lenaneong la Modini gape. Lapa la gago le e abelana le motho yo mongwe le yo mongwe yo le mo tsebago.",
   "Your funding will not continue": "Thušo ya gago ya ditšhelete e ka se tšwele pele",
   "An email from your funder: your funding stops at the end of this year. You missed a pass requirement, or you've used the years it covers.": "Imeile go tšwa go moabi wa gago wa ditšhelete: thušo ya gago ya ditšhelete e ema mafelelong a ngwaga wo. O fošitše senyakwa sa go phasa, goba o šomišitše mengwaga yeo e e akaretšago.",
   "Tell no one": "O se ke wa botša motho",
@@ -1683,5 +1680,8 @@
   "You check the APS points: you still qualify for your second choice. You accept the offer before it closes.": "O hlahloba dintlha tša APS: o sa swanelega bakeng sa kgetho ya gago ya bobedi. O amogela mpho pele e tswalela.",
   "Each university lists the minimum APS points for every course. Call or email admissions to confirm before the offer closes.": "Yunibesithi ye nngwe le ye nngwe e lokeletša dintlha tša fasefase tša APS bakeng sa thuto ye nngwe le ye nngwe. Letša goba imeile dikamogelo go tiišetša pele tlhagišo e tswalela.",
   "Extended programmes add a foundation year for students who were a few APS points short. Ask admissions whether you qualify.": "Mananeo a atološitšwego a oketša ngwaga wa motheo bakeng sa baithuti bao ba bego ba le dintlha tše sego kae tša APS tše kopana. Botšiša kamogelo ge e ba o swanelega.",
-  "Share a car with classmates": "Abelana koloi le bao o tsenago le bona ka klaseng"
+  "Share a car with classmates": "Abelana koloi le bao o tsenago le bona ka klaseng",
+  "Talked it through with family or a friend": "O ile a boledišana ka yona le lapa goba mogwera",
+  "Regular time with a team, gym or society": "Nako ya ka mehla le sehlopha, tlelabo ya go itšhidulla goba setšhaba",
+  "Your name is on the Dean's List. Your family shares it with everyone they know.": "Leina la gago le Lenaneong la Modini. Lapa la gago le e abelana le motho yo mongwe le yo mongwe yo le mo tsebago."
 }

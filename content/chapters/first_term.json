@@ -101,7 +101,7 @@
         "flag": "talked",
         "value": 1,
         "label": {
-          "en": "Talked it through with a friend"
+          "en": "Talked it through with family or a friend"
         }
       },
       {
@@ -134,7 +134,7 @@
         "flag": "joined",
         "value": 1,
         "label": {
-          "en": "A team or society to lean on"
+          "en": "Regular time with a team, gym or society"
         }
       },
       {
@@ -1192,7 +1192,8 @@
             "wellbeing": 2
           },
           "flags": [
-            "coached"
+            "coached",
+            "used_labs"
           ],
           "outcome": {
             "en": "An academic coach helps you split the week into blocks: test topics first, assignment in two sittings. You finish both, and sleep."

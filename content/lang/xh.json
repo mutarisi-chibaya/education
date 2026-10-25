@@ -851,11 +851,9 @@
   "Zero for the {mod2} assignment": "Uziro we- {mod2} isabelo",
   "Tutorials and a study plan": "Izifundo kunye nesicwangciso sokufunda",
   "Running on empty": "Ukubaleka kungenanto",
-  "Talked it through with a friend": "Wayithetha yonke loo nto nomhlobo",
   "Sleeping better after counselling": "Ukulala ngcono emva kokucetyiswa",
   "Fell behind without telling anyone": "Wawa ngasemva engaxelelanga mntu",
   "No laptop and no lab time": "Akukho laptop kwaye akukho lab ixesha",
-  "A team or society to lean on": "Iqela okanye uluntu oluyame kulo",
   "No textbook for the assignments": "Akukho ncwadi yesikhokelo yezabelo",
   "Lecture shock": "Umothuko wentetho",
   "The lecturer says \"you did this in high school\" and moves on. You didn't, and you're embarrassed to ask in English in front of 300 people.": "Umhlohli uthi \"uyenze le nto kwisikolo samabanga aphakamileyo\" kwaye uqhubela phambili. Awuzange, kwaye uneentloni zokubuza ngesiNgesi phambi kwabantu abangama-300.",
@@ -1265,7 +1263,6 @@
   "A counsellor helps you see the pattern and plan your load for next semester.": "Umcebisi unceda ukuba ubone ipateni kwaye ucwangcise umthwalo wakho wesemester elandelayo.",
   "You land vacation work": "Ufumana umsebenzi weholide",
   "An email: you start in December. Real work experience, and money for next year.": "I-imeyile: uqala ngoDisemba. Amava omsebenzi wangempela, kunye nemali yonyaka ozayo.",
-  "Your name is on the Dean's List again. Your family shares it with everyone they know.": "Igama lakho likuLuhlu lweDini kwakhona. Usapho lwakho lwabela wonke umntu olumaziyo.",
   "Your funding will not continue": "Inkxaso-mali yakho ayisayi kuqhubeka",
   "An email from your funder: your funding stops at the end of this year. You missed a pass requirement, or you've used the years it covers.": "I-imeyile evela kumxhasi wakho: inkxaso-mali yakho iyayeka ekupheleni kwalo nyaka. Uphose imfuneko yokupasa, okanye usebenzise iminyaka eyigubungelayo.",
   "Tell no one": "Ungaxeleli mntu",
@@ -1683,5 +1680,8 @@
   "You check the APS points: you still qualify for your second choice. You accept the offer before it closes.": "Ujonga amanqaku e-APS: usafanelekela ukhetho lwakho lwesibini. Uyalwamkela unikezelo phambi kokuba luvalwe.",
   "Each university lists the minimum APS points for every course. Call or email admissions to confirm before the offer closes.": "Iyunivesiti nganye idwelisa awona manqaku asezantsi e-APS kwikhosi nganye. Fowuna okanye u-imeyilele ukwamkelwa ukuze uqinisekise ngaphambi kokuba unikezelo luvalwe.",
   "Extended programmes add a foundation year for students who were a few APS points short. Ask admissions whether you qualify.": "Iinkqubo ezandisiweyo zongeza unyaka wesiseko kubafundi ababenamanqaku ambalwa e-APS amafutshane. Buza ukwamkelwa ukuba uyafaneleka na.",
-  "Share a car with classmates": "Yabelana ngemoto nabanye ofunda nabo"
+  "Share a car with classmates": "Yabelana ngemoto nabanye ofunda nabo",
+  "Talked it through with family or a friend": "Wathetha ngayo nosapho okanye umhlobo",
+  "Regular time with a team, gym or society": "Ixesha eliqhelekileyo neqela, ijim okanye uluntu",
+  "Your name is on the Dean's List. Your family shares it with everyone they know.": "Igama lakho likuLuhlu lweDini. Usapho lwakho lwabela wonke umntu olumaziyo."
 }
