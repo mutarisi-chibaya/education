@@ -70,6 +70,11 @@ gets its own heading with a version number and date, as described in
 
 ### Added
 
+- 25 October 2026: 37 more tap-to-explain words, 73 in all: university and funding terms (stipend,
+  prerequisite, deferred exam, the N+1 rule), legal terms in Campus Realities (protection order,
+  magistrate's court), and South African words a student from elsewhere may not know (res,
+  matric, minibus taxi, vetkoek). Campus Realities text is now tappable too, and the About page
+  leads with campus support.
 - 25 October 2026: each Campus Realities topic shows who helps on the student's own campus
   (for example the equity office, campus health or security), above the national helplines.
 - 11 October 2026: a Guide tab in the staff portal. It explains how a change reaches students,

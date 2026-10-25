@@ -365,7 +365,7 @@
           "wellbeing": 1
         },
         "text": {
-          "en": "Your data's low. Buy a social bundle for {amount}?"
+          "en": "Your data's low. Buy a social bundle (data for WhatsApp and social media only) for {amount}?"
         }
       },
       {
@@ -2760,6 +2760,518 @@
       "exact": true,
       "def": {
         "en": "Lesbian, gay, bisexual, transgender, queer and intersex people. The plus sign includes other identities too."
+      }
+    },
+    "stipend": {
+      "term": {
+        "en": "Stipend"
+      },
+      "match": {
+        "en": [
+          "stipend",
+          "stipends"
+        ]
+      },
+      "def": {
+        "en": "The living money a bursary pays you, usually every month, on top of your fees. It is the bursary's version of an allowance."
+      }
+    },
+    "deferred_exam": {
+      "term": {
+        "en": "Deferred exam"
+      },
+      "match": {
+        "en": [
+          "deferred exam",
+          "deferred exams",
+          "sick exam"
+        ]
+      },
+      "def": {
+        "en": "A later exam for students who missed one for an accepted reason, such as illness or a death in the family. You usually have to hand in a medical certificate or other proof within a few days."
+      }
+    },
+    "prerequisite": {
+      "term": {
+        "en": "Prerequisite"
+      },
+      "match": {
+        "en": [
+          "prerequisite",
+          "prerequisites"
+        ]
+      },
+      "def": {
+        "en": "A module you must pass before you may take another one. If you fail it, the modules that build on it are blocked."
+      }
+    },
+    "elective": {
+      "term": {
+        "en": "Elective"
+      },
+      "match": {
+        "en": [
+          "elective",
+          "electives"
+        ]
+      },
+      "def": {
+        "en": "A module you choose yourself, as opposed to the modules your degree requires."
+      }
+    },
+    "motivation": {
+      "term": {
+        "en": "Motivation"
+      },
+      "match": {
+        "en": [
+          "motivation"
+        ]
+      },
+      "def": {
+        "en": "A short letter explaining your situation and why your application or appeal should succeed. Funders and universities often ask for one."
+      }
+    },
+    "aps": {
+      "term": {
+        "en": "APS points"
+      },
+      "match": {
+        "en": [
+          "APS points",
+          "APS"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "Your Admission Point Score: points worked out from your matric marks. Universities set a minimum APS for each course."
+      }
+    },
+    "extended_programme": {
+      "term": {
+        "en": "Extended programme"
+      },
+      "match": {
+        "en": [
+          "extended programme",
+          "extended programmes"
+        ]
+      },
+      "def": {
+        "en": "The same degree with an extra foundation year at the start, for students who were a few points short. It takes one year longer."
+      }
+    },
+    "affidavit": {
+      "term": {
+        "en": "Affidavit"
+      },
+      "match": {
+        "en": [
+          "affidavit",
+          "affidavits"
+        ]
+      },
+      "def": {
+        "en": "A written statement you swear is true, signed in front of a commissioner of oaths. Police stations do this for free."
+      }
+    },
+    "clearing_house": {
+      "term": {
+        "en": "Clearing house"
+      },
+      "match": {
+        "en": [
+          "clearing house"
+        ]
+      },
+      "def": {
+        "en": "The Central Application Clearing House (CACH): a free national service that helps applicants without a place find universities and colleges that still have space."
+      }
+    },
+    "medical_aid": {
+      "term": {
+        "en": "Medical aid"
+      },
+      "match": {
+        "en": [
+          "medical aid"
+        ]
+      },
+      "def": {
+        "en": "Private health insurance that pays for doctors and hospitals. Without it, you pay a private doctor in cash, or use public clinics and campus health."
+      }
+    },
+    "historic_debt": {
+      "term": {
+        "en": "Historic debt"
+      },
+      "match": {
+        "en": [
+          "historic student debt",
+          "historic debt"
+        ]
+      },
+      "def": {
+        "en": "Fees you still owe from earlier years. It can block registration or your certificate, and some government and university programmes help pay it off."
+      }
+    },
+    "n_plus_one": {
+      "term": {
+        "en": "N+1 rule"
+      },
+      "match": {
+        "en": [
+          "N+1"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "NSFAS funds the minimum number of years your degree takes, plus one extra year. After that, the funding stops."
+      }
+    },
+    "vetkoek": {
+      "term": {
+        "en": "Vetkoek"
+      },
+      "match": {
+        "en": [
+          "vetkoek"
+        ]
+      },
+      "def": {
+        "en": "Fried dough bread, a South African favourite. It is eaten plain, with jam, or filled with mince."
+      }
+    },
+    "res": {
+      "term": {
+        "en": "Res"
+      },
+      "match": {
+        "en": [
+          "res"
+        ]
+      },
+      "def": {
+        "en": "Short for residence: student housing run by the university, on or near campus."
+      }
+    },
+    "matric": {
+      "term": {
+        "en": "Matric"
+      },
+      "match": {
+        "en": [
+          "matric"
+        ]
+      },
+      "def": {
+        "en": "The final year of high school (Grade 12), and the national exams written at the end of it."
+      }
+    },
+    "varsity": {
+      "term": {
+        "en": "Varsity"
+      },
+      "match": {
+        "en": [
+          "varsity"
+        ]
+      },
+      "def": {
+        "en": "An informal word for university."
+      }
+    },
+    "taxi": {
+      "term": {
+        "en": "Taxi"
+      },
+      "match": {
+        "en": [
+          "taxi",
+          "taxis"
+        ]
+      },
+      "def": {
+        "en": "In South Africa, usually a shared minibus taxi that runs a set route for a fixed fare, not a private cab."
+      }
+    },
+    "taxi_rank": {
+      "term": {
+        "en": "Taxi rank"
+      },
+      "match": {
+        "en": [
+          "taxi rank",
+          "taxi ranks",
+          "rank"
+        ]
+      },
+      "def": {
+        "en": "A place where minibus taxis wait, load passengers and leave for their routes."
+      }
+    },
+    "taxi_parcel": {
+      "term": {
+        "en": "Taxi parcel"
+      },
+      "match": {
+        "en": [
+          "taxi parcel"
+        ]
+      },
+      "def": {
+        "en": "Sending a package with a minibus taxi driver, who hands it over at the other end. It is cheaper than a courier."
+      }
+    },
+    "ululating": {
+      "term": {
+        "en": "Ululating"
+      },
+      "match": {
+        "en": [
+          "ululating",
+          "ululate"
+        ]
+      },
+      "def": {
+        "en": "A high, trilling cry of joy, often heard at South African celebrations such as graduations and weddings."
+      }
+    },
+    "braiding": {
+      "term": {
+        "en": "Braiding"
+      },
+      "match": {
+        "en": [
+          "braiding"
+        ]
+      },
+      "def": {
+        "en": "Doing hair in braids for paying clients: a common side business for students."
+      }
+    },
+    "second_chance": {
+      "term": {
+        "en": "Second Chance exams"
+      },
+      "match": {
+        "en": [
+          "Second Chance exams",
+          "Second Chance"
+        ]
+      },
+      "exact": true,
+      "def": {
+        "en": "The free government programme for rewriting matric subjects to improve your marks. You register with the Department of Basic Education before its closing date."
+      }
+    },
+    "certified_copy": {
+      "term": {
+        "en": "Certified copy"
+      },
+      "match": {
+        "en": [
+          "certify copies",
+          "certified copy",
+          "certified copies"
+        ]
+      },
+      "def": {
+        "en": "A copy of a document stamped and signed by a police officer or commissioner of oaths to show it matches the original. Funding and university forms often ask for one."
+      }
+    },
+    "funeral_notice": {
+      "term": {
+        "en": "Funeral notice"
+      },
+      "match": {
+        "en": [
+          "funeral notice"
+        ]
+      },
+      "def": {
+        "en": "The printed programme or notice for a funeral. Universities accept it, or a death certificate, as proof when you miss a test because of a death in the family."
+      }
+    },
+    "class_rep": {
+      "term": {
+        "en": "Class rep"
+      },
+      "match": {
+        "en": [
+          "class rep",
+          "class reps",
+          "class representative"
+        ]
+      },
+      "def": {
+        "en": "A student chosen to speak for a class to the lecturer, and to share news such as venue changes."
+      }
+    },
+    "floor_rep": {
+      "term": {
+        "en": "Floor representative"
+      },
+      "match": {
+        "en": [
+          "floor representative",
+          "floor rep"
+        ]
+      },
+      "def": {
+        "en": "A student in your residence who represents your floor on the house committee."
+      }
+    },
+    "house_committee": {
+      "term": {
+        "en": "House committee"
+      },
+      "match": {
+        "en": [
+          "house committee"
+        ]
+      },
+      "def": {
+        "en": "The elected student committee that runs a residence: events, rules, quiet hours and help with problems."
+      }
+    },
+    "deans_list": {
+      "term": {
+        "en": "Dean's List"
+      },
+      "match": {
+        "en": [
+          "Dean's List"
+        ]
+      },
+      "def": {
+        "en": "An honour your faculty gives students with very high marks for the year."
+      }
+    },
+    "vacation_work": {
+      "term": {
+        "en": "Vacation work"
+      },
+      "match": {
+        "en": [
+          "vacation work"
+        ]
+      },
+      "def": {
+        "en": "Short paid or unpaid work during the university holidays, often at a company in your field. Some degrees require it."
+      }
+    },
+    "graduate_programme": {
+      "term": {
+        "en": "Graduate programme"
+      },
+      "match": {
+        "en": [
+          "graduate programme",
+          "graduate programmes"
+        ]
+      },
+      "def": {
+        "en": "A paid training job for new graduates at a company or government department, usually for one or two years. Applications open months before you graduate."
+      }
+    },
+    "misconduct": {
+      "term": {
+        "en": "Academic misconduct"
+      },
+      "match": {
+        "en": [
+          "academic misconduct",
+          "misconduct hearing",
+          "misconduct"
+        ]
+      },
+      "def": {
+        "en": "Cheating, such as handing in work someone else did or copying from the internet. It can lead to a hearing and the loss of a module, or of your place."
+      }
+    },
+    "proof_of_registration": {
+      "term": {
+        "en": "Proof of registration"
+      },
+      "match": {
+        "en": [
+          "proof of registration"
+        ]
+      },
+      "def": {
+        "en": "A document from the university showing that you are registered this year. You can usually print it from the student portal."
+      }
+    },
+    "syllabus": {
+      "term": {
+        "en": "Syllabus"
+      },
+      "match": {
+        "en": [
+          "syllabus"
+        ]
+      },
+      "def": {
+        "en": "The list of topics a module covers this year."
+      }
+    },
+    "course_pack": {
+      "term": {
+        "en": "Course pack"
+      },
+      "match": {
+        "en": [
+          "course pack",
+          "course packs"
+        ]
+      },
+      "def": {
+        "en": "Printed notes and readings a lecturer puts together for a module, usually sold at the campus shop or printers."
+      }
+    },
+    "practical": {
+      "term": {
+        "en": "Practical"
+      },
+      "match": {
+        "en": [
+          "practical",
+          "practicals"
+        ]
+      },
+      "def": {
+        "en": "A hands-on class, such as a lab session, that counts towards your marks."
+      }
+    },
+    "protection_order": {
+      "term": {
+        "en": "Protection order"
+      },
+      "match": {
+        "en": [
+          "protection order",
+          "protection orders"
+        ]
+      },
+      "def": {
+        "en": "A court order that tells someone to stop harassing, threatening or harming you. Applying is free, and the police must act if it is broken."
+      }
+    },
+    "magistrates_court": {
+      "term": {
+        "en": "Magistrate's court"
+      },
+      "match": {
+        "en": [
+          "magistrate's court",
+          "magistrates' courts",
+          "magistrate's courts",
+          "magistrates' court"
+        ]
+      },
+      "def": {
+        "en": "The local court found in most towns. It handles protection orders, and the Equality Court sits there too."
       }
     }
   },

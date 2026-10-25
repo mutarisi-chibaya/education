@@ -121,9 +121,11 @@ university already chosen.
 
 ## Words explained
 
-26 terms a first-year may not know (supplementary exam, perusal, NSFAS, bursary, credits,
-module, debit order and others) are highlighted in card text. Tapping one opens a short
-definition.
+73 terms a first-year may not know are highlighted in card text, service cards and Campus
+Realities. Tapping one opens a short definition. They cover university words (supplementary
+exam, perusal, prerequisite, deferred exam), money and funding (NSFAS, stipend, debit order,
+the N+1 rule), the law (affidavit, protection order) and South African words a student from
+elsewhere may not know (res, matric, minibus taxi, vetkoek).
 
 ## Campus Realities
 

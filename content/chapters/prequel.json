@@ -531,7 +531,7 @@
         "en": "Results day"
       },
       "text": {
-        "en": "Your matric results are out, and they're lower than you expected. Your first-choice course needed a few more points."
+        "en": "Your matric results are out, and they're lower than you expected. Your first-choice course needed a few more APS points."
       },
       "forecast_tags": [
         "wellbeing",
@@ -572,7 +572,7 @@
             "en": "You still qualify for your second choice, and for an extended programme in your first."
           },
           "tip": {
-            "en": "Each university's website lists the minimum points for every course. Call or email the admissions office to confirm your options."
+            "en": "Each university's website lists the minimum APS points for every course. Call or email the admissions office to confirm your options."
           }
         },
         {
@@ -624,10 +624,10 @@
             "wellbeing": 3
           },
           "outcome": {
-            "en": "You check the points: you still qualify for your second choice. You accept the offer before it closes."
+            "en": "You check the APS points: you still qualify for your second choice. You accept the offer before it closes."
           },
           "tip": {
-            "en": "Each university lists the minimum points for every course. Call or email admissions to confirm before the offer closes."
+            "en": "Each university lists the minimum APS points for every course. Call or email admissions to confirm before the offer closes."
           }
         },
         {
@@ -648,7 +648,7 @@
             "en": "Admissions points you to an extended programme in your first-choice course: one extra year, and the same degree at the end."
           },
           "tip": {
-            "en": "Extended programmes add a foundation year for students who were a few points short. Ask admissions whether you qualify."
+            "en": "Extended programmes add a foundation year for students who were a few APS points short. Ask admissions whether you qualify."
           }
         },
         {

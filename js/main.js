@@ -1755,7 +1755,7 @@ function renderRealities() {
   const tag = cr.step ? t('cr.part', { n: part, total: CR_PARTS }) : t('note.title');
   const bar = crBar(cr.step <= 1 ? 'realities' : 'cr-prev');
   const dots = `<div class="intro-dots" aria-hidden="true">${Array.from({ length: CR_PARTS }, (_, i) => `<span class="${i + 1 === part ? 'on' : ''}"></span>`).join('')}</div>`;
-  const bullets = (items) => `<ul class="why-list">${items.map((x) => `<li>${esc(tx(x))}</li>`).join('')}</ul>`;
+  const bullets = (items) => `<ul class="why-list">${items.map((x) => `<li>${rich(tx(x))}</li>`).join('')}</ul>`;
   const next = (action, label) => `<button class="btn primary big" data-action="${action}">${esc(label)}</button>`;
 
   if (cr.step === 0) {
@@ -1763,7 +1763,7 @@ function renderRealities() {
       <article class="card event-card">
         <p class="tag">${esc(tag)}</p>
         <h1>${esc(tx(topic.title))}</h1>
-        <p>${esc(tx(topic.summary))}</p>
+        <p>${rich(tx(topic.summary))}</p>
         <p>${esc(t('cr.topicNote'))}</p>
         ${crHelp(topic)}
       </article>
@@ -1776,7 +1776,7 @@ function renderRealities() {
       <article class="card event-card">
         <p class="tag">${esc(tag)}</p>
         <h1>${esc(t('cr.scenario'))}</h1>
-        <p>${esc(tx(topic.scenario.text))}</p>
+        <p>${rich(tx(topic.scenario.text))}</p>
         <p class="note">${esc(t('cr.noScore'))}</p>
       </article>
       <div class="choices">${topic.scenario.choices.map((c, i) => `<button class="choice" data-action="cr-pick" data-id="${i}">
@@ -1790,7 +1790,7 @@ function renderRealities() {
       <article class="card">
         <p class="tag">${esc(t('cr.happens'))}</p>
         <h1>${esc(tx(picked.label))}</h1>
-        <p>${esc(tx(picked.feedback))}</p>
+        <p>${rich(tx(picked.feedback))}</p>
         <p class="note">${esc(t('card.friendNote'))}</p>
       </article>
       ${dots}
